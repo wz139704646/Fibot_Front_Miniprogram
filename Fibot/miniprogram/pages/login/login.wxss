@@ -14,8 +14,12 @@
   height: 100%;
 }
 
+.login-font{
+  font-size: 35rpx;
+}
+
 .loginButtonBox {
-  margin-top: 220rpx;
+  margin-top: 180rpx;
 }
 
 .inputBox {
@@ -24,10 +28,11 @@
 
 .button-login {
   background-color: #4966e7;
-  width: 30vw;
+  width: 35vw;
   border-radius: 12px;
   color:white;  
 }
+
 
 .otherButtonBox{
   margin-top: 5rpx;

@@ -156,7 +156,7 @@ Page({
       color: 'yellow',
       badge: 0,
       name: '科目余额',
-      url: ''
+      url: '../trialBalance/trialBalance'
     }],
     gridCol: 4,
     skin: false

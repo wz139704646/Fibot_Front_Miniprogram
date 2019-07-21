@@ -119,7 +119,7 @@ Page({
 
   accountTip: function(e) {
     wx.showToast({
-      title: '输入手机号',
+      title: '手机登录需要,输入手机号',
       icon: "none"
     })
   },
@@ -369,6 +369,122 @@ Page({
           })
         }
 
+      }
+    })
+  },
+
+  // 微信登录
+  wxlogin: function(e) {
+    let that = this
+    wx.getSetting({
+      success: res => {
+        console.log("get setting suc")
+        // 已授权
+        if (res.authSetting['scope.userInfo']) {
+          wx.getUserInfo({
+            success: res2 => {
+              console.log('get userinfo suc')
+              app.globalData.userInfo = res2.userInfo
+              wx.cloud.callFunction({
+                name: 'login',
+                data: {
+                  cloudID: wx.cloud.CloudID(res2.cloudID)
+                }
+              }).then(suc => {
+                if (!suc.result.errMsg) {
+                  app.globalData.openid = suc.result.openid
+                  console.log('get openid suc')
+                  wx.request({
+                    url: host + '/queryUser',
+                    method: 'POST',
+                    header: {
+                      "Content-Type": 'application/json'
+                    },
+                    data: JSON.stringify({
+                      openid: suc.result.openid
+                    }),
+                    success: rs => {
+                      console.log('query user suc')
+                      console.log(rs)
+                      if (!rs.data.success || rs.statusCode!=200) {
+                        wx.showToast({
+                          title: '微信未绑定用户！',
+                          icon: 'none',
+                          duration: 1000
+                        })
+                      } else {
+                        app.globalData.companyId = rs.data.result[0].companyId
+                        app.globalData.account = rs.data.result[0].account
+                        // position 后期加到 gloablData 里
+                      }
+                    },
+                    fail: err1 => {
+                      wx.showToast({
+                        title: '请求失败！',
+                        icon: 'none',
+                        duration: 1000
+                      })
+                    }
+                  })
+                } else {
+                  wx.showToast({
+                    title: '获取用户openid失败！',
+                    icon: 'none',
+                    duration: 1000
+                  })
+                }
+              }).catch(err2 => {
+                console.error(err2)
+                wx.showToast({
+                  title: '获取用户openid失败！',
+                  icon: 'none',
+                  duration: 1000
+                })
+              })
+            },
+            fail: err => {
+              wx.showToast({
+                title: '获取用户信息失败！',
+                icon: 'none',
+                duration: 1000
+              })
+            }
+          })
+        } else {
+          // 未授权，提示打开权限
+          that.openConfirm()
+        }
+      },
+      fail: err3 => {
+        wx.showToast({
+          title: '获取用户设置失败！',
+          icon: 'none',
+          duration: 1000
+        })
+      }
+    })
+  },
+
+  openConfirm: function() {
+    wx.showModal({
+      content: '您还没有打开Fibot获取用户信息的权限，是否去设置打开？',
+      confirmText: '确定',
+      cancelText: '取消',
+      success: function(res) {
+        console.log(res)
+        // 点击确认调用 openSetting 打开设置界面
+        if(res.confirm) {
+          console.log("确认，打开权限设置")
+          wx.openSetting({
+            success: (res) =>  {}
+          })
+        } else {
+          console.log('取消，用户拒绝打开权限设置')
+        }
+      },
+
+      fail: function(err) {
+        console.log(err)
       }
     })
   }

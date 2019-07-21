@@ -99,5 +99,15 @@ App({
       color: '#ffffff'
     },
     ]
+  },
+
+  getToken: function() {
+    try{
+      let token = wx.getStorageSync('jwt_token')
+      return "JWT " + token
+    } catch(err) {
+      console.log('获取token出错', err)
+      return ""
+    }
   }
 })

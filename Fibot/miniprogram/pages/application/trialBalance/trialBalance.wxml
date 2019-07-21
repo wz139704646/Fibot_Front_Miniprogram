@@ -1,0 +1,5 @@
+<!--pages/application/trialBalance/trialBalance.wxml-->
+<cu-custom bgColor="bg-gradual-pink" isBack="{{true}}">
+  <view slot="backText">返回</view>
+  <view slot="content">科目余额</view>
+</cu-custom>

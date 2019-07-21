@@ -1,4 +1,5 @@
 const app = getApp()
+const host = app.globalData.requestHost
 
 Component({
   options: {
@@ -71,11 +72,106 @@ Component({
         modalName: null
       })
     },
-    showQrcode() {
-      wx.previewImage({
-        urls: ['https://image.weilanwl.com/color2.0/zanCode.jpg'],
-        current: 'https://image.weilanwl.com/color2.0/zanCode.jpg' // 当前显示图片的http链接      
-      })
+
+    // 绑定微信号
+    bindWX: function(e) {
+      // 获取用户账号和token
+      let account = app.globalData.account
+      let token = app.getToken()
+      if (!token || !account) {
+        wx.showToast({
+          title: '登录超时',
+          icon: 'none',
+          duration: 1000,
+          success: () => {
+            setTimeout(()=>{
+              wx.redirectTo({
+                url: '../../login/login',
+              })
+            }, 1000)
+          }
+        })
+      } else {
+        wx.getSetting({
+          success: function (res) {
+            if (res.authSetting['scope.userInfo']) {
+              // 获取用户openid
+              wx.getUserInfo({
+                success: res2 => {
+                  console.log('get userinfo suc')
+                  app.globalData.userInfo = res2.userInfo
+                  wx.cloud.callFunction({
+                    name: 'login',
+                    data: {
+                      cloudID: wx.cloud.CloudID(res2.cloudID)
+                    }
+                  }).then(suc => {
+                    if (!suc.result.errMsg) {
+                      let openid = app.globalData.openid = suc.result.openid
+                      console.log('get openid suc')
+                      wx.request({
+                        url: host + '/bindUserWx',
+                        method: 'POST',
+                        header: {
+                          "Content-Type": "application/json",
+                          "Authorization": token
+                        },
+                        data: JSON.stringify({
+                          openid: openid,
+                          account: account
+                        }),
+                        success: function(res) {
+                          if(res.data.success && res.statusCode==200) {
+                            wx.showToast({
+                              title: '绑定成功',
+                              icon: 'none',
+                              duration: 1000
+                            })
+                          } else {
+                            wx.showToast({
+                              title: res.data.errMsg,
+                              icon: 'none',
+                              duration: 1000
+                            })
+                          }
+                        },
+                        fail: function(err) {
+                          console.log(err)
+                          wx.showToast({
+                            title: '请求失败！',
+                            icon: 'none',
+                            duration: 1000
+                          })
+                        }
+                      })
+                    } else {
+                      wx.showToast({
+                        title: '获取用户openid失败！',
+                        icon: 'none',
+                        duration: 1000
+                      })
+                    }
+                  }).catch(err2 => {
+                    console.error(err2)
+                    wx.showToast({
+                      title: '获取用户openid失败！',
+                      icon: 'none',
+                      duration: 1000
+                    })
+                  })
+                },
+                fail: err => {
+                  wx.showToast({
+                    title: '获取用户信息失败！',
+                    icon: 'none',
+                    duration: 1000
+                  })
+                }
+              })
+            }
+          }
+        })
+      }
     },
 
     showLogout: function(e){

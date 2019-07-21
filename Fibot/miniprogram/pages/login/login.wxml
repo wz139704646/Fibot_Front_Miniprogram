@@ -23,7 +23,8 @@
       <text bindtap='register' class='right-text'>注册账号</text>
     </view>
     <view class='loginButtonBox'>
-      <button class='button-login' open-type="getUserInfo" bind:getuserinfo="login">登录</button>
+      <button class='button-login' open-type="getUserInfo" bind:getuserinfo="login"><text class="login-font text-white cuIcon-mobilefill">手机登录</text></button>
+      <button style="background-color:green;" class='button-login margin-top' open-type="getUserInfo" bind:getuserinfo="wxlogin"><text class="login-font cuIcon-weixin text-white">微信登录</text></button>
     </view>
   </view>
 </view>
