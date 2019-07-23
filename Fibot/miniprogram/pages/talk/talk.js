@@ -19,8 +19,7 @@ function initData(that) {
     speaker: 'server',
     contentType: 'text',
     content: '欢迎使用财务机器人Fibot,请问您有什么指示'
-  }
-  ]
+  }]
   that.setData({
     msgList,
     inputVal
@@ -29,8 +28,7 @@ function initData(that) {
 
 function calScrollHeight(that, keyHeight) {
   var query = wx.createSelectorQuery();
-  query.select('.scrollMsg').boundingClientRect(function(rect) {
-  }).exec();
+  query.select('.scrollMsg').boundingClientRect(function(rect) {}).exec();
 }
 
 
@@ -42,14 +40,13 @@ Page({
     recordStarted: false
   },
   /**
- * 获取聚焦
- */
+   * 获取聚焦
+   */
   InputFocus(e) {
     keyHeight = e.detail.height
     this.setData({
       scrollHeight: (windowHeight - keyHeight - 150) + 'px'
     })
-    console.log(msgList.length)
     this.setData({
       toView: 'msg-' + (msgList.length - 1),
       inputBottom: e.detail.height
@@ -64,12 +61,11 @@ Page({
     })
   },
   InputChange(e) {
-    // console.log(e)
     inputVal = e.detail.value
   },
 
 
-  onLoad: function (options) {
+  onLoad: function(options) {
     initData(this);
     // this.setData({
     //   cusHeadIcon: app.globalData.userInfo.avatarUrl,
@@ -77,7 +73,7 @@ Page({
 
   },
 
-  onShow: function(){
+  onShow: function() {
     const recorder = wx.getRecorderManager()
     let that = this
     recorder.onStart(() => {
@@ -85,19 +81,13 @@ Page({
       that.setData({
         recordStarted: true
       })
-      // wx.showToast({
-      //   title: '录音中',
-      //   duration: 30000,
-      //   image: '/imgs/voice.gif'
-      // })
-
     })
     recorder.onStop(res => {
-      // wx.hideToast()
-      this.setData({
+      console.log('录音结束')
+      that.setData({
         recordStarted: false
       })
-      this.speechRecognition(res)
+      that.speechRecognition(res)
     })
     recorder.onError(err => {
       console.error(err)
@@ -114,11 +104,10 @@ Page({
     })
   },
 
-  sendMsg: function (e) {
+  sendMsg: function(e) {
     console.log("send")
     if (e.detail.value == "")
       return
-    console.log("输入对话")
     msgList.push({
       speaker: 'customer',
       contentType: 'text',
@@ -134,9 +123,8 @@ Page({
 
     // 处理对话，调用自然语言处理
     let date = util.getcurDateFormatString(new Date())
-    console.log(date)
     wx.request({
-      url: host+'/languageProcess',
+      url: host + '/languageProcess',
       method: 'POST',
       header: {
         "Content-Type": 'application/json'
@@ -147,8 +135,7 @@ Page({
         time: date
       }),
       success: res => {
-        console.log('process succeed')
-        if(res.statusCode != 200){
+        if (res.statusCode != 200) {
           wx.showToast({
             title: '出现未知错误',
             image: '../../imgs/fail.png'
@@ -156,12 +143,11 @@ Page({
           return
         }
         let data = res.data
-        console.log(res)
-        if(data.success){
+        if (data.success) {
           let result = data.result
           // 将返回信息作为server方发送
-          if(result && result.length>0){
-            for(let idx in result){
+          if (result && result.length > 0) {
+            for (let idx in result) {
               msgList.push({
                 speaker: 'server',
                 contentType: 'text',
@@ -187,8 +173,7 @@ Page({
         })
       },
       fail: err => {
-        console.log('request failed')
-        console.error(err)
+        console.error('request failed', err)
         wx.showToast({
           title: '出现未知错误',
           image: '../../imgs/fail.png'
@@ -201,10 +186,7 @@ Page({
 
   sendByTapping: function(e) {
     let text = inputVal
-    console.log(text)
-    e.detail.value = text!=undefined ? text : ""
-    // console.log(e)
-    // console.log(this.sendMsg)
+    e.detail.value = text != undefined ? text : ""
     this.sendMsg(e)
   },
 
@@ -216,6 +198,7 @@ Page({
   },
 
   recordBegins: function(e) {
+    console.log('touch start event')
     const recorder = wx.getRecorderManager()
     const options = {
       duration: 30000,
@@ -227,17 +210,14 @@ Page({
     }
     wx.getSetting({
       success: suc => {
-        console.log('get setting suc')
-        if(suc.authSetting['scope.record']){
+        if (suc.authSetting['scope.record']) {
           recorder.start(options)
         } else {
           wx.authorize({
             scope: 'scope.record',
             success: () => {
-              console.log('authorize suc')
             },
             fail: () => {
-              console.log('authorize failed')
               wx.showToast({
                 title: '获取用户授权失败, 无法录音',
                 icon: 'none'
@@ -250,16 +230,19 @@ Page({
   },
 
   recordEnds: function(e) {
-    if(this.data.recordStarted){
-      console.log('touch end event')
-      wx.getRecorderManager().stop()
+    console.log('touch end event', e)
+    var { recordStarted } = this.data
+    var delta = 0
+    if (!recordStarted) {
+      delta = 1000
     }
+    setTimeout(()=>{
+      wx.getRecorderManager().stop()
+    }, delta)
   },
 
-  speechRecognition: function (res) {
+  speechRecognition: function(res) {
     let that = this
-    console.log("录音结束")
-    console.log(res)
     wx.showToast({
       title: '识别中',
       icon: 'loading',
@@ -269,25 +252,27 @@ Page({
       cloudPath: "tempAudio/tempaudio" + Date.parse(new Date()) + ".mp3",
       filePath: res.tempFilePath
     }).then(res => {
-      console.log("call cloud function")
       wx.cloud.callFunction({
         name: 'speechRecognition',
         data: {
           record: res.fileID
         }
       }).then(result => {
-        console.log(result)
         wx.hideToast()
-        if (result.result.Response.Error!=undefined ||
-            result.result.Response.Result==""){
+        if (result.result.Response.Error != undefined ||
+          result.result.Response.Result == "") {
           wx.showToast({
             title: '识别失败',
             image: '/imgs/fail.png',
             duration: 2000
           })
         } else {
-          let msg=result.result.Response.Result
-          that.sendMsg({detail:{value: msg}})
+          let msg = result.result.Response.Result
+          that.sendMsg({
+            detail: {
+              value: msg
+            }
+          })
         }
         wx.cloud.deleteFile({
           fileList: [res.fileID]
@@ -296,4 +281,3 @@ Page({
     })
   },
 })
-  

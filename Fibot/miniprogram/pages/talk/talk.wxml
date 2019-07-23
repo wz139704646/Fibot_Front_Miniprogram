@@ -30,12 +30,12 @@
     </view>
   </block>
 </scroll-view>
-<view class="cu-bar foot input {{inputBottom!=0?'cur':''}}" style="bottom:{{inputBottom}}px">
+<view class="cu-bar foot input {{inputBottom!=0?'cur':''}}" style="bottom:{{inputBottom}}px;">
   <view class="action" bindtap='changeInputType'>
     <text class="{{soundInput ? 'cuIcon-keyboard' : 'cuIcon-sound'}} text-black"></text>
   </view>
   <input hidden='{{soundInput}}' class="solid-bottom" bindconfirm='sendMsg' value='{{inputVal}}' bindinput='InputChange' confirm-type='send' bindfocus="InputFocus" bindblur="InputBlur" adjust-position="{{false}}" focus="{{false}}" maxlength="300" cursor-spacing="10"></input>
-  <button hidden='{{!soundInput}}' style='width:100%;' class='cu-btn text-lg margin-right bg-gray' catchtouchstart='recordBegins' catchtouchend='recordEnds'>
+  <button hidden='{{!soundInput}}' style='width:100%;' class='cu-btn text-lg margin-right bg-gray' catchtouchstart='recordBegins' catchtouchend='recordEnds' catchtouchcancel="recordEnds">
     <text class='text-black {{recordStarted ? "cuIcon-voicefill" : "cuIcon-voice" }}'></text>{{recordStarted ? '松开 发送' : '按住 说话'}}
   </button>
   <button disabled="{{soundInput}}" type="" class="cu-btn bg-cyan shadow" bindtap='sendByTapping'>
