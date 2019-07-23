@@ -144,7 +144,7 @@ Page({
       color: 'red',
       badge: 0,
       name: '凭证',
-      url: ''
+      url: '../voucher/voucher'
     }, {
       icon: 'copy',
       color: 'yellow',
@@ -157,7 +157,15 @@ Page({
       badge: 0,
       name: '科目余额',
       url: '../trialBalance/trialBalance'
-    }],
+    },
+      {
+        icon: 'text',
+        color: 'blue',
+        badge: 0,
+        name: '科目表',
+        url: '../subjects/subjects/subjects'
+      }
+    ],
     gridCol: 4,
     skin: false
   },

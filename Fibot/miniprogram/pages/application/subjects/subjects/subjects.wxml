@@ -1,0 +1,26 @@
+<!--pages/application/subjects/subjects.wxml-->
+<cu-custom bgColor="bg-gradual-pink" isBack="{{true}}">
+  <view slot="backText">返回</view>
+  <view slot="content">科目表</view>
+</cu-custom>
+<view class="VerticalBox">
+  <scroll-view class="VerticalNav nav" scroll-y scroll-with-animation scroll-top="{{VerticalNavTop}}" style="height:calc(100vh - {{CustomBar}}px); background-color: #fff;">
+    <view class="cu-item {{index==TabCur?'text-green cur':''}}" wx:for="{{subjects}}" wx:key bindtap='tabSelect' data-id="{{index}}">
+      {{item.title}}
+    </view>
+  </scroll-view>
+  <scroll-view class="VerticalMain" scroll-y scroll-with-animation style="height:calc(100vh - {{CustomBar}}px)">
+    <view class="padding-top padding-lr">
+      <view class="flex  p-xs margin-bottom-sm mb-sm bg-white shadow-warp" wx:for="{{subjects[TabCur].subs}}" wx:key="index">
+        <view class="flex-sub padding-sm radius text-main text-bold text-black">{{item.code}}</view>
+        <view class="flex-treble padding-sm radius text-main">{{item.name}}</view>
+      </view>
+    </view>
+    <!-- <view class=></view> -->
+  </scroll-view>
+</view>
+<view class="text-gray" style="position: fixed; bottom: 20rpx; right: 20rpx;">
+  <button class="cu-btn icon bg-blue shadow lg" bindtap="addDetailSubject">
+    <text class="cuIcon-add" style="font-size: 50rpx;"></text>
+  </button>
+</view>
