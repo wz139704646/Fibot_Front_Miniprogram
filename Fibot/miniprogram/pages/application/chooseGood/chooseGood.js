@@ -56,7 +56,7 @@ Page({
     wx.request({
       url: host + '/queryGoods',
       data: JSON.stringify({
-        companyId: 5
+        companyId: app.globalData.companyId
       }),
       method: "POST",
       header: {

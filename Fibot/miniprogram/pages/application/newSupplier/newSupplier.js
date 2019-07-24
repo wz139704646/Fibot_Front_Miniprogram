@@ -11,12 +11,39 @@ Page({
   data: {
     type:["批发"]
   },
+  onSubmit(e) {
+    var that = this
+    if (name == '' || phone == '' || site == '') {
+      wx.showModal({
+        title: '新增供应商',
+        content: '请填写必要信息',
+        showCancel: false
+      })
+    } else {
+      wx.showModal({
+        title: '确认添加',
+        content: '是否确认添加供应商' + name,
+        success: function (res) {
+          if (res.confirm) {
+            wx.showLoading({
+              title: '请求提交中',
+              mask: true
+            })
+            that.addsuccess()
+          }
+        },
+        fail: function (err) {
+          console.error('调起模态确认框失败', err)
+        }
+      })
+    }
+  },
   //确认添加
   addsuccess(e) {
     wx.request({
       url: host + '/addSupplier',
       data: JSON.stringify({
-        companyId: "5",
+        companyId: app.globalData.companyId,
         name: name,
         phone: phone,
         bankaccount: bankaccount,

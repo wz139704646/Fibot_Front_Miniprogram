@@ -26,12 +26,38 @@ Page({
       rindex: e.detail.value
     })
   },
-  addsuccess(e) {
-
+  onSubmit(e){
+    var that = this
+    if(name==''||phone==''){
+      wx.showModal({
+        title: '新增用户',
+        content: '请填写必要信息',
+        showCancel:false
+      })
+    }else{
+      wx.showModal({
+        title: '确认添加',
+        content: '是否确认添加客户' + name,
+        success: function (res) {
+          if (res.confirm) {
+            wx.showLoading({
+              title: '请求提交中',
+              mask: true
+            })
+            that.addsuccess()
+          }
+        },
+        fail: function (err) {
+          console.error('调起模态确认框失败', err)
+        }
+      })
+    }
+  },
+  addsuccess() {
     wx.request({
       url: host + '/addCustomer',
       data: JSON.stringify({
-        companyId: 5,
+        companyId:app.globalData.companyId,
         name: name,
         phone: phone,
         bankAccount: bankaccount,

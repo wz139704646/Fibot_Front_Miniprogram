@@ -24,7 +24,7 @@ Page({
     wx.request({
       url: host + '/addWarehouse',
       data: JSON.stringify({
-        companyId: "5",
+        companyId: app.globalData.companyId,
         name: name,
         site: site
       }),

@@ -70,7 +70,7 @@ Page({
     wx.request({
       url: host + '/addPurchase',
       data: JSON.stringify({
-        companyId: "5",
+        companyId: app.globalData.companyId,
         purchases: this.data.buyList,
         date: this.data.date,
         supplierId: this.data.supplierId

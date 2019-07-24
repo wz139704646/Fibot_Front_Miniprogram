@@ -97,7 +97,7 @@ Page({
         wx.request({
           url: host + nameapi,
           data: JSON.stringify({
-            companyId: "5",
+            companyId: app.globalData.companyId,
             id: id
           }),
           method: "POST",
@@ -125,7 +125,7 @@ Page({
     wx.request({
       url: host + '/delBuy',
       data: JSON.stringify({
-        companyId: "5",
+        companyId: app.globalData.companyId,
         id:this.data.id
 
       }),
