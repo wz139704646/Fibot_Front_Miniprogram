@@ -25,9 +25,10 @@
     "pages/application/inStore/inStore",
     "pages/application/newStorage/newStorage",
     "pages/application/trialBalance/trialBalance",
-    "pages/application/voucher/voucher",
+    "pages/application/voucher/voucherList/voucher",
     "pages/application/subjects/subjects/subjects",
-    "pages/application/subjects/addSubject/addSubject"
+    "pages/application/subjects/addSubject/addSubject",
+    "pages/application/voucher/addVoucher/addVoucher"
   ],
   "window": {
     "navigationBarBackgroundColor": "#39b54a",

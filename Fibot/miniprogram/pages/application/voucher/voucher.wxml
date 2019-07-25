@@ -1,6 +1,0 @@
-<!--pages/application/voucher/voucher.wxml-->
-<cu-custom bgColor="bg-gradual-pink" isBack="{{true}}">
-  <view slot="backText">返回</view>
-  <view slot="content">凭证</view>
-</cu-custom>
-

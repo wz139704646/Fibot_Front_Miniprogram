@@ -12,17 +12,17 @@
         {{timeArray[0][timeIndex[0]]}}-{{ timeArray[1][timeIndex[1]]
         < 10 ? '0'+ timeArray[1][timeIndex[1]] : timeArray[1][timeIndex[1]] }}期 </view>
     </picker>
+  </view>  
+  <view class="cu-bar bg-grey light search">
+    <view class="search-form round">
+      <text class="cuIcon-search"></text>
+      <input type="text" placeholder="输入科目代码或科目名" confirm-type="search" bindconfirm="search" bindinput="searchInput" value="{{searchText}}"></input>
     </view>
-    <view class="cu-bar bg-grey light search">
-      <view class="search-form round">
-        <text class="cuIcon-search"></text>
-        <input type="text" placeholder="输入科目代码或科目名" confirm-type="search" bindconfirm="search" bindinput="searchInput" value="{{searchText}}"></input>
-      </view>
-      <view class="action">
-        <button class="cu-btn bg-black shadow-blur round" bindtap="search">搜索</button>
-      </view>
+    <view class="action">
+      <button class="cu-btn bg-black shadow-blur round" bindtap="search">搜索</button>
     </view>
   </view>
+</view>
   <scroll-view style="margin-top: 15vh;">
     <block wx:for="{{filterTrials}}" wx:key="{{index}}" wx:for-item="main">
       <van-cell-group title="{{main.code}}">

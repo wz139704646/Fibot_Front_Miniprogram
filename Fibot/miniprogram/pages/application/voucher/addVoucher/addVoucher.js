@@ -1,4 +1,4 @@
-// pages/application/voucher/voucher.js
+// miniprogram/pages/application/voucher/addVoucher/addVoucher.js
 Page({
 
   /**
