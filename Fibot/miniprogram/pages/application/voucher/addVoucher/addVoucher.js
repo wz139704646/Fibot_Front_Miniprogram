@@ -182,6 +182,50 @@ Page({
     })
   },
 
+  onNumInput: function(e) {
+    let value = parseInt(e.detail)
+    value = value || 0
+    console.log(value)
+    this.setData({
+      numOfAttachments: value
+    })
+  },
+
+  ChooseAttachment: function(e) {
+    let that = this
+    wx.chooseImage({
+      success: function(res) {
+        let {tempFilePaths, tempFiles} = res
+        let {attachments, numOfAttachments} = that.data
+        numOfAttachments += tempFilePaths.length
+        that.setData({
+          numOfAttachments,
+          attachments: attachments.concat(tempFilePaths)
+        })
+      },
+      fail: function(err) {
+        console.error('图片选择出错', err)
+      }
+    })
+  },
+
+  ViewImage: function(e) {
+    let url = e.currentTarget.dataset.url
+    wx.previewImage({
+      urls: this.data.attachments,
+      current: url
+    })
+  },
+
+  DelImg(e) {
+    let {numOfAttachments} = this.data 
+    this.data.attachments.splice(e.currentTarget.dataset.index, 1)
+    this.setData({
+      attachments: this.data.attachments,
+      numOfAttachments: numOfAttachments-1 < 0 ? 0 : numOfAttachments-1
+    })
+  },
+
   addEntry: function(e) {
     let {entries} = this.data
     entries.push({
@@ -215,6 +259,25 @@ Page({
       // 凭证信息初步检查未出错
       var total = this.calVoucherTotal(entries)
 
+      // 将相同科目的分录进行合并
+      // entries.sort((item1, item2) => item1.subject.code - item2.subject.code)
+      // let newEntries = []
+      // for(var e of entries) {
+      //   let len = newEntries.length
+      //   if(len==0 || newEntries[len-1].subject.code != e.subject.code
+      //   || newEntries[len-1].abstract == e.abstract) {
+      //     newEntries.push(JSON.parse(JSON.stringify(e)))
+      //   } else {
+      //     let t1 = this.calTotal(e)
+      //     let t2 = this.calTotal(newEntries[len-1])
+      //     let t = t1+t2
+      //     let cd = ''
+      //     if(t<0) {
+            
+      //     }
+      //   }
+      // }
+      
       // TODO 发送添加凭证的请求
       
       // 将新增的凭证加回凭证页面

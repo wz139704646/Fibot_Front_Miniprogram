@@ -53,20 +53,17 @@
     <view class="action">
       附件
     </view>
-    <!-- <view class="action">
-			{{imgList.length}}/4
-		</view> -->
-    <van-field value="{{ numOfAttachments }}" input-align="center" placeholder="输入附件数" border="{{ false }}" bind:change="onNumInput" style="width:35vw;" />
+    <van-field value="{{ numOfAttachments }}" input-align="center" placeholder="输入附件数" border="{{ false }}" bind:change="onNumInput" style="width:35vw;" input-class="bg-grey light"/>
   </view>
   <view class="cu-form-group">
     <view class="grid col-4 grid-square flex-sub">
-      <view class="bg-img" wx:for="{{attachments}}" wx:key="{{index}}" bindtap="ViewImage" data-url="{{imgList[index]}}">
+      <view class="bg-img" wx:for="{{attachments}}" wx:key="{{index}}" bindtap="ViewImage" data-url="{{attachments[index]}}">
         <image src='{{attachments[index]}}' mode='aspectFill'></image>
         <view class="cu-tag bg-red" catchtap="DelImg" data-index="{{index}}">
           <text class="cuIcon-close"></text>
         </view>
       </view>
-      <view class="solids" bindtap="ChooseImage">
+      <view class="solids" bindtap="ChooseAttachment">
         <text class="cuIcon-cameraadd"></text>
       </view>
     </view>
