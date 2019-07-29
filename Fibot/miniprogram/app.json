@@ -28,7 +28,8 @@
     "pages/application/voucher/voucherList/voucher",
     "pages/application/subjects/subjects/subjects",
     "pages/application/subjects/addSubject/addSubject",
-    "pages/application/voucher/addVoucher/addVoucher"
+    "pages/application/voucher/addVoucher/addVoucher",
+    "pages/application/voucher/voucherDetail/voucherDetail"
   ],
   "window": {
     "navigationBarBackgroundColor": "#39b54a",

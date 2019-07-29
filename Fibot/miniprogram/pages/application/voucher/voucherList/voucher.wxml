@@ -1,4 +1,5 @@
 <!--pages/application/voucher/voucher.wxml-->
+<wxs module='number' src='number.wxs'></wxs>
 <cu-custom bgColor="bg-gradual-pink" isBack="{{true}}">
   <view slot="backText">返回</view>
   <view slot="content">凭证</view>
@@ -31,9 +32,12 @@
   </view>
 </view>
 <scroll-view style="margin-top: 25vh;">
-  <van-cell-group>
-    <van-cell title="单元格" value="内容" label="描述信息" is-link />
+  <van-cell-group wx:if="{{date.idate <= date.tdate}}">
+    <block wx:for="{{vouchers}}" wx:key>
+      <van-cell hidden="{{item.date>date.tdate || item.date<date.idate}}" title="{{item.no}} {{item.abstract}}" value="{{number.numFixed(item.total, 2)}}" label="{{item.date}}" is-link bindtap="onVoucherTapped" data-no="{{item.no}}" data-date="{{item.date}}" />
+    </block>
   </van-cell-group>
+  <view class="text-center padding text-bold" wx:else>起始日期不能大于截止日期！</view>
 </scroll-view>
 <view class="text-gray" style="position: fixed; bottom: 20rpx; right: 20rpx;">
   <button class="cu-btn icon bg-blue shadow lg" bindtap="addVoucher">

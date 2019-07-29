@@ -90,7 +90,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    
+    console.log(this.options)
   },
 
   /**
@@ -119,6 +119,21 @@ Page({
     wx.navigateTo({
       url: `../addSubject/addSubject?type=${TabCur}&typeName=${subjects[TabCur].title}`,
     })
+  },
+
+  onSubjectTapped: function(e) {
+    let datafor = this.options.datafor
+    if(this.options.datafor) {
+      var pages = getCurrentPages()
+      var old = pages[pages.length - 2]
+      wx.navigateBack({
+        success: () => {
+          old.setData({
+            [datafor]: e.currentTarget.dataset.subject
+          })
+        }
+      })
+    }
   }
   
 })

@@ -12,6 +12,33 @@ Page({
     CustomBar: app.globalData.CustomBar
   },
 
+  // 加载凭证: idate: 起始日期，tdate: 截止日期
+  loadVoucher: function(idate, tdate) {
+    // 样例数据
+    this.setData({
+      vouchers: [
+        {
+          no: '0001',
+          abstract: '计提工资费用',
+          total: 68100.00,
+          date: '2019-07-27'
+        },
+        {
+          no: '0002',
+          abstract: '计提工资费用',
+          total: 68100.00,
+          date: '2019-07-27'
+        },
+        {
+          no: '0003',
+          abstract: '计提工资费用',
+          total: 68100.00,
+          date: '2019-07-27'
+        }
+      ]
+    })
+  },
+
   /**
    * 生命周期函数--监听页面加载
    */
@@ -27,6 +54,7 @@ Page({
     this.setData({
       date: { idate: date, tdate: date }
     })
+    this.loadVoucher(date, date)
   },
 
   DateChange(e) {
@@ -38,9 +66,18 @@ Page({
     })
   },
 
+  onVoucherTapped: function(e) {
+    console.log(e)
+    var data = e.currentTarget.dataset
+    
+    wx.navigateTo({
+      url: `../voucherDetail/voucherDetail?no=${data.no}&date=${data.date}`,
+    })
+  },
+
   addVoucher: function(e) {
     wx.navigateTo({
       url: '../addVoucher/addVoucher',
     })
-  }
+  },
 })

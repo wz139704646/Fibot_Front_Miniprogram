@@ -11,7 +11,7 @@
   </scroll-view>
   <scroll-view class="VerticalMain" scroll-y scroll-with-animation style="height:calc(100vh - {{CustomBar}}px)">
     <view class="padding-top padding-lr">
-      <view class="flex  p-xs margin-bottom-sm mb-sm bg-white shadow-warp" wx:for="{{subjects[TabCur].subs}}" wx:key="index">
+      <view class="flex  p-xs margin-bottom-sm mb-sm bg-white shadow-warp" wx:for="{{subjects[TabCur].subs}}" wx:key="index" bindtap="onSubjectTapped" data-subject="{{item}}">
         <view class="flex-sub padding-sm radius text-main text-bold text-black">{{item.code}}</view>
         <view class="flex-treble padding-sm radius text-main">{{item.name}}</view>
       </view>
