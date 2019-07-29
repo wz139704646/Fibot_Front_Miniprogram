@@ -61,8 +61,10 @@ Page({
 
   // 检查entries中的每一项是否是正确的输入，以及借贷是否平衡
   checkEntries: function(entries) {
-    let completed = entries.every( (entry) =>  (entry.subject && entry.subject.code!=undefined
-      && entry.subject.name && entry.abstract && entry.total!=0 && entry.cd) )
+    let completed =entries.length>0 && entries.every( 
+        (entry) =>  (entry.subject && entry.subject.code!=undefined
+        && entry.subject.name && entry.abstract && entry.total!=0 && entry.cd)
+      )
     let total = entries.reduce((tot, cur) => tot+this.calTotal(cur), 0)
     let correct = total == 0
     return completed && correct
@@ -70,7 +72,7 @@ Page({
 
   // 计算凭证的金额
   calVoucherTotal: function(entries) {
-    return entries.reduce((tot, cur) => cur.cd == '借' ? tot+Math.abs(cur.total) : tot)
+    return entries.reduce((tot, cur) => cur.cd == '借' ? tot+Math.abs(cur.total) : tot, 0)
   },
 
   /**
@@ -216,7 +218,19 @@ Page({
       // TODO 发送添加凭证的请求
       
       // 将新增的凭证加回凭证页面
-      
+      if(this.options.back == 'voucherList'){
+        var pages = getCurrentPages()
+        var old = pages[pages.length - 2]
+        var {vouchers} = old.data
+        // 按日期大小和编号大小比较进行插入
+        var idx = vouchers.findIndex((voucher) => (voucher.date == date && voucher.no >= no) || voucher.date > date)
+        idx = idx == -1 ? vouchers.length : idx
+        vouchers.splice(idx, 0, {no, date, abstract: entries[0].abstract, total})
+        old.setData({
+          vouchers
+        })
+        wx.navigateBack({})
+      }
     }
   },
 

@@ -77,7 +77,7 @@ Page({
 
   addVoucher: function(e) {
     wx.navigateTo({
-      url: '../addVoucher/addVoucher',
+      url: '../addVoucher/addVoucher?back=voucherList',
     })
   },
 })
