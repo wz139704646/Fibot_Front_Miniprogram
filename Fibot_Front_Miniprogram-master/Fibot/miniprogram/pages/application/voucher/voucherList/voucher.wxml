@@ -1,0 +1,46 @@
+<!--pages/application/voucher/voucher.wxml-->
+<wxs module='number' src='number.wxs'></wxs>
+<cu-custom bgColor="bg-gradual-pink" isBack="{{true}}">
+  <view slot="backText">返回</view>
+  <view slot="content">凭证</view>
+</cu-custom>
+<view style="position: fixed; top:{{CustomBar}}px; width: 100vw; height: 10vh; z-index:1000;">
+  <view class="cu-form-group bg-grey light" style="border-bottom: 1px solid gainsboro;">
+    <view class="text-bold">起始日期</view>
+    <picker mode="date" value="{{date.idate}}" data-name="idate" start="2015-09-01" bindchange="DateChange">
+      <view class="picker">
+        {{date.idate}}
+      </view>
+    </picker>
+  </view>
+  <view class="cu-form-group bg-grey light" style="border-bottom: 1px solid gainsboro;">
+    <view class="text-bold">截止日期</view>
+    <picker mode="date" value="{{date.tdate}}" data-name="tdate" start="2015-09-01" bindchange="DateChange">
+      <view class="picker">
+        {{date.tdate}}
+      </view>
+    </picker>
+  </view>
+  <view class="cu-bar bg-grey light search">
+    <view class="search-form round">
+      <text class="cuIcon-search"></text>
+      <input type="text" placeholder="输入凭证号或摘要" confirm-type="search" bindconfirm="search" bindinput="searchInput" value="{{searchText}}"></input>
+    </view>
+    <view class="action">
+      <button class="cu-btn bg-black shadow-blur round" bindtap="search">搜索</button>
+    </view>
+  </view>
+</view>
+<scroll-view style="margin-top: 25vh;">
+  <van-cell-group wx:if="{{date.idate <= date.tdate}}">
+    <block wx:for="{{vouchers}}" wx:key>
+      <van-cell hidden="{{item.date>date.tdate || item.date<date.idate}}" title="{{item.no}} {{item.abstract}}" value="{{number.numFixed(item.total, 2)}}" label="{{item.date}}" is-link bindtap="onVoucherTapped" data-no="{{item.no}}" data-date="{{item.date}}" />
+    </block>
+  </van-cell-group>
+  <view class="text-center padding text-bold" wx:else>起始日期不能大于截止日期！</view>
+</scroll-view>
+<view class="text-gray" style="position: fixed; bottom: 20rpx; right: 20rpx;">
+  <button class="cu-btn icon bg-blue shadow lg" bindtap="addVoucher">
+    <text class="cuIcon-add" style="font-size: 50rpx;"></text>
+  </button>
+</view>
