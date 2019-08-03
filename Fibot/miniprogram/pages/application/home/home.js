@@ -64,13 +64,13 @@ Page({
       color: 'red',
       badge: 0,
       name: '收款记录',
-      url: '/pages/application/ar/receipts/receipts'
+      url: ''
     }, {
       icon: 'sponsor',
       color: 'orange',
       badge: 0,
       name: '付款记录',
-      url: '/pages/application/ap/payments/payments'
+      url: ''
     }, {
       icon: 'recharge',
       color: 'yellow',
@@ -144,7 +144,7 @@ Page({
       color: 'red',
       badge: 0,
       name: '凭证',
-      url: '/pages/application/voucher/voucherList/voucher'
+      url: '../voucher/voucherList/voucher'
     }, {
       icon: 'copy',
       color: 'yellow',
@@ -156,15 +156,42 @@ Page({
       color: 'yellow',
       badge: 0,
       name: '科目余额',
-      url: '/pages/application/trialBalance/trialBalance'
+      url: '../trialBalance/trialBalance'
     },
       {
         icon: 'text',
         color: 'blue',
         badge: 0,
         name: '科目表',
-        url: '/pages/application/subjects/subjects/subjects'
+        url: '../subjects/subjects/subjects'
       }
+    ],
+    inOutIconList: [{
+      icon: 'refund',
+      color: 'orange',
+      badge: 0,
+      name: '库存现金',
+      url: '/pages/application/cashOnHand/cashOnHand'
+    }, {
+      icon: 'rankfill',
+      color: 'red',
+      badge: 0,
+      name: '存款日记账',
+      url: '/pages/application/depositJournal/depositJournal'
+    }, {
+      icon: 'copy',
+      color: 'green',
+      badge: 0,
+      name: '银行对账',
+        url: 'pages/application/bankReconciliations/bankReconciliations'
+    },
+    {
+      icon: 'text',
+      color: 'yellow',
+      badge: 0,
+      name: '资金日报表',
+      url: 'pages/application/dailyFund/dailyFund'
+    }
     ],
     gridCol: 4,
     skin: false

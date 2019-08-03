@@ -1,8 +1,0 @@
-var abs = {
-  abs: function(num) {
-    return Math.abs(num)
-  }
-}
-module.exports = {
-  abs: abs.abs
-}
