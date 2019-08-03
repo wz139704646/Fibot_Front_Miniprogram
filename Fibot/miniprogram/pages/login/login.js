@@ -337,6 +337,7 @@ Page({
                           openid: suc.result.openid
                         }),
                         success: rs => {
+                          console.log(rs)
                           if (rs.data.success) {
                             wx.hideLoading()
                             wx.showToast({
@@ -395,27 +396,34 @@ Page({
                   app.globalData.openid = suc.result.openid
                   console.log('get openid suc')
                   wx.request({
-                    url: host + '/queryUser',
+                    url: host + '/login',
                     method: 'POST',
                     header: {
                       "Content-Type": 'application/json'
                     },
                     data: JSON.stringify({
-                      openid: suc.result.openid
+                      openid: suc.result.openid,
+                      type: 2
                     }),
                     success: rs => {
-                      console.log('query user suc')
-                      console.log(rs)
-                      if (!rs.data.success || rs.statusCode!=200) {
+                      console.log('wx login suc')
+                      if (rs.statusCode != 200 || !rs.data.success) {
                         wx.showToast({
                           title: '微信未绑定用户！',
                           icon: 'none',
                           duration: 1000
                         })
                       } else {
+                        wx.setStorageSync('jwt_token', rs.data.token)
                         app.globalData.companyId = rs.data.result[0].companyId
                         app.globalData.account = rs.data.result[0].account
-                        // position 后期加到 gloablData 里
+                        app.globalData.position = rs.data.result[0].position
+                        wx.redirectTo({
+                          url: '../index/index',
+                          complete: () => {
+                            wx.hideLoading()
+                          }
+                        })
                       }
                     },
                     fail: err1 => {

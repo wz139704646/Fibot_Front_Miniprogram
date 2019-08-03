@@ -64,13 +64,13 @@ Page({
       color: 'red',
       badge: 0,
       name: '收款记录',
-      url: ''
+      url: '/pages/application/ar/receipts/receipts'
     }, {
       icon: 'sponsor',
       color: 'orange',
       badge: 0,
       name: '付款记录',
-      url: ''
+      url: '/pages/application/ap/payments/payments'
     }, {
       icon: 'recharge',
       color: 'yellow',
@@ -144,7 +144,7 @@ Page({
       color: 'red',
       badge: 0,
       name: '凭证',
-      url: '../voucher/voucherList/voucher'
+      url: '/pages/application/voucher/voucherList/voucher'
     }, {
       icon: 'copy',
       color: 'yellow',
@@ -156,14 +156,14 @@ Page({
       color: 'yellow',
       badge: 0,
       name: '科目余额',
-      url: '../trialBalance/trialBalance'
+      url: '/pages/application/trialBalance/trialBalance'
     },
       {
         icon: 'text',
         color: 'blue',
         badge: 0,
         name: '科目表',
-        url: '../subjects/subjects/subjects'
+        url: '/pages/application/subjects/subjects/subjects'
       }
     ],
     gridCol: 4,

@@ -29,7 +29,9 @@
     "pages/application/subjects/subjects/subjects",
     "pages/application/subjects/addSubject/addSubject",
     "pages/application/voucher/addVoucher/addVoucher",
-    "pages/application/voucher/voucherDetail/voucherDetail"
+    "pages/application/voucher/voucherDetail/voucherDetail",
+    "pages/application/ar/receipts/receipts",
+    "pages/application/ap/payments/payments"
   ],
   "window": {
     "navigationBarBackgroundColor": "#39b54a",

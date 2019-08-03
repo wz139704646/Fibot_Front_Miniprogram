@@ -81,17 +81,27 @@ Page({
       },
       success: res => {
         console.log(res)
-        wx.showModal({
-          title: '成功',
-          content: '订单提交成功',
-          confirmText: '确认',
-          showCancel: false,
-          success: res => {
-            if (res.confirm) {
-              wx.redirectTo({
-                url: '/pages/index/index',
-              })
-            }
+        wx.request({
+          url: host+'/addSellReceive',
+          method: 'POST',
+          header: {
+            "Content-Type": 'application/json',
+
+          },
+          success: res2 => {
+            wx.showModal({
+              title: '成功',
+              content: '订单提交成功',
+              confirmText: '确认',
+              showCancel: false,
+              success: res => {
+                if (res.confirm) {
+                  wx.redirectTo({
+                    url: '/pages/index/index',
+                  })
+                }
+              }
+            })
           }
         })
       }

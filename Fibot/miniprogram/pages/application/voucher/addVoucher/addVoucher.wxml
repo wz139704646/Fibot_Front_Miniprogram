@@ -74,3 +74,9 @@
   <button class="cu-btn bg-blue margin-tb-sm lg" bindtap='onSave'>保存</button>
   <button class="cu-btn bg-grey lg" bindtap='onCancel'>返回</button>
 </view>
+
+<view class="text-gray" style="position: fixed; bottom: 20rpx; right: 20rpx;">
+  <button class="cu-btn icon bg-blue shadow lg" bindtap="scanPhoto">
+    <text class="cuIcon-camera" style="font-size: 50rpx;"></text>
+  </button>
+</view>

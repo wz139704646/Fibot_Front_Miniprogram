@@ -15,22 +15,51 @@ Page({
       title: '加载中',
       mask: true
     })
-    wx.getStorage({
-      key: 'jwt_token',
-      success: function (res) {
-        let token = res.data
-        // 可能需要获取个人信息
-
-        wx.hideLoading()
-      },
-      fail: function (err) {
-        console.log(err)
-        wx.hideLoading()
-        wx.redirectTo({
-          url: '../login/login',
-        })
-      }
-    })
+    let token = app.getToken()
+    if(!token) {
+      wx.hideLoading()
+      wx.redirectTo({
+        url: '../login/login',
+      })
+    } else {
+      wx.request({
+        url: host + '/decodeToken',
+        method: 'POST',
+        header: {
+          'Content-Type': 'application/json'
+        },
+        data: JSON.stringify({
+          token: token
+        }),
+        success: res => {
+          wx.hideLoading()
+          if(!res.data.success) {
+            wx.showToast({
+              title: res.data.errMsg,
+              icon: 'none',
+              duration: 1000
+            })
+            setTimeout(() => {
+              wx.redirectTo({
+                url: '../login/login',
+              })
+            }, 1000)
+          } else {
+            let {account, companyId, position} = res.data.result[0]
+            app.globalData.account = account
+            app.globalData.companyId = companyId
+            app.globalData.position = position
+            console.log(app.globalData)
+          }
+        },
+        fail: err => {
+          console.error('请求失败',err)
+          wx.redirectTo({
+            url: '../login/login',
+          })
+        }
+      })
+    }
     // 原版对微信绑定的检查
     // wx.getSetting({
     //   success: res => {

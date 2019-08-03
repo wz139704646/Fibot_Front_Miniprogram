@@ -1,0 +1,22 @@
+<!--miniprogram/pages/application/ar/receipts/receipts.wxml-->
+<cu-custom bgColor="bg-gradual-pink" isBack="{{true}}">
+  <view slot="backText">返回</view>
+  <view slot="content">收款记录</view>
+</cu-custom>
+
+<van-cell-group title="选择时间范围">
+  <van-cell title="时间" value="{{timeRange.text}}" is-link clickable bindtap="onChooseTimeRange" />
+</van-cell-group>
+
+<van-cell-group wx:for="{{receipts}}" wx:key wx:for-item="coll" title="{{coll.date}}" wx:for-key="idx">
+  <van-cell is-link wx:for="{{coll.records}}" title="{{item.customerName}}" label="{{item.id}}" value="{{item.amount}}" url="{{'../receiptDetail/receiptDetail?'+index}}'" link-type="navigateTo" clickable="{{true}}" />
+</van-cell-group>
+
+<van-popup show="{{ showPicker }}" position="bottom" bind:close="onModalClose">
+  <van-picker show-toolbar columns="{{ timeOptions }}" bind:cancel="onModalClose" bind:confirm="onPickerConfirm" />
+</van-popup>
+<view class="text-gray" style="position: fixed; bottom: 20rpx; right: 20rpx;">
+  <button class="cu-btn icon bg-blue shadow lg" bindtap="addReceipt">
+    <text class="cuIcon-add" style="font-size: 50rpx;"></text>
+  </button>
+</view>

@@ -307,5 +307,10 @@ Page({
         }
       }
     })
+  },
+
+  // 扫描发票图片添加凭证
+  scanPhoto: function(e) {
+
   }
 })
