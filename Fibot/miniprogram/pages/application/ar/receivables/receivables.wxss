@@ -1,4 +1,4 @@
-/* miniprogram/pages/application/ar/receipts/receipts.wxss */
+/* miniprogram/pages/application/ar/receivables/receivables.wxss */
 .total-box{
   width:100%; 
   position: fixed; 

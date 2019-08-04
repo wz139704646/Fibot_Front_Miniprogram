@@ -4,6 +4,7 @@
     "van-collapse-item": "vant-weapp/collapse-item",
     "van-cell": "vant-weapp/cell",
     "van-cell-group": "vant-weapp/cell-group",
-    "van-field": "vant-weapp/field"
+    "van-field": "vant-weapp/field",
+    "van-swipe-cell": "vant-weapp/swipe-cell"
   }
 }

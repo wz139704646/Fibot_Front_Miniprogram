@@ -53,25 +53,10 @@ Page({
     })
   },
 
-  addCustomer: function(e) {
-    wx.navigateTo({
-      url: '/pages/application/customerList/customerList?back=addReceipt',
-    })
-  },
-
   addReceivable: function(e) {
-    if(this.data.customer){
-      let {customer} = this.data.customer
-      wx.navigateTo({
-        url: `/pages/application/ar/receivables?customerId=${customer.id}&customerName=${customer.name}`,
-      })
-    } else {
-      wx.showToast({
-        title: '未选择客户',
-        icon: 'none',
-        duration: 1000
-      })
-    }
+    wx.navigateTo({
+      url: `/pages/application/ar/receivables/receivables?back=${'addReceipt'}`,
+    })
   },
 
   onReceiveChange: function(e) {

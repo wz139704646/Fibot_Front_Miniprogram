@@ -11,34 +11,37 @@
     </view>
   </picker>
 </view>
-<view class="cu-form-group" bindtap='addCustomer'>
-  <view class="title">客户</view>
-  <input disabled placeholder='请选择客户' value='{{customer ? customer.name : ""}}' style="text-align:right"></input>
-  <text class="cuIcon-friendadd text-orange"></text>
-</view>
 <view class="cu-form-group margin-top" bindtap='addReceivable'>
   <view class="title">应收单据</view>
   <input disabled placeholder='请选择应收单据' style="text-align:right"></input>
-  <text class="cuIcon-friendadd text-orange"></text>
+  <text class="cuIcon-right text-blue"></text>
 </view>
-<van-collapse value="{{ activeNames }}" bind:change="onChange" custom-class="margin-bottom">
-  <van-collapse-item wx:key wx:for="{{receivables}}" title="{{item.sellId}}" name="{{index}}" label="{{item.date}}" value="{{item.total}}">
-    <view class="cu-bar bg-white cu-bar-item">
-      <view>订单总金额</view>
-      <view class="">{{item.total}}</view>
-    </view>
-    <view class="cu-bar bg-white cu-bar-item">
-      <view>剩余未付</view>
-      <view class="">{{item.remain}}</view>
-    </view>
-    <view class="cu-bar bg-white cu-bar-item">
-      <view>本次核销</view>
-      <view class="">{{item.receive}}</view>
-    </view>
-  </van-collapse-item>
-  
-</van-collapse>
-<van-field label="本次收款" value="{{ receiveText }}" placeholder="请输入金额" border="{{ true }}" bind:change="onReceiveChange" type="number" />
+<view class="margin-bottom">
+  <van-collapse value="{{ activeNames }}" bind:change="onChange">
+  <van-swipe-cell wx:key wx:for="{{receivables}}" left-width="{{ 55 }}">
+    <van-collapse-item title="{{item.sellId}}" name="{{index}}" label="{{item.date}}" value="{{item.total}}">
+      <view class="cu-bar bg-white cu-bar-item">
+        <view>订单总金额</view>
+        <view class="">{{item.total}}</view>
+      </view>
+      <view class="cu-bar bg-white cu-bar-item">
+        <view>剩余未付</view>
+        <view class="">{{item.remain}}</view>
+      </view>
+      <view class="cu-bar bg-white cu-bar-item">
+        <view>本次核销</view>
+        <view class="">{{item.receive}}</view>
+      </view>
+    </van-collapse-item>
+    <view slot="right">删除</view>
+</van-swipe-cell>
+  </van-collapse>
+  <view wx:if="{{receivables.length>0}}" class="cu-form-group" style="border-top: 1px solid black;">
+    <view class="title">合计</view>
+    <input disabled style="text-align:right" value="{{total}}"></input>
+  </view>
+</view>
+<van-field label="本次收款" value="{{ receiveText }}" border="{{ true }}" bind:change="onReceiveChange" type="number" />
 
 <view class="padding flex flex-direction">
   <button class="cu-btn bg-blue margin-tb-sm lg" bindtap='onSave'>保存</button>

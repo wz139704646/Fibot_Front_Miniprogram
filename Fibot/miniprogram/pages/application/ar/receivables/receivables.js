@@ -1,4 +1,4 @@
-// miniprogram/pages/application/ar/receipts/receipts.js
+// miniprogram/pages/application/ar/receivables/receivables.js
 const app = getApp()
 const host = app.globalData.requestHost
 
@@ -33,9 +33,9 @@ Page({
   },
 
   // 根据销货单id查询相关信息并记录到obj中
-  completeInfo: function(obj) {
+  completeInfo: function (obj) {
     let token = app.getToken()
-    if(token) {
+    if (token) {
       let that = this
       console.log(obj)
       wx.request({
@@ -47,10 +47,10 @@ Page({
         },
         data: JSON.stringify({
           companyId: app.globalData.companyId,
-          id: obj.sellid
+          id: obj.sellId
         }),
         success: res => {
-          if(res.statusCode!=200 || res.data.result.length==0) {
+          if (res.statusCode != 200 || res.data.result.length == 0) {
             wx.showToast({
               title: '出现未知错误',
               icon: 'none',
@@ -59,9 +59,9 @@ Page({
           } else {
             let info = res.data.result[0]
             obj.customerName = info.customerName
-            if(that.data.receipts) {
+            if (that.data.receivables) {
               that.setData({
-                receipts: that.data.receipts
+                receivables: that.data.receivables
               })
             }
           }
@@ -70,16 +70,16 @@ Page({
     }
   },
 
-  // 加载收款记录数据
-  loadData: function(e) {
-    let {timeRange} = this.data
+  // 加载应收款的订单记录数据
+  loadData: function (e) {
+    let { timeRange } = this.data
     let days = timeRange.value
     let token = app.getToken()
-    if(token) {
+    if (token) {
       var that = this
       var data = days ? JSON.stringify({ days }) : {}
       wx.request({
-        url: host + '/arap/queryReceive',
+        url: host + '/arap/querySellReceive',
         method: 'POST',
         header: {
           'Content-Type': 'application/json',
@@ -87,37 +87,34 @@ Page({
         },
         data: data,
         success: res1 => {
-          if(res1.statusCode!=200 || !res1.data.success){
+          if (res1.statusCode != 200 || !res1.data.success) {
             wx.showToast({
               title: res1.data.errMsg || '请求错误',
               icon: 'none',
               duration: 1000
             })
           } else {
-            var receipts = []
+            // 将相同日期的加入同一分区
+            var receivables = []
             var rawData = res1.data.result
             var total = 0
-            for(let i in rawData) {
-              let len = receipts.length
-              let newItem = {
-                id: rawData[i].id,
-                date: rawData[i].date.substring(0, 10),
-                amount: rawData[i].receive,
-                sellid: rawData[i].sellId
-              }
-              if(len == 0 || rawData[i].date != receipts[len-1].date) {
-                receipts.push({
+            for (let i in rawData) {
+              let len = receivables.length
+              let newItem = rawData[i]
+              newItem.date = newItem.date.substring(0, 10)
+              if (len == 0 || rawData[i].date != receivables[len - 1].date) {
+                receivables.push({
                   date: newItem.date,
                   records: [newItem]
                 })
               } else {
-                receipts[len-1].records.push(newItem)
+                receivables[len - 1].records.push(newItem)
               }
-              total += newItem.amount
+              total += parseFloat(newItem.remain)
               that.completeInfo(newItem)
             }
             that.setData({
-              receipts, total
+              receivables, total
             })
           }
         },
@@ -142,7 +139,7 @@ Page({
     this.setData({
       showPicker: false,
       timeRange: this.data.timeOptions[0]
-    }, ()=> {
+    }, () => {
       this.loadData()
     })
   },
@@ -154,8 +151,15 @@ Page({
 
   },
 
-  onPickerConfirm: function(e) {
-    let {timeOptions} = this.data
+  /**
+   * 生命周期函数--监听页面隐藏
+   */
+  onHide: function () {
+
+  },
+
+  onPickerConfirm: function (e) {
+    let { timeOptions } = this.data
     this.setData({
       showPicker: false,
       timeRange: timeOptions[e.detail.index]
@@ -164,21 +168,29 @@ Page({
     })
   },
 
-  onChooseTimeRange: function(e) {
+  onChooseTimeRange: function (e) {
     this.setData({
       showPicker: true
     })
   },
 
-  onModalClose: function(e) {
+  onModalClose: function (e) {
     this.setData({
       showPicker: false
     })
   },
 
-  addReceipt: function(e) {
-    wx.navigateTo({
-      url: '../addReceipt/addReceipt?back=receipts',
+  onCollapseChange: function(e) {
+    this.setData({
+      activeNames: e.detail
     })
-  }
+  },
+
+  onReceivableSelected: function(e) {
+    console.log(e)
+  },
+
+  noSense: function(e) {}
+
+
 })

@@ -1,0 +1,38 @@
+<!--miniprogram/pages/application/ar/receivables/receivables.wxml-->
+<cu-custom bgColor="bg-gradual-pink" isBack="{{true}}">
+  <view slot="backText">返回</view>
+  <view slot="content">应收单</view>
+</cu-custom>
+
+<van-cell-group title="选择时间范围" style="position: fixed; top:{{CustomBar}}px; width: 100vw; height: 10vh; z-index:10;">
+  <van-cell title="时间" value="{{timeRange.text}}" is-link clickable bindtap="onChooseTimeRange" />
+</van-cell-group>
+
+<scroll-view style="margin-top: 12vh;">
+  <van-collapse value="{{ activeNames }}" bind:change="onCollapseChange">
+    <van-cell-group wx:for="{{receivables}}" wx:key wx:for-item="coll" title="{{coll.date}}" wx:for-index="idx">
+      <van-collapse-item wx:key wx:for="{{coll.records}}" wx:for-key="index" title="{{item.customerName}}" name="{{idx + ' ' + index}}" label="{{item.sellId}}" value="￥{{item.remain}}">
+        <view wx:if="{{back == 'addReceipt'}}" slot="icon" catchtap="noSense">
+          <checkbox-group catchchange="onReceivableSelected">
+          <checkbox class="round red" value="{{idx}} {{index}}"></checkbox>
+          </checkbox-group>
+        </view>
+        <van-cell-group custom-class="text-sm">
+          <van-cell title="订单总价值" value="￥{{item.total}}" />
+          <van-cell title="剩余应付" value="￥{{item.remain}}" />
+          <van-cell title="备注" value="{{item.reason}}" />
+        </van-cell-group>
+      </van-collapse-item>
+    </van-cell-group>
+  </van-collapse>
+  <view wx:if="{{receivables.length == 0}}" class="text-center padding text-bold">无应收记录</view>
+  <view style="height:120rpx;"></view>
+</scroll-view>
+
+<van-popup show="{{ showPicker }}" position="bottom" bind:close="onModalClose">
+  <van-picker show-toolbar columns="{{ timeOptions }}" bind:cancel="onModalClose" bind:confirm="onPickerConfirm" />
+</van-popup>
+<view class="bg-blue light total-box padding-sm">
+  <view class="title">合计</view>
+  <view>￥{{total || 0}}</view>
+</view>
