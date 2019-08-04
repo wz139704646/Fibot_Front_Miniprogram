@@ -36,7 +36,7 @@
     "pages/application/depositJournal/addJournal/addJournal",
     "pages/application/depositJournal/journalList/journalList",
     "pages/application/dailyFund/dailyFund",
-    "pages/application/bankReconciliations/bankReconciliations"
+    "pages/application/bankReconciliations/bankReconciliations",
     "pages/application/transferAccount/newTransfer/newTransfer",
     "pages/application/transferAccount/transferRecord/transferRecord",
     "pages/application/ar/addReceipt/addReceipt",

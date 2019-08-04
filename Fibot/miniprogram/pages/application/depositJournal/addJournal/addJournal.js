@@ -10,9 +10,8 @@ var description = ''
 var money = ''
 var voucher = ''
 var bankName = ''
-var companyName = app.globalData.companyId
+var companyId = app.globalData.companyId
 var amount = ''
-var clearForm = ''
 
 const initPage = function (page) {
   date1 = util.getcurDateFormatString(new Date())
@@ -41,6 +40,8 @@ Page({
   data: {
     TabCur: 0,
     scrollLeft: 0,
+    indexOfWay: 0,
+    indexOfClearForm: 0,
 
     way: ['收', '支'],
     objectArray: [
@@ -53,8 +54,7 @@ Page({
         name: '支'
       }
     ],
-    indexOfWay: 0,
-
+    
     clearForm: ['银付', '银收', '现付', '现收'],
     objectArray: [
       {
@@ -73,9 +73,7 @@ Page({
         id: 3,
         name: '现收'
       }
-    ],
-    indexOfClearForm: 0,
-
+    ]
   },
 
   tabSelect(e) {
@@ -87,7 +85,10 @@ Page({
 
   onSave1(e) {
     var that = this
-    date1 = date1 + time
+    date1 = this.data.date1 + time
+    if(this.data.indexOfWay == 1){
+      money = String(0 - parseInt(money))
+    }
     console.log(date1)
     if (description == '' || money == '') {
       wx.showModal({
@@ -150,7 +151,10 @@ Page({
 
   onSave2(e) {
     var that = this
-    date2 = date2 + time
+    date2 = this.data.date2 + time
+    if(this.data.indexOfClearForm == 0 || this.data.indexOfClearForm == 2){
+      amount = String(0 - parseInt(amount))
+    }
     if (voucher == '' || bankName == '' || amount == '') {
       wx.showModal({
         title: '新增银行存款日记账',
@@ -183,8 +187,8 @@ Page({
       date: date2,
       amount: amount,
       bankName: bankName,
-      companyName: companyName,
-      clearForm: clearForm[indexOfClearForm]
+      companyId: companyId,
+      clearForm: this.data.clearForm[this.data.indexOfClearForm]
     })
     wx.request({
       url: host + '/addBankRecord',
@@ -193,8 +197,8 @@ Page({
         date: date2,
         amount: amount,
         bankName: bankName,
-        companyName: companyName,
-        clearForm: clearForm[indexOfClearForm]
+        companyId: companyId,
+        clearForm: this.data.clearForm[this.data.indexOfClearForm]
       }),
       method: "POST",
       header: {
@@ -277,7 +281,6 @@ Page({
     this.setData({
       date1: e.detail.value 
     })
-    console.log(date1)
   },
 
   Date2Change(e) {

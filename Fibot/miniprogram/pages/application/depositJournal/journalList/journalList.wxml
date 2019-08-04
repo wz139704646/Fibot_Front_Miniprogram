@@ -3,3 +3,21 @@
   <view slot="backText">返回</view>
   <view slot="content">日记账列表</view>
 </cu-custom>
+
+<view class="cu-form-group margin-top">
+  <view class="title">日期选择</view>
+  <picker mode="date" value="{{date}}" start="2015-09-01" end="2020-09-01" bindchange="DateChange">
+    <view class="picker">
+      {{date}}
+    </view>
+  </picker>
+</view>
+
+<view class="cu-form-group">
+  <view class="title">账户类型</view>
+  <picker mode="selector" value="{{indexOfAccountType}}" range="{{accountType}}" bindchange="AccountTypeChange">
+    <view class="picker">
+      {{AccountType[indexOfAccountType]}}
+    </view>
+  </picker>
+</view>
