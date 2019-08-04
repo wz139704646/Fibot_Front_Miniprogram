@@ -144,7 +144,7 @@ Page({
       color: 'red',
       badge: 0,
       name: '凭证',
-      url: '../voucher/voucherList/voucher'
+      url: '/pages/application/voucher/voucherList/voucher'
     }, {
       icon: 'copy',
       color: 'yellow',
