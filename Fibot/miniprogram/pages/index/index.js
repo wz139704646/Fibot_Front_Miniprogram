@@ -26,16 +26,18 @@ Page({
         url: host + '/decodeToken',
         method: 'POST',
         header: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': token
         },
         data: JSON.stringify({
           token: token
         }),
         success: res => {
+          console.log(res)
           wx.hideLoading()
-          if(!res.data.success) {
+          if(res.statusCode!=200 || !res.data.success || !res.data.result || res.data.result.length==0) {
             wx.showToast({
-              title: res.data.errMsg,
+              title: res.data.errMsg || '请求错误',
               icon: 'none',
               duration: 1000
             })
@@ -45,11 +47,11 @@ Page({
               })
             }, 1000)
           } else {
+            
             let {account, companyId, position} = res.data.result[0]
             app.globalData.account = account
             app.globalData.companyId = companyId
             app.globalData.position = position
-            console.log(app.globalData)
           }
         },
         fail: err => {

@@ -8,12 +8,14 @@
     <input type="text" placeholder="输入搜索的关键词" confirm-type="search" bindconfirm='search' value='{{inputVal}}' bindinput='sInputChange'></input>
   </view>
 </view>
-<block wx:key wx:for='{{goodsList}}' wx:for-index='index'>
-  <van-card num="{{item.buyNum}}" tag="{{item.type}}" price="{{item.sellprice}}" desc="单位:{{item.unitInfo}}" title="{{item.name}}" thumb="{{host+'/goodsPic/'+item.photo}}" thumb-mode="aspectFill" bindtap='showModal' id="{{item.index}}" data-target="addGood"
-    data-id="{{item.id}}" data-buyNum="{{item.buyNum}}" data-name="{{item.name}}" data-price="{{item.sellprice}}">
-  </van-card>
-  <view class="divLine"></view>
-</block>
+<view class="margin-bottom-xl">
+  <block wx:key wx:for='{{goodsList}}' wx:for-index='index'>
+    <van-card num="{{item.buyNum}}" tag="{{item.type}}" price="{{item.sellprice}}" desc="单位:{{item.unitInfo}}" title="{{item.name}}" thumb="{{host+'/goodsPic/'+item.photo}}" thumb-mode="aspectFill" bindtap='showModal' id="{{item.index}}" data-target="addGood"
+      data-id="{{item.id}}" data-buyNum="{{item.buyNum}}" data-name="{{item.name}}" data-price="{{item.sellprice}}">
+    </van-card>
+    <view class="divLine"></view>
+  </block>
+</view>
 <view class="cu-bar bg-white tabbar border shop foot" style="bottom:0px">
   <view class="action" data-target='showBuyList' bindtap='showBuyList'>
     <view class="cuIcon-cart">
@@ -42,7 +44,7 @@
         </view>
         <view class="flex-sub padding-sm margin-xs radius">
           <view class="cu-form-group">
-            <van-stepper value="{{ tempNum }}" integer min="0" step="1" bind:change="inputChange" input-width="20px"/>
+            <van-stepper value="{{ tempNum }}" integer min="0" step="1" bind:change="inputChange" input-width="20px" />
           </view>
         </view>
       </view>

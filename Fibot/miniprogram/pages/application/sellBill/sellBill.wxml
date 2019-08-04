@@ -29,6 +29,16 @@
   </view>
   <view class="divLine"></view>
 </block>
+
+<view wx:if="{{total>0}}" class="cu-form-group margin-top margin-bottom">
+  <view class="title">本次付款</view>
+  <input placeholder="输入付款金额" value="{{amountText}}" bindinput="onPayAmountInput"></input>
+</view>
+<view wx:if="{{total>0}}" class="cu-form-group margin-top margin-bottom">
+  <view class="title">备注</view>
+  <input placeholder="输入未付款原因" value="{{note}}" bindinput="onNoteInput"></input>
+</view>
+
 <view wx:if="{{total>0}}" class="cu-bar bg-white">
   <view class="action text-red text-price">总价:{{total}}</view>
   <view wx:if="{{supplierId!=0}}" class="action text-blue" bindtap="submitBill">确认订单</view>

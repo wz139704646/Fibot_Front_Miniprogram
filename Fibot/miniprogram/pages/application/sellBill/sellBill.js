@@ -19,7 +19,9 @@ const initPage = function(page){
   })
   // 设置日期属性
   page.setData({
-    date: date
+    date: date,
+    payAmount: 0,
+    amountText: '0'
   })
 }
 
@@ -116,8 +118,16 @@ Page({
   submitBill: function(e) {
     let that = this
     let slist = this.data.buyList
+    let {total, payAmount} = this.data
     if(!slist || slist.length==0)
       return
+    else if(payAmount > total) {
+      wx.showToast({
+        title: '付款金额应小于等于总价',
+        icon: 'none'
+      })
+      return
+    }
 
     // 处理前端销售单数据，发送给后台
     let goodsList = []
@@ -127,7 +137,6 @@ Page({
         number: slist[i].buyNum
       })
     }
-    console.log(app.globalData)
     console.log(goodsList)
     wx.request({
       url: host+'/addSell',
@@ -143,21 +152,100 @@ Page({
         goodsList: goodsList
       }),
       success: res => {
-        console.log(res)
-        wx.showModal({
-          title: '成功',
-          content: '订单提交成功',
-          confirmText: '确认',
-          showCancel: false,
-          success: res => {
-            if(res.confirm){
-              wx.redirectTo({
-                url: '/pages/index/index',
+        if(res.statusCode!=200 || !res.data.success){
+          wx.showToast({
+            title: '请求失败',
+            icon: 'none'
+          })
+        } else {
+          wx.request({
+            url: host+'/arap/addSellReceive',
+            method: 'POST',
+            header: {
+              "Content-Type": 'application/json'
+            },
+            data: JSON.stringify({
+              sellId: res.data.result,
+              reason: that.data.note
+            }),
+            success: res2 => {
+              if(res2.statusCode!=200 || !res2.data.success) {
+                wx.showToast({
+                  title: res2.data.errMsg || '请求出错',
+                  icon: 'none'
+                })
+              }
+            },
+            fail: err2 => {
+              console.error('添加应收出错', err2)
+              wx.showToast({
+                title: '请求出错',
+                icon: 'none'
               })
             }
-          }
-        })
+          })
+          wx.request({
+            url: host+'/arap/addReceive',
+            method: 'POST',
+            header: {
+              'Content-Type': 'application/json'
+            },
+            data: JSON.stringify({
+              sellId: res.data.result,
+              amount: that.data.payAmount,
+              date: that.data.date
+            }),
+            success: res3 => {
+              if(res3.statusCode!=200 || res3.data.success) {
+                wx.showToast({
+                  title: res3.data.errMsg || '请求出错',
+                  icon: 'none'
+                })
+              }
+            },
+            fail: err3 => {
+              console.error('添加收入出错', err3)
+              wx.showToast({
+                title: '请求出错',
+                icon: 'none'
+              })
+            }
+          })
+          wx.showModal({
+            title: '成功',
+            content: '订单提交成功',
+            confirmText: '确认',
+            showCancel: false,
+            success: res => {
+              if (res.confirm) {
+                wx.redirectTo({
+                  url: '/pages/index/index',
+                })
+              }
+            }
+          })
+        }
       }
+    })
+  },
+
+  // 输入付款额事件
+  onPayAmountInput: function(e) {
+    let reg = /^[0-9]+.?[0-9]*$/
+    let v = this.data.payAmount || 0
+    let {value} = e.detail
+    v = value=='' ? 0 : reg.test(value) ? parseFloat(value) : v
+    value = (value=='' || reg.test(value)) ? value : this.data.amountText
+    this.setData({
+      payAmount: v,
+      amountText: value
+    })
+  },
+
+  // 输入备注事件
+  onNoteInput: function(e) {
+    this.setData({
+      note: e.detail.value
     })
   },
 
