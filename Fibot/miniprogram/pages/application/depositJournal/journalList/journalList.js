@@ -1,18 +1,42 @@
-// pages/application/depositJournal/depositJournal.js
+// pages/application/depositJournal/journalList/journalList.js
+const app = getApp()
+const util = require('../../../../utils/util.js')
+const host = app.globalData.requestHost
+
+const initPage = function (page) {
+  let date = util.getcurDateFormatString(new Date())
+  // 设置日期属性
+  page.setData({
+    date: date
+  })
+}
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
+    indexOfAccountType: 0,
 
+    accountType: ['库存现金', '银行存款'],
+    objectArray: [
+      {
+        id: 0,
+        name: '库存现金'
+      },
+      {
+        id: 1,
+        name: '银行存款'
+      }
+    ],
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    initPage(this)
   },
 
   /**
@@ -62,5 +86,16 @@ Page({
    */
   onShareAppMessage: function () {
 
+  },
+  DateChange(e) {
+    this.setData({
+      date: e.detail.value
+    })
+  },
+
+  AccountTypeChange(e) {
+    this.setData({
+      indexOfAccountType: e.detail.value
+    })
   }
 })

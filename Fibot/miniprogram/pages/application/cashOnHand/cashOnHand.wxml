@@ -2,3 +2,31 @@
   <view slot="backText">返回</view>
   <view slot="content">库存现金</view>
 </cu-custom>
+
+<view class="cu-form-group margin-top">
+  <view class="title">开始日期</view>
+  <picker mode="date" value="{{startDate}}" start="2015-09-01" end="2020-09-01" bindchange="StartDateChange">
+    <view class="picker">
+      {{startDate}}
+    </view>
+  </picker>
+</view>
+
+<view class="cu-form-group margin-top">
+  <view class="title">结束日期</view>
+  <picker mode="date" value="{{endDate}}" start="2015-09-01" end="2020-09-01" bindchange="EndDateChange">
+    <view class="picker">
+      {{endDate}}
+    </view>
+  </picker>
+</view>
+
+<scroll-view style="margin-top: 25vh;">
+  <van-cell-group wx:if="{{endDate >= startDate}}">
+    <block wx:for="{{}}" wx:key>
+      
+    </block>
+  </van-cell-group>
+  <view class="text-center padding text-bold" wx:else>开始日期不能大于结束日期！</view>
+</scroll-view>
+
