@@ -119,7 +119,7 @@ Page({
       color: 'yellow',
       badge: 0,
       name: '调拨记录',
-      url: ''
+        url: '/pages/application/transferGood/transferRecord/transferRecord'
     }, {
       icon: 'pick',
       color: 'olive',

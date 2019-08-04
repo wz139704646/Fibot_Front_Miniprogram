@@ -1,0 +1,17 @@
+<cu-custom bgColor="bg-gradual-pink" isBack="{{true}}">
+  <view slot="backText">返回</view>
+  <view slot="content">调拨单</view>
+</cu-custom>
+<view class="cu-bar bg-white search fixed" style="top:{{CustomBar}}px;">
+  <view class="search-form round">
+    <text class="cuIcon-search"></text>
+    <input type="text" placeholder="输入搜索的关键词" confirm-type="search" bindconfirm='search' value='{{inputVal}}' bindinput='inputChange'></input>
+  </view>
+</view>
+
+
+<view class="text-gray" style="position: fixed; bottom: 20rpx; right: 20rpx;">
+  <button class="cu-btn icon bg-blue shadow lg" bindtap="addTransfer">
+    <text class="cuIcon-add" style="font-size: 50rpx;"></text>
+  </button>
+</view>
