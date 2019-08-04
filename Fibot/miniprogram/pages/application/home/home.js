@@ -177,7 +177,7 @@ Page({
       color: 'red',
       badge: 0,
       name: '存款日记账',
-      url: '/pages/application/depositJournal/depositJournal'
+      url: '/pages/application/depositJournal/addJournal/addJournal'
     }, {
       icon: 'copy',
       color: 'green',

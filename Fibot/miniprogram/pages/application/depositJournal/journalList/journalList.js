@@ -1,4 +1,4 @@
-// pages/application/depositJournal/depositJournal.js
+// pages/application/depositJournal/journalList/journalList.js
 Page({
 
   /**

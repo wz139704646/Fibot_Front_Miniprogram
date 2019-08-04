@@ -1,2 +1,5 @@
 <!--pages/application/bankReconciliations/bankReconciliations.wxml-->
-<text>pages/application/bankReconciliations/bankReconciliations.wxml</text>
+<cu-custom bgColor="bg-gradual-pink" isBack="{{true}}">
+  <view slot="backText">返回</view>
+  <view slot="content">银行对账</view>
+</cu-custom>

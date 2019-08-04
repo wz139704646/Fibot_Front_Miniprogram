@@ -31,7 +31,12 @@
     "pages/application/voucher/addVoucher/addVoucher",
     "pages/application/voucher/voucherDetail/voucherDetail",
     "pages/application/ar/receipts/receipts",
-    "pages/application/ap/payments/payments"
+    "pages/application/ap/payments/payments",
+    "pages/application/cashOnHand/cashOnHand",
+    "pages/application/depositJournal/addJournal/addJournal",
+    "pages/application/depositJournal/journalList/journalList",
+    "pages/application/dailyFund/dailyFund",
+    "pages/application/bankReconciliations/bankReconciliations"
   ],
   "window": {
     "navigationBarBackgroundColor": "#39b54a",

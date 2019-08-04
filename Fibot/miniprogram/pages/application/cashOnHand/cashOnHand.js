@@ -1,3 +1,17 @@
+const app = getApp()
+const util = require('../../../utils/util.js')
+const host = app.globalData.requestHost
+
+const initPage = function (page) {
+  let startDate = util.getcurDateFormatString(new Date())
+  let endDate = util.getcurDateFormatString(new Date())
+  // 设置日期属性
+  page.setData({
+    startDate: startDate,
+    endDate: endDate
+  })
+}
+
 Page({
 
   /**
@@ -11,7 +25,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    
+    initPage(this)
   },
 
   /**
@@ -61,5 +75,18 @@ Page({
    */
   onShareAppMessage: function () {
     
+  },
+
+  StartDateChange(e) {
+    this.setData({
+      startDate: e.detail.value
+    })
+  },
+
+  EndDateChange(e) {
+    this.setData({
+      endDate: e.detail.value
+    })
   }
+
 })

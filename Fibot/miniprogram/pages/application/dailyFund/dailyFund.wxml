@@ -1,2 +1,8 @@
 <!--pages/application/dailyFund/dailyFund.wxml-->
-<text>pages/application/dailyFund/dailyFund.wxml</text>
+<cu-custom bgColor="bg-gradual-pink" isBack="{{true}}">
+  <view slot="backText">返回</view>
+  <view slot="content">资金日报表</view>
+</cu-custom>
+
+
+
