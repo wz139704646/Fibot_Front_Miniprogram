@@ -94,7 +94,7 @@ Page({
       color: 'yellow',
       badge: 0,
       name: '资金转账记录',
-      url: ''
+        url: '/pages/application/transferAccount/transferRecord/transferRecord'
     }, {
       icon: 'creative',
       color: 'olive',
