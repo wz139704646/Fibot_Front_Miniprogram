@@ -64,7 +64,7 @@ Page({
       color: 'red',
       badge: 0,
       name: '收款记录',
-      url: ''
+      url: '/pages/application/ar/receipts/receipts'
     }, {
       icon: 'sponsor',
       color: 'orange',
@@ -156,7 +156,7 @@ Page({
       color: 'yellow',
       badge: 0,
       name: '科目余额',
-      url: '../trialBalance/trialBalance'
+      url: '/pages/application/trialBalance/trialBalance'
     },
       {
         icon: 'text',

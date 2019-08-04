@@ -101,12 +101,33 @@ App({
   },
 
   getToken: function() {
+    const errFunc = () => {
+      wx.showToast({
+        title: '请先登录',
+        icon: 'none',
+        mask: true,
+        duration: 2000,
+        success: () => {
+          setTimeout(() => {
+            wx.redirectTo({
+              url: '/pages/login/login',
+            })
+          }, 1000)
+        }
+      })
+    }
     try{
       let token = wx.getStorageSync('jwt_token')
-      return "JWT " + token
+      if(token) {
+        return "JWT " + token
+      } else {
+        errFunc()
+        return ""
+      }
     } catch(err) {
       console.log('获取token出错', err)
+      errFunc()
       return ""
     }
-  }
+  },
 })

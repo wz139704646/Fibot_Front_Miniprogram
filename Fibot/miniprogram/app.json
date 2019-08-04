@@ -33,7 +33,8 @@
     "pages/application/ar/receipts/receipts",
     "pages/application/ap/payments/payments",
     "pages/application/transferAccount/newTransfer/newTransfer",
-    "pages/application/transferAccount/transferRecord/transferRecord"
+    "pages/application/transferAccount/transferRecord/transferRecord",
+    "pages/application/ar/addReceipt/addReceipt"
   ],
   "window": {
     "navigationBarBackgroundColor": "#39b54a",

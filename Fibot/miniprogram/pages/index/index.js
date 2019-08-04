@@ -16,11 +16,9 @@ Page({
       mask: true
     })
     let token = app.getToken()
+    console.log(token)
     if(!token) {
       wx.hideLoading()
-      wx.redirectTo({
-        url: '../login/login',
-      })
     } else {
       wx.request({
         url: host + '/decodeToken',

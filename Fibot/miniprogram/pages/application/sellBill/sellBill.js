@@ -169,6 +169,7 @@ Page({
               reason: that.data.note
             }),
             success: res2 => {
+              console.log('添加应收', res2)
               if(res2.statusCode!=200 || !res2.data.success) {
                 wx.showToast({
                   title: res2.data.errMsg || '请求出错',
@@ -196,7 +197,8 @@ Page({
               date: that.data.date
             }),
             success: res3 => {
-              if(res3.statusCode!=200 || res3.data.success) {
+              console.log('添加收款', res3)
+              if(res3.statusCode!=200 || !res3.data.success) {
                 wx.showToast({
                   title: res3.data.errMsg || '请求出错',
                   icon: 'none'
