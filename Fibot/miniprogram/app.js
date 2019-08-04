@@ -22,6 +22,7 @@ App({
     // requestHost: 'http://localhost:5000',
     requestHost: 'http://47.100.244.29',
     // requestHost: 'https://47.100.244.29',
+    companyId:"5",
     ColorList: [{
       title: '嫣红',
       name: 'red',

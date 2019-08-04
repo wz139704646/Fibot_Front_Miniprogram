@@ -6,7 +6,9 @@ Page({
    * 页面的初始数据
    */
   data: {
-    pname:""
+    index:0,
+    pname:"",
+    storeList:[]
   },
 
   /**
@@ -28,6 +30,41 @@ Page({
       fun: options.fun
     })
     that.initInfo(options)
+    that.getStoreList()
+  },
+  PickerChange(e) {
+    console.log(e);
+    this.setData({
+      index: e.detail.value
+    })
+  },
+  getStoreList(e){
+    wx.request({
+      url: host + '/queryWarehouse',
+      data: JSON.stringify({
+        companyId: app.globalData.companyId,
+      }),
+      method: "POST",
+      header: {
+        "Content-Type": 'application/json'
+      },
+      success: res => {
+        wx.showToast({
+          title: '已获得仓库列表',
+          icon:'none',
+          duration: 4000,
+          mask: true
+        })
+        console.log("仓库：")
+        console.log(res)
+        this.setData({
+          storeList:res.data.result
+        })
+      },
+      fail: res => {
+        console.log(res)
+      }
+    })
   },
 
   initInfo(e){
@@ -179,7 +216,53 @@ Page({
   },
   //确认入库
   buyArrived(){
-
+    var that = this
+    wx.showModal({
+      title: '确认入库',
+      content: '确认订单' + this.data.id + "入库",
+      success: function (res) {
+        if (res.confirm) {
+          wx.showLoading({
+            title: '请求提交中',
+            icon:'none',
+            mask: true
+          })
+          that.storeInWareHouse()
+        }
+      },
+      fail: function (err) {
+        console.error('调起模态确认框失败', err)
+      }
+    })
+  },
+  storeInWareHouse(){
+    //入库请求
+    wx.request({
+      url: host + '/storeInWarehouse',
+      data: JSON.stringify({
+        companyId: app.globalData.companyId,
+        id: this.data.id,
+        wareHouseId: this.data.index
+      }),
+      method: "POST",
+      header: {
+        "Content-Type": 'application/json'
+      },
+      success: res => {
+        wx.showToast({
+          title: 'add success',
+          duration: 4000,
+          mask: true
+        })
+        console.log(res)
+        wx.redirectTo({
+          url: '/pages/index/index',
+        })
+      },
+      fail: res => {
+        console.log(res)
+      }
+    })
   },
   //确认出库
   sellOut(){
