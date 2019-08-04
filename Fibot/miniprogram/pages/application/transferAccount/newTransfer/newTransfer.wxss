@@ -1,0 +1,17 @@
+.otherButtonBox{
+  margin-top: 10rpx;
+}
+
+.left-text{
+  position: absolute;
+  left:5px;
+  font-size: 12px;
+  color:grey;
+}
+
+.right-text{
+  position: absolute;
+  right: 5px;
+  font-size: 12px;
+  color:dodgerblue;
+}

@@ -64,7 +64,7 @@ Page({
       color: 'red',
       badge: 0,
       name: '收款记录',
-      url: ''
+      url: '/pages/application/ar/receipts/receipts'
     }, {
       icon: 'sponsor',
       color: 'orange',
@@ -94,7 +94,7 @@ Page({
       color: 'yellow',
       badge: 0,
       name: '资金转账记录',
-      url: ''
+        url: '/pages/application/transferAccount/transferRecord/transferRecord'
     }, {
       icon: 'creative',
       color: 'olive',
@@ -119,7 +119,7 @@ Page({
       color: 'yellow',
       badge: 0,
       name: '调拨记录',
-      url: ''
+        url: '/pages/application/transferGood/transferRecord/transferRecord'
     }, {
       icon: 'pick',
       color: 'olive',
@@ -144,7 +144,7 @@ Page({
       color: 'red',
       badge: 0,
       name: '凭证',
-      url: '../voucher/voucherList/voucher'
+      url: '/pages/application/voucher/voucherList/voucher'
     }, {
       icon: 'copy',
       color: 'yellow',
@@ -156,7 +156,7 @@ Page({
       color: 'yellow',
       badge: 0,
       name: '科目余额',
-      url: '../trialBalance/trialBalance'
+      url: '/pages/application/trialBalance/trialBalance'
     },
       {
         icon: 'text',

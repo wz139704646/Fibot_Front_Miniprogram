@@ -35,7 +35,7 @@
             </view>
             <view class="cu-form-group">
               <view class="title">金额</view>
-              <input placeholder="输入金额" value="{{item.total}}" bindinput="onTotalInput" data-idx="{{index}}"></input>
+              <input placeholder="输入金额" value="{{totalText[index]}}" type="number" bindinput="onTotalInput" data-idx="{{index}}"></input>
               <button data-idx="{{index}}" data-type="借" bindtap="onTotalAutoChange" class="cu-btn bg-blue shadow icon light margin-right-xs">借</button>
               <button data-idx="{{index}}" data-type="贷" bindtap="onTotalAutoChange" class="cu-btn bg-orange shadow icon light margin-right-xs">贷</button>
               <button data-idx="{{index}}" data-type="平" bindtap="onTotalAutoChange" class="cu-btn bg-olive shadow round light">计算</button>

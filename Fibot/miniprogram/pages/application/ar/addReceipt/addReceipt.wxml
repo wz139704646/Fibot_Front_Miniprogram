@@ -1,0 +1,46 @@
+<!--miniprogram/pages/application/ar/addReceipt/addReceipt.wxml-->
+<cu-custom bgColor="bg-gradual-pink" isBack="{{true}}">
+  <view slot="backText">返回</view>
+  <view slot="content">收款</view>
+</cu-custom>
+<view class="cu-form-group bg-white">
+  <view class="title">日期</view>
+  <picker mode="date" value="{{date}}" start="2015-09-01" bindchange="onDateChange">
+    <view class="picker">
+      {{date}}
+    </view>
+  </picker>
+</view>
+<view class="cu-form-group" bindtap='addCustomer'>
+  <view class="title">客户</view>
+  <input disabled placeholder='请选择客户' value='{{customer ? customer.name : ""}}' style="text-align:right"></input>
+  <text class="cuIcon-friendadd text-orange"></text>
+</view>
+<view class="cu-form-group margin-top" bindtap='addReceivable'>
+  <view class="title">应收单据</view>
+  <input disabled placeholder='请选择应收单据' style="text-align:right"></input>
+  <text class="cuIcon-friendadd text-orange"></text>
+</view>
+<van-collapse value="{{ activeNames }}" bind:change="onChange" custom-class="margin-bottom">
+  <van-collapse-item wx:key wx:for="{{receivables}}" title="{{item.sellId}}" name="{{index}}" label="{{item.date}}" value="{{item.total}}">
+    <view class="cu-bar bg-white cu-bar-item">
+      <view>订单总金额</view>
+      <view class="">{{item.total}}</view>
+    </view>
+    <view class="cu-bar bg-white cu-bar-item">
+      <view>剩余未付</view>
+      <view class="">{{item.remain}}</view>
+    </view>
+    <view class="cu-bar bg-white cu-bar-item">
+      <view>本次核销</view>
+      <view class="">{{item.receive}}</view>
+    </view>
+  </van-collapse-item>
+  
+</van-collapse>
+<van-field label="本次收款" value="{{ receiveText }}" placeholder="请输入金额" border="{{ true }}" bind:change="onReceiveChange" type="number" />
+
+<view class="padding flex flex-direction">
+  <button class="cu-btn bg-blue margin-tb-sm lg" bindtap='onSave'>保存</button>
+  <button class="cu-btn bg-grey lg" bindtap='onCancel'>返回</button>
+</view>

@@ -36,13 +36,15 @@ Page({
         cd: '贷'
       }
     ]
+    let totalText = ["", ""]
     this.setData({
       date: date,
       no: no,
       entries: entries,
       numOfAttachments: 0,
       attachments: [],
-      activeNames: []
+      activeNames: [],
+      totalText
     })
   },
 
@@ -128,7 +130,8 @@ Page({
     console.log(value, e.detail.value)
     value = value || 0
     this.setData({
-      [`entries[${idx}].total`]: value
+      [`entries[${idx}].total`]: value,
+      [`totalText[${idx}]`]: e.detail.value
     })
   },
 
@@ -168,17 +171,20 @@ Page({
       }
       this.setData({
         [path+'.cd'] : cd,
-        [path+'.total'] : Math.abs(total)
+        [path+'.total'] : Math.abs(total),
+        [`totalText[${idx}]`]: Math.abs(total).toString()
       })
     }
   },
 
   onEntryDelete: function(e) {
     let idx = e.currentTarget.dataset.idx
-    let {entries} = this.data
+    let {entries, totalText} = this.data
     entries.splice(idx, 1)
+    totalText.splice(idx, 1)
     this.setData({
-      entries
+      entries,
+      totalText
     })
   },
 
@@ -227,15 +233,16 @@ Page({
   },
 
   addEntry: function(e) {
-    let {entries} = this.data
+    let {totalText, entries} = this.data
     entries.push({
       abstract: '',
       subject: {},
       total: 0,
       cd: '借'
     })
+    totalText.push('')
     this.setData({
-      entries
+      entries, totalText
     })
   },
 

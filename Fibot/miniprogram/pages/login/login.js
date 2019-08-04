@@ -303,57 +303,49 @@ Page({
           app.globalData.companyId = info[0].companyId
           app.globalData.position = info[0].position
           app.globalData.account = account
-          wx.authorize({
-            scope: 'scope.userInfo',
-            success: () => {
-              wx.showLoading({
-                title: '加载中',
-                mask: true
-              })
-              wx.getUserInfo({
-                success: resu => {
-                  app.globalData.userInfo = resu.userInfo
-                  wx.cloud.callFunction({
-                    name: 'login',
-                    data: {
-                      cloudID: wx.cloud.CloudID(resu.cloudID)
-                    }
-                  }).then(suc => {
-                    wx.showToast({
-                      title: '登录中',
-                      icon: 'loading',
-                      duration: 1000
-                    })
-                    if (!suc.result.errMsg) {
-                      app.globalData.openid = suc.result.openid
-                      wx.request({
-                        url: host + '/bindUserWx',
-                        method: 'POST',
-                        header: {
-                          "Content-Type": 'application/json'
-                        },
-                        data: JSON.stringify({
-                          account: account,
-                          openid: suc.result.openid
-                        }),
-                        success: rs => {
-                          console.log(rs)
-                          if (rs.data.success) {
-                            wx.hideLoading()
-                            wx.showToast({
-                              title: '添加成功',
-                              icon: 'success',
-                              duration: 1000
-                            })
-                          }
-                        }
-                      })
+          wx.getUserInfo({
+            success: resu => {
+              app.globalData.userInfo = resu.userInfo
+              wx.cloud.callFunction({
+                name: 'login',
+                data: {
+                  cloudID: wx.cloud.CloudID(resu.cloudID)
+                }
+              }).then(suc => {
+                console.log(suc)
+                wx.showToast({
+                  title: '登录中',
+                  icon: 'loading',
+                  duration: 1000
+                })
+                if (!suc.result.errMsg) {
+                  wx.request({
+                    url: host + '/bindUserWx',
+                    method: 'POST',
+                    header: {
+                      "Content-Type": 'application/json'
+                    },
+                    data: JSON.stringify({
+                      account: account,
+                      openid: suc.result.openid
+                    }),
+                    success: rs => {
+                      console.log(rs)
+                      if (rs.data.success) {
+                        wx.hideLoading()
+                        wx.showToast({
+                          title: '绑定成功',
+                          icon: 'success',
+                          duration: 1000
+                        })
+                      }
                     }
                   })
                 }
               })
             },
-            fail: () => {
+            fail: err => {
+              console.error('getUserInfo error', err)
               wx.showLoading({
                 title: '加载中',
                 mask: true
@@ -376,6 +368,10 @@ Page({
 
   // 微信登录
   wxlogin: function(e) {
+    wx.showLoading({
+      title: '加载中',
+      mask: true
+    })
     let that = this
     wx.getSetting({
       success: res => {

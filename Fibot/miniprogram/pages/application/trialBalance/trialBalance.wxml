@@ -29,22 +29,22 @@
         <van-collapse value="{{ main.activeNames }}" bind:change="onActiveChange" data-idx="{{index}}">
           <block wx:for="{{main.subs}}" wx:key="{{index}}" wx:for-item="sub" wx:for-index="idx">
             <van-collapse-item title="{{sub.code}} {{sub.name}}" name="{{sub.code}}">
-              <view class="cu-bar bg-white .cu-bar-item">
+              <view class="cu-bar bg-white cu-bar-item">
                 <view>期初余额</view>
                 <view>
                   <van-tag color="{{sub.init>0 ? '#0081ff' : '#f37b1d'}}" round>{{sub.init>0 ? "借" : "贷"}}</van-tag>
                   <text class="{{sub.init>0 ? 'text-blue' : 'text-orange'}}"> {{abs.abs(sub.init)}}</text>
                 </view>
               </view>
-              <view class="cu-bar bg-white .cu-bar-item">
+              <view class="cu-bar bg-white cu-bar-item">
                 <view>本期借方发生额</view>
                 <view class="text-blue">{{sub.debit}}</view>
               </view>
-              <view class="cu-bar bg-white .cu-bar-item">
+              <view class="cu-bar bg-white cu-bar-item">
                 <view>本期贷方发生额</view>
                 <view class="text-orange">{{sub.credit}}</view>
               </view>
-              <view class="cu-bar bg-white .cu-bar-item">
+              <view class="cu-bar bg-white cu-bar-item">
                 <view>期末余额</view>
                 <view>
                   <van-tag color="{{sub.term>0 ? '#0081ff' : '#f37b1d'}}" round>{{sub.term>0 ? "借" : "贷"}}</van-tag>

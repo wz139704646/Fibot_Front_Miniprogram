@@ -1,0 +1,5 @@
+/* miniprogram/pages/application/ar/addReceipt/addReceipt.wxss */
+.cu-bar-item {
+  min-height: 60rpx;
+  border-bottom: 1px dashed black;
+}
