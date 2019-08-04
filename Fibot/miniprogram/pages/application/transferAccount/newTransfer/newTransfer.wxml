@@ -1,0 +1,49 @@
+<cu-custom bgColor="bg-gradual-pink" isBack="{{true}}">
+  <view slot="backText">返回</view>
+  <view slot="content">资金转账单</view>
+</cu-custom>
+<scroll-view scroll-y scroll-into-view='{{toView}}' style='height: {{scrollHeight}};' class='margin-bottom'>
+<view class="cu-form-group margin-top">
+  <view class="title">时间 *</view>
+  <picker mode="date" value="{{date}}" start="2015-09-01" end="2020-09-01" bindchange="DateChange">
+    <view class="picker">
+      {{date}}
+    </view>
+  </picker>
+</view>
+<view class='otherButtonBox'>
+  <text class='left-text' style='font-size:13px'>转账明细</text>
+  <text wx:if="{{toNum>0}}" bindtap='delAllDetail' class='right-text' style='font-size:13px'>删除全部明细</text>
+</view>
+<view wx:for="{{toNum}}" wx:key wx:for-index='index'>
+  <view class="cu-form-group" style='margin-top:60rpx'>
+    <view class="title">转入账户 *</view>
+    <input disabled placeholder='请选择' value='{{inAcc[index]}}' style="text-align:right"></input>
+    <text class="cuIcon-friend text-orange"></text>
+  </view>
+  <view class="cu-form-group">
+    <view class="title">转出账户 *</view>
+    <input disabled placeholder='请选择' value='{{inAcc[index]}}' style="text-align:right"></input>
+    <text class="cuIcon-friend text-green"></text>
+  </view>
+  <view class="cu-form-group">
+    <view class="title">金额 *</view>
+    <input type='number' placeholder="0" style="text-align:right" value='{{amount[index]}}' bindinput='amountChange' data-index='{{index}}'></input>
+  </view>
+  <view class="cu-form-group">
+    <view class="title">备注</view>
+    <input type='number' placeholder="请输入" style="text-align:right" value='{{remarks[index]}}' bindinput='remarkChange' data-index='{{index}}'></input>
+  </view>
+  <view class='otherButtonBox' data-index='{{index}}'>
+    <text class='left-text'>转账明细{{index+1}}</text>
+    <text bindtap='delDetail' class='right-text' data-index='{{index}}'>删除明细</text>
+  </view>
+</view>
+<view class="cu-form-group" style='margin-top:60rpx' bindtap='addDetail'>
+  <text class="cuIcon-roundadd text-blue"></text>
+  <view class="title">添加转账明细</view>
+</view>
+</scroll-view>
+<view wx:if="{{toNum>0}}" class="padding-xs flex flex-direction">
+  <button class="cu-btn bg-red margin-tb-sm lg" bindtap='onSubmit'>确定</button>
+</view>

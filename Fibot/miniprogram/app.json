@@ -31,7 +31,9 @@
     "pages/application/voucher/addVoucher/addVoucher",
     "pages/application/voucher/voucherDetail/voucherDetail",
     "pages/application/ar/receipts/receipts",
-    "pages/application/ap/payments/payments"
+    "pages/application/ap/payments/payments",
+    "pages/application/transferAccount/newTransfer/newTransfer",
+    "pages/application/transferAccount/transferRecord/transferRecord"
   ],
   "window": {
     "navigationBarBackgroundColor": "#39b54a",
