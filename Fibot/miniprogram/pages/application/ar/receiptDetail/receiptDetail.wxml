@@ -1,0 +1,16 @@
+<!--miniprogram/pages/application/ar/receiptDetail/receiptDetail.wxml-->
+<cu-custom bgColor="bg-gradual-pink" isBack="{{true}}">
+  <view slot="backText">返回</view>
+  <view slot="content">收款单</view>
+</cu-custom>
+<van-cell-group title="单据信息">
+  <van-field value="{{ date }}" label="日期" disabled />
+  <van-field value="{{ customerName }}" label="客户姓名" disabled /> 
+  <van-field value="{{ id }}" label="收款单号" disabled />
+</van-cell-group>
+<van-cell-group title="收款信息">
+  <van-field value="{{ sell.date }}" label="销售发生日期" disabled />
+  <van-field value="{{ sellId }}" label="销售单号" disabled />
+  <van-field value="{{ sell.sumprice }}" label="订单总金额" disabled /> 
+  <van-field value="{{ receive }}" label="本次收款" disabled />
+</van-cell-group>

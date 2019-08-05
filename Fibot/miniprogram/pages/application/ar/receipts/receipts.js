@@ -37,7 +37,6 @@ Page({
     let token = app.getToken()
     if(token) {
       let that = this
-      console.log(obj)
       wx.request({
         url: host + '/querySell',
         method: 'POST',
@@ -50,7 +49,11 @@ Page({
           id: obj.sellid
         }),
         success: res => {
-          if(res.statusCode!=200 || res.data.result.length==0) {
+          console.log(res)
+          if(res.statusCode == 555){
+            app.relogin()
+          }
+          else if(res.statusCode!=200 || res.data.result.length==0) {
             wx.showToast({
               title: '出现未知错误',
               icon: 'none',
@@ -71,7 +74,7 @@ Page({
   },
 
   // 加载收款记录数据
-  loadData: function(e) {
+  loadData: function(callback) {
     let {timeRange} = this.data
     let days = timeRange.value
     let token = app.getToken()
@@ -87,7 +90,10 @@ Page({
         },
         data: data,
         success: res1 => {
-          if(res1.statusCode!=200 || !res1.data.success){
+          if(res1.statusCode == 555) {
+            app.relogin()
+          }
+          else if(res1.statusCode!=200 || !res1.data.success){
             wx.showToast({
               title: res1.data.errMsg || '请求错误',
               icon: 'none',
@@ -105,7 +111,7 @@ Page({
                 amount: rawData[i].receive,
                 sellid: rawData[i].sellId
               }
-              if(len == 0 || rawData[i].date != receipts[len-1].date) {
+              if(len == 0 || rawData[i].date.substring(0, 10) != receipts[len-1].date) {
                 receipts.push({
                   date: newItem.date,
                   records: [newItem]
@@ -118,7 +124,7 @@ Page({
             }
             that.setData({
               receipts, total
-            })
+            }, callback)
           }
         },
         fail: err1 => {
@@ -154,6 +160,12 @@ Page({
 
   },
 
+  onPullDownRefresh: function () {
+    this.loadData(() => {
+      wx.stopPullDownRefresh()
+    })
+  },
+
   onPickerConfirm: function(e) {
     let {timeOptions} = this.data
     this.setData({
@@ -180,5 +192,15 @@ Page({
     wx.navigateTo({
       url: '../addReceipt/addReceipt?back=receipts',
     })
+  },
+
+  searchInput: function(e) {
+    this.setData({
+      searchText: e.detail.value
+    })
+  },
+
+  search: function(e) {
+
   }
 })

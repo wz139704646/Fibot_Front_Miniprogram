@@ -9,3 +9,14 @@
   justify-content: space-between;
   align-items: center;
 }
+
+.submit-box{
+  width:100%; 
+  position: fixed; 
+  bottom:80rpx; 
+  left:0; 
+  height: 80rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

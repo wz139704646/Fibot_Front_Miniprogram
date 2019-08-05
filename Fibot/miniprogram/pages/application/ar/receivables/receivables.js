@@ -37,7 +37,6 @@ Page({
     let token = app.getToken()
     if (token) {
       let that = this
-      console.log(obj)
       wx.request({
         url: host + '/querySell',
         method: 'POST',
@@ -50,7 +49,10 @@ Page({
           id: obj.sellId
         }),
         success: res => {
-          if (res.statusCode != 200 || res.data.result.length == 0) {
+          if(res.statusCode==555) {
+            app.relogin()
+          }
+          else if (res.statusCode != 200 || res.data.result.length == 0) {
             wx.showToast({
               title: '出现未知错误',
               icon: 'none',
@@ -70,8 +72,19 @@ Page({
     }
   },
 
+  // 清空所选中的项
+  clearSelected: function() {
+    this.setData({
+      selectedReceivables: [],
+      selectedTotal: 0
+    })
+  },
+
   // 加载应收款的订单记录数据
-  loadData: function (e) {
+  loadData: function () {
+    if(this.options.back) {
+      this.clearSelected()
+    }
     let { timeRange } = this.data
     let days = timeRange.value
     let token = app.getToken()
@@ -87,11 +100,18 @@ Page({
         },
         data: data,
         success: res1 => {
-          if (res1.statusCode != 200 || !res1.data.success) {
+          if(res1.statusCode == 555) {
+            app.relogin()
+          }
+          else if (res1.statusCode != 200 || !res1.data.success) {
             wx.showToast({
               title: res1.data.errMsg || '请求错误',
               icon: 'none',
               duration: 1000
+            })
+            that.setData({
+              receivables: [],
+              total: 0
             })
           } else {
             // 将相同日期的加入同一分区
@@ -102,16 +122,18 @@ Page({
               let len = receivables.length
               let newItem = rawData[i]
               newItem.date = newItem.date.substring(0, 10)
-              if (len == 0 || rawData[i].date != receivables[len - 1].date) {
-                receivables.push({
-                  date: newItem.date,
-                  records: [newItem]
-                })
-              } else {
-                receivables[len - 1].records.push(newItem)
+              if(newItem.remain != 0){
+                if (len == 0 || rawData[i].date != receivables[len - 1].date) {
+                  receivables.push({
+                    date: newItem.date,
+                    records: [newItem]
+                  })
+                } else {
+                  receivables[len - 1].records.push(newItem)
+                }
+                total += parseFloat(newItem.remain)
+                that.completeInfo(newItem)
               }
-              total += parseFloat(newItem.remain)
-              that.completeInfo(newItem)
             }
             that.setData({
               receivables, total
@@ -129,7 +151,13 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    if(options.back) {
+      this.setData({
+        back: options.back,
+        selectedReceivables: [],
+        selectedTotal: 0
+      })
+    }
   },
 
   /**
@@ -186,11 +214,49 @@ Page({
     })
   },
 
+  // 用于选择时，点击复选框事件
   onReceivableSelected: function(e) {
     console.log(e)
+    let {idx, index} = e.currentTarget.dataset.path
+    let {selectedReceivables, selectedTotal, receivables} = this.data
+    let record = receivables[idx].records[index]
+    // e.detail.value不为空数组，表示勾选上
+    if(e.detail.value.length) {
+      let position = selectedReceivables.findIndex(item => item.date<record.date)
+      position = position>=0 ? position: selectedReceivables.length
+      selectedReceivables.splice(position, 0, record)
+      selectedTotal += record.remain
+    } 
+    // e.detail.value为空数组，表示取消勾选
+    else {
+      let start = selectedReceivables.indexOf(record)
+      console.log(start)
+      if(start != -1){
+        selectedReceivables.splice(start, 1)
+        selectedTotal -= record.remain
+      }
+    }
+    this.setData({
+      selectedReceivables, 
+      selectedTotal: parseFloat(selectedTotal.toFixed(2)),
+    })
   },
 
-  noSense: function(e) {}
+  noSense: function(e) {},
+
+  onSubmit: function(e) {
+    let {selectedReceivables, selectedTotal} = this.data
+    let pages = getCurrentPages()
+    let old = pages[pages.length-2]
+    wx.navigateBack({
+      success: () => {
+        old.setData({
+          receivables: selectedReceivables,
+          total: selectedTotal
+        }, () => {old.updateReceivables()})
+      }
+    })
+  }
 
 
 })

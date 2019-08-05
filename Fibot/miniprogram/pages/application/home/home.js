@@ -163,7 +163,7 @@ Page({
         color: 'blue',
         badge: 0,
         name: '科目表',
-        url: '../subjects/subjects/subjects'
+        url: '/pages/application/subjects/subjects/subjects'
       }
     ],
     inOutIconList: [{
