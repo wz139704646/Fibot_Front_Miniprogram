@@ -15,7 +15,6 @@ Page({
     sindex: 0,
     unitInfo: ['个', 'kg', '袋', '瓶', '箱'],
     type: ['食品类','服装类','鞋帽类','日用品类','家具类','家用电器类','纺织品类','五金电料类','厨具类'],
-    store: ['仓库1','仓库2','仓库3'],
     sellprice: '',
     standard: '',
     brand: ''
@@ -49,12 +48,6 @@ Page({
       barcode: e.detail.value
     })
   },
-  storeChange(e) {
-    console.log(e);
-    this.setData({
-      sindex: e.detail.value
-    })
-  },
   addsuccess(e){
     var that = this
     wx.request({
@@ -75,13 +68,14 @@ Page({
       success: res => {
         wx.showToast({
           title: 'add success',
-          duration:4000
+          icon:'none',
+          mask:true
         })
         that.upload(res)
         console.log(res.data)
-        // wx.redirectTo({
-        //   url: '/pages/index/index',
-        // })
+        wx.redirectTo({
+          url: '/pages/index/index',
+        })
       }
     })
 

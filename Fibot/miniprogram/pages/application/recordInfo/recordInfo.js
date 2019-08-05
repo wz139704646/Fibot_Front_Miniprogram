@@ -26,10 +26,12 @@ Page({
     }
     this.setData({
       id:options.id,
+      status:options.status,
       back: options.back,
       fun: options.fun
     })
     that.initInfo(options)
+    if(this.data.fun == "入库")
     that.getStoreList()
   },
   PickerChange(e) {
@@ -52,7 +54,6 @@ Page({
         wx.showToast({
           title: '已获得仓库列表',
           icon:'none',
-          duration: 4000,
           mask: true
         })
         console.log("仓库：")
@@ -76,7 +77,7 @@ Page({
     wx.request({
       url: host + api,
       data: JSON.stringify({
-        companyId: "5",
+        companyId: app.globalData.companyId,
         id: id
       }),
       method: "POST",
@@ -174,7 +175,8 @@ Page({
         console.log(res)
         wx.showToast({
           title: '订单已删除',
-          duration:4000
+          duration:2000,
+          mask:true
         })
         var pages = getCurrentPages();
         var currPage = pages[pages.length - 1];   //当前页面
@@ -193,12 +195,14 @@ Page({
       }
     })
   },
+  //返回上一页
   backToList(e){
     console.log(e)
     wx.navigateBack({
       delta:1
     })
   },
+  //计算总价
   calTotal(list, back) {
     var total = 0
     if(back == 'buy') {
@@ -250,13 +254,13 @@ Page({
       },
       success: res => {
         wx.showToast({
-          title: 'add success',
-          duration: 4000,
+          title: '确认入库',
+          duration: 2000,
           mask: true
         })
         console.log(res)
         wx.redirectTo({
-          url: '/pages/index/index',
+          url: '../index/index',
         })
       },
       fail: res => {
