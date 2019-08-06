@@ -1,7 +1,7 @@
 const app = getApp()
 const host = app.globalData.requestHost
 var name = ''
-var phone = ''
+var site = ''
 Page({
 
   /**
@@ -34,12 +34,21 @@ Page({
       },
       success: res => {
         wx.showToast({
-          title: 'add success',
-          duration:4000
+          title: '添加成功',
+          duration:2000,
+          icon:"none",
+          mask:true
         })
         console.log(res)
         wx.redirectTo({
           url: '/pages/index/index',
+        })
+      },
+      fail:res => {
+        wx.showToast({
+          title: '添加失败',
+          icon:"none",
+          mask:true
         })
       }
     })
