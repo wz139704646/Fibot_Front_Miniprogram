@@ -124,8 +124,15 @@ Page({
     let token = app.getToken()
     if (token) {
       let { receivables, total, receive } = this.data
-      // 输入收款金额不能超过总金额
-      if (total < receive) {
+      if(!receivables || receivables.length==0) {
+        // 要求有应收单据
+        wx.showToast({
+          title: '请选择应收单据',
+          icon: 'none',
+          duration: 1000
+        })
+      } else if (total < receive) {
+        // 输入收款金额不能超过总金额
         wx.showToast({
           title: '收款金额应小于或等于应收单据总金额',
           icon: 'none',
@@ -138,8 +145,9 @@ Page({
           }
         })
       } else {
-        // 为每一个应收单据核销
+        // 遍历每一笔单据，发送请求添加收款记录
         for (let r of receivables) {
+          // 要求核销的金额大于0
           if (r.receive > 0) {
             wx.request({
               url: host + '/arap/addReceive',
@@ -171,7 +179,12 @@ Page({
             })
           }
         }
-        wx.navigateBack({})
+        wx.navigateBack({
+          success: () => {wx.showToast({
+            title: '保存成功',
+            duration: 1000
+          })}
+        })
       }
     }
   },

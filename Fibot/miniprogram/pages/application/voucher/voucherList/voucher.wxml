@@ -34,7 +34,7 @@
 <scroll-view style="margin-top: 25vh;">
   <van-cell-group wx:if="{{date.idate <= date.tdate}}">
     <block wx:for="{{vouchers}}" wx:key>
-      <van-cell hidden="{{item.date>date.tdate || item.date<date.idate}}" title="{{item.no}} {{item.abstract}}" value="{{number.numFixed(item.total, 2)}}" label="{{item.date}}" is-link bindtap="onVoucherTapped" data-no="{{item.no}}" data-date="{{item.date}}" />
+      <van-cell hidden="{{item.date>date.tdate || item.date<date.idate}}" title="{{item.no}} {{item.abstract}}" value="￥{{number.numFixed(item.total, 2)}}" label="{{item.date}}" is-link bindtap="onVoucherTapped" data-no="{{item.no}}" data-date="{{item.date}}" />
     </block>
   </van-cell-group>
   <view class="text-center padding text-bold" wx:else>起始日期不能大于截止日期！</view>

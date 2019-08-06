@@ -43,7 +43,7 @@
     <input disabled style="text-align:right" value="￥{{total}}"></input>
   </view>
 </view>
-<van-field input-align="right" label="本次收款" value="{{ payText }}" border="{{ true }}" bind:input="oPayChange" type="digit" placeholder="输入收款金额" />
+<van-field input-align="right" label="本次收款" value="{{ payText }}" border="{{ true }}" bind:input="onPayChange" type="digit" placeholder="输入收款金额" />
 
 <view class="padding flex flex-direction">
   <button class="cu-btn bg-blue margin-tb-sm lg" bindtap='onSave'>保存</button>

@@ -12,7 +12,7 @@ Page({
 
   },
 
-  // 更新应收单据中的收款数额
+  // 更新应付单据中的付款数额
   updatePayables: function() {
     let {
       payables,
@@ -53,7 +53,8 @@ Page({
     let date = util.getcurDateFormatString(new Date())
     this.setData({
       date: date,
-      pay: 0
+      pay: 0,
+      payables: []
     })
   },
 
@@ -71,24 +72,28 @@ Page({
 
   },
 
+  // 日期选择事件
   onDateChange: function(e) {
     this.setData({
       date: e.detail.value
     })
   },
 
+  // 添加应付单input点击事件
   addPayable: function(e) {
     wx.navigateTo({
-      url: '/pages/application/ar/payables/payables?back=addPayment',
+      url: '/pages/application/ap/payables/payables?back=addPayment',
     })
   },
 
+  // 折叠面板展开事件
   onCollapseChange: function(e) {
     this.setData({
       activeNames: e.detail
     })
   },
 
+  // 应付单删除事件
   onPayableDelete: function(e) {
     let index = e.currentTarget.dataset.idx
     let {
@@ -106,7 +111,7 @@ Page({
   },
 
   // 收款输入事件
-  // 输入收款金额同时将应收单据中的收款额进行更新
+  // 输入收款金额同时将应付单据中的收款额进行更新
   onPayChange: function(e) {
     let pay = parseFloat(e.detail) || 0
     this.setData({
@@ -126,6 +131,7 @@ Page({
   //   })
   // },
 
+  // 付款记录保存按钮点击事件
   onSave: function(e) {
     let token = app.getToken()
     if (token) {
@@ -134,9 +140,17 @@ Page({
         total,
         pay
       } = this.data
-      if (total < pay) {
+      if(!payables || payables.length == 0){
+        // 要求应付单据不为空
         wx.showToast({
-          title: '收款金额应小于或等于应收单据总金额',
+          title: '请选择应付单据',
+          icon: 'none',
+          duration: 1000
+        })
+      } else if (total < pay) {
+        // 要求输入付款金额小于等于总金额
+        wx.showToast({
+          title: '收款金额应小于或等于应付单据总金额',
           icon: 'none',
           duration: 2000,
           success: () => {
@@ -147,6 +161,7 @@ Page({
           }
         })
       } else {
+        // 遍历应付单，发送请求添加付款记录
         for (let r of payables) {
           if (r.pay > 0) {
             wx.request({
@@ -179,7 +194,14 @@ Page({
             })
           }
         }
-        wx.navigateBack({})
+        wx.navigateBack({ 
+          success: () => {
+            wx.showToast({
+              title: '保存成功',
+              duration: 1000
+            })
+          }
+         })
       }
     }
   },
