@@ -1,37 +1,16 @@
-// pages/application/dailyFund/dailyFund.js
+// pages/application/bankReconciliations/reconciliationDetail/reconciliationDetial.js
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    
+
   },
 
-  /*
+  /**
    * 生命周期函数--监听页面加载
    */
-  initJournalList() {
-    let token = app.getToken()
-    if (token) {
-      wx.request({
-        url: host + '/queryAllDailyfund',
-        method: "GET",
-        header: {
-          "Content-Type": 'application/json',
-          'Authorization': token
-        },
-        success: res => {
-          console.log(res)
-          console.log(res.data.result)
-          this.setData({
-            fundList: res.data.result
-          })
-        }
-      })
-    }
-  },
-
   onLoad: function (options) {
 
   },

@@ -4,5 +4,17 @@
   <view slot="content">资金日报表</view>
 </cu-custom>
 
+<van-cell-group title="选择时间范围" style="position: fixed; top:{{CustomBar}}px; width: 100vw; height: 10vh; z-index:10;">
+  <van-cell title="时间" value="{{timeRange.text}}" is-link clickable bindtap="onChooseTimeRange" />
+</van-cell-group>
 
+<scroll-view style="margin-top: 12vh;">
+<van-cell-group wx:for="{{fundList}}" wx:key wx:for-item="coll" title="{{coll.date}}" wx:for-key="idx">
+  <van-cell wx:key is-link wx:for="{{coll.records}}" title="{{item.customerName}}" label="{{item.id}}" value="￥{{item.amount}}" url="{{'../receiptDetail/receiptDetail?'+index}}'" link-type="navigateTo" clickable="{{true}}" />
+</van-cell-group>
+<view wx:if="{{fundList.length == 0}}" class="text-center padding text-bold">无日报记录</view>
+</scroll-view>
 
+<van-popup show="{{ showPicker }}" position="bottom" bind:close="onModalClose">
+  <van-picker show-toolbar columns="{{ timeOptions }}" bind:cancel="onModalClose" bind:confirm="onPickerConfirm" />
+</van-popup>

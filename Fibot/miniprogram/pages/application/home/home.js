@@ -183,14 +183,14 @@ Page({
       color: 'green',
       badge: 0,
       name: '银行对账',
-        url: 'pages/application/bankReconciliations/bankReconciliations'
+      url: '/pages/application/bankReconciliations/bankReconciliations'
     },
     {
       icon: 'text',
       color: 'yellow',
       badge: 0,
       name: '资金日报表',
-      url: 'pages/application/dailyFund/dailyFund'
+      url: '/pages/application/dailyFund/dailyFund'
     }
     ],
     gridCol: 4,
