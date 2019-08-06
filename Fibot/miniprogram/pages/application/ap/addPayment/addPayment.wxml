@@ -1,7 +1,7 @@
-<!--miniprogram/pages/application/ar/addReceipt/addReceipt.wxml-->
+<!--miniprogram/pages/application/ap/addPayment/addPayment.wxml-->
 <cu-custom bgColor="bg-gradual-pink" isBack="{{true}}">
   <view slot="backText">返回</view>
-  <view slot="content">收款</view>
+  <view slot="content">付款</view>
 </cu-custom>
 <view class="cu-form-group bg-white">
   <view class="title">日期</view>
@@ -11,39 +11,39 @@
     </view>
   </picker>
 </view>
-<view class="cu-form-group margin-top" bindtap='addReceivable'>
-  <view class="title">应收单据</view>
-  <input disabled placeholder='请选择应收单据' style="text-align:right" value="{{receivables ? (receivables.length ? receivables.length+' 笔' : '') : ''}}" ></input>
+<view class="cu-form-group margin-top" bindtap='addPayable'>
+  <view class="title">应付单据</view>
+  <input disabled placeholder='请选择应付单据' style="text-align:right" value="{{payables ? (payables.length ? payables.length+' 笔' : '') : ''}}" ></input>
   <text class="cuIcon-right text-blue"></text>
 </view>
 <view class="margin-bottom">
   <van-collapse value="{{ activeNames }}" bind:change="onCollapseChange">
-    <van-swipe-cell wx:key wx:for="{{receivables}}" right-width="{{ 55 }}">
-      <van-collapse-item title="{{item.date}} {{item.customerName}}" name="{{index}}" label="{{item.sellId}}" value="￥{{item.remain}}">
+    <van-swipe-cell wx:key wx:for="{{payables}}" right-width="{{ 55 }}">
+      <van-collapse-item title="{{item.date}} {{item.supplierName}}" name="{{index}}" label="{{item.purchaseId}}" value="￥{{item.remain}}">
         <view class="cu-bar bg-white cu-bar-item">
           <view>订单总金额</view>
           <view>{{item.total}}</view>
         </view>
         <view class="cu-bar bg-white cu-bar-item">
-          <view>剩余未收</view>
+          <view>剩余未付</view>
           <view>{{item.remain}}</view>
         </view>
         <view class="cu-bar bg-white cu-bar-item">
           <view>本次核销</view>
-          <view>{{item.receive || 0}}</view>
+          <view>{{item.pay || 0}}</view>
         </view>
       </van-collapse-item>
       <view slot="right" class="delete-box">
-        <van-button type="danger" bindtap="onReceivableDelete" data-idx="{{index}}">删除</van-button>
+        <van-button type="danger" bindtap="onPayableDelete" data-idx="{{index}}">删除</van-button>
       </view>
     </van-swipe-cell>
   </van-collapse>
-  <view wx:if="{{receivables && receivables.length>0}}" class="cu-form-group" style="border-top: 1px solid gray;">
+  <view wx:if="{{payables && payables.length>0}}" class="cu-form-group" style="border-top: 1px solid gray;">
     <view class="title">合计</view>
     <input disabled style="text-align:right" value="￥{{total}}"></input>
   </view>
 </view>
-<van-field input-align="right" label="本次收款" value="{{ receiveText }}" border="{{ true }}" bind:input="onReceiveChange" type="digit" placeholder="输入收款金额" />
+<van-field input-align="right" label="本次收款" value="{{ payText }}" border="{{ true }}" bind:input="oPayChange" type="digit" placeholder="输入收款金额" />
 
 <view class="padding flex flex-direction">
   <button class="cu-btn bg-blue margin-tb-sm lg" bindtap='onSave'>保存</button>

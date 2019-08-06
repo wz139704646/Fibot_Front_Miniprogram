@@ -1,3 +1,10 @@
 {
-  "usingComponents": {}
+  "usingComponents": {
+    "van-cell": "vant-weapp/cell",
+    "van-cell-group": "vant-weapp/cell-group",
+    "van-field": "vant-weapp/field",
+    "van-popup": "vant-weapp/popup",
+    "van-picker": "vant-weapp/picker"
+  },
+  "enablePullDownRefresh": true
 }
