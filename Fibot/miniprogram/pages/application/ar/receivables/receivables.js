@@ -32,6 +32,33 @@ Page({
     ]
   },
 
+  // 根据搜索框中的输入对应收单进行筛选
+  filterBySearchText: function () {
+    let { searchText, receivables } = this.data
+    if (searchText) {
+      let filterReceivables = []
+      for (let i in receivables) {
+        let rs = receivables[i].records
+        if (rs.every(item => item.customerName)) {
+          let filterRecords = rs.filter(item => ((item.customerName.indexOf(searchText) != -1)
+            || item.sellId.indexOf(searchText) != -1
+            || item.date.indexOf(searchText) != -1))
+          if (filterRecords.length) {
+            filterReceivables.push({
+              date: receivables[i].date,
+              records: filterRecords
+            })
+          }
+        }
+      }
+      this.setData({ filterReceivables })
+    } else {
+      this.setData({
+        filterReceivables: receivables
+      })
+    }
+  },
+
   // 根据销货单id查询相关信息并记录到obj中
   completeInfo: function (obj) {
     let token = app.getToken()
@@ -63,8 +90,9 @@ Page({
             obj.customerName = info.customerName
             if (that.data.receivables) {
               that.setData({
-                receivables: that.data.receivables
-              })
+                receivables: that.data.receivables,
+                filterReceivables: that.data.filterReceivables
+              }, () => { that.filterBySearchText() })
             }
           }
         }
@@ -166,7 +194,8 @@ Page({
   onReady: function () {
     this.setData({
       showPicker: false,
-      timeRange: this.data.timeOptions[0]
+      timeRange: this.data.timeOptions[0],
+      searchText: ''
     }, () => {
       this.loadData()
     })
@@ -255,6 +284,14 @@ Page({
           total: selectedTotal
         }, () => {old.updateReceivables()})
       }
+    })
+  },
+
+  searchInput: function(e) {
+    this.setData({
+      searchText: e.detail.value
+    }, () => {
+      this.filterBySearchText()
     })
   }
 
