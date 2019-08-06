@@ -85,7 +85,7 @@ Page({
     if(!searchText || !this.data.allList)
       return
     searchText = searchText.toLowerCase().split(' ').join('')
-    timetext = searchText.split('-').join('')
+    let timetext = searchText.split('-').join('')
     let slist = this.data.allList
     let sellList = []
     for(var i in slist){

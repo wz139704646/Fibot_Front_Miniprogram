@@ -17,5 +17,10 @@ Page({
   onLoad: function (options) {
 
   },
+  addTransfer(e){
+    wx.navigateTo({
+      url: '../newTransfer/newTransfer',
+    })
+  }
 
 })

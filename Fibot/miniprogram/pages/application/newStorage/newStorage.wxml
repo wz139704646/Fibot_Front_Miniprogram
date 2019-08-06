@@ -5,7 +5,7 @@
 
 <view class="cu-form-group margin-top">
   <view class="title">仓库名称</view>
-  <input placeholder="请输入商品名称" style="text-align:right" value="{{name}}" bindinput='nameChange'></input>
+  <input placeholder="请输入仓库名称" style="text-align:right" value="{{name}}" bindinput='nameChange'></input>
 </view>
 
 <view class="cu-form-group margin-top">

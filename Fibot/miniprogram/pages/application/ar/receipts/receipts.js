@@ -32,12 +32,38 @@ Page({
     ]
   },
 
+  // 根据搜索框中的输入对收款记录进行筛选
+  filterBySearchText: function () {
+    let { searchText, receipts } = this.data
+    if (searchText) {
+      let filterReceipts = []
+      for (let i in receipts) {
+        let rs = receipts[i].records
+        if (rs.every(item => item.customerName)) {
+          let filterRecords = rs.filter(item => ((item.customerName.indexOf(searchText) != -1)
+            || item.id.indexOf(searchText) != -1
+            || item.date.indexOf(searchText) != -1))
+          if (filterRecords.length) {
+            filterReceipts.push({
+              date: receipts[i].date,
+              records: filterRecords
+            })
+          }
+        }
+      }
+      this.setData({ filterReceipts })
+    } else {
+      this.setData({
+        filterReceipts: receipts
+      })
+    }
+  },
+
   // 根据销货单id查询相关信息并记录到obj中
   completeInfo: function(obj) {
     let token = app.getToken()
     if(token) {
       let that = this
-      console.log(obj)
       wx.request({
         url: host + '/querySell',
         method: 'POST',
@@ -50,7 +76,11 @@ Page({
           id: obj.sellid
         }),
         success: res => {
-          if(res.statusCode!=200 && res.data.result.length==0) {
+          console.log(res)
+          if(res.statusCode == 555){
+            app.relogin()
+          }
+          else if(res.statusCode!=200 || res.data.result.length==0) {
             wx.showToast({
               title: '出现未知错误',
               icon: 'none',
@@ -61,8 +91,9 @@ Page({
             obj.customerName = info.customerName
             if(that.data.receipts) {
               that.setData({
+                filterReceipts: that.data.filterReceipts,
                 receipts: that.data.receipts
-              })
+              }, () => { that.filterBySearchText() })
             }
           }
         }
@@ -71,7 +102,7 @@ Page({
   },
 
   // 加载收款记录数据
-  loadData: function(e) {
+  loadData: function(callback) {
     let {timeRange} = this.data
     let days = timeRange.value
     let token = app.getToken()
@@ -87,7 +118,10 @@ Page({
         },
         data: data,
         success: res1 => {
-          if(res1.statusCode!=200 || !res1.data.success){
+          if(res1.statusCode == 555) {
+            app.relogin()
+          }
+          else if(res1.statusCode!=200 || !res1.data.success){
             wx.showToast({
               title: res1.data.errMsg || '请求错误',
               icon: 'none',
@@ -96,6 +130,7 @@ Page({
           } else {
             var receipts = []
             var rawData = res1.data.result
+            var total = 0
             for(let i in rawData) {
               let len = receipts.length
               let newItem = {
@@ -104,7 +139,7 @@ Page({
                 amount: rawData[i].receive,
                 sellid: rawData[i].sellId
               }
-              if(len == 0 || rawData[i].date != receipts[len-1].date) {
+              if(len == 0 || rawData[i].date.substring(0, 10) != receipts[len-1].date) {
                 receipts.push({
                   date: newItem.date,
                   records: [newItem]
@@ -112,11 +147,12 @@ Page({
               } else {
                 receipts[len-1].records.push(newItem)
               }
+              total += newItem.amount
               that.completeInfo(newItem)
             }
             that.setData({
-              receipts
-            })
+              receipts, total
+            }, callback)
           }
         },
         fail: err1 => {
@@ -152,11 +188,18 @@ Page({
 
   },
 
+  onPullDownRefresh: function () {
+    this.loadData(() => {
+      wx.stopPullDownRefresh()
+    })
+  },
+
   onPickerConfirm: function(e) {
     let {timeOptions} = this.data
     this.setData({
       showPicker: false,
-      timeRange: timeOptions[e.detail.index]
+      timeRange: timeOptions[e.detail.index],
+      searchText: ''
     }, () => {
       this.loadData()
     })
@@ -178,5 +221,14 @@ Page({
     wx.navigateTo({
       url: '../addReceipt/addReceipt?back=receipts',
     })
-  }
+  },
+
+  searchInput: function(e) {
+    this.setData({
+      searchText: e.detail.value
+    }, () => {
+      this.filterBySearchText()
+    })
+  },
+
 })

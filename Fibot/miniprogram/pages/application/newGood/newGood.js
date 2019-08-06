@@ -12,10 +12,8 @@ Page({
     name:'',
     gindex: 0,
     uindex: 0,
-    sindex: 0,
     unitInfo: ['个', 'kg', '袋', '瓶', '箱'],
-    type: ['食品类','服装类','鞋帽类','日用品类','家具类','家用电器类','纺织品类','五金电料类','厨具类'],
-    store: ['仓库1','仓库2','仓库3'],
+    type: ['食品类','服装类','鞋帽类','日用品类','家具类','家用电器类','纺织品类','五金电料类','厨具类','其他类'],
     sellprice: '',
     standard: '',
     brand: ''
@@ -49,11 +47,33 @@ Page({
       barcode: e.detail.value
     })
   },
-  storeChange(e) {
-    console.log(e);
-    this.setData({
-      sindex: e.detail.value
-    })
+  onSubmit(e) {
+    var that = this
+    console.log(this.data)
+    if (this.data.name == '' || this.data.imageList.length == 0 || this.data.barcode == '' || this.data.sellprice == '') {
+      wx.showModal({
+        title: '新增货物',
+        content: '请填写必要信息',
+        showCancel: false
+      })
+    } else {
+      wx.showModal({
+        title: '确认添加',
+        content: '是否确认添加商品' + this.data.name,
+        success: function (res) {
+          if (res.confirm) {
+            wx.showLoading({
+              title: '请求提交中',
+              mask: true
+            })
+            that.addsuccess()
+          }
+        },
+        fail: function (err) {
+          console.error('调起模态确认框失败', err)
+        }
+      })
+    }
   },
   addsuccess(e){
     var that = this
@@ -74,14 +94,16 @@ Page({
       },
       success: res => {
         wx.showToast({
-          title: 'add success',
-          duration:4000
+          title: '添加成功',
+          icon:'none',
+          duration:'3000',
+          mask:true
         })
         that.upload(res)
         console.log(res.data)
-        // wx.redirectTo({
-        //   url: '/pages/index/index',
-        // })
+        wx.redirectTo({
+          url: '/pages/index/index',
+        })
       }
     })
 

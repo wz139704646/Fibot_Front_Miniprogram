@@ -1,0 +1,15 @@
+var arr = {
+  contains: function (arr, item) {
+    var index = -1
+    for(var i=0; i<arr.length; i++){
+      if(arr[i].sellId == item.sellId && arr[i].remain == item.remain && arr[i].date == item.date){
+        index = i;
+        break
+      }
+    }
+    return index !== -1
+  }
+}
+module.exports = {
+  contains: arr.contains
+}

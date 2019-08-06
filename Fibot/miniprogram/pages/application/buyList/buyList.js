@@ -23,7 +23,7 @@ Page({
     wx.request({
       url: host + '/queryPurchase',
       data: JSON.stringify({
-        companyId: "5"
+        companyId: app.globalData.companyId
       }),
       method: "POST",
       header: {
@@ -110,7 +110,7 @@ Page({
     console.log(e)
     var index = e.currentTarget.dataset.index
     wx.navigateTo({
-      url: '../recordInfo/recordInfo?back=buy&id=' + this.data.allbrList[index].id + '&fun=' + this.data.fun
+      url: '../recordInfo/recordInfo?back=buy&id=' + this.data.allbrList[index].id + '&fun=' + this.data.fun + '&status=' + this.data.allbrList[index].status
     })
   },
   

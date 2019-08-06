@@ -42,7 +42,9 @@
     "pages/application/transferAccount/transferRecord/transferRecord",
     "pages/application/ar/addReceipt/addReceipt",
     "pages/application/transferGood/newTransfer/newTransfer",
-    "pages/application/transferGood/transferRecord/transferRecord"
+    "pages/application/transferGood/transferRecord/transferRecord",
+    "pages/application/ar/receivables/receivables",
+    "pages/application/ar/receiptDetail/receiptDetail"
   ],
   "window": {
     "navigationBarBackgroundColor": "#39b54a",

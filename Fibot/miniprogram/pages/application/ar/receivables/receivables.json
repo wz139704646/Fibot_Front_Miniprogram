@@ -4,7 +4,8 @@
     "van-cell-group": "vant-weapp/cell-group",
     "van-field": "vant-weapp/field",
     "van-popup": "vant-weapp/popup",
-    "van-picker": "vant-weapp/picker"
-  },
-  "enablePullDownRefresh": true
+    "van-picker": "vant-weapp/picker",
+    "van-collapse": "vant-weapp/collapse",
+    "van-collapse-item": "vant-weapp/collapse-item"
+  }
 }

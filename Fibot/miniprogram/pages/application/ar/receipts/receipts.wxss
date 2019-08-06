@@ -1,1 +1,11 @@
 /* miniprogram/pages/application/ar/receipts/receipts.wxss */
+.total-box{
+  width:100%; 
+  position: fixed; 
+  bottom:0; 
+  left:0; 
+  height: 80rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

@@ -4,22 +4,33 @@
   <view slot="content">收款记录</view>
 </cu-custom>
 
-<van-cell-group title="选择时间范围" style="position: fixed; top:{{CustomBar}}px; width: 100vw; height: 10vh; z-index:10;">
+<view style="position: fixed; top:{{CustomBar}}px; width: 100vw; height: 10vh; z-index:10;">
   <van-cell title="时间" value="{{timeRange.text}}" is-link clickable bindtap="onChooseTimeRange" />
-</van-cell-group>
+  <view class="cu-bar bg-white search">
+    <view class="search-form round">
+      <text class="cuIcon-search"></text>
+      <input type="text" placeholder="输入客户姓名/收款单号/日期" confirm-type="search" bindinput="searchInput" value="{{searchText}}"></input>
+    </view>
+  </view>
+</view>
 
-<scroll-view style="margin-top: 12vh;">
-<van-cell-group wx:for="{{receipts}}" wx:key wx:for-item="coll" title="{{coll.date}}" wx:for-key="idx">
-  <van-cell wx:key is-link wx:for="{{coll.records}}" title="{{item.customerName}}" label="{{item.id}}" value="￥{{item.amount}}" url="{{'../receiptDetail/receiptDetail?'+index}}'" link-type="navigateTo" clickable="{{true}}" />
-</van-cell-group>
-<view wx:if="{{receipts.length == 0}}" class="text-center padding text-bold">无收款记录</view>
+<scroll-view style="margin-top: 15vh;">
+  <van-cell-group wx:for="{{filterReceipts}}" wx:key wx:for-item="coll" title="{{coll.date}}" wx:for-key="idx">
+    <van-cell wx:key is-link wx:for="{{coll.records}}" title="{{item.customerName}}" label="{{item.id}}" value="￥{{item.amount}}" url="{{'../receiptDetail/receiptDetail?id='+item.id+'&sellid='+item.sellid}}" link-type="navigateTo" clickable="{{true}}" />
+  </van-cell-group>
+  <view wx:if="{{!filterReceipts || filterReceipts.length == 0}}" class="text-center padding text-bold">无收款记录</view>
+  <view style="height:120rpx;"></view>
 </scroll-view>
 
 <van-popup show="{{ showPicker }}" position="bottom" bind:close="onModalClose">
   <van-picker show-toolbar columns="{{ timeOptions }}" bind:cancel="onModalClose" bind:confirm="onPickerConfirm" />
 </van-popup>
-<view class="text-gray" style="position: fixed; bottom: 20rpx; right: 20rpx;">
+<view class="text-gray" style="position: fixed; bottom: 85rpx; right: 20rpx;">
   <button class="cu-btn icon bg-blue shadow lg" bindtap="addReceipt">
     <text class="cuIcon-add" style="font-size: 50rpx;"></text>
   </button>
+</view>
+<view class="bg-blue light total-box padding-sm">
+  <view class="title">合计</view>
+  <view>￥{{total}}</view>
 </view>

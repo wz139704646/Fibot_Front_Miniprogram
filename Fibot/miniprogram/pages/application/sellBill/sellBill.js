@@ -134,7 +134,8 @@ Page({
     for(let i in slist){
       goodsList.push({
         goodsId: slist[i].id,
-        number: slist[i].buyNum
+        number: slist[i].buyNum,
+        sumprice: slist[i].buyNum * slist[i].price
       })
     }
     console.log(goodsList)
@@ -148,7 +149,6 @@ Page({
         companyId: app.globalData.companyId,
         customerId: that.data.customer.id,
         date: that.data.date,
-        sumprice: that.data.total,
         goodsList: goodsList
       }),
       success: res => {

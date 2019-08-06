@@ -6,8 +6,8 @@
 <block wx:key wx:for='{{goodsList}}' wx:for-index='index'>
   <van-card num="{{item.brand}}" tag="{{item.type}}" price="{{item.sellprice}}" desc="{{item.description}}" title="{{item.name}}" thumb="{{host+'/goodsPic/'+item.photo}}" thumb-mode="aspectFill">
     <view slot="footer">
-      <van-button size="mini" bindtap='navigateToGoodAnalyse'>商品分析</van-button>
-      <van-button size="mini" bindtap='navigateToGoodInfo'>查看详情</van-button>
+      <van-button size="mini" bindtap='navigateToGoodAnalyse' data-name="{{item.name}}">商品分析</van-button>
+      <van-button size="mini" bindtap='navigateToGoodInfo' data-name="{{item.name}}">查看详情</van-button>
     </view>
   </van-card>
   <view class="divLine"></view>

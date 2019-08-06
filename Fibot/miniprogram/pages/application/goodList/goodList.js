@@ -35,6 +35,9 @@ Page({
   },
   navigateToGoodInfo(e){
     console.log(e)
+    wx.navigateTo({
+      url: '/pages/application/goodInfo/goodInfo?name='+e.currentTarget.dataset.name,
+    })
   },
   navigateToGoodAnalyse(e){
     console.log(e)
