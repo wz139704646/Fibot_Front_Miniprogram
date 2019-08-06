@@ -4,20 +4,80 @@
   <view slot="content">日记账列表</view>
 </cu-custom>
 
-<view class="cu-form-group margin-top">
-  <view class="title">日期选择</view>
-  <picker mode="date" value="{{date}}" start="2015-09-01" end="2020-09-01" bindchange="DateChange">
-    <view class="picker">
-      {{date}}
+<view class="cu-bar bg-white margin-top">
+  <view class="action">
+    <text class="cuIcon-title text-orange "></text>{{startDate}}~{{endDate}}   {{accountType[indexOfAccountType]}}
+  </view>
+  <view class="action">
+    <button class="cu-btn bg-green shadow" bindtap="showModal" data-target="bottomModal">筛选</button>
+  </view>
+</view>
+<view class="cu-modal bottom-modal {{modalName=='bottomModal'?'show':''}}">
+  <view class="cu-dialog">
+    <view class="cu-bar bg-white">
+      <view class="action text-green">确定</view>
+      <view class="action text-blue" bindtap="hideModal">取消</view>
     </view>
-  </picker>
+    <view class="padding-xl">
+      <view class="cu-form-group">
+        <view class="title">开始日期</view>
+        <picker mode="date" value="{{startDate}}" start="2015-09-01" end="2020-09-01" bindchange="StartDateChange">
+          <view class="picker">
+            {{startDate}}
+          </view>
+        </picker>
+      </view>
+
+      <view class="cu-form-group">
+        <view class="title">结束日期</view>
+        <picker mode="date" value="{{endDate}}" start="2015-09-01" end="2020-09-01" bindchange="EndDateChange">
+          <view class="picker">
+            {{endDate}}
+          </view>
+        </picker>
+      </view>
+
+      <view class="cu-form-group">
+        <view class="title">账户类型</view>
+        <picker mode="selector" value="{{indexOfAccountType}}" range="{{accountType}}" bindchange="AccountTypeChange">
+          <view class="picker">
+            {{accountType[indexOfAccountType]}}
+          </view>
+        </picker>
+      </view>
+    </view>
+  </view>
 </view>
 
-<view class="cu-form-group">
-  <view class="title">账户类型</view>
-  <picker mode="selector" value="{{indexOfAccountType}}" range="{{accountType}}" bindchange="AccountTypeChange">
-    <view class="picker">
-      {{AccountType[indexOfAccountType]}}
+<scroll-view scroll-y class="indexes" style="height:calc(100vh - {{CustomBar}}px - 50px)" scroll-with-animation="true" enable-back-to-top="true">
+  <block wx:for="{{journalList}}" wx:key wx:for-index='index'>
+    <view class="cu-timeline">
+      <view class="cu-time">{{item.date}}</view>
+      <view class="cu-item">
+        <view class="content">
+          <text>{{item.date}}</text>
+          <text>{{item.changeDescription}}</text>
+        </view>
+      </view>
     </view>
-  </picker>
+    <view class="divLine"></view>  
+  </block>
+</scroll-view>
+
+<view class="text-gray" style="position: fixed; bottom: 20rpx; right: 20rpx;">
+  <button class="cu-btn icon bg-blue shadow lg" bindtap="addJournal">
+    <text class="cuIcon-add" style="font-size: 50rpx;"></text>
+  </button>
 </view>
+
+
+<scroll-view style="margin-top: 25vh;">
+  <van-cell-group wx:if="{{endDate >= startDate}}">
+    <block wx:for="{{}}" wx:key>
+      
+    </block>
+  </van-cell-group>
+  <view class="text-center padding text-bold" wx:else>开始日期不能大于结束日期！</view>
+</scroll-view>
+
+
