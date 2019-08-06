@@ -19,7 +19,8 @@ Page({
     inStore: [],
     outStore: [],
     typeAndTotal:null,
-    goodsList:[]
+    goodsList:[],
+    storeList:[]
   },
 
   /**
@@ -27,25 +28,49 @@ Page({
    */
   onLoad: function (options) {
     getDate(this)
+    var that = this 
+    that.getStoreList()
   },
-
-  DateChange(e) {
-    console.log(e)
-    this.setData({
-      date: e.detail.value
+  //获得仓库列表
+  getStoreList(e) {
+    wx.request({
+      url: host + '/queryWarehouse',
+      data: JSON.stringify({
+        companyId: app.globalData.companyId,
+      }),
+      method: "POST",
+      header: {
+        "Content-Type": 'application/json'
+      },
+      success: res => {
+        wx.showToast({
+          title: '已获得仓库列表',
+          icon: 'none',
+          mask: true
+        })
+        console.log("仓库：")
+        console.log(res)
+        this.setData({
+          storeList: res.data.result
+        })
+      },
+      fail: res => {
+        console.log(res)
+      }
     })
   },
-  amountChange(e) {
+  iPickerChange(e) {
     console.log(e)
-    this.data.amount[e.currentTarget.dataset.index] = e.detail.value
+    this.data.inStore[e.currentTarget.dataset.index]=e.detail.value
     this.setData({
-      amount: this.data.amount
+      inStore: this.data.inStore
     })
   },
-  remarkChange(e) {
+  oPickerChange(e) {
     console.log(e)
+    this.data.outStore[e.currentTarget.dataset.index] = e.detail.value
     this.setData({
-      remarks: e.detail.value
+      outStore: this.data.outStore
     })
   },
   addDetail(e) {
@@ -55,25 +80,22 @@ Page({
   },
   delDetail(e) {
     console.log(e)
-    this.data.inAcc.splice(e.currentTarget.dataset.index, 1)
-    this.data.outAcc.splice(e.currentTarget.dataset.index, 1)
-    this.data.amount.splice(e.currentTarget.dataset.index, 1)
-    this.data.remarks.splice(e.currentTarget.dataset.index, 1)
+    this.data.inStore.splice(e.currentTarget.dataset.index, 1)
+    this.data.outStore.splice(e.currentTarget.dataset.index, 1)
     this.setData({
-      inAcc: this.data.inAcc,
-      outAcc: this.data.outAcc,
-      amount: this.data.amount,
-      remarks: this.data.remarks,
+      inStore: this.data.inStore,
+      outStore: this.data.outStore,
       toNum: this.data.toNum - 1
     })
   },
   delAllDetail(e) {
     this.setData({
-      inAcc: [],
-      outAcc: [],
-      amount: [],
-      remarks: [],
+      inStore: [],
+      outStore: [],
       toNum: 0
     })
   },
+  onSubmit(e){
+    console.log(this.data)
+  }
 })

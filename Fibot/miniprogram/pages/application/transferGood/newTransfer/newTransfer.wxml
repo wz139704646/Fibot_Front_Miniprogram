@@ -19,11 +19,20 @@
 <view wx:for="{{toNum}}" wx:key wx:for-index='index'>
   <view class="cu-form-group" style='margin-top:60rpx'>
     <view class="title">调出仓库</view>
-    <input disabled placeholder='请选择' value='{{outStore[index]}}' style="text-align:right"></input>
+    
+    <picker bindchange="oPickerChange" value="{{outStore[index]}}" range="{{storeList}}" range-key="{{'name'}}" data-index="{{index}}">
+    <view class="picker">
+      {{outStore[index]?storeList[outStore[index]].name:'请选择'}}
+    </view>
+  </picker>
   </view>
   <view class="cu-form-group">
     <view class="title">调入仓库</view>
-    <input disabled placeholder='请选择' value='{{inStore[index]}}' style="text-align:right"></input>
+    <picker bindchange="iPickerChange" value="{{inStore[index]}}" range="{{storeList}}" range-key="{{'name'}}" data-index="{{index}}">
+    <view class="picker">
+      {{inStore[index]?storeList[inStore[index]].name:'请选择'}}
+    </view>
+  </picker>
   </view>
   <view class="cu-form-group">
     <view class="title">商品</view>
@@ -53,3 +62,4 @@
 <view wx:if="{{toNum>0}}" class="padding-xs flex flex-direction">
   <button class="cu-btn bg-red margin-tb-sm lg" bindtap='onSubmit'>确定</button>
 </view>
+
