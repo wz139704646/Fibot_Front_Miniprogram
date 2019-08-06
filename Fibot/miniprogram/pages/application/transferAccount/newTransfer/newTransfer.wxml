@@ -23,7 +23,7 @@
   </view>
   <view class="cu-form-group">
     <view class="title">转出账户 *</view>
-    <input disabled placeholder='请选择' value='{{inAcc[index]}}' style="text-align:right"></input>
+    <input disabled placeholder='请选择' value='{{outAcc[index]}}' style="text-align:right"></input>
     <text class="cuIcon-friend text-green"></text>
   </view>
   <view class="cu-form-group">

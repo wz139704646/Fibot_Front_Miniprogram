@@ -13,7 +13,8 @@ Page({
     typeList: ['食品类', '服装类', '鞋帽类', '日用品类', '家具类', '家用电器类', '纺织品类', '五金电料类', '厨具类'],
     sellprice: '',
     standard: '',
-    brand: ''
+    brand: '',
+    isChangeImg:false
   },
 
   /**
@@ -44,7 +45,7 @@ Page({
         var gindex
         var uindex
         var imageList = []
-        imageList[0]=good.image
+        imageList[0] = host + '/goodsPic/' + good.photo
         for (var index in typeList) {
           if(good.type==typeList[index]){
             gindex = index
@@ -63,9 +64,12 @@ Page({
           barcode:good.barcode,
           brand:good.brand,
           imageList:imageList,
+          photo:good.photo,
           sellprice:good.sellprice,
           gindex:gindex,
-          uindex:uindex
+          uindex:uindex,
+          type:good.type,
+          unitInfo:good.unitInfo
         })
       },
       fail:res=>{
@@ -112,7 +116,8 @@ Page({
       success: res => {
         const tempFilePaths = res.tempFilePaths
         this.setData({
-          imageList: tempFilePaths
+          imageList: tempFilePaths,
+          isChangeImg:true
         })
         console.log(res)
       },
@@ -128,18 +133,44 @@ Page({
       urls: this.data.imageList
     })
   },
-  upload(e) {
-    console.log(e.data.result.id)
-    wx.uploadFile({
-      url: host + '/pic/upload',
-      filePath: this.data.imageList[0],
-      name: 'goods',
-      formData: {
-        id: e.data.result.id
+  upload(id) {
+    var that = this
+    if(this.data.isChangeImg){
+      wx.uploadFile({
+        url: host + '/pic/upload',
+        filePath: this.data.imageList[0],
+        name: 'goods',
+        formData: {
+          id: id
+        },
+        success: res => {
+          console.log(res)
+          that.modify()
+        }
+      })
+    }else{
+      that.modify
+    }
+    
+  },
+  delPic(){
+    var that = this
+    wx.request({
+      url: host + '/pic/delete/' + this.data.photo,
+      data:JSON.stringify({
+        filename:this.data.photo
+      }),
+      method:"POST",
+      header:{
+        "Content-Type":"application/json"
       },
-      success: result => {
-        console.log(result)
-
+      success:res=>{
+        console.log(res)
+        console.log(res.data.success)
+        that.upload(this.data.id)
+      },
+      fail:err=>{
+        console.log(err)
       }
     })
   },
@@ -190,9 +221,54 @@ Page({
       })
     }
   },
-  modify(e){
+  onSubmit(e){
+    var that = this
+    if(this.data.isDisable==false){
+      wx.showModal({
+        title: '修改',
+        content: '确认保存修改信息',
+        success:res=>{
+          if(res.confirm){
+            //TODO修改商品信息
+            that.delPic()
+            wx.showToast({
+              title: '修改成功',
+              icon: 'none',
+              mask: true
+            })
+          }
+        },
+        fail:res=>{
+          console.log("掉起模态框失败")
+        }
+      })
+    }
     this.setData({
       isDisable:!this.data.isDisable
     })
+  },
+  modify(){
+    wx.request({
+      url: host + '/updateGoodsInfo',
+      data:JSON.stringify({
+        id:this.data.id,
+        name:this.data.name,
+        sellprice:this.data.sellprice,
+        type:this.data.type,
+        barcode:this.data.barcode,
+        unitInfo:this.data.unitInfo
+      }),
+      method:"POST",
+      header:{
+        "Content-Type":"application/json"
+      },
+      success:res=>{
+        console.log(res)
+        wx.redirectTo({
+          url: '/pages/index/index',
+        })
+      }
+    })
+
   }
 })

@@ -246,7 +246,7 @@ Page({
       data: JSON.stringify({
         companyId: app.globalData.companyId,
         id: this.data.id,
-        wareHouseId: this.data.index
+        wareHouseId: this.data.storeList[this.data.index].id
       }),
       method: "POST",
       header: {
@@ -260,7 +260,7 @@ Page({
         })
         console.log(res)
         wx.redirectTo({
-          url: '../index/index',
+          url: '/pages/index/index',
         })
       },
       fail: res => {
