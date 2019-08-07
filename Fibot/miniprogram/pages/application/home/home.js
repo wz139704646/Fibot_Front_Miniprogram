@@ -167,18 +167,19 @@ Page({
       }
     ],
     inOutIconList: [{
-      icon: 'refund',
-      color: 'orange',
-      badge: 0,
-      name: '库存现金',
-      url: '/pages/application/cashOnHand/cashOnHand'
-    }, {
       icon: 'rankfill',
-      color: 'red',
+      color: 'orange',
       badge: 0,
       name: '存款日记账',
       url: '/pages/application/depositJournal/addJournal/addJournal'
     }, {
+      icon: 'refund',
+      color: 'red',
+      badge: 0,
+      name: '库存现金',
+      url: '/pages/application/cashOnHand/cashShow/cashShow'
+      }, 
+    {
       icon: 'copy',
       color: 'green',
       badge: 0,

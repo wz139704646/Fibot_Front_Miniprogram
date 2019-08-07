@@ -100,14 +100,9 @@ Page({
 
   checkSuccess(e) {
     wx.request({
-      url: host + '/addBankRecord',
+      url: host + '/checkBankStatus',
       data: JSON.stringify({
-        voucher: voucher,
-        date: date2,
-        amount: amount,
-        bankName: bankName,
-        companyId: companyId,
-        clearForm: this.data.clearForm[this.data.indexOfClearForm]
+        voucher: this.data.voucher,
       }),
       method: "POST",
       header: {

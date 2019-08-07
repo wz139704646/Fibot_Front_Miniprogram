@@ -1,4 +1,4 @@
-// pages/application/bankReconciliations/reconciliationShow/reconciliationShow.js
+// pages/application/cashOnHand/cashShow/cashShow.js
 const app = getApp()
 const util = require('../../../../utils/util.js')
 const host = app.globalData.requestHost
@@ -58,7 +58,7 @@ Page({
 
       var that = this
       wx.request({
-        url: host + '/queryBankRecordByOption',
+        url: host + '/queryCashRecordByOption',
         method: 'POST',
         header: {
           'Content-Type': 'application/json',
@@ -68,7 +68,7 @@ Page({
           date: date1,
           option: days
         },
-        
+
         success: res => {
           if (res.statusCode != 200 || !res.data.success) {
             wx.showToast({
@@ -83,36 +83,12 @@ Page({
               res.data.result[index].date = res.data.result[index].date.toString().substring(5, 10)
             }
             this.setData({
-              reconciliationList: res.data.result
+              cashList: res.data.result
             })
           }
         },
         fail: err1 => {
           console.error('request error', err1)
-        }
-      })
-    }
-  },
-
-  initReconciliationsList: function (e) {
-    let token = app.getToken()
-    if (token) {
-      wx.request({
-        url: host + '/queryAllBankRecord',
-        method: "GET",
-        header: {
-          "Content-Type": 'application/json',
-          'Authorization': token
-        },
-        success: res => {
-          console.log(res)
-          console.log(res.data.result)
-          for (var index in res.data.result) {
-            res.data.result[index].date = res.data.result[index].date.toString().substring(5, 10)
-          }
-          this.setData({
-            reconciliationList: res.data.result
-          })
         }
       })
     }
@@ -202,5 +178,5 @@ Page({
     })
   },
 
-  
+
 })

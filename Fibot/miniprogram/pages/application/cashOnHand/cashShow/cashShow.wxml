@@ -1,0 +1,20 @@
+<!--pages/application/cashOnHand/cashShow/cashShow.wxml-->
+<cu-custom bgColor="bg-gradual-pink" isBack="{{true}}">
+  <view slot="backText">返回</view>
+  <view slot="content">库存现金</view>
+</cu-custom>
+
+<van-cell-group title="选择时间范围" style="position: fixed; top:{{CustomBar}}px; width: 100vw; height: 10vh; z-index:10;">
+  <van-cell title="时间" value="{{timeRange.text}}" is-link clickable bindtap="onChooseTimeRange" />
+</van-cell-group>
+
+<scroll-view style="margin-top: 12vh;">
+<van-cell-group wx:for="{{cashList}}" wx:key wx:for-item="coll" title="{{coll.date}}" wx:for-key="idx">
+  <van-cell wx:key is-link wx:for="{{cashList}}" title="{{item.id}}" label="{{item.changeDescription}}" value="￥{{item.variation}}" url="{{'../cashDetail/cashDetail?id=' + item.id + '&date=' + item.date + '&balance=' + item.balance + '&originValue=' + item.originValue + '&variation=' + item.variation + '&changeDescription=' + item.changeDescription}}" link-type="navigateTo" clickable="{{true}}" />
+</van-cell-group>
+<view wx:if="{{cashList.length == 0}}" class="text-center padding text-bold">无库存现金记录</view>
+</scroll-view>
+
+<van-popup show="{{ showPicker }}" position="bottom" bind:close="onModalClose">
+  <van-picker show-toolbar columns="{{ timeOptions }}" bind:cancel="onModalClose" bind:confirm="onPickerConfirm" />
+</van-popup>

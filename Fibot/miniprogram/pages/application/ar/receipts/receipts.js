@@ -109,6 +109,7 @@ Page({
     if(token) {
       var that = this
       var data = days ? JSON.stringify({ days }) : {}
+
       wx.request({
         url: host + '/arap/queryReceive',
         method: 'POST',
