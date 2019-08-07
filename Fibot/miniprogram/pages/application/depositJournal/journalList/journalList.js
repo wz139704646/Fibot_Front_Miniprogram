@@ -51,6 +51,10 @@ Page({
         success: res => {
           console.log(res)
           console.log(res.data.result)
+          for (var index in res.data.result) {
+            res.data.result[index].date = res.data.result[index].date.toString().substring(5, 10)
+            res.data.result[index].time = res.data.result[index].date.toString().substring(11,18)
+          }
           this.setData({
             journalList:res.data.result
           })

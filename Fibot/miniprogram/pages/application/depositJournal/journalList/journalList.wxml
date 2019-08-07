@@ -15,8 +15,8 @@
 <view class="cu-modal bottom-modal {{modalName=='bottomModal'?'show':''}}">
   <view class="cu-dialog">
     <view class="cu-bar bg-white">
-      <view class="action text-green">确定</view>
-      <view class="action text-blue" bindtap="hideModal">取消</view>
+      <view class="action text-grey" bindtap="hideModal">取消</view>
+      <view class="action text-green" bindtap="addOption">确定</view>
     </view>
     <view class="padding-xl">
       <view class="cu-form-group">
@@ -55,8 +55,7 @@
       <view class="cu-time">{{item.date}}</view>
       <view class="cu-item">
         <view class="content">
-          <text>{{item.date}}</text>
-          <text>{{item.changeDescription}}</text>
+          <text>{{item.time}} {{item.changeDescription}} ￥{{item.variation}}</text>
         </view>
       </view>
     </view>
