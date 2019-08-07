@@ -11,6 +11,13 @@
 <van-cell-group title="收款信息">
   <van-cell title="销售发生日期" value="{{ sell.date }}" />
   <van-cell title="销售单号" value="{{ sellId }}" />
-  <van-cell title="订单总金额" value="{{ sell.sumprice }}" />
+  <van-collapse value="{{ activeNames }}" bind:change="onCollapseChange">
+    <van-collapse-item title="销货信息" name="1">
+      <van-cell wx:for="{{sell.goodsList}}" wx:key title="{{item.goodsName}} * {{item.number}}" value="￥{{ item.sumprice }}" />
+    </van-collapse-item>
+  </van-collapse>
+  <van-cell title="订单总金额" value="{{ sell.total }}" />
   <van-cell title="本次收款" value="{{ receive }}" />
 </van-cell-group>
+
+<button type="" class="cu-btn lg {{verified ? 'bg-green' : 'bg-blue'}}" disabled="{{verified}}" style="position: fixed; bottom: 0rpx; width:100%;" bindtap="onVerify">{{verified ? '已审核' : '审核'}}</button>

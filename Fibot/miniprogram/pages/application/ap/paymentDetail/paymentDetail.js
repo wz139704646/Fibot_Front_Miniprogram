@@ -29,7 +29,6 @@ Page({
           id: purchaseId
         }),
         success: res => {
-          console.log(res)
           if (res.statusCode == 555) { app.relogin() }
           else if (res.statusCode != 200 || !res.data.success) {
             wx.showToast({
@@ -43,8 +42,9 @@ Page({
             let buyList = res.data.result
             let {date, supplierId} = buyList[0]
             let total = buyList.reduce((acc, cur) => acc + cur.purchasePrice*cur.number, 0)
-            purchase.date = date
+            purchase.date = date.substring(0, 10)
             purchase.total = total
+            purchase.goodsList = buyList
             this.setData({ purchase })
             wx.request({
               url: host + '/querySupplierById',
@@ -142,6 +142,13 @@ Page({
 
   },
 
+  onCollapseChange: function(e) {
+    this.setData({
+      activeNames: e.detail
+    })
+  },
+
+  // 点击审核按钮事件
   onVerify: function(e) {
     let token = app.getToken()
     if(token) {
@@ -173,6 +180,10 @@ Page({
                     mask: true
                   })
                 } else {
+                  wx.showToast({
+                    title: '审核成功',
+                    duration: 1000
+                  })
                   that.setData({
                     verified: true
                   })
