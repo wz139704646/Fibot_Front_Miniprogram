@@ -11,6 +11,11 @@
 <van-cell-group title="付款信息">
   <van-cell title="购货发生日期" value="{{ purchase.date }}" />
   <van-cell title="购货单号" value="{{ purchaseId }}" />
+  <van-collapse value="{{ activeNames }}" bind:change="onCollapseChange">
+    <van-collapse-item title="购货信息" name="1">
+      <van-cell wx:for="{{purchase.goodsList}}" wx:key title="{{item.goodName}} * {{item.number}}" value="￥{{ item.number*item.purchasePrice }}" />
+    </van-collapse-item>
+  </van-collapse>
   <van-cell title="订单总金额" value="{{ purchase.total }}" />
   <van-cell title="本次付款" value="{{ pay }}" />
 </van-cell-group>
