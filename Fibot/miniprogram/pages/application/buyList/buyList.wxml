@@ -16,7 +16,10 @@
         <view wx:if="{{item.status=='到'}}" class="cu-avatar round lg bg-orange">{{item.status}}</view>
         <view class="content">
           <view class="text-black">
-            商品:{{item.goodName}} 数量:{{item.number}}
+            商品:{{item.goodName}}
+          </view>
+          <view class="text-black">
+            数量:{{item.number}}
           </view>
           <view class="text-gray text-sm">
             订单号:{{item.id}}

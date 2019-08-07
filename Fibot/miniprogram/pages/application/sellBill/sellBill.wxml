@@ -31,8 +31,8 @@
 </block>
 
 <view wx:if="{{total>0}}" class="cu-form-group margin-top margin-bottom">
-  <view class="title">本次付款</view>
-  <input placeholder="输入付款金额" value="{{amountText}}" bindinput="onPayAmountInput"></input>
+  <view class="title">本次收款</view>
+  <input placeholder="输入收款金额" value="{{amountText}}" bindinput="onPayAmountInput"></input>
 </view>
 <view wx:if="{{total>0}}" class="cu-form-group margin-top margin-bottom">
   <view class="title">备注</view>

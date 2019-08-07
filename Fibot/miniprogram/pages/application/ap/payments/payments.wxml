@@ -1,2 +1,36 @@
 <!--miniprogram/pages/application/ap/payments/payments.wxml-->
-<text>miniprogram/pages/application/ap/payments/payments.wxml</text>
+<cu-custom bgColor="bg-gradual-pink" isBack="{{true}}">
+  <view slot="backText">返回</view>
+  <view slot="content">付款记录</view>
+</cu-custom>
+
+<view style="position: fixed; top:{{CustomBar}}px; width: 100vw; height: 10vh; z-index:10;">
+  <van-cell title="时间" value="{{timeRange.text}}" is-link clickable bindtap="onChooseTimeRange" />
+  <view class="cu-bar bg-white search">
+    <view class="search-form round">
+      <text class="cuIcon-search"></text>
+      <input type="text" placeholder="输入供货商姓名/付款单号/日期" confirm-type="search" bindinput="searchInput" value="{{searchText}}"></input>
+    </view>
+  </view>
+</view>
+
+<scroll-view style="margin-top: 15vh;">
+  <van-cell-group wx:for="{{filterPayments}}" wx:key wx:for-item="coll" title="{{coll.date}}" wx:for-key="idx">
+    <van-cell wx:key is-link wx:for="{{coll.records}}" title="{{item.supplierName}}" label="{{item.id}}" value="￥{{item.amount}}" url="{{'../paymentDetail/paymentDetail?id='+item.id}}" link-type="navigateTo" clickable="{{true}}" />
+  </van-cell-group>
+  <view wx:if="{{!filterPayments || filterPayments.length == 0}}" class="text-center padding text-bold">无付款记录</view>
+  <view style="height:120rpx;"></view>
+</scroll-view>
+
+<van-popup show="{{ showPicker }}" position="bottom" bind:close="onModalClose">
+  <van-picker show-toolbar columns="{{ timeOptions }}" bind:cancel="onModalClose" bind:confirm="onPickerConfirm" />
+</van-popup>
+<view class="text-gray" style="position: fixed; bottom: 85rpx; right: 20rpx;">
+  <button class="cu-btn icon bg-blue shadow lg" bindtap="addPayment">
+    <text class="cuIcon-add" style="font-size: 50rpx;"></text>
+  </button>
+</view>
+<view class="bg-blue light total-box padding-sm">
+  <view class="title">合计</view>
+  <view>￥{{total}}</view>
+</view>

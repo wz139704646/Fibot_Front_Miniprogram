@@ -20,7 +20,7 @@
   <van-collapse value="{{ activeNames }}" bind:change="onCollapseChange">
     <block wx:for="{{entries}}" wx:key>
       <van-swipe-cell right-width="{{ 55 }}">
-        <van-collapse-item title="{{item.abstract || '请输入摘要'}}" label="{{item.subject.name || '请选择科目'}}" name="{{index}}" border="{{true}}">
+        <van-collapse-item title="{{item.abstract || '请输入摘要'}}" label="{{item.subject.name || '请选择科目'}}" name="{{index}}" border="{{true}}" value="{{item.total || 0}}￥" >
           <button disabled type="" class="cu-btn icon sm {{item.cd == '借' ? 'bg-blue' : 'bg-orange' }}" slot="icon">{{item.cd}}</button>
           <view class="padding-xs bg-grey light">
             <view class="cu-form-group">

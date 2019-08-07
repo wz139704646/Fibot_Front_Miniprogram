@@ -1,0 +1,13 @@
+/* miniprogram/pages/application/ap/addPayment/addPayment.wxss */
+.cu-bar-item-collapse-item {
+  min-height: 60rpx;
+  border-bottom: 1px dashed black;
+}
+
+.delete-box {
+  width: 100%;
+  height:100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}

@@ -70,7 +70,7 @@ Page({
       color: 'orange',
       badge: 0,
       name: '付款记录',
-      url: ''
+      url: '/pages/application/ap/payments/payments'
     }, {
       icon: 'recharge',
       color: 'yellow',
