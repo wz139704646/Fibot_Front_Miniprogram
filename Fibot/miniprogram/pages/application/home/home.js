@@ -183,7 +183,7 @@ Page({
       color: 'green',
       badge: 0,
       name: '银行对账',
-      url: '/pages/application/bankReconciliations/bankReconciliations'
+      url: '/pages/application/bankReconciliations/reconciliationShow/reconciliationShow'
     },
     {
       icon: 'text',

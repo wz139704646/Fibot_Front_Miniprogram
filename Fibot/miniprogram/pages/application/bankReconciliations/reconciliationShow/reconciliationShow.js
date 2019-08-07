@@ -1,6 +1,6 @@
-// pages/application/bankReconciliations/bankReconciliations.js
+// pages/application/bankReconciliations/reconciliationShow/reconciliationShow.js
 const app = getApp()
-const util = require('../../../utils/util.js')
+const util = require('../../../../utils/util.js')
 const host = app.globalData.requestHost
 
 Page({
@@ -16,11 +16,11 @@ Page({
       },
       {
         text: '近7天',
-        value: 7
+        value: 2
       },
       {
         text: '近30天',
-        value: 30
+        value: 3
       },
       {
         text: '全部'
@@ -30,11 +30,15 @@ Page({
 
   loadData: function (e) {
     let { timeRange } = this.data
-    let days = timeRange.value
+    //let days = timeRange.value
     let token = app.getToken()
     if (token) {
+      console.log({
+        date: this.data.date,
+        options: this.data.timeOptions
+      })
+
       var that = this
-      var data = days ? JSON.stringify({ days }) : {}
       wx.request({
         url: host + '/queryBankRecordByOption',
         method: 'POST',
@@ -42,7 +46,11 @@ Page({
           'Content-Type': 'application/json',
           'Authorization': token
         },
-        data: data,
+        data: {
+          date: this.data.date,
+          options: this.data.timeOptions
+        },
+        
         success: res1 => {
           if (res1.statusCode != 200 || !res1.data.success) {
             wx.showToast({
@@ -51,28 +59,13 @@ Page({
               duration: 1000
             })
           } else {
-            var receipts = []
-            var rawData = res1.data.result
-            for (let i in rawData) {
-              let len = receipts.length
-              let newItem = {
-                id: rawData[i].id,
-                date: rawData[i].date.substring(0, 10),
-                amount: rawData[i].receive,
-                sellid: rawData[i].sellId
-              }
-              if (len == 0 || rawData[i].date != receipts[len - 1].date) {
-                receipts.push({
-                  date: newItem.date,
-                  records: [newItem]
-                })
-              } else {
-                receipts[len - 1].records.push(newItem)
-              }
-              that.completeInfo(newItem)
+            console.log(res)
+            console.log(res.data.result)
+            for (var index in res.data.result) {
+              res.data.result[index].date = res.data.result[index].date.toString().substring(5, 10)
             }
-            that.setData({
-              receipts
+            this.setData({
+              reconciliationList: res.data.result
             })
           }
         },
@@ -83,7 +76,7 @@ Page({
     }
   },
 
-  initReconciliationsList: function(e) {
+  initReconciliationsList: function (e) {
     let token = app.getToken()
     if (token) {
       wx.request({
@@ -96,6 +89,9 @@ Page({
         success: res => {
           console.log(res)
           console.log(res.data.result)
+          for (var index in res.data.result) {
+            res.data.result[index].date = res.data.result[index].date.toString().substring(5, 10)
+          }
           this.setData({
             reconciliationList: res.data.result
           })
@@ -108,7 +104,8 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.initReconciliationsList()
+    this.loadData()
+    //this.initReconciliationsList()
   },
 
   /**
@@ -119,8 +116,8 @@ Page({
       showPicker: false,
       timeRange: this.data.timeOptions[0]
     }, () => {
-      //this.loadData()
-      this.initReconciliationsList()
+      this.loadData()
+      //this.initReconciliationsList()
     })
   },
 
@@ -170,7 +167,7 @@ Page({
     let { timeOptions } = this.data
     this.setData({
       showPicker: false,
-      timeRange: timeOptions[e.detail.index]
+      timeRange: timeOptions[e.detail.index],
     }, () => {
       this.loadData()
     })
@@ -187,4 +184,6 @@ Page({
       showPicker: false
     })
   },
+
+  
 })

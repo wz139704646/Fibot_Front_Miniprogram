@@ -1,4 +1,4 @@
-<!--pages/application/bankReconciliations/bankReconciliations.wxml-->
+<!--pages/application/bankReconciliations/reconciliationShow/reconciliationShow.wxml-->
 <cu-custom bgColor="bg-gradual-pink" isBack="{{true}}">
   <view slot="backText">返回</view>
   <view slot="content">银行对账</view>
@@ -10,7 +10,7 @@
 
 <scroll-view style="margin-top: 12vh;">
 <van-cell-group wx:for="{{reconciliationList}}" wx:key wx:for-item="coll" title="{{coll.date}}" wx:for-key="idx">
-  <van-cell wx:key is-link wx:for="{{reconciliationList}}" title="{{item.customerName}}" label="{{item.bankName}} {{item.voucher}}" value="￥{{item.amount}}" url="{{'/reconciliationDetial/reconciliationDetial?'+index}}'" link-type="navigateTo" clickable="{{true}}" />
+  <van-cell wx:key is-link wx:for="{{reconciliationList}}" title="{{item.bankName}}-{{item.status}}" label="{{item.voucher}}" value="￥{{item.amount}}" url="{{'../reconciliationDetail/reconciliationDetail?voucher=' + item.voucher + '&bankName=' + item.bankName + '&clearForm=' + item.clearForm + '&date=' + item.date + '&amount=' + item.amount + '&status=' + item.status}}" link-type="navigateTo" clickable="{{true}}" />
 </van-cell-group>
 <view wx:if="{{reconciliationList.length == 0}}" class="text-center padding text-bold">无对账记录</view>
 </scroll-view>
@@ -18,3 +18,4 @@
 <van-popup show="{{ showPicker }}" position="bottom" bind:close="onModalClose">
   <van-picker show-toolbar columns="{{ timeOptions }}" bind:cancel="onModalClose" bind:confirm="onPickerConfirm" />
 </van-popup>
+
