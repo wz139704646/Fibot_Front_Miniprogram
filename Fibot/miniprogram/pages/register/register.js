@@ -241,41 +241,36 @@ Page({
             app.globalData.companyId = com.id
             app.globalData.account = that.data.account
             wx.setStorageSync('jwt_token', resp.token)
-            wx.authorize({
-              scope: 'scope.userInfo',
-              success: () => {
-                wx.getUserInfo({
-                  success: rs => {
-                    app.globalData.userInfo = rs.userInfo
-                    wx.cloud.callFunction({
-                      name: 'login',
-                      data: {
-                        cloudID: wx.cloud.CloudID(rs.cloudID)
-                      }
-                    }).then(suc => {
-                      if (!suc.result.errMsg) {
-                        app.globalData.openid = suc.result.openid
-                        wx.request({
-                          url: host+'/bindUserWx',
-                          method: 'POST',
-                          header: {
-                            "Content-Type": 'application/json'
-                          },
-                          data: JSON.stringify({
-                            account: that.data.account,
-                            openid: suc.result.openid
-                          }),
-                          success: rs => {
-                            console.log(rs)
-                            if (rs.data.success) {
-                              wx.showToast({
-                                title: '绑定成功',
-                                icon: 'success',
-                                duration: 2000
-                              })
-                            }
-                          }
-                        })
+            wx.getUserInfo({
+              success: rs => {
+                app.globalData.userInfo = rs.userInfo
+                wx.cloud.callFunction({
+                  name: 'login',
+                  data: {
+                    cloudID: wx.cloud.CloudID(rs.cloudID)
+                  }
+                }).then(suc => {
+                  if (!suc.result.errMsg) {
+                    app.globalData.openid = suc.result.openid
+                    wx.request({
+                      url: host + '/bindUserWx',
+                      method: 'POST',
+                      header: {
+                        "Content-Type": 'application/json'
+                      },
+                      data: JSON.stringify({
+                        account: that.data.account,
+                        openid: suc.result.openid
+                      }),
+                      success: res1 => {
+                        console.log(res1)
+                        if (res1.data.success) {
+                          wx.showToast({
+                            title: '绑定成功',
+                            icon: 'success',
+                            duration: 2000
+                          })
+                        }
                       }
                     })
                   }
@@ -285,7 +280,7 @@ Page({
                 wx.hideToast()
                 wx.redirectTo({
                   url: '../index/index',
-                  complete: ()=>{
+                  complete: () => {
                     wx.hideLoading()
                   }
                 })

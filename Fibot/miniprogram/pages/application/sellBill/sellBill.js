@@ -196,7 +196,7 @@ Page({
                 })
               }
             })
-            // 添加应付
+            // 收款金额大于0 添加收款
             if(that.data.payAmount > 0){
               wx.request({
                 url: host + '/arap/addReceive',

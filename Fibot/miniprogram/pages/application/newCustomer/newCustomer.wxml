@@ -18,7 +18,7 @@
   <view class="title">客户等级</view>
   <picker bindchange="rangeChange" value="{{rindex}}" range="{{range}}">
     <view class="picker">
-      {{rindex?range[tindex]:'零售客户'}}
+      {{rindex?range[rindex]:'零售客户'}}
     </view>
   </picker>
 </view>
