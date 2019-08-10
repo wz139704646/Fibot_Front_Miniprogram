@@ -41,11 +41,11 @@ Page({
             let { sell } = that.data
             let sellList = res.data.result
             let { date, customerName } = sellList[0]
-            let total = sellList.reduce((acc, cur) => acc + cur.sumprice, 0)
+            let total = sellList[0].goodslist.reduce((acc, cur) => acc + cur.sumprice, 0)
             sell.date = date.substring(0, 10)
             sell.total = total
             sell.customerName = customerName
-            sell.goodsList = sellList
+            sell.goodsList = sellList[0].goodslist
             that.setData({ sell })
           }
         }

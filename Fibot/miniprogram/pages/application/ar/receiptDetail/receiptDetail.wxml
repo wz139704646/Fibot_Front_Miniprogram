@@ -16,8 +16,9 @@
       <van-cell wx:for="{{sell.goodsList}}" wx:key title="{{item.goodsName}} * {{item.number}}" value="￥{{ item.sumprice }}" />
     </van-collapse-item>
   </van-collapse>
-  <van-cell title="订单总金额" value="{{ sell.total }}" />
-  <van-cell title="本次收款" value="{{ receive }}" />
+  <van-cell title="订单总金额" value="￥{{ sell.total }}" />
+  <van-cell title="本次收款" value="￥{{ receive }}" />
 </van-cell-group>
+<view style="height: 10vh"></view>
 
 <button type="" class="cu-btn lg {{verified ? 'bg-green' : 'bg-blue'}}" disabled="{{verified}}" style="position: fixed; bottom: 0rpx; width:100%;" bindtap="onVerify">{{verified ? '已审核' : '审核'}}</button>
