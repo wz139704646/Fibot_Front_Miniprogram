@@ -1,2 +1,6 @@
 <!--pages/application/searchRecent/searchRecent.wxml-->
-<text>pages/application/searchRecent/searchRecent.wxml</text>
+<cu-custom bgColor="bg-gradual-pink" isBack="{{true}}">
+  <view slot="backText">返回</view>
+  <view slot="content">查看近期</view>
+</cu-custom>
+
