@@ -35,11 +35,13 @@ Page({
   },
   navigateToGoodInfo(e){
     console.log(e)
+    console.log("查看详情")
     wx.navigateTo({
       url: '/pages/application/goodInfo/goodInfo?name='+e.currentTarget.dataset.name,
     })
   },
   navigateToGoodAnalyse(e){
     console.log(e)
+    console.log("查看分析")
   },
 })

@@ -32,7 +32,7 @@
   </view>
   <view class="cu-form-group">
     <view class="title">备注</view>
-    <input type='number' placeholder="请输入" style="text-align:right" value='{{remarks[index]}}' bindinput='remarkChange' data-index='{{index}}'></input>
+    <input placeholder="请输入" style="text-align:right" value='{{remarks[index]}}' bindinput='remarkChange' data-index='{{index}}'></input>
   </view>
   <view class='otherButtonBox' data-index='{{index}}'>
     <text class='left-text'>转账明细{{index+1}}</text>

@@ -56,7 +56,7 @@
 </view>
 <view class="cu-form-group">
     <view class="title">备注</view>
-    <input type='number' placeholder="请输入" style="text-align:right" value='{{remarks}}' bindinput='remarkChange'></input>
+    <input placeholder="请输入" style="text-align:right" value='{{remarks}}' bindinput='remarkChange'></input>
   </view>
 </scroll-view>
 <view wx:if="{{toNum>0}}" class="padding-xs flex flex-direction">
