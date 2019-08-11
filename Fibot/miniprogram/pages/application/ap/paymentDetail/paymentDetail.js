@@ -41,10 +41,10 @@ Page({
             let {purchase} = that.data
             let buyList = res.data.result
             let {date, supplierId} = buyList[0]
-            let total = buyList.reduce((acc, cur) => acc + cur.purchasePrice*cur.number, 0)
+            let total = buyList[0].goodsList.reduce((acc, cur) => acc + cur.price*cur.number, 0)
             purchase.date = date.substring(0, 10)
             purchase.total = total
-            purchase.goodsList = buyList
+            purchase.goodsList = buyList[0].goodsList
             this.setData({ purchase })
             wx.request({
               url: host + '/querySupplierById',

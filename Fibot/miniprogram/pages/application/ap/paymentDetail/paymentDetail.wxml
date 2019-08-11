@@ -13,7 +13,7 @@
   <van-cell title="购货单号" value="{{ purchaseId }}" />
   <van-collapse value="{{ activeNames }}" bind:change="onCollapseChange">
     <van-collapse-item title="购货信息" name="1">
-      <van-cell wx:for="{{purchase.goodsList}}" wx:key title="{{item.goodName}} * {{item.number}}" value="￥{{ item.number*item.purchasePrice }}" />
+      <van-cell wx:for="{{purchase.goodsList}}" wx:key title="{{item.goodsName}} * {{item.number}}" value="￥{{ item.number*item.price }}" />
     </van-collapse-item>
   </van-collapse>
   <van-cell title="订单总金额" value="￥{{ purchase.total }}" />
