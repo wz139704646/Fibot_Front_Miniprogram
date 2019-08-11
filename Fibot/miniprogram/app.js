@@ -98,7 +98,10 @@ App({
       name: 'white',
       color: '#ffffff'
     },
-    ]
+    ],
+    bgRed: 0,
+    bgGreen: 175,
+    bgBlue: 180,
   },
 
   relogin: function() {

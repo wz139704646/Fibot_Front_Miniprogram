@@ -47,7 +47,8 @@
     "pages/application/ar/receiptDetail/receiptDetail",
     "pages/application/ap/addPayment/addPayment",
     "pages/application/ap/payables/payables",
-    "pages/application/ap/paymentDetail/paymentDetail"
+    "pages/application/ap/paymentDetail/paymentDetail",
+    "pages/application/start/start"
   ],
   "window": {
     "navigationBarBackgroundColor": "#39b54a",

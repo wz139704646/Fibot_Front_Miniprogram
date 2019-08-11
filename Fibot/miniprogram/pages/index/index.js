@@ -182,7 +182,7 @@ Page({
   },
   NavToTalk() {
     wx.navigateTo({
-      url: '/pages/talk/talk',
+      url: '/pages/application/start/start',
     })
     console.log("navigate")
   }
