@@ -12,25 +12,19 @@
 </view>
 <scroll-view scroll-y class="indexes" style="height:calc(100vh - {{CustomBar}}px - 50px)" scroll-with-animation="true" enable-back-to-top="true">
   <block wx:for="{{sellList}}" wx:key wx:for-index='index'>
+    <view class="padding indexItem-{{sellList[index].date}}" id="indexes-{{sellList[index].date}}" data-index="{{sellList[index].date}}">{{sellList[index].date}}</view>
     <view class="cu-list menu no-padding">
-      <view class="cu-item" data-index='{{item.index}}' bindtap='toDetail'>
+      <view class="cu-item" wx:for="{{item.list}}" wx:for-item="list" wx:key data-id="{{list.id}}"  bindtap='toDetail'>
         <view class="content margin-sm margin-left-sm">
+          <view class='text-black text-xl text-bold'>{{list.customerName}}</view>
           <view class="text-gray text-sm">
-            订单号:{{util.nameFormat(item.id, 13)}}
+            <!-- 订单号:{{util.nameFormat(item.id, 13)}} -->
+            订单号:{{list.id}}
           </view>
-          <view class='text-black text-xl text-bold'>{{item.customerName}}</view>
-        </view>
-       <view class="content1 margin-xs margin-right-xl">
-          <view class="text-black">
-            {{item.date}}
           </view>
-          <view class='margin-top-sm'></view>
-          <view class="text-black goodsName" style='width:40vw;'>
-            商品:{{item.goodsName}}
-          </view>
-          <view class='margin-top-sm'></view>
+        <view class="content1 margin-xs margin-right-xl">
           <view class="text-gray text-sm">
-            数量:{{item.number}}  总价:{{item.sumprice}}
+            总价:{{list.sum}}
           </view>
         </view>
       </view>

@@ -1,4 +1,5 @@
-var app = getApp()
+const app = getApp()
+const util = require('../../../utils/util.js')
 const host = app.globalData.requestHost
 Page({
 
@@ -45,14 +46,33 @@ Page({
         }).then( res => {
           // 存储索引列表和所有列表
           console.log(res)
-          let newlist = res.result
+          var newlist = res.result
+          var datelist = []
+          var index1
           for(let i in newlist){
-            newlist[i]['index'] = i
+            //newlist[i]['index'] = i
+
             newlist[i]['date'] = newlist[i]['date'].toString().substring(0, 10)
+            newlist[i]['sum'] = that.calcTotal(newlist[i].goodslist)
+            index1 = that.ifDateInList(newlist[i].date, datelist)
+            console.log(index1)
+            if(index1){
+              //console.log("add")
+              datelist[index1-1].list.push(newlist[i])
+            }else{
+              var list = []
+              list.push(newlist[i])
+              datelist.push({
+                date:newlist[i].date,
+                list:list
+              })
+            }
           }
+          datelist.sort(that.sortNumber)
+          console.log(datelist)
           that.setData({
-            sellList: newlist,
-            allList: newlist
+            sellList: datelist,
+            allList: datelist
           })
         }).catch(err => {
           console.error(err)
@@ -71,12 +91,33 @@ Page({
       }
     })
   },
+  //按日期排序
+  sortNumber(a, b)
+  {
+    return a.a - b.a
+  },
+  //计算总价
+  calcTotal(list){
+    var total = 0
+    for(var i in list){
+      total = total + list[i].sumprice
+    }
+    return util.twoDecimal(total)
+  },
+  //判断日期是否在列表内
+  ifDateInList(date,list){
+    for(var i in list){
+      var num = parseInt(i)+1
+      if(date == list[i].date) return num
+    }
+    return false
+  },
   // 查看销售详情
   toDetail(e) {
     console.log(e)
-    var index = e.currentTarget.dataset.index
+    var id = e.currentTarget.dataset.id
     wx.navigateTo({
-      url: '../recordInfo/recordInfo?back=sell'+'&id=' + this.data.allList[index].id+'&fun='+this.data.fun
+      url: '../recordInfo/recordInfo?back=sell'+'&id=' + id +'&fun='+this.data.fun
     })
   },
 

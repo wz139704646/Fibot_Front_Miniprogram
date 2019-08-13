@@ -51,7 +51,7 @@ Page({
         }
       },
       success: res => {
-        console.log('添加成功')
+        console.log('添加pinyin成功')
         console.log(res)
         this.setData({
           customerList:res.result
