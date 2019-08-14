@@ -12,7 +12,13 @@ Page({
     state: true,
     loginText: "验证码登录",
     disabled: false,
-    codename: '发送验证码'
+    codename: '发送验证码',
+
+    "lunbo": [
+      { "url": "/imgs/lunbo1.png" },
+      { "url": "/imgs/lunbo2.png" },
+      { "url": "/imgs/lunbo3.png" },
+    ],
   },
 
   onLoad: function(options) {

@@ -1,5 +1,6 @@
 {
   "pages": [
+    
     "pages/index/index",
     "pages/login/login",
     "pages/register/register",
@@ -51,7 +52,7 @@
     "pages/application/start/start"
   ],
   "window": {
-    "navigationBarBackgroundColor": "#39b54a",
+    "navigationBarBackgroundColor": "#03A9F4", 
     "navigationBarTitleText": "财务机器人",
     "navigationStyle": "custom",
     "navigationBarTextStyle": "white"

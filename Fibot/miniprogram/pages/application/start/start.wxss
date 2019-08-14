@@ -19,7 +19,7 @@ page{
   justify-content: space-between;
   box-sizing: border-box;
 } 
-.content{
+.content1{
   flex: 1;
   display: flex;
   position: relative;
@@ -60,8 +60,8 @@ page{
   position: absolute;
   top: 200rpx;
   left: 25%;
-  width: 600rpx;
-  height: 200rpx;
+  width: 500rpx;
+  height: 100rpx;
   font-size: 16pt;
   opacity: 0;
   animation: show 2.5s cubic-bezier(0.19, 1, 0.22, 1) .5s forwards;
@@ -115,7 +115,7 @@ page{
   84% {transform: translate3d(0,15rpx,0) rotate(15deg); }
   100% {transform: translate3d(0,20rpx,0) rotate(-15deg); }
 }
-.wave {
+.wave1 {
   position: absolute;
   z-index: 3;
   right: 0;
@@ -123,20 +123,22 @@ page{
   opacity: 0.725;
   height: 260rpx;
   width: 2250rpx;
-  animation: wave 10s linear infinite;
+  animation: wave1 10s linear infinite;
 }
-.wave-bg {
+.wave1-bg {
   z-index: 1;
-  animation: wave-bg 10.25s linear infinite;
+  animation: wave1-bg 10.25s linear infinite;
 }
-@keyframes wave{
+/* 控制波浪的动画 似乎优点bug 所以注释 */
+
+/* @keyframes wave1{
   from {transform: translate3d(125rpx,0,0);}
   to {transform: translate3d(1125rpx,0,0);}
 }
-@keyframes wave-bg{
+@keyframes wave1-bg{
   from {transform: translate3d(375rpx,0,0);}
   to {transform: translate3d(1375rpx,0,0);}
-}
+} */
 
 .bd {
   position: relative;
@@ -153,7 +155,10 @@ page{
 }
 
 .confirm-btn {
-  margin: 61.8% 30% 0;
+  margin: 61.8% 35% 0;
+  width: 200rpx;
+  height: 200rpx;
+  border-radius: 100rpx;
 }
 .confirm-btn:active {
   opacity: .8;

@@ -1,3 +1,7 @@
+<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
+  <view slot="backText">返回</view>
+  <view slot="content">语音助手</view>
+</cu-custom>
 
 <view class="container" style='background: -webkit-linear-gradient(top, rgba({{bgRed}},{{bgGreen}},{{bgBlue}}, 1), rgba({{bgRed}},{{bgGreen}},{{bgBlue}}, 0.1));'>
   <view class="remind-box" wx:if="{{remind}}">
@@ -5,18 +9,19 @@
   </view>
   <block wx:else>
     <text class="title">你的语音助手已上线！</text>
-    <view class="content">
+    <view class="content1">
       <view class="hd" style="transform:rotateZ({{angle}}deg);">
         <image class='logo' src="/imgs/robot.png"></image>
-        <image class="wave" src="/imgs/wave1.png" mode="aspectFill"></image>
-        <image class="wave wave-bg" src="/imgs/wave1.png" mode="aspectFill"></image>
+        <image class="wave1" src="/imgs/wave1.png" mode="aspectFill"></image>
+        <image class="wave1 wave1-bg" src="/imgs/wave1.png" mode="aspectFill"></image>
       </view>
       <view class="bd">
         <text class="smalltitle">你可以试试这样说\n FiBot，今天卖了多少钱？</text>
         <view>
-          <button class="confirm-btn" size='large' btnStyle="width: 200rpx;border-radius: 100rpx;color: #fff;" bindtap="goToIndex">
+          <button class="confirm-btn cu-btn cuIcon-voice bg-blue shadow" size='large' btnStyle="width: 200rpx;border-radius: 100rpx;" bindtap="goToIndex"></button>
+          <!-- <button class="confirm-btn" size='large' btnStyle="width: 200rpx;border-radius: 100rpx;color: #fff;" bindtap="goToIndex">
           TALK
-          </button>
+          </button> -->
         </view> 
       </view>
     </view>

@@ -12,9 +12,9 @@ Page({
   onLoad: function () {
     var that = this
     that.setData({
-      bgRed: app.globalData.bgRed,
-      bgGreen: app.globalData.bgGreen,
-      bgBlue: app.globalData.bgBlue
+      bgRed: 3,
+      bgGreen: 169,
+      bgBlue: 244
     })
   },
   onShow: function () {

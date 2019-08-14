@@ -1,5 +1,5 @@
 <scroll-view scroll-y class="page">
-  <cu-custom bgColor="bg-gradual-pink">
+  <cu-custom bgColor="bg-gradual-blue">
     <view slot="content">应用</view>
   </cu-custom>
 

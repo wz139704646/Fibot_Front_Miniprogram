@@ -1,12 +1,27 @@
 /*width 750rpx*/
 
 .loginAvatar {
-  background-color: #646262;
+  background-color: #03A9F4;
   height: 400rpx;
   display: flex;
   justify-content: center;
   align-items: center;
 
+}
+
+.swiper {
+ height: 400rpx;
+ width: 100%;
+}
+.swiper image {
+ height: 90%;
+ width: 90%;
+ margin-left: 5%;
+ margin-top: 2%;
+}
+
+.formBox {
+  margin-top: -50rpx;
 }
 
 .loginBox {
@@ -19,7 +34,7 @@
 }
 
 .loginButtonBox {
-  margin-top: 180rpx;
+  margin-top: 160rpx;
 }
 
 .inputBox {
@@ -27,27 +42,27 @@
 }
 
 .button-login {
-  background-color: #4966e7;
-  width: 35vw;
-  border-radius: 12px;
+  background-color: #03A9F4;
+  width: 50vw;
+  border-radius: 5px;
   color:white;  
 }
 
 
 .otherButtonBox{
-  margin-top: 5rpx;
+  margin-top: 20rpx;
 }
 
 .left-text{
   position: absolute;
-  left:5px;
+  left:15px;
   font-size: 14px;
   color:dodgerblue;
 }
 
 .right-text{
   position: absolute;
-  right: 5px;
+  right: 15px;
   font-size: 14px;
   color:dodgerblue;
 }
