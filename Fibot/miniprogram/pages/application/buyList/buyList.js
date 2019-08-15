@@ -1,4 +1,5 @@
 const app = getApp()
+const util = require('../../../utils/util.js')
 var inputVal = '';
 const host = app.globalData.requestHost
 Page({
@@ -31,22 +32,16 @@ Page({
       },
       success(res){
         console.log(res)
-        for (var index in res.data.result){
-          res.data.result[index].date = res.data.result[index].date.toString().substring(0,10)
-        }
-        that.setData({
-          brList:res.data.result
-        })
-        that.initbrList()
+        that.initbrList(res.data.result)
       }
     })
   },
-  initbrList() {
+  initbrList(brList) {
     var that = this
     wx.cloud.callFunction({
       name: 'convert2pinyin',
       data: {
-        jsonStr: JSON.stringify(this.data.brList),
+        jsonStr: JSON.stringify(brList),
         options: {
           field: 'goodName',
           pinyin: 'pinyin',
@@ -55,16 +50,41 @@ Page({
       success: res => {
         console.log('添加成功')
         console.log(res)
-        this.setData({
-          brList: res.result
+        var newlist = res.result
+        var datelist = []
+        var index1
+        for (var i in newlist) {
+          newlist[i]['date'] = newlist[i]['date'].toString().substring(0, 10)
+          newlist[i]['sum'] = that.calcTotal(newlist[i].goodsList)
+          index1 = that.ifDateInList(newlist[i].date, datelist)
+          //console.log(index1)
+          if (index1) {
+            //console.log("add")
+            datelist[index1 - 1].list.push(newlist[i])
+          } else {
+            var list = []
+            list.push(newlist[i])
+            datelist.push({
+              date: newlist[i].date,
+              list: list
+            })
+          }
+        }
+        datelist.sort(that.sortNumber)
+        console.log(datelist)
+        that.setData({
+          brList: datelist,
+          allbrList: datelist
         })
-        that.initIndex()
+        // that.initIndex()
+
       },
       fail: err => {
         console.error('fail')
       }
     })
   },
+  //TODO 待改
   initIndex(){
     for (var index in this.data.brList) {
       var indexParam = "brList[" + index + "].index"
@@ -77,12 +97,33 @@ Page({
       allbrList:this.data.brList
     })
   },
+  //按日期排序
+  sortNumber(a, b) {
+    return a.a - b.a
+  },
+  //计算总价
+  calcTotal(list) {
+    var total = 0
+    for (var i in list) {
+      total = total + list[i].price * list[i].number
+    }
+    return util.twoDecimal(total)
+  },
+  //判断日期是否在列表内
+  ifDateInList(date, list) {
+    for (var i in list) {
+      var num = parseInt(i) + 1
+      if (date == list[i].date) return num
+    }
+    return false
+  },
   inputChange(e) {
     var that = this
     console.log(e.detail.value)
     inputVal = e.detail.value
     that.search()
   },
+  //TODO 待改
   search() {
     var that = this
     console.log("正在搜索")

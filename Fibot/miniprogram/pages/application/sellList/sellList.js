@@ -94,7 +94,7 @@ Page({
   //按日期排序
   sortNumber(a, b)
   {
-    return a.a - b.a
+    return a.date - b.date
   },
   //计算总价
   calcTotal(list){

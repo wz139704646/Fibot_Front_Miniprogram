@@ -13,13 +13,13 @@
   <view class="formBox cu-list menu card-menu margin-top-xl margin-bottom-xl shadow-lg radius">
     <van-cell-group custom-class='inputBox'>
       <view class="cu-item arrow">
-        <van-field label="账号" value="{{ account }}" placeholder="请输入账号" left-icon='friends-o' border="{{ true }}" clearable bind:change="onAccoutChange" icon="question-o" bind:click-icon="accountTip" error-message="{{accountError}}" />
+        <van-field label="账号" value="{{ account }}" placeholder="请输入" left-icon='friends-o' border="{{ true }}" clearable bind:change="onAccoutChange" icon="question-o" bind:click-icon="accountTip" error-message="{{accountError}}" />
       </view>
       <view class="cu-item arrow" hidden='{{!state}}'>
-        <van-field type='password' label="密码" value="{{ passwd }}" placeholder="请输入密码" left-icon='eye-o' border="{{ true }}" clearable bind:change="onPwdChange" error-message="{{passwdError}}" />
+        <van-field type='password' label="密码" value="{{ passwd }}" placeholder="请输入" left-icon='eye-o' border="{{ true }}" clearable bind:change="onPwdChange" error-message="{{passwdError}}" />
       </view>
       <view class="cu-item arrow" hidden='{{state}}'>
-        <van-field value="{{ messagecode }}" center clearable label="短信验证码" placeholder="请输入验证码" left-icon='comment-o' border="{{ false }}" use-button-slot bindinput="setCode">
+        <van-field value="{{ messagecode }}" center clearable label="短信验证码" placeholder="请输入" left-icon='comment-o' border="{{ false }}" use-button-slot bindinput="setCode">
           <van-button slot="button" size="small" type="primary" bindtap="sendCode" disabled='{{disabled}}'>{{codename}}</van-button>
         </van-field>
       </view>

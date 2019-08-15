@@ -232,11 +232,7 @@ Page({
           if(res.confirm){
             //TODO修改商品信息
             that.delPic()
-            wx.showToast({
-              title: '修改成功',
-              icon: 'none',
-              mask: true
-            })
+            that.modify()
           }
         },
         fail:res=>{
@@ -249,6 +245,7 @@ Page({
     })
   },
   modify(){
+    console.log(this.data.barcode)
     wx.request({
       url: host + '/updateGoodsInfo',
       data:JSON.stringify({
@@ -264,10 +261,12 @@ Page({
         "Content-Type":"application/json"
       },
       success:res=>{
-        console.log(res)
-        wx.redirectTo({
-          url: '/pages/index/index',
+        wx.showToast({
+          title: '修改成功',
+          icon: 'none',
+          mask: true
         })
+        console.log(res)
       }
     })
 
