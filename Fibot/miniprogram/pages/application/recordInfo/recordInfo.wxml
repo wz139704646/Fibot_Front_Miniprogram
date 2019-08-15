@@ -11,7 +11,7 @@
   <view class="title">开单日期</view>
   <picker disabled='{{true}}' mode="date" value="{{date}}">
     <view class="picker">
-      {{buyList[0].date}}
+      {{date}}
     </view>
   </picker>
 </view>

@@ -55,7 +55,7 @@ Page({
             newlist[i]['date'] = newlist[i]['date'].toString().substring(0, 10)
             newlist[i]['sum'] = that.calcTotal(newlist[i].goodslist)
             index1 = that.ifDateInList(newlist[i].date, datelist)
-            console.log(index1)
+            //console.log(index1)
             if(index1){
               //console.log("add")
               datelist[index1-1].list.push(newlist[i])
@@ -120,7 +120,7 @@ Page({
       url: '../recordInfo/recordInfo?back=sell'+'&id=' + id +'&fun='+this.data.fun
     })
   },
-
+  //搜索TODO
   search: function(e){
     let searchText = e.detail.value
     if(!searchText || !this.data.allList)

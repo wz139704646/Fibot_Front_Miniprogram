@@ -1,4 +1,5 @@
 const app = getApp()
+const util = require('../../../utils/util.js')
 const host = app.globalData.requestHost
 Page({
 
@@ -73,7 +74,7 @@ Page({
     var id = e.id
     var back = e.back 
     // 根据返回页面获取请求不同的api
-    let api = back == 'sell' ? '/querySellById' : '/queryPurchaseById'
+    let api = back == 'sell' ? '/querySell' : '/queryPurchase'
     wx.request({
       url: host + api,
       data: JSON.stringify({
@@ -88,12 +89,12 @@ Page({
         console.log(res)
         let data = res.data
         let back = that.data.back
-        let list = []
         // 处理返回的同一订单的商品信息列表
         // 购货单
         var nameapi
         var id
         var pname=""
+        var list = []
         if(back == 'buy'){
           list = data.result
           console.log(list)
@@ -114,7 +115,7 @@ Page({
           console.log(data)
           list = data.result
           nameapi = "/queryCustomerById"
-          id = data.result[0].customerId
+          id = list[0].customerId
           if(list && list.length>0) {
             list[0].date = list[0].date.toString().substring(0, 10)
           } else {
@@ -145,15 +146,16 @@ Page({
           success(res) {
             console.log(res)
             that.setData({
-              pname:res.data.result[0].name
+              pname:res.data.result[0].name,
             })
           }
         })
 
         that.setData({
-          buyList: list
+          buyList: list[0].goodslist,
+          date:list[0].date
         })
-        that.calTotal(list, back)
+        that.calTotal(list[0].goodslist, back)
       },
       
     })
@@ -214,6 +216,8 @@ Page({
         total += list[index].sumprice
       }
     }
+    total = util.twoDecimal(total)
+    console.log("total = "+total)
     this.setData({
       total: total
     })
@@ -270,7 +274,16 @@ Page({
   },
   //确认出库
   sellOut(){
-
+    //TODO
+    wx.showToast({
+      title: '确认出库',
+      duration: 2000,
+      mask: true
+    })
+    console.log(res)
+    wx.redirectTo({
+      url: '/pages/index/index',
+    })
   }
 
 })
