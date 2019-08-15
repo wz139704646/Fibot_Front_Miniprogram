@@ -49,7 +49,8 @@
     "pages/application/ap/addPayment/addPayment",
     "pages/application/ap/payables/payables",
     "pages/application/ap/paymentDetail/paymentDetail",
-    "pages/application/start/start"
+    "pages/application/start/start",
+    "pages/application/chooseRole/chooseRole"
   ],
   "window": {
     "navigationBarBackgroundColor": "#03A9F4", 

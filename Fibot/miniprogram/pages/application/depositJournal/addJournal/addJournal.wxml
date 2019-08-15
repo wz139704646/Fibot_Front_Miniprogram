@@ -1,10 +1,10 @@
 <!--pages/application/depositJournal/addJournal/addJournal.wxml-->
-<cu-custom bgColor="bg-gradual-pink" isBack="{{true}}">
+<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
   <view slot="backText">返回</view>
   <view slot="content">新增日记账</view>
 </cu-custom>
 
-<scroll-view scroll-x class="bg-grey nav text-center">
+<scroll-view scroll-x class="bg-blue nav text-center">
   <view class="cu-item {{0==TabCur?'text-white cur':''}}" bindtap="tabSelect" data-id="0"> 库存现金</view>
   <view class="cu-item {{1==TabCur?'text-white cur':''}}" bindtap="tabSelect" data-id="1"> 银行存款</view>
 </scroll-view>
