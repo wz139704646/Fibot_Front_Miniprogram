@@ -1,5 +1,5 @@
 <!--pages/home/talk/talk.wxml-->
-<cu-custom bgColor="bg-gradual-pink" isBack="{{true}}">
+<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
   <view slot="backText">返回</view>
   <view slot="content">Fibot</view>
 </cu-custom>
@@ -38,7 +38,7 @@
   <button hidden='{{!soundInput}}' style='width:100%;' class='cu-btn text-lg margin-right bg-gray' catchtouchstart='recordBegins' catchtouchend='recordEnds' catchtouchcancel="recordEnds">
     <text class='text-black {{recordStarted ? "cuIcon-voicefill" : "cuIcon-voice" }}'></text>{{recordStarted ? '松开 发送' : '按住 说话'}}
   </button>
-  <button disabled="{{soundInput}}" type="" class="cu-btn bg-cyan shadow" bindtap='sendByTapping'>
+  <button disabled="{{soundInput}}" type="" class="cu-btn bg-blue shadow" bindtap='sendByTapping'>
     <view class='text-xxl'>
       <text class="cuIcon-pullright"></text>
     </view>
