@@ -3,7 +3,7 @@
     <view slot="backText">返回</view>
     <view slot="content">注册账号</view>
   </cu-custom>
-  <view>
+  <view class="cu-list menu card-menu margin-top-xl margin-bottom-xl shadow-lg radius">
     <van-field label="公司" disabled value="{{ company ? clist[company.section].items[company.row].name : '' }}" placeholder="请选择公司" is-link clickable bindtap="showModal" left-icon='wap-home' border="{{ true }}" data-target="viewModal" />
     <van-field label="账号" value="{{ account }}" placeholder="请输入手机号" left-icon='friends-o' border="{{ true }}" clearable bind:input="getAccountValue" icon="question-o" bind:click-icon="accountTip" error-message="{{accountError}}" />
     <van-field type='password' label="密码" value="{{ passwd }}" placeholder="请输入密码" left-icon='eye-o' border="{{ true }}" clearable bind:input="getPasswdValue" error-message="{{passwdError}}" />

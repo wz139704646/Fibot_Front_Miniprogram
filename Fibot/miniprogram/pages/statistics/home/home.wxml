@@ -1,6 +1,6 @@
 <!--miniprogram/pages/finding/home/home.wxml-->
 <scroll-view scroll-y class='scrollPage'>
-  <cu-custom bgColor="bg-gradual-pink">
+  <cu-custom bgColor="bg-gradual-blue">
     <view slot="content" class='text-shadow'>
       <text class='text-xl text-white'>统计数据</text>
     </view>

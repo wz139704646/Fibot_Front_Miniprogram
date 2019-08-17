@@ -5,13 +5,13 @@ page{
 }
 
 .registerButtonBox {
-  margin-top: 220rpx;
+  margin-top: 160rpx;
 }
 
 .button-register {
-  background-color: #4966e7;
-  width: 30vw;
-  border-radius: 12px;
+  background-color: #03A9F4;
+  width: 50vw;
+  border-radius: 5px;
   color:white;  
 }
 

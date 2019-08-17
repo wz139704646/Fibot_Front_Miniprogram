@@ -10,16 +10,19 @@
     <view class="cu-chat">
       <view class="cu-item self" wx:if='{{item.speaker=="customer"}}' id='msg-{{index}}'>
         <view class="main">
-          <view class="content bg-green shadow">
+          <view class="content bg-blue shadow">
             <text>{{item.content}}</text>
           </view>
         </view>
-        <view class="cu-avatar radius" style="background-image:url(https://gss1.bdstatic.com/9vo3dSag_xI4khGkpoWK1HF6hhy/baike/w%3D268/sign=f0e412c3dd43ad4ba62e41c6ba035a89/8718367adab44aed07a45182bf1c8701a08bfbea.jpg);"></view>
+        <view class="cu-avatar radius">
+          <open-data class='logo' type="userAvatarUrl"></open-data>
+        </view>
         <!-- <view class="date">{{item.date}}</view> -->
       </view>
 
       <view class="cu-item" wx:if='{{item.speaker=="server"}}' id='msg-{{index}}'>
-        <view class="cu-avatar round" style="background-image:url(https://gss1.bdstatic.com/9vo3dSag_xI4khGkpoWK1HF6hhy/baike/w%3D268/sign=f0e412c3dd43ad4ba62e41c6ba035a89/8718367adab44aed07a45182bf1c8701a08bfbea.jpg);"></view>
+        <view class="cu-avatar radius" style="background-image:url(https://gss1.bdstatic.com/9vo3dSag_xI4khGkpoWK1HF6hhy/baike/w%3D268/sign=f0e412c3dd43ad4ba62e41c6ba035a89/8718367adab44aed07a45182bf1c8701a08bfbea.jpg);">
+        </view>
         <view class="main">
           <view class="content shadow">
             <text>{{item.content}}</text>

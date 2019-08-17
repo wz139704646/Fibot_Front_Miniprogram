@@ -1,6 +1,6 @@
 <!--pages/application/sellList/sellList.wxml-->
 <wxs module='util' src='util.wxs' module='util'></wxs>
-<cu-custom bgColor="bg-gradual-pink" isBack="{{true}}">
+<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
   <view slot="backText">返回</view>
   <view slot="content">销售记录</view>
 </cu-custom>
@@ -13,8 +13,8 @@
 <scroll-view scroll-y class="indexes" style="height:calc(100vh - {{CustomBar}}px - 50px)" scroll-with-animation="true" enable-back-to-top="true">
   <block wx:for="{{sellList}}" wx:key wx:for-index='index'>
     <view class="padding indexItem-{{sellList[index].date}}" id="indexes-{{sellList[index].date}}" data-index="{{sellList[index].date}}">{{sellList[index].date}}</view>
-    <view class="cu-list menu no-padding">
-      <view class="cu-item" wx:for="{{item.list}}" wx:for-item="list" wx:key data-id="{{list.id}}"  bindtap='toDetail'>
+    <view class="cu-list menu no-padding card-menu shadow-lg radius">
+      <view class="cu-item " wx:for="{{item.list}}" wx:for-item="list" wx:key data-id="{{list.id}}"  bindtap='toDetail'>
         <view class="content margin-sm margin-left-sm">
           <view class='text-black text-xl text-bold'>{{list.customerName}}</view>
           <view class="text-gray text-sm">
