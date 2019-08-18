@@ -3,6 +3,32 @@
     <view slot="content">应用</view>
   </cu-custom>
 
+  <!-- <view class="list-box">
+        <view class="newest-list">
+            <navigator url="../details/details">
+                <image src="/image/s4.png"></image>
+                <view class="newest-text"><text>销售管理</text></view>
+            </navigator>
+        </view>
+        <view class="newest-list">
+            <navigator url="../details/details">
+                <image src="/image/s5.png"></image>
+                <view class="newest-text"><text>采购管理</text></view>
+            </navigator>
+        </view>
+        <view class="newest-list">
+            <navigator url="../details/details">
+                <image src="/image/s6.png"></image>
+                <view class="newest-text"><text>资金管理</text></view>
+            </navigator>
+        </view>
+        <view class="newest-list">
+            <navigator url="../details/details">
+                <image src="/image/s6.png"></image>
+                <view class="newest-text"><text>仓库管理</text></view>
+            </navigator>
+        </view>
+  </view> -->
 
   <view class="cu-bar bg-white solid-bottom margin-top">
     <view class="action">

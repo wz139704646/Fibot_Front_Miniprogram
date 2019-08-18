@@ -1,14 +1,26 @@
 <!--pages/application/goodList/goodList.wxml-->
-<cu-custom bgColor="bg-gradual-pink" isBack="{{true}}">
+<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
   <view slot="backText">返回</view>
   <view slot="content">商品列表</view>
 </cu-custom>
-<block wx:key wx:for='{{goodsList}}' wx:for-index='index'>
+
+<!-- <block wx:key wx:for='{{goodsList}}' wx:for-index='index'>
   <van-card num="{{item.brand}}" tag="{{item.type}}" price="{{item.sellprice}}" desc="{{item.description}}" title="{{item.name}}" thumb="{{host+'/goodsPic/'+item.photo}}" thumb-mode="aspectFill" bindtap='navigateToGoodInfo' data-name="{{item.name}}">
     <view slot="footer">
       <van-button size="mini" catchtap='navigateToGoodAnalyse' data-name="{{item.name}}">商品分析</van-button>
     </view>
   </van-card>
   <view class="divLine"></view>
-</block>
- 
+</block> -->
+
+<view class="list-box">
+  <block wx:key wx:for='{{goodsList}}' wx:for-index='index'>
+        <view class="newest-list" bindtap="navigateToGoodInfo">
+            <navigator url="../details/details">
+                <image src="{{host+'/goodsPic/'+item.photo}}"></image>
+                <view class="text_title"><text>{{item.name}}</text></view>
+                <view class="text_price"><text>￥{{item.sellprice}}</text></view>
+            </navigator>
+        </view>
+  </block>
+</view>
