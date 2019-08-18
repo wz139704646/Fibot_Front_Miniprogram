@@ -1,4 +1,4 @@
-<cu-custom bgColor="bg-gradual-pink" isBack="{{true}}">
+<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
   <view slot="backText">返回</view>
   <view slot="content">商品详情</view>
 </cu-custom>
@@ -62,5 +62,5 @@
   <input disabled="{{isDisable}}" type='number' placeholder="请输入商品售价" style="text-align:right" value='{{sellprice}}' bindinput='sellpriceChange'></input>
 </view>
 <view class="padding flex flex-direction">
-  <button class="cu-btn bg-{{isDisable?'red':'blue'}} margin-tb-sm lg" bindtap='onSubmit'>{{isDisable?"修改":"确认"}}</button>
+  <button class="cu-btn bg-{{isDisable?'blue':'red'}} margin-tb-sm lg" bindtap='onSubmit'>{{isDisable?"修改":"确认"}}</button>
 </view>

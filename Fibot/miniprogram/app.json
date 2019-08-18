@@ -1,6 +1,6 @@
 {
   "pages": [
-    "pages/application/chooseRole/chooseRole",
+    "pages/application/chooseGood/chooseGood",
     "pages/index/index",
     "pages/login/login",
     "pages/register/register",
@@ -20,7 +20,7 @@
     "pages/application/goodList/goodList",
     "pages/application/goodInfo/goodInfo",
     "pages/application/buyBill/buyBill",
-    "pages/application/chooseGood/chooseGood",
+    
     "pages/application/recordInfo/recordInfo",
     "pages/application/sellBill/sellBill",
     "pages/application/inStore/inStore",
@@ -49,7 +49,8 @@
     "pages/application/ap/addPayment/addPayment",
     "pages/application/ap/payables/payables",
     "pages/application/ap/paymentDetail/paymentDetail",
-    "pages/application/start/start"
+    "pages/application/start/start",
+    "pages/application/chooseRole/chooseRole"
   ],
   "window": {
     "navigationBarBackgroundColor": "#03A9F4", 
