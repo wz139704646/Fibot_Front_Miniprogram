@@ -15,7 +15,7 @@
 
 <view class="list-box">
   <block wx:key wx:for='{{goodsList}}' wx:for-index='index'>
-        <view class="newest-list" bindtap="navigateToGoodInfo">
+        <view class="newest-list" data-name="{{item.name}}" bindtap="navigateToGoodInfo">
             <navigator url="../details/details">
                 <image src="{{host+'/goodsPic/'+item.photo}}"></image>
                 <view class="text_title"><text>{{item.name}}</text></view>

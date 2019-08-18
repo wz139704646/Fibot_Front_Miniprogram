@@ -150,7 +150,7 @@ Page({
         }
       })
     }else{
-      that.modify
+      that.modify()
     }
     
   },
@@ -231,8 +231,10 @@ Page({
         success:res=>{
           if(res.confirm){
             //TODO修改商品信息
-            that.delPic()
-            that.modify()
+            if(this.data.isChangeImg){
+              that.delPic()
+            }
+            that.upload(this.data.id)
           }
         },
         fail:res=>{
@@ -245,7 +247,7 @@ Page({
     })
   },
   modify(){
-    console.log(this.data.barcode)
+    //console.log(this.data.barcode)
     wx.request({
       url: host + '/updateGoodsInfo',
       data:JSON.stringify({
