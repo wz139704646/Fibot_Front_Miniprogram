@@ -149,9 +149,10 @@ Page({
   toDetail(e){
     console.log(this.data)
     console.log(e)
-    var index = e.currentTarget.dataset.index
+    var id = e.currentTarget.dataset.id
+    var status = e.currentTarget.dataset.status
     wx.navigateTo({
-      url: '../recordInfo/recordInfo?back=buy&id=' + this.data.allbrList[index].id + '&fun=' + this.data.fun + '&status=' + this.data.allbrList[index].status
+      url: '../recordInfo/recordInfo?back=buy&id=' + id + '&fun=' + this.data.fun + '&status=' + status
     })
   },
   

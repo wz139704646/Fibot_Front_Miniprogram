@@ -1,6 +1,6 @@
 {
   "usingComponents": {
     "van-popup": "vant-weapp/popup",
-    "van-picker": "vant-weapp/picker"
+    "van-card": "vant-weapp/card"
   }
 }

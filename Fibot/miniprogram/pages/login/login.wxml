@@ -3,7 +3,7 @@
 <view class='loginBox'>
   <view class='loginAvatar'>
     <swiper class="swiper" indicator-dots="true"     indicator-active-color="#03A9F4" autoplay="true" interval="5000" duration="1000">  
-          <block wx:for="{{lunbo}}" wx:for-index="index">  
+          <block wx:for="{{lunbo}}" wx:for-index="index" wx:key>  
             <swiper-item>  
             <image src="{{item.url}}" class="padding-xl radius shadow-warp bg-white margin-top" mode="aspectFill"/>  
             </swiper-item>  

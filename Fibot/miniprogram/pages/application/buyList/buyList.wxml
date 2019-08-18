@@ -12,7 +12,7 @@
   <block wx:for="{{brList}}" wx:key wx:for-index='index'>
     <view class="padding indexItem-{{brList[index].date}}" id="indexes-{{brList[index].date}}" data-index="{{brList[index].date}}">{{brList[index].date}}</view>
     <view class="cu-list menu-avatar no-padding">
-      <view class="cu-item" wx:for="{{item.list}}" wx:for-item="list" wx:key data-id="{{list.id}}"  bindtap='toDetail'>
+      <view class="cu-item" wx:for="{{item.list}}" wx:for-item="list" wx:key data-id="{{list.id}}" data-status="{{list.status}}" bindtap='toDetail'>
         <view wx:if="{{list.status=='运'}}" class="cu-avatar round lg bg-blue">{{list.status}}</view>
         <view wx:if="{{list.status=='到'}}" class="cu-avatar round lg bg-orange">{{list.status}}</view>
         <view class="content">

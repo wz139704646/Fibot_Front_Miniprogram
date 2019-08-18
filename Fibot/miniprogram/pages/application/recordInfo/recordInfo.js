@@ -18,6 +18,9 @@ Page({
   onLoad: function (options) {
     var that = this
     console.log(options)
+    this.setData({
+      host: host
+    })
     if(!options.id || !options.back){
       wx.showToast({
         title: '获取订单信息失败！',
@@ -99,7 +102,7 @@ Page({
           list = data.result
           console.log(list)
           nameapi = "/querySupplierById"
-          id = data.result[0].supplierId
+          id = list[0].supplierId
           if(list && list.length>0){
             list[0].date = list[0].date.toString().substring(0, 10)
           } else {
@@ -152,10 +155,10 @@ Page({
         })
 
         that.setData({
-          buyList: list[0].goodslist,
+          buyList: list[0].goodsList,
           date:list[0].date
         })
-        that.calTotal(list[0].goodslist, back)
+        that.calTotal(list[0].goodsList, back)
       },
       
     })
@@ -209,7 +212,7 @@ Page({
     var total = 0
     if(back == 'buy') {
       for (var index in list) {
-        total = total + list[index].number * list[index].purchasePrice
+        total = total + list[index].number * list[index].price
       }
     } else {
       for(var index in list) {

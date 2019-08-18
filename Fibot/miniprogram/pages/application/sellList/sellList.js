@@ -53,7 +53,7 @@ Page({
             //newlist[i]['index'] = i
 
             newlist[i]['date'] = newlist[i]['date'].toString().substring(0, 10)
-            newlist[i]['sum'] = that.calcTotal(newlist[i].goodslist)
+            newlist[i]['sum'] = that.calcTotal(newlist[i].goodsList)
             index1 = that.ifDateInList(newlist[i].date, datelist)
             //console.log(index1)
             if(index1){
