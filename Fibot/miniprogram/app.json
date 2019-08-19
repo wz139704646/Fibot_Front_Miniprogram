@@ -1,7 +1,7 @@
 {
   "pages": [
-    "pages/application/chooseGood/chooseGood",
     "pages/index/index",
+    "pages/application/chooseGood/chooseGood",
     "pages/login/login",
     "pages/register/register",
     "pages/my/home/home",
