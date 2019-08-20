@@ -43,7 +43,7 @@ Page({
       data: {
         jsonStr: JSON.stringify(brList),
         options: {
-          field: 'goodName',
+          field: 'supplierName',
           pinyin: 'pinyin',
         }
       },
@@ -121,30 +121,84 @@ Page({
     var that = this
     console.log(e.detail.value)
     inputVal = e.detail.value
-    that.search()
+    that.search(e)
   },
   //TODO 待改
-  search() {
+  search(e) {
     var that = this
-    console.log("正在搜索")
-    this.setData({
-      brList: this.data.allbrList
-    })
-    if (inputVal == "") {
-      console.log("无操作")
-    } else {
-      this.data.searchList = []
-      for (let i = 0, len = this.data.brList.length; i < len; i++) {
-        let j = this.data.brList[i].pinyin
-        let l = this.data.brList[i].date
-        if (j.indexOf(inputVal) != -1 || l.indexOf(inputVal) != -1) {
-          this.data.searchList.push(this.data.brList[i])
+    let searchText = e.detail.value
+    if (!searchText) {
+      this.setData({
+        brList: this.data.allbrList
+      })
+    }
+    searchText = searchText.toLowerCase()
+    let blist = this.data.allbrList
+    let buyList = []
+    //查日期
+    for (var i in blist) {
+      if (blist[i].date.indexOf(searchText) != -1) {
+        buyList.push(blist[i])
+      }
+    }
+    //查姓名
+    var index1
+    for (var i in blist) {
+      for (var j in blist[i].list) {
+        var rlist = blist[i].list[j]
+        if (rlist.pinyin.indexOf(searchText) != -1) {
+          index1 = that.ifDateInList(rlist.date, buyList)
+          if (index1) {
+            buyList[index1 - 1].list.push(rlist)
+          } else {
+            var list = []
+            list.push(rlist)
+            buyList.push({
+              date: rlist.date,
+              list: list
+            })
+          }
         }
       }
-      this.setData({
-        brList: this.data.searchList
-      });
     }
+    //TODO查商品 还有bug 添加多次
+    for (var i in blist) {
+      for (var j in blist[i].list) {
+        var rlist = blist[i].list[j]
+        var ifbreak = false
+        for (var l in buyList) {
+          for (var m in buyList[l].list) {
+            //console.log(rlist.id + ",,," + buyList[l].list[m].id)
+            if (rlist.id == buyList[l].list[m].id) {
+              ifbreak = true
+            }
+            //console.log(ifbreak)
+          }
+        }
+        if (ifbreak) {
+          break
+          //console.log("break")
+        }
+        for (var k in blist[i].list[j].goodsList) {
+          if (rlist.goodsList[k].goodsName.indexOf(searchText) != -1) {
+            index1 = that.ifDateInList(rlist.date, buyList)
+            if (index1) {
+              buyList[index1 - 1].list.push(rlist)
+            } else {
+              var list = []
+              list.push(rlist)
+              buyList.push({
+                date: rlist.date,
+                list: list
+              })
+            }
+          }
+        }
+      }
+    }
+    this.setData({
+      brList: buyList
+    })
   },
   toDetail(e){
     console.log(this.data)

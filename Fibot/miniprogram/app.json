@@ -20,7 +20,6 @@
     "pages/application/goodList/goodList",
     "pages/application/goodInfo/goodInfo",
     "pages/application/buyBill/buyBill",
-    
     "pages/application/recordInfo/recordInfo",
     "pages/application/sellBill/sellBill",
     "pages/application/inStore/inStore",
@@ -38,7 +37,7 @@
     "pages/application/depositJournal/addJournal/addJournal",
     "pages/application/depositJournal/journalList/journalList",
     "pages/application/dailyFund/dailyFund",
-    "pages/application/bankReconciliations/reconciliationShow/reconciliationShow", "pages/application/bankReconciliations/reconciliationDetail/reconciliationDetail",
+"pages/application/bankReconciliations/reconciliationShow/reconciliationShow", "pages/application/bankReconciliations/reconciliationDetail/reconciliationDetail",
     "pages/application/transferAccount/newTransfer/newTransfer",
     "pages/application/transferAccount/transferRecord/transferRecord",
     "pages/application/ar/addReceipt/addReceipt",

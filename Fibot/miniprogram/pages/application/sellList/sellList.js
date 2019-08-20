@@ -51,7 +51,6 @@ Page({
           var index1
           for(let i in newlist){
             //newlist[i]['index'] = i
-
             newlist[i]['date'] = newlist[i]['date'].toString().substring(0, 10)
             newlist[i]['sum'] = that.calcTotal(newlist[i].goodsList)
             index1 = that.ifDateInList(newlist[i].date, datelist)
@@ -181,7 +180,9 @@ Page({
             if(rlist.id == sellList[l].list[m].id){
               ifbreak = true
             }
+            console.log(ifbreak)
           }
+          
         }
         if(ifbreak){
           break
