@@ -1,5 +1,5 @@
 <!--miniprogram/pages/application/ar/receipts/receipts.wxml-->
-<cu-custom bgColor="bg-gradual-pink" isBack="{{true}}">
+<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
   <view slot="backText">返回</view>
   <view slot="content">收款记录</view>
 </cu-custom>
@@ -14,13 +14,15 @@
   </view>
 </view>
 
-<scroll-view style="margin-top: 15vh;">
-  <van-cell-group wx:for="{{filterReceipts}}" wx:key wx:for-item="coll" title="{{coll.date}}" wx:for-key="idx">
-    <van-cell wx:key is-link wx:for="{{coll.records}}" title="{{item.customerName}}" label="{{item.id}}" value="￥{{item.amount}}" url="{{'../receiptDetail/receiptDetail?id='+item.id}}" link-type="navigateTo" clickable="{{true}}" />
-  </van-cell-group>
-  <view wx:if="{{!filterReceipts || filterReceipts.length == 0}}" class="text-center padding text-bold">无收款记录</view>
-  <view style="height:120rpx;"></view>
-</scroll-view>
+<view class="cu-list menu-avatar no-padding card-menu shadow-lg radius">
+  <scroll-view style="margin-top: 15vh;">
+    <van-cell-group wx:for="{{filterReceipts}}" wx:key wx:for-item="coll" title="{{coll.date}}" wx:for-key="idx">
+      <van-cell wx:key is-link wx:for="{{coll.records}}" title="{{item.customerName}}" label="{{item.id}}" value="￥{{item.amount}}" url="{{'../receiptDetail/receiptDetail?id='+item.id}}" link-type="navigateTo" clickable="{{true}}" />
+    </van-cell-group>
+    <view wx:if="{{!filterReceipts || filterReceipts.length == 0}}" class="text-center padding text-bold">无收款记录</view>
+    <view style="height:120rpx;"></view>
+  </scroll-view>
+</view>
 
 <van-popup show="{{ showPicker }}" position="bottom" bind:close="onModalClose">
   <van-picker show-toolbar columns="{{ timeOptions }}" bind:cancel="onModalClose" bind:confirm="onPickerConfirm" />

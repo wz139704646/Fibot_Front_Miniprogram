@@ -1,6 +1,6 @@
 <!--miniprogram/pages/application/ap/payables/payables.wxml-->
 <wxs module='arr' src='../../ar/receivables/arrUtils.wxs'></wxs>
-<cu-custom bgColor="bg-gradual-pink" isBack="{{true}}">
+<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
   <view slot="backText">返回</view>
   <view slot="content">应付单</view>
 </cu-custom>
@@ -15,26 +15,28 @@
   </view>
 </view>
 
-<scroll-view style="margin-top: 15vh;">
-  <van-collapse value="{{ activeNames }}" bind:change="onCollapseChange">
-    <van-cell-group wx:for="{{filterPayables}}" wx:key wx:for-item="coll" title="{{coll.date}}" wx:for-index="idx">
-      <van-collapse-item wx:key wx:for="{{coll.records}}" wx:for-key="index" title="{{item.supplierName}}" name="{{idx + ' ' + index}}" label="{{item.purchaseId}}" value="￥{{item.remain}}" wx:if="{{item.remain !=0 }}">
-        <view wx:if="{{back == 'addPayment'}}" slot="icon" catchtap="noSense">
-          <checkbox-group catchchange="onPayableSelected" data-path="{{ {idx, index} }}">
-            <checkbox class="round red" value="{{idx}} {{index}}" checked="{{ arr.contains(selectedPayables,item) }}"></checkbox>
-          </checkbox-group>
-        </view>
-        <van-cell-group custom-class="text-sm">
-          <van-cell title="订单总价值" value="￥{{item.total}}" />
-          <van-cell title="剩余应付" value="￥{{item.remain}}" />
-          <van-cell title="备注" value="{{item.reason}}" />
-        </van-cell-group>
-      </van-collapse-item>
-    </van-cell-group>
-  </van-collapse>
-  <view wx:if="{{!filterPayables || filterPayables.length == 0}}" class="text-center padding text-bold">无应付记录</view>
-  <view style="height:120rpx;"></view>
-</scroll-view>
+<view class="cu-list menu-avatar no-padding card-menu shadow-lg radius">
+  <scroll-view style="margin-top: 15vh;">
+    <van-collapse value="{{ activeNames }}" bind:change="onCollapseChange">
+      <van-cell-group wx:for="{{filterPayables}}" wx:key wx:for-item="coll" title="{{coll.date}}" wx:for-index="idx">
+        <van-collapse-item wx:key wx:for="{{coll.records}}" wx:for-key="index" title="{{item.supplierName}}" name="{{idx + ' ' + index}}" label="{{item.purchaseId}}" value="￥{{item.remain}}" wx:if="{{item.remain !=0 }}">
+          <view wx:if="{{back == 'addPayment'}}" slot="icon" catchtap="noSense">
+            <checkbox-group catchchange="onPayableSelected" data-path="{{ {idx, index} }}">
+              <checkbox class="round red" value="{{idx}} {{index}}" checked="{{ arr.contains(selectedPayables,item) }}"></checkbox>
+            </checkbox-group>
+          </view>
+          <van-cell-group custom-class="text-sm">
+            <van-cell title="订单总价值" value="￥{{item.total}}" />
+            <van-cell title="剩余应付" value="￥{{item.remain}}" />
+            <van-cell title="备注" value="{{item.reason}}" />
+          </van-cell-group>
+        </van-collapse-item>
+      </van-cell-group>
+    </van-collapse>
+    <view wx:if="{{!filterPayables || filterPayables.length == 0}}" class="text-center padding text-bold">无应付记录</view>
+    <view style="height:120rpx;"></view>
+  </scroll-view>
+</view>
 
 <van-popup show="{{ showPicker }}" position="bottom" bind:close="onModalClose">
   <van-picker show-toolbar columns="{{ timeOptions }}" bind:cancel="onModalClose" bind:confirm="onPickerConfirm" />

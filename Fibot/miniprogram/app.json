@@ -1,7 +1,6 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/application/chooseGood/chooseGood",
     "pages/login/login",
     "pages/register/register",
     "pages/my/home/home",
@@ -18,6 +17,7 @@
     "pages/application/supplierList/supplierList",
     "pages/application/newGood/newGood",
     "pages/application/goodList/goodList",
+    "pages/application/chooseGood/chooseGood",
     "pages/application/goodInfo/goodInfo",
     "pages/application/buyBill/buyBill",
     "pages/application/recordInfo/recordInfo",

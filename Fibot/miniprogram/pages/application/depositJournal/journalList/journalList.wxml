@@ -9,7 +9,7 @@
     <text class="cuIcon-title text-orange "></text>{{startDate}}~{{endDate}}   {{accountType[indexOfAccountType]}}
   </view>
   <view class="action">
-    <button class="cu-btn bg-green shadow" bindtap="showModal" data-target="bottomModal">筛选</button>
+    <button class="cu-btn bg-blue shadow-blur round" bindtap="showModal" data-target="bottomModal">筛选</button>
   </view>
 </view>
 <view class="cu-modal bottom-modal {{modalName=='bottomModal'?'show':''}}">

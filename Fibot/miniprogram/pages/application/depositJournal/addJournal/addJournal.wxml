@@ -44,7 +44,7 @@
   </view>
 
   <view class="padding flex flex-direction">
-    <button class="cu-btn bg-green margin-tb-sm lg" bindtap='onSave1'>保存</button>
+    <button class="cu-btn bg-blue margin-tb-sm lg" bindtap='onSave1'>保存</button>
     <button class="cu-btn bg-grey lg" bindtap='onList'>日记账列表</button>
   </view>
 
@@ -85,7 +85,7 @@
   </view>
 
   <view class="padding flex flex-direction">
-    <button class="cu-btn bg-green margin-tb-sm lg" bindtap='onSave2'>保存</button>
+    <button class="cu-btn bg-blue margin-tb-sm lg" bindtap='onSave2'>保存</button>
     <button class="cu-btn bg-grey lg" bindtap='onList'>日记账列表</button>
   </view>
 </view>

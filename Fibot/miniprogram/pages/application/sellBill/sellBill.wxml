@@ -1,5 +1,5 @@
 <!--pages/application/sellBill/sellBill.wxml-->
-<cu-custom bgColor="bg-gradual-pink" isBack="{{true}}">
+<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
   <view slot="backText">返回</view>
   <view slot="content">销售开单</view>
 </cu-custom>
