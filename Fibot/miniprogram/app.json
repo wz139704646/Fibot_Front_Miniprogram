@@ -51,8 +51,11 @@
     "pages/application/ap/paymentDetail/paymentDetail",
     "pages/application/start/start",
     "pages/application/chooseRoleNew/chooseRoleNew",
-    "pages/application/chooseRole/chooseRole"
-    
+    "pages/application/chooseRole/chooseRole",
+    "pages/main/accounting/accounting",
+    "pages/main/boss/boss",
+    "pages/main/salesExecutive/salesExecutive",
+    "pages/main/storeman/storeman"
   ],
   "window": {
     "navigationBarBackgroundColor": "#03A9F4", 
