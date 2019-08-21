@@ -4,33 +4,35 @@
   <view slot="content">详情</view>
 </cu-custom>
 
-<view class="cu-form-group margin-top">
-  <view class="title">ID</view>
-  <input disabled value='{{id}}' style="text-align:right"></input>
-</view>
+<view class="cu-list menu-avatar no-padding card-menu shadow-lg radius">
+  <view class="cu-form-group margin-top">
+    <view class="title">ID</view>
+    <input disabled value='{{id}}' style="text-align:right"></input>
+  </view>
 
-<view class="cu-form-group">
-  <view class="title">日期</view>
-  <input disabled value='{{date}}' style="text-align:right"></input>
-</view>
+  <view class="cu-form-group">
+    <view class="title">日期</view>
+    <input disabled value='{{date}}' style="text-align:right"></input>
+  </view>
 
-<view class="cu-form-group">
-  <view class="title">余额</view>
-  <input disabled value='{{balance}}' style="text-align:right"></input>
-</view>
+  <view class="cu-form-group margin-top">
+    <view class="title">余额</view>
+    <input disabled value='{{balance}}' style="text-align:right"></input>
+  </view>
 
-<view class="cu-form-group">
-  <view class="title">初始值</view>
-  <input disabled value='{{originValue}}' style="text-align:right"></input>
-</view>
+  <view class="cu-form-group">
+    <view class="title">初始值</view>
+    <input disabled value='{{originValue}}' style="text-align:right"></input>
+  </view>
 
-<view class="cu-form-group">
-  <view class="title">变化值</view>
-  <input disabled value='{{variation}}' style="text-align:right"></input>
-</view>
+  <view class="cu-form-group margin-top">
+    <view class="title">变化值</view>
+    <input disabled value='{{variation}}' style="text-align:right"></input>
+  </view>
 
-<view class="cu-form-group">
-  <view class="title">变化描述</view>
-  <input disabled value='{{changeDescription}}' style="text-align:right"></input>
+  <view class="cu-form-group">
+    <view class="title">变化描述</view>
+    <input disabled value='{{changeDescription}}' style="text-align:right"></input>
+  </view>
 </view>
 

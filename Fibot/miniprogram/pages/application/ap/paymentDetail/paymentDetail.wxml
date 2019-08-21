@@ -1,24 +1,26 @@
 <!--miniprogram/pages/application/ap/paymentDetail/paymentDetail.wxml-->
-<cu-custom bgColor="bg-gradual-pink" isBack="{{true}}">
+<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
   <view slot="backText">返回</view>
   <view slot="content">付款单</view>
 </cu-custom>
-<van-cell-group title="单据信息">
-  <van-cell title="日期" value="{{ date }}" />
-  <van-cell title="供应商姓名" value="{{ purchase.supplierName }}" />
-  <van-cell title="付款单号" value="{{ id }}" />
-</van-cell-group>
-<van-cell-group title="付款信息">
-  <van-cell title="购货发生日期" value="{{ purchase.date }}" />
-  <van-cell title="购货单号" value="{{ purchaseId }}" />
-  <van-collapse value="{{ activeNames }}" bind:change="onCollapseChange">
-    <van-collapse-item title="购货信息" name="1">
-      <van-cell wx:for="{{purchase.goodsList}}" wx:key title="{{item.goodsName}} * {{item.number}}" value="￥{{ item.number*item.price }}" />
-    </van-collapse-item>
-  </van-collapse>
-  <van-cell title="订单总金额" value="￥{{ purchase.total }}" />
-  <van-cell title="本次付款" value="￥{{ pay }}" />
-</van-cell-group>
-<view style="height: 10vh"></view>
+<view class="cu-list menu-avatar no-padding card-menu shadow-lg radius">
+  <van-cell-group title="单据信息">
+    <van-cell title="日期" value="{{ date }}" />
+    <van-cell title="供应商姓名" value="{{ purchase.supplierName }}" />
+    <van-cell title="付款单号" value="{{ id }}" />
+  </van-cell-group>
+  <van-cell-group title="付款信息">
+    <van-cell title="购货发生日期" value="{{ purchase.date }}" />
+    <van-cell title="购货单号" value="{{ purchaseId }}" />
+    <van-collapse value="{{ activeNames }}" bind:change="onCollapseChange">
+      <van-collapse-item title="购货信息" name="1">
+        <van-cell wx:for="{{purchase.goodsList}}" wx:key title="{{item.goodsName}} * {{item.number}}" value="￥{{ item.number*item.price }}" />
+      </van-collapse-item>
+    </van-collapse>
+    <van-cell title="订单总金额" value="￥{{ purchase.total }}" />
+    <van-cell title="本次付款" value="￥{{ pay }}" />
+  </van-cell-group>
+  <view style="height: 10vh"></view>
+</view>
 
 <button type="" class="cu-btn lg {{verified ? 'bg-green' : 'bg-blue'}}" disabled="{{verified}}" style="position: fixed; bottom: 0rpx; width:100%;" bindtap="onVerify">{{verified ? '已审核' : '审核'}}</button>

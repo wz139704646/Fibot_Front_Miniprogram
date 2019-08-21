@@ -1,24 +1,26 @@
 <!--miniprogram/pages/application/ar/receiptDetail/receiptDetail.wxml-->
-<cu-custom bgColor="bg-gradual-pink" isBack="{{true}}">
+<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
   <view slot="backText">返回</view>
   <view slot="content">收款单</view>
 </cu-custom>
-<van-cell-group title="单据信息">
-  <van-cell title="日期" value="{{ date }}" />
-  <van-cell title="客户姓名" value="{{ sell.customerName }}" />
-  <van-cell title="收款单号" value="{{ id }}" />
-</van-cell-group>
-<van-cell-group title="收款信息">
-  <van-cell title="销售发生日期" value="{{ sell.date }}" />
-  <van-cell title="销售单号" value="{{ sellId }}" />
-  <van-collapse value="{{ activeNames }}" bind:change="onCollapseChange">
-    <van-collapse-item title="销货信息" name="1">
-      <van-cell wx:for="{{sell.goodsList}}" wx:key title="{{item.goodsName}} * {{item.number}}" value="￥{{ item.sumprice }}" />
-    </van-collapse-item>
-  </van-collapse>
-  <van-cell title="订单总金额" value="￥{{ sell.total }}" />
-  <van-cell title="本次收款" value="￥{{ receive }}" />
-</van-cell-group>
-<view style="height: 10vh"></view>
+<view class="cu-list menu-avatar no-padding card-menu shadow-lg radius">
+  <van-cell-group title="单据信息">
+    <van-cell title="日期" value="{{ date }}" />
+    <van-cell title="客户姓名" value="{{ sell.customerName }}" />
+    <van-cell title="收款单号" value="{{ id }}" />
+  </van-cell-group>
+  <van-cell-group title="收款信息">
+    <van-cell title="销售发生日期" value="{{ sell.date }}" />
+    <van-cell title="销售单号" value="{{ sellId }}" />
+    <van-collapse value="{{ activeNames }}" bind:change="onCollapseChange">
+      <van-collapse-item title="销货信息" name="1">
+        <van-cell wx:for="{{sell.goodsList}}" wx:key title="{{item.goodsName}} * {{item.number}}" value="￥{{ item.sumprice }}" />
+      </van-collapse-item>
+    </van-collapse>
+    <van-cell title="订单总金额" value="￥{{ sell.total }}" />
+    <van-cell title="本次收款" value="￥{{ receive }}" />
+  </van-cell-group>
+  <view style="height: 10vh"></view>
+</view>
 
 <button type="" class="cu-btn lg {{verified ? 'bg-green' : 'bg-blue'}}" disabled="{{verified}}" style="position: fixed; bottom: 0rpx; width:100%;" bindtap="onVerify">{{verified ? '已审核' : '审核'}}</button>

@@ -4,36 +4,38 @@
   <view slot="content">对账详情</view>
 </cu-custom>
 
-<view class="cu-form-group margin-top">
-  <view class="title">银行单号</view>
-  <input disabled value='{{voucher}}' style="text-align:right"></input>
-</view>
+<view class="cu-list menu-avatar no-padding card-menu shadow-lg radius">
+  <view class="cu-form-group margin-top">
+    <view class="title">银行单号</view>
+    <input disabled value='{{voucher}}' style="text-align:right"></input>
+  </view>
 
-<view class="cu-form-group">
-  <view class="title">银行名称</view>
-  <input disabled value='{{bankName}}' style="text-align:right"></input>
-</view>
+  <view class="cu-form-group">
+    <view class="title">银行名称</view>
+    <input disabled value='{{bankName}}' style="text-align:right"></input>
+  </view>
 
-<view class="cu-form-group">
-  <view class="title">结算方式</view>
-  <input disabled value='{{clearForm}}' style="text-align:right"></input>
-</view>
+  <view class="cu-form-group margin-top">
+    <view class="title">结算方式</view>
+    <input disabled value='{{clearForm}}' style="text-align:right"></input>
+  </view>
 
-<view class="cu-form-group">
-  <view class="title">日期</view>
-  <input disabled value='{{date}}' style="text-align:right"></input>
-</view>
+  <view class="cu-form-group">
+    <view class="title">日期</view>
+    <input disabled value='{{date}}' style="text-align:right"></input>
+  </view>
 
-<view class="cu-form-group">
-  <view class="title">变动金额</view>
-  <input disabled value='{{amount}}' style="text-align:right"></input>
-</view>
+  <view class="cu-form-group margin-top">
+    <view class="title">变动金额</view>
+    <input disabled value='{{amount}}' style="text-align:right"></input>
+  </view>
 
-<view class="cu-form-group">
-  <view class="title">对账状态</view>
-  <input disabled value='{{status}}' style="text-align:right"></input>
+  <view class="cu-form-group">
+    <view class="title">对账状态</view>
+    <input disabled value='{{status}}' style="text-align:right"></input>
+  </view>
 </view>
 
  <view class="padding flex flex-direction">
-    <button class="cu-btn bg-green margin-tb-sm lg" bindtap='onClick'>确认审核</button>
+    <button class="cu-btn bg-blue margin-tb-sm lg" bindtap='onClick'>确认审核</button>
   </view>

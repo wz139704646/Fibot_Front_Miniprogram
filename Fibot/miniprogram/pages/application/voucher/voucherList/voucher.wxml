@@ -1,6 +1,6 @@
 <!--pages/application/voucher/voucher.wxml-->
 <wxs module='number' src='number.wxs'></wxs>
-<cu-custom bgColor="bg-gradual-pink" isBack="{{true}}">
+<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
   <view slot="backText">返回</view>
   <view slot="content">凭证</view>
 </cu-custom>
@@ -27,7 +27,7 @@
       <input type="text" placeholder="输入凭证号或摘要" confirm-type="search" bindconfirm="search" bindinput="searchInput" value="{{searchText}}"></input>
     </view>
     <view class="action">
-      <button class="cu-btn bg-black shadow-blur round" bindtap="search">搜索</button>
+      <button class="cu-btn bg-blue shadow-blur round" bindtap="search">搜索</button>
     </view>
   </view>
 </view>
