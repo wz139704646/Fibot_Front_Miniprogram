@@ -174,6 +174,12 @@ Component({
       }
     },
 
+    chooseRole: function(e){
+      wx.redirectTo({
+        url: '/pages/application/chooseRoleNew/chooseRoleNew',
+      })
+    },
+
     showLogout: function(e){
       this.setData({
         logoutModal: true

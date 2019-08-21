@@ -52,7 +52,7 @@
       </view>
     </view>
     <view class="cu-item arrow">
-      <button class="cu-btn content" open-type="feedback">
+      <button class="cu-btn content" bindtap="chooseRole">
         <text class="cuIcon-peoplelist text-cyan"></text>
         <text class="text-grey">切换角色</text>
       </button>
