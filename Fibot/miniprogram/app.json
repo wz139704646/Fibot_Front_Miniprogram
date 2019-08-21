@@ -37,7 +37,8 @@
     "pages/application/depositJournal/addJournal/addJournal",
     "pages/application/depositJournal/journalList/journalList",
     "pages/application/dailyFund/dailyFund",
-"pages/application/bankReconciliations/reconciliationShow/reconciliationShow", "pages/application/bankReconciliations/reconciliationDetail/reconciliationDetail",
+    "pages/application/bankReconciliations/reconciliationShow/reconciliationShow",
+    "pages/application/bankReconciliations/reconciliationDetail/reconciliationDetail",
     "pages/application/transferAccount/newTransfer/newTransfer",
     "pages/application/transferAccount/transferRecord/transferRecord",
     "pages/application/ar/addReceipt/addReceipt",
@@ -49,7 +50,9 @@
     "pages/application/ap/payables/payables",
     "pages/application/ap/paymentDetail/paymentDetail",
     "pages/application/start/start",
+    "pages/application/chooseRoleNew/chooseRoleNew",
     "pages/application/chooseRole/chooseRole"
+    
   ],
   "window": {
     "navigationBarBackgroundColor": "#03A9F4", 

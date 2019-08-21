@@ -6,7 +6,9 @@ Page({
     StatusBar: app.globalData.StatusBar,
     CustomBar: app.globalData.CustomBar,
 
+    carts:[],
     hasList: true,
+    totalPrice:0,
     selectAllStatus: true,
     
     goodsList:[],
@@ -305,7 +307,7 @@ Page({
 
   selectList(e) {
     const index = e.currentTarget.dataset.index;
-    let carts = this.data.carts;
+    let carts = this.data.buyList;
     const selected = carts[index].selected;
     carts[index].selected = !selected;
     this.setData({
@@ -317,10 +319,10 @@ Page({
   selectAll(e) {
     let selectAllStatus = this.data.selectAllStatus;
     selectAllStatus = !selectAllStatus;
-    let carts = this.data.carts;
+    let buyList = this.data.buyList;
 
-    for (let i = 0; i < carts.length; i++) {
-      carts[i].selected = selectAllStatus;
+    for (let i = 0; i < buyList.length; i++) {
+      buyList[i].selected = selectAllStatus;
     }
     this.setData({
       selectAllStatus: selectAllStatus,
@@ -334,12 +336,12 @@ Page({
    */
   addCount(e) {
     const index = e.currentTarget.dataset.index;
-    let carts = this.data.carts;
-    let num = carts[index].num;
-    num = num + 1;
-    carts[index].num = num;
+    let goodsList = this.data.goodsList;
+    let buyNum = goodsList[index].buyNum;
+    buyNum = buyNum + 1;
+    goodsList[index].buyNum = buyNum;
     this.setData({
-      carts: carts
+      goodsList: goodsList
     });
     this.getTotalPrice();
   },
@@ -350,15 +352,15 @@ Page({
   minusCount(e) {
     const index = e.currentTarget.dataset.index;
     const obj = e.currentTarget.dataset.obj;
-    let carts = this.data.carts;
-    let num = carts[index].num;
-    if (num <= 1) {
+    let goodsList = this.data.goodsList;
+    let buyNum = goodsList[index].buyNum;
+    if (buyNum <= 1) {
       return false;
     }
-    num = num - 1;
-    carts[index].num = num;
+    buyNum = buyNum - 1;
+    goodsList[index].buyNum = buyNum;
     this.setData({
-      carts: carts
+      goodsList: goodsList
     });
     this.getTotalPrice();
   },
@@ -367,16 +369,16 @@ Page({
    * 计算总价
    */
   getTotalPrice() {
-    let carts = this.data.carts;                  // 获取购物车列表
+    let goodsList = this.data.goodsList;                  // 获取购物车列表
     let total = 0;
-    for (let i = 0; i < carts.length; i++) {         // 循环列表得到每个数据
-      if (carts[i].selected) {                     // 判断选中才会计算价格
-        total += carts[i].num * carts[i].price;   // 所有价格加起来
+    for (let i = 0; i < goodsList.length; i++) {         // 循环列表得到每个数据
+      if (goodsList[i].selected) {                     // 判断选中才会计算价格
+        total += goodsList[i].buyNum * goodsList[i].sellprice;   // 所有价格加起来
       }
     }
     this.setData({                                // 最后赋值到data中渲染到页面
-      carts: carts,
-      totalPrice: total.toFixed(2)
+      goodsList: goodsList,
+      total: total.toFixed(2)
     });
   }
 

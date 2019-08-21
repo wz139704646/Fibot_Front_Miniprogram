@@ -1,0 +1,16 @@
+<!--pages/application/chooseRoleNew/chooseRoleNew.wxml-->
+<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
+  <view slot="backText">返回</view>
+  <view slot="content">角色选择</view>
+</cu-custom>
+
+<view class='cu-tabbar-height'></view>
+  <view class='nav-list'>
+    <navigator open-type="navigate" hover-class='none' url="/pages/basics/{{item.url}}/{{item.url}}" class="nav-li bg-{{item.color}} shadow-blur" wx:for="{{elements}}" wx:key>
+      <view class="nav-title">{{item.title}}</view>
+      <view class="nav-name">{{item.name}}</view>
+      <text class='cuIcon-{{item.icon}}'></text>
+    </navigator>
+  </view>
+  
+
