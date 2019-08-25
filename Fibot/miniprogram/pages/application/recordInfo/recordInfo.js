@@ -9,7 +9,8 @@ Page({
   data: {
     index:0,
     pname:"",
-    storeList:[]
+    storeList:[],
+    isShow:false
   },
 
   /**
@@ -286,6 +287,22 @@ Page({
     console.log(res)
     wx.redirectTo({
       url: '/pages/index/index',
+    })
+  },
+  chooseWareHouse(e){
+    console.log(e)
+    if(this.data.back=="sell"&&this.data.fun=="出库"){
+      this.setData({
+        isShow:true
+      })
+    }
+  },
+  chooseFinished(e){
+    //TODO 将该商品出库信息添加到outlist中去
+    
+
+    this.setData({
+      isShow:false
     })
   }
 
