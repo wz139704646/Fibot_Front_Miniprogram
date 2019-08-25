@@ -94,7 +94,7 @@ Page({
       color: 'yellow',
       badge: 0,
       name: '资金转账记录',
-        url: '/pages/application/transferAccount/transferRecord/transferRecord'
+      url: '/pages/application/transferAccount/transferRecord/transferRecord'
     }, {
       icon: 'creative',
       color: 'olive',
@@ -119,13 +119,19 @@ Page({
       color: 'yellow',
       badge: 0,
       name: '调拨记录',
-        url: '/pages/application/transferGood/transferRecord/transferRecord'
+      url: '/pages/application/transferGood/transferRecord/transferRecord'
     }, {
       icon: 'pick',
       color: 'olive',
       badge: 0,
       name: '新增仓库',
       url: '/pages/application/newStorage/newStorage'
+    }, {
+      icon: 'cascades',
+      color: 'olive',
+      badge: 0,
+      name: '库存',
+      url: '/pages/application/goodsStore/goodsStore'
     }, {
       icon: 'edit',
       color: 'red',
@@ -140,24 +146,24 @@ Page({
       url: '/pages/application/sellList/sellList?fun=出库'
     }],
     financialIconList: [{
-      icon: 'ticket',
-      color: 'red',
-      badge: 0,
-      name: '凭证',
-      url: '/pages/application/voucher/voucherList/voucher'
-    }, {
-      icon: 'copy',
-      color: 'yellow',
-      badge: 0,
-      name: '报表',
-      url: ''
-    }, {
-      icon: 'sort',
-      color: 'yellow',
-      badge: 0,
-      name: '科目余额',
-      url: '/pages/application/trialBalance/trialBalance'
-    },
+        icon: 'ticket',
+        color: 'red',
+        badge: 0,
+        name: '凭证',
+        url: '/pages/application/voucher/voucherList/voucher'
+      }, {
+        icon: 'copy',
+        color: 'yellow',
+        badge: 0,
+        name: '报表',
+        url: ''
+      }, {
+        icon: 'sort',
+        color: 'yellow',
+        badge: 0,
+        name: '科目余额',
+        url: '/pages/application/trialBalance/trialBalance'
+      },
       {
         icon: 'text',
         color: 'blue',
@@ -167,32 +173,32 @@ Page({
       }
     ],
     inOutIconList: [{
-      icon: 'rankfill',
-      color: 'orange',
-      badge: 0,
-      name: '存款日记账',
-      url: '/pages/application/depositJournal/addJournal/addJournal'
-    }, {
-      icon: 'refund',
-      color: 'red',
-      badge: 0,
-      name: '库存现金',
-      url: '/pages/application/cashOnHand/cashShow/cashShow'
-      }, 
-    {
-      icon: 'copy',
-      color: 'green',
-      badge: 0,
-      name: '银行对账',
-      url: '/pages/application/bankReconciliations/reconciliationShow/reconciliationShow'
-    },
-    {
-      icon: 'text',
-      color: 'yellow',
-      badge: 0,
-      name: '资金日报表',
-      url: '/pages/application/dailyFund/dailyFund'
-    }
+        icon: 'rankfill',
+        color: 'orange',
+        badge: 0,
+        name: '存款日记账',
+        url: '/pages/application/depositJournal/addJournal/addJournal'
+      }, {
+        icon: 'refund',
+        color: 'red',
+        badge: 0,
+        name: '库存现金',
+        url: '/pages/application/cashOnHand/cashShow/cashShow'
+      },
+      {
+        icon: 'copy',
+        color: 'green',
+        badge: 0,
+        name: '银行对账',
+        url: '/pages/application/bankReconciliations/reconciliationShow/reconciliationShow'
+      },
+      {
+        icon: 'text',
+        color: 'yellow',
+        badge: 0,
+        name: '资金日报表',
+        url: '/pages/application/dailyFund/dailyFund'
+      }
     ],
     gridCol: 4,
     skin: false

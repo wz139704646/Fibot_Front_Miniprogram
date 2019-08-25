@@ -22,11 +22,13 @@
   <text class="cuIcon-goods text-orange"></text>
 </view>
 <block wx:key wx:for='{{buyList}}' wx:for-index='index'>
-  <view class="cu-bar bg-gray">
+  <!-- <view class="cu-bar bg-gray">
     <view class="action text-black">{{item.name}}</view>
     <view class="action text-black">单价:{{item.price}}</view>
     <view class='action text-black'>数量:{{item.buyNum}}</view>
-  </view>
+  </view> -->
+  <van-card tag="{{item.type}}" price="合计:{{item.sumprice}}" desc="单价:{{item.sumprice/item.number}}\r\n数量:{{item.number}}" title="{{item.goodsName}}" thumb="{{host+'/goodsPic/'+item.goodsPhoto}}" thumb-mode="aspectFill">
+    </van-card>
   <view class="divLine"></view>
 </block>
 

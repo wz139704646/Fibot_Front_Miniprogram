@@ -22,7 +22,6 @@
     "pages/application/buyBill/buyBill",
     "pages/application/recordInfo/recordInfo",
     "pages/application/sellBill/sellBill",
-    "pages/application/inStore/inStore",
     "pages/application/newStorage/newStorage",
     "pages/application/trialBalance/trialBalance",
     "pages/application/voucher/voucherList/voucher",
@@ -52,10 +51,12 @@
     "pages/application/start/start",
     "pages/application/chooseRoleNew/chooseRoleNew",
     "pages/application/chooseRole/chooseRole",
-    "pages/main/accounting/accounting",
-    "pages/main/boss/boss",
-    "pages/main/salesExecutive/salesExecutive",
-    "pages/main/storeman/storeman"
+    "pages/mainq/accounting/accounting",
+    "pages/mainq/boss/boss",
+    "pages/mainq/salesExecutive/salesExecutive",
+    "pages/mainq/storeman/storeman",
+    "pages/main/main",
+    "pages/application/goodsStore/goodsStore"
   ],
   "window": {
     "navigationBarBackgroundColor": "#03A9F4", 

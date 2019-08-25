@@ -1,0 +1,11 @@
+<!--pages/application/goodList/goodList.wxml-->
+<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
+  <view slot="backText">返回</view>
+  <view slot="content">商品列表</view>
+</cu-custom>
+
+<block wx:key wx:for='{{goodsList}}' wx:for-index='index'>
+  <van-card tag="{{item.type}}" price="{{item.sellprice}}" desc="{{item.description}}" title="{{item.name}}" thumb="{{host+'/goodsPic/'+item.photo}}" thumb-mode="aspectFill" bindtap='' data-name="{{item.name}}">
+  </van-card>
+  <view class="divLine"></view>
+</block>
