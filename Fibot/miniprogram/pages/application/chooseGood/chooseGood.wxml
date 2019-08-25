@@ -46,7 +46,7 @@
 
 
 <view class="cu-bar bg-white tabbar border shop foot" style="bottom:0px">
-  <icon wx:if="{{selectAllStatus}}" type="success_circle" class="total-select" bindtap="selectAll"/>
+  <icon wx:if="{{selectAllStatus}}" color="red" type="success_circle" class="total-select" bindtap="selectAll"/>
   <icon wx:else type="circle" class="total-select" bindtap="selectAll"/>
   <view class="selectall-text">
     <text>全选</text>

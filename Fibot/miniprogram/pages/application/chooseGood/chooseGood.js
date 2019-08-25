@@ -9,7 +9,7 @@ Page({
     carts:[],
     hasList: true,
     totalPrice:0,
-    selectAllStatus: true,
+    selectAllStatus: false,
     
     goodsList:[],
     buyList:[],
@@ -69,7 +69,6 @@ Page({
         "Content-Type": 'application/json'
       },
       success: res => {
-        
         var goodsList = res.data.result.goodsList
         console.log(goodsList)
         if(this.data.back == 'buy'){
@@ -88,7 +87,6 @@ Page({
 
   initNum(goodsList){
     console.log(goodsList)
-    
     for (var index in goodsList) {
       var buyParam = "goodsList[" + index + "].buyNum"
       var indexParam = "goodsList[" + index + "].index"
@@ -243,12 +241,19 @@ Page({
     
     //直接调用上一个页面对象的setData()方法，把数据存到上一个页面中去
     prevPage.setData({
-      buyList:currPage.data.buyList,
+      buyList: currPage.data.goodsList,
       total:currPage.data.total
     });
     wx.navigateBack({
       delta: 1
     })
+    // this.setData({
+    //   buyList: this.data.goodsList,
+    //   total: this.data.total
+    // });
+    // wx.navigateBack({
+    //   delta: 1
+    // })
   },
 
   sInputChange(e){
@@ -307,11 +312,11 @@ Page({
 
   selectList(e) {
     const index = e.currentTarget.dataset.index;
-    let carts = this.data.buyList;
-    const selected = carts[index].selected;
-    carts[index].selected = !selected;
+    let goodsList = this.data.goodsList;
+    const selected = goodsList[index].selected;
+    goodsList[index].selected = !selected;
     this.setData({
-      carts: carts
+      goodsList: goodsList
     });
     this.getTotalPrice();
   },
@@ -319,14 +324,14 @@ Page({
   selectAll(e) {
     let selectAllStatus = this.data.selectAllStatus;
     selectAllStatus = !selectAllStatus;
-    let buyList = this.data.buyList;
+    let goodsList = this.data.goodsList;
 
-    for (let i = 0; i < buyList.length; i++) {
-      buyList[i].selected = selectAllStatus;
+    for (let i = 0; i < goodsList.length; i++) {
+      goodsList[i].selected = selectAllStatus;
     }
     this.setData({
       selectAllStatus: selectAllStatus,
-      carts: carts
+      goodsList: goodsList
     });
     this.getTotalPrice();
   },
@@ -336,12 +341,16 @@ Page({
    */
   addCount(e) {
     const index = e.currentTarget.dataset.index;
+    let buyList = this.data.buyList;
     let goodsList = this.data.goodsList;
+    var badge = this.data.badge;
     let buyNum = goodsList[index].buyNum;
     buyNum = buyNum + 1;
+    badge = badge + 1;
     goodsList[index].buyNum = buyNum;
     this.setData({
-      goodsList: goodsList
+      goodsList: goodsList,
+      badge: badge
     });
     this.getTotalPrice();
   },
@@ -353,14 +362,17 @@ Page({
     const index = e.currentTarget.dataset.index;
     const obj = e.currentTarget.dataset.obj;
     let goodsList = this.data.goodsList;
-    let buyNum = goodsList[index].buyNum;
-    if (buyNum <= 1) {
+    var badge = this.data.badge;
+    let buyNum = goodsList[index].tempNum;
+    if (buyNum < 1) {
       return false;
     }
     buyNum = buyNum - 1;
+    badge = badge - 1;
     goodsList[index].buyNum = buyNum;
     this.setData({
-      goodsList: goodsList
+      goodsList: goodsList,
+      badge : badge
     });
     this.getTotalPrice();
   },
