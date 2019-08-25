@@ -22,13 +22,19 @@
   </view>
 
   <view class="padding canui-card-fiex-radius-box">
+
     <swiper class="screen-swiper square-dot" indicator-dots="{{true}}" circular="{{true}}" autoplay="{{false}}">
       <swiper-item wx:for="{{4}}" wx:key>
         <view class="cu-list grid col-4 no-border">
-          <view class="cu-item" wx:for="{{sellIconList}}" wx:key bindtap='show' id="{{item.url}}">
+          <view class="cu-item" wx:for="{{sellIconList}}" wx:key bindtap='show' bindlongpress="delete" data-index="{{index}}" id="{{item.url}}">
             <view class="cuIcon-{{item.icon}} text-{{item.color}}">
             </view>
             <text>{{item.name}}</text>
+          </view>
+
+          <view class="cu-item" bindtap='show'>
+            <view class="cuIcon-roundadd text-grey"></view>
+            <text>添加</text>
           </view>
         </view>
       </swiper-item>
@@ -82,3 +88,18 @@
     </block>
   </view>
 </view>
+
+<view class="addBackground {{isShow?'isShow':'isHide'}}">
+  <view class='addContent'>
+    <view class="cu-list grid col-4 no-border">
+      <view class="cu-item" wx:for="{{sellIconList}}" wx:key bindtap='add' data-index="{{index}}">
+        <view class="cuIcon-{{item.icon}} text-{{item.color}}"></view>
+        <text>{{item.name}}</text>
+      </view>
+    </view>
+    <view class="cu-item">
+        <view class="cuIcon-roundclose xl text-grey hide" bindtap='hide'></view>
+      </view>
+  </view>
+</view>
+
