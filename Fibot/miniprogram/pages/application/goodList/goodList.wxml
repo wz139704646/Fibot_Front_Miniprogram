@@ -13,14 +13,23 @@
   <view class="divLine"></view>
 </block> -->
 
+<view class="cu-bar bg-white search fixed" style="top:{{CustomBar}}px;">
+  <view class="search-form round">
+    <text class="cuIcon-search"></text>
+    <input type="text" placeholder="请输入商品名" confirm-type="search" bindconfirm='search' value='{{inputVal}}' bindinput='inputChange'></input>
+  </view>
+</view>
+
 <view class="list-box">
   <block wx:key wx:for='{{goodsList}}' wx:for-index='index'>
-        <view class="newest-list" data-name="{{item.name}}" bindtap="navigateToGoodInfo">
-            <navigator url="../details/details">
-                <image src="{{host+'/goodsPic/'+item.photo}}"></image>
-                <view class="text_title"><text>{{item.name}}</text></view>
-                <view class="text_price"><text>￥{{item.sellprice}}</text></view>
-            </navigator>
-        </view>
+    <view class="newest-list" data-name="{{item.name}}" bindtap="navigateToGoodInfo">
+      <image src="{{host+'/goodsPic/'+item.photo}}"></image>
+      <view class="text_title">
+        <text>{{item.name}}</text>
+      </view>
+      <view class="text_price">
+        <text>￥{{item.sellprice}}</text>
+      </view>
+    </view>
   </block>
 </view>

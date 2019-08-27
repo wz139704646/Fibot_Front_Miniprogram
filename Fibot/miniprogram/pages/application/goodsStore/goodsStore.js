@@ -3,8 +3,10 @@ const host = app.globalData.requestHost
 
 Page({
   data: {
-
-    goodsList: []
+    StatusBar: app.globalData.StatusBar,
+    CustomBar: app.globalData.CustomBar,
+    goodsList: [],
+    storeList:[]
 
   },
   onLoad: function (options) {
@@ -16,7 +18,7 @@ Page({
   },
   initGoodList() {
     wx.request({
-      url: host + '/queryGoods',
+      url: host + '/queryStoreGoods',
       data: JSON.stringify({
         companyId: app.globalData.companyId
       }),
@@ -33,15 +35,42 @@ Page({
       }
     })
   },
-  navigateToGoodInfo(e) {
-    console.log(e)
-    console.log("查看详情")
-    wx.navigateTo({
-      url: '/pages/application/goodInfo/goodInfo?name=' + e.currentTarget.dataset.name,
+  showStoreDetails(e){
+    console.log("查看库存详情")
+    var that = this
+    wx.request({
+      url: host + '/queryGoodsStoreByGoodsId',
+      data:JSON.stringify({
+        companyId:app.globalData.companyId,
+        goodsId:e.currentTarget.dataset.id
+      }),
+      method:"POST",
+      header:{
+        "Content-Type": 'application/json'
+      },
+      success:function(res){
+        console.log(res)
+        var storeList = res.data.result
+        for(var i in storeList){
+          storeList[i]['value'] = storeList[i].wareHouseName + ": " + storeList[i].number
+        }
+        console.log(storeList)
+        that.setData({
+          storeList:storeList,
+          modalName: 'bottomModal'
+        })
+
+      }
     })
   },
-  navigateToGoodAnalyse(e) {
-    console.log(e)
-    console.log("查看分析")
+  // showModal(e) {
+  //   this.setData({
+  //     modalName: 'bottomModal'
+  //   })
+  // },
+  hideModal(e) {
+    this.setData({
+      modalName: null
+    })
   },
 })

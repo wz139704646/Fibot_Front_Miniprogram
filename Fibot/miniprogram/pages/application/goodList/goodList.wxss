@@ -5,7 +5,8 @@
 }
 
 .list-box{
-    padding: 30rpx 20rpx;
+  margin-top: 40px;
+  padding: 30rpx 20rpx;
 }
 .newest-list{
     display: inline-block;

@@ -63,7 +63,7 @@
 </view>
 
 <!-- 选库存的模态框 -->
-<view class="cu-modal bottom-modal {{isShow?'show':''}}">
+<view class="cu-modal bottom-modal {{isShow?'show':''}}" bindtap="hideModal">
   <view class="cu-dialog">
     <view class="cu-bar bg-white">
       <view class="action text-green">确定</view>

@@ -1,11 +1,47 @@
 <!--pages/application/goodList/goodList.wxml-->
 <cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
   <view slot="backText">返回</view>
-  <view slot="content">商品列表</view>
+  <view slot="content">列表</view>
 </cu-custom>
 
-<block wx:key wx:for='{{goodsList}}' wx:for-index='index'>
+<!-- <block wx:key wx:for='{{goodsList}}' wx:for-index='index'>
   <van-card tag="{{item.type}}" price="{{item.sellprice}}" desc="{{item.description}}" title="{{item.name}}" thumb="{{host+'/goodsPic/'+item.photo}}" thumb-mode="aspectFill" bindtap='' data-name="{{item.name}}">
   </van-card>
   <view class="divLine"></view>
-</block>
+</block> -->
+
+<view class="cu-bar bg-white search fixed" style="top:{{CustomBar}}px;">
+  <view class="search-form round">
+    <text class="cuIcon-search"></text>
+    <input type="text" placeholder="请输入商品名" confirm-type="search" bindconfirm='search' value='{{inputVal}}' bindinput='inputChange'></input>
+  </view>
+</view>
+<scroll-view scroll-y class="indexes" style="height:calc(100vh - {{CustomBar}}px - 50px);margin-top:42px;" scroll-with-animation="true" enable-back-to-top="true">
+  <block wx:for="{{goodsList}}" wx:key wx:for-index='index'>
+    <view class="cu-list menu-avatar no-padding card-menu shadow-lg radius">
+      <view class="cu-item" data-id="{{item.id}}" bindtap="showStoreDetails">
+        <image class="cu-avatar lg bg-white" src="{{host+'/goodsPic/'+item.photo}}"></image>
+        <view class="content">
+          <view class="text-black text-xl text-bold">
+            {{item.name}}
+          </view>
+          <view class="text-gray text-sm">
+            库存:{{item.amount}}{{item.unitInfo}}
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="divLine"></view>
+  </block>
+</scroll-view>
+
+<view class="cu-modal bottom-modal {{modalName=='bottomModal'?'show':''}}" bindtap="hideModal">
+  <view class="cu-dialog">
+    <view class="padding-sm">
+      <van-picker
+  columns="{{ storeList }}"
+  value-key="{{'value'}}"
+/>
+    </view>
+  </view>
+</view>

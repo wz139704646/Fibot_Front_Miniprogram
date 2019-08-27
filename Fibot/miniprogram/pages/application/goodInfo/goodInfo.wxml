@@ -25,11 +25,11 @@
 </view>
 
 <view class="cu-form-group margin-top">
-  <view class="title">商品名称 *</view>
+  <view class="title">名称 *</view>
   <input disabled="{{isDisable}}" placeholder="请输入商品名称" style="text-align:right" value="{{name}}" bindinput='nameChange'></input>
 </view>
 <view class="cu-form-group">
-  <view class="title">商品类型 *</view>
+  <view class="title">类型 *</view>
   <picker disabled="{{isDisable}}" bindchange="goodChange" value="{{gindex}}" range="{{typeList}}">
     <view class="picker">
       {{gindex?typeList[gindex]:'选择一个商品类型'}}
@@ -37,7 +37,7 @@
   </picker>
 </view>
 <view class="cu-form-group">
-  <view class="title">商品单位 *</view>
+  <view class="title">单位 *</view>
   <picker disabled="{{isDisable}}" bindchange="unitChange" value="{{uindex}}" range="{{unitInfoList}}">
     <view class="picker">
       {{uindex?unitInfoList[uindex]:'选择一个商品单位'}}
@@ -45,11 +45,11 @@
   </picker>
 </view>
 <view class="cu-form-group margin-top">
-  <view class="title">商品品牌</view>
+  <view class="title">品牌</view>
   <input disabled="{{isDisable}}" placeholder="请输入商品品牌" style="text-align:right" value='{{brand}}' bindinput='brandChange'></input>
 </view>
 <view class="cu-form-group">
-  <view class="title">规格型号</view>
+  <view class="title">规格</view>
   <input disabled="{{isDisable}}" placeholder="请输入规格型号" style="text-align:right" value='{{standard}}' bindinput='standardChange'></input>
 </view>
 <view class="cu-form-group">
