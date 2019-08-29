@@ -18,6 +18,9 @@
     <text class="cuIcon-search"></text>
     <input type="text" placeholder="请输入商品名" confirm-type="search" bindconfirm='search' value='{{inputVal}}' bindinput='inputChange'></input>
   </view>
+  <view class="action">
+    <button class="cu-btn bg-blue shadow-blur round" bindtap='search'>搜索</button>
+  </view>
 </view>
 
 <view class="list-box">
