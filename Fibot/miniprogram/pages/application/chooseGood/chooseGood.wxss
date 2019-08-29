@@ -102,6 +102,7 @@ movable-view.indexBar-item::before {
     left: 85rpx;
     width: 150rpx;
     height: 150rpx;
+    border-radius:10rpx;
 }
 .cart-list .cart-pro-name{
     display: inline-block;

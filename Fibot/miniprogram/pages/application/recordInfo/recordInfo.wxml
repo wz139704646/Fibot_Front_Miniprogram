@@ -1,3 +1,4 @@
+<wxs module='number' src='number.wxs'></wxs>
 <cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
   <view slot="backText">返回</view>
   <view slot="content">详情</view>
@@ -26,19 +27,24 @@
     <input disabled placeholder='' style="text-align:right"></input>
     <text class="cuIcon-goods text-orange"></text>
   </view>
-
-  <!-- <block wx:key wx:for='{{buyList}}' wx:for-index='index'>
-    <view class="cu-bar bg-gray">
-      <view class="action text-black">{{item.goodsName}}</view>
-      <view class="action text-black">单价:{{back=='sell' ? item.sumprice/item.number : item.price}}</view>
-      <view class='action text-black'>数量:{{item.number}}</view>
-      <view class="action text-black">合计:{{back ? back=='sell' ? item.sumprice : item.price*item.number : '出错'}}</view>
-    </view>
-    <view class="divLine"></view>
-  </block> -->
   <block wx:key wx:for='{{buyList}}' wx:for-index='index'>
-    <van-card tag="{{item.type}}" price="合计:{{back ? back=='sell' ? item.sumprice : item.price*item.number : '出错'}}" desc="单价:{{back=='sell' ? item.sumprice/item.number : item.price}}\r\n数量:{{item.number}}" title="{{item.goodsName}}" thumb="{{host+'/goodsPic/'+item.goodsPhoto}}" thumb-mode="aspectFill">
+    <van-card tag="{{item.type}}" price="合计:{{back ? back=='sell' ? number.twoDecimal(item.sumprice) : number.twoDecimal(item.price*item.number) : '出错'}}" desc="单价:{{back=='sell' ? number.twoDecimal(item.sumprice/item.number) : number.twoDecimal(item.price)}}\r\n数量:{{item.number}}" title="{{item.goodsName}}" thumb="{{host+'/goodsPic/'+item.goodsPhoto}}" thumb-mode="aspectFill">
+      <!-- TODO 入库的修改 -->
+      <view wx:if="{{fun=='出库'}}" slot="footer">
+        <view wx:key wx:for="{{1}}" wx:for-item="outlist" data-id="item.goodsId">
+          <view class="cu-form-group">
+      <!-- <view class="title">调出仓库</view> -->
+      <picker bindchange="sPickerChange" value="{{outlist[index]}}" range="{{storeList}}" range-key="{{'name'}}" data-index="{{index}}">
+      <view class="picker">
+        {{outStore[index]?storeList[outStore[index]].name:'请选择仓库'}}
+      </view>
+    </picker>
+      <input placeholder="请输入数量" style="text-align:right" value="{{name}}" bindinput='nameChange'></input>
+    </view>
+        </view>
+      </view>
     </van-card>
+    
     <view class="divLine"></view>
   </block>
   <view class="cu-bar bg-white">
@@ -55,7 +61,6 @@
   </view>
   <view wx:if="{{fun=='入库'&&status=='运'}}" class="divLine"></view>
   <view class="cu-bar bg-white">
-    <view wx:if="{{fun=='null'}}" class="action text-red" bindtap="delBill">删除订单</view>
     <view wx:if="{{fun=='入库'&&status=='运'}}" class="action text-red" bindtap="buyArrived">确认入库</view>
     <view wx:if="{{fun=='出库'}}" class="action text-red" bindtap="sellOut">确认出库</view>
     <view class="action text-blue" bindtap="backToList">返回列表</view>

@@ -10,117 +10,50 @@
   </view>
 </view>
 
-<!-- <view class="margin-bottom-xl">
-  <block wx:key wx:for='{{goodsList}}' wx:for-index='index'>
-    <van-card num="{{item.buyNum}}" tag="{{item.type}}" price="{{item.sellprice}}" desc="单位:{{item.unitInfo}}" title="{{item.name}}" thumb="{{host+'/goodsPic/'+item.photo}}" thumb-mode="aspectFill" bindtap='showModal' id="{{item.index}}" data-target="addGood"
-      data-id="{{item.id}}" data-buyNum="{{item.buyNum}}" data-name="{{item.name}}" data-price="{{item.sellprice}}">
-    </van-card>
-    <view class="divLine"></view>
-  </block>
-</view> -->
-
 <view class="main">
-    <view wx:if="{{hasList}}">
-        <view class="cart-box">
-          <view class="cu-list menu-avatar no-padding card-menu shadow-lg radius">
-            <view class="cart-list cu-form-group" wx:for="{{goodsList}}" wx:key="{{index}}">
-                <icon wx:if="{{item.selected}}" type="success" color="red" data-index="{{index}}"  class="cart-pro-select" bindtap="selectList"/>
-                <icon wx:else type="circle" class="cart-pro-select" data-index="{{index}}" bindtap="selectList"/>
-                <navigator url="../details/details?id={{item.id}}">
-                <image class="cart-thumb" src="{{host+'/goodsPic/'+item.photo}}"></image></navigator>
-                <text class="cart-pro-name">{{item.name}}</text>
-                <text class="cart-pro-price">￥{{item.sellprice}}</text>
-                <view class="cart-count-box card-menu shadow-lg radius">
-                    <text class="cart-count-down" bindtap="minusCount" data-obj="{{obj}}" data-index="{{index}}">-</text>
-                    <text class="cart-count-num">{{item.buyNum}}</text>
-                    <text class="cart-count-add" bindtap="addCount" data-index="{{index}}">+</text>  
-                </view>
-            </view>
+  <view wx:if="{{hasList}}">
+    <view class="cart-box">
+      <view class="cu-list menu-avatar no-padding card-menu shadow-lg radius">
+        <view class="cart-list cu-form-group" wx:for="{{goodsList}}" wx:key="{{index}}">
+          <icon wx:if="{{item.selected}}" type="success" color="red" data-index="{{index}}" class="cart-pro-select" bindtap="selectList" />
+          <icon wx:else type="circle" class="cart-pro-select" data-index="{{index}}" bindtap="selectList" />
+          <image class="cart-thumb" src="{{host+'/goodsPic/'+item.photo}}"></image>
+          <text class="cart-pro-name">{{item.name}}</text>
+          <text class="cart-pro-price">￥{{item.sellprice}}</text>
+          <view class="cart-count-box card-menu shadow-lg radius">
+            <text class="cart-count-down" bindtap="minusCount" data-index="{{index}}">-</text>
+            <text class="cart-count-num">{{item.buyNum}}</text>
+            <text class="cart-count-add" bindtap="addCount" data-index="{{index}}">+</text>
           </view>
         </view>
+      </view>
     </view>
-    <view wx:else>
-        <view class="cart-no-data">购物车是空的哦~</view>
-    </view>
+  </view>
+  <view wx:else>
+    <view class="cart-no-data">购物车是空的哦~</view>
+  </view>
 </view>
 
 
 <view class="cu-bar bg-white tabbar border shop foot" style="bottom:0px">
-  <icon wx:if="{{selectAllStatus}}" color="red" type="success_circle" class="total-select" bindtap="selectAll"/>
-  <icon wx:else type="circle" class="total-select" bindtap="selectAll"/>
+  <icon wx:if="{{selectAllStatus}}" color="red" type="success_circle" class="total-select" bindtap="selectAll" />
+  <icon wx:else type="circle" class="total-select" bindtap="selectAll" />
   <view class="selectall-text">
     <text>全选</text>
   </view>
-  <view class="action" data-target='showBuyList' bindtap='showBuyList'>
+  <view wx:if="{{!isShowBuyList}}" class="action" data-target='showBuyList' bindtap='showBuyList'>
     <view class="cuIcon-cart">
-      <view class="cu-tag badge" bindtap='showBuyList'>{{badge}}</view>
+      <view class="cu-tag badge">{{badge}}</view>
     </view>
     购物车
+  </view>
+  <view wx:else class="action" data-target='notshowBuyList' bindtap='showBuyList'>
+    <view class="cuIcon-list">
+      <view class="cu-tag badge">{{badge}}</view>
+    </view>
+    列表
   </view>
   <text class="text-price text-red">总价:{{total}}</text>
   <button class="cu-btn bg-blue round shadow-blur" style='margin-right:20px' bindtap='finishChoosing'>立即订购</button>
 </view>
 
-<!-- 点击modal -->
-<view class="cu-modal bottom-modal {{modalName=='addGood'?'show':''}}">
-  <view class="cu-dialog">
-    <view class="cu-bar bg-white">
-      <view class="action text-blue" bindtap="hideModal">取消</view>
-      <view class='center'>选择数量</view>
-      <view class="action text-green" bindtap='changeBuyNum'>确定</view>
-    </view>
-    <view class="padding-xl">
-      <view class="flex">
-        <view class="flex-sub padding-sm margin-xs radius">
-          <view class="cu-form-group">
-            <input disabled value='{{curName}}'></input>
-          </view>
-        </view>
-        <view class="flex-sub padding-sm margin-xs radius">
-          <view class="cu-form-group">
-            <van-stepper value="{{ tempNum }}" integer min="0" step="1" bind:change="inputChange" input-width="20px" />
-          </view>
-        </view>
-      </view>
-      <view class='flex'>
-        <view class="flex-sub padding-sm margin-xs radius">
-          <view class="cu-form-group">
-            <view class="title">单价:</view>
-            <input placeholder="请输入" disabled="{{back=='sell'}}" value='{{curPrice}}' bindinput='setPrice'></input>
-          </view>
-        </view>
-        <view class="flex-sub padding-sm margin-xs radius">
-          <view class="cu-form-group">
-            <view class="title">总价:</view>
-            <input disabled value='{{curPrice*tempNum}}'></input>
-          </view>
-        </view>
-      </view>
-    </view>
-  </view>
-</view>
-
-
-<!-- 点击modal -->
-<view class="cu-modal bottom-modal {{modalName=='showBuyList'?'show':''}}">
-  <view class="cu-dialog">
-    <view class="cu-bar bg-white">
-      <view class="action text-grey">已选商品</view>
-      <view class="action text-blue" bindtap="hideModal">确认</view>
-    </view>
-    <block wx:key wx:for='{{buyList}}' wx:for-index='index'>
-      <view class="cu-bar bg-gray">
-        <view class="action text-black">商品:{{item.name}}</view>
-        <view class="action text-black">单价:{{item.price}}</view>
-        <view class='action text-black'>数量:{{item.buyNum}}</view>
-        <view class='action text-black' id="{{index}}" bindtap='cancelGood'>x</view>
-      </view>
-
-      <view class="divLine"></view>
-    </block>
-    <view class="cu-bar bg-white">
-      <view class="action text-grey">总价</view>
-      <view class="action text-price text-red" bindtap="hideModal">{{total}}</view>
-    </view>
-  </view>
-</view>

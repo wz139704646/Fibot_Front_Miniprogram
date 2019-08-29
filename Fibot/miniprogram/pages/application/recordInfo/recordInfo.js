@@ -7,7 +7,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    index:0,
+    index:null,
     pname:"",
     storeList:[],
     isShow:false
@@ -56,12 +56,8 @@ Page({
         "Content-Type": 'application/json'
       },
       success: res => {
-        wx.showToast({
-          title: '已获得仓库列表',
-          icon:'none',
-          mask: true
-        })
-        console.log("仓库：")
+        
+        console.log("已获得仓库列表：")
         console.log(res)
         this.setData({
           storeList:res.data.result
@@ -165,42 +161,6 @@ Page({
     })
   },
 
-  delBill(e){
-    wx.request({
-      url: host + '/delBuy',
-      data: JSON.stringify({
-        companyId: app.globalData.companyId,
-        id:this.data.id
-
-      }),
-      method: "POST",
-      header: {
-        "Content-Type": 'application/json'
-      },
-      success: res => {
-        console.log(res)
-        wx.showToast({
-          title: '订单已删除',
-          duration:2000,
-          mask:true
-        })
-        var pages = getCurrentPages();
-        var currPage = pages[pages.length - 1];   //当前页面
-        var prevPage = pages[pages.length - 2];  //上一个页面
-
-        //直接调用上一个页面对象的setData()方法，把数据存到上一个页面中去
-        prevPage.setData({
-          brList: res.data.result.brList
-        });
-        wx.navigateBack({
-          delta: 1
-        })
-      },
-      fail:res=>{
-        console.log("删除失败")
-      }
-    })
-  },
   //返回上一页
   backToList(e){
     console.log(e)
@@ -229,23 +189,32 @@ Page({
   //确认入库
   buyArrived(){
     var that = this
-    wx.showModal({
-      title: '确认入库',
-      content: '确认订单' + this.data.id + "入库",
-      success: function (res) {
-        if (res.confirm) {
-          wx.showLoading({
-            title: '请求提交中',
-            icon:'none',
-            mask: true
-          })
-          that.storeInWareHouse()
+    if(this.data.index==null){
+      wx.showModal({
+        title: '提示',
+        content: '请选择入库仓库',
+        showCancel:false
+      })
+    }else{
+      wx.showModal({
+        title: '确认入库',
+        content: '确认订单' + this.data.id + "入库",
+        success: function (res) {
+          if (res.confirm) {
+            wx.showLoading({
+              title: '请求提交中',
+              icon: 'none',
+              mask: true
+            })
+            that.storeInWareHouse()
+          }
+        },
+        fail: function (err) {
+          console.error('调起模态确认框失败', err)
         }
-      },
-      fail: function (err) {
-        console.error('调起模态确认框失败', err)
-      }
-    })
+      })
+    }
+    
   },
   storeInWareHouse(){
     //入库请求
