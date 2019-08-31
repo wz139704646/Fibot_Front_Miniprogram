@@ -4,12 +4,6 @@
   <view slot="content">列表</view>
 </cu-custom>
 
-<!-- <block wx:key wx:for='{{goodsList}}' wx:for-index='index'>
-  <van-card tag="{{item.type}}" price="{{item.sellprice}}" desc="{{item.description}}" title="{{item.name}}" thumb="{{host+'/goodsPic/'+item.photo}}" thumb-mode="aspectFill" bindtap='' data-name="{{item.name}}">
-  </van-card>
-  <view class="divLine"></view>
-</block> -->
-
 <view class="cu-bar bg-white search fixed" style="top:{{CustomBar}}px;">
   <view class="search-form round">
     <text class="cuIcon-search"></text>

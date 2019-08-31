@@ -65,6 +65,17 @@ Page({
   },
   //生成采购单
   buyBill() {
+    // 处理前端采购单数据，发送给后台
+    var buyList = []
+    var blist = this.data.buyList
+    for (let i in blist) {
+      buyList.push({
+        id: blist[i].id,
+        buyNum: blist[i].buyNum,
+        name: blist[i].name,
+        price:blist[i].sellprice
+      })
+    }
     let token = app.getToken()
     if(token) {
       let {date, total, payAmount, note} = this.data
@@ -82,7 +93,8 @@ Page({
         url: host + '/addPurchase',
         data: JSON.stringify({
           companyId: app.globalData.companyId,
-          purchases: that.data.buyList,
+          //原来是:this.data.buyList
+          purchases: buyList,
           date: that.data.date,
           supplierId: that.data.supplierId
         }),
