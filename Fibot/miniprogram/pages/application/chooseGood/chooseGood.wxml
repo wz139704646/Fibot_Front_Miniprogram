@@ -1,3 +1,4 @@
+<wxs module='number' src='number.wxs'></wxs>
 <cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
   <view slot="backText">返回</view>
   <view slot="content">选择商品</view>
@@ -14,16 +15,16 @@
   <view wx:if="{{hasList}}">
     <view class="cart-box">
       <view class="cu-list menu-avatar no-padding card-menu shadow-lg radius">
-        <view class="cart-list cu-form-group" wx:for="{{goodsList}}" wx:key="{{index}}">
-          <icon wx:if="{{item.selected}}" type="success" color="red" data-index="{{index}}" class="cart-pro-select" bindtap="selectList" />
-          <icon wx:else type="circle" class="cart-pro-select" data-index="{{index}}" bindtap="selectList" />
+        <view class="cart-list cu-form-group" wx:for="{{goodsList}}" wx:key="{{index}}" bindtap="showModal" data-item="{{item}}">
+          <icon wx:if="{{item.selected}}" type="success" color="red" data-index="{{index}}" class="cart-pro-select" catchtap="selectList" />
+          <icon wx:else type="circle" class="cart-pro-select" data-index="{{index}}" catchtap="selectList" />
           <image class="cart-thumb" src="{{host+'/goodsPic/'+item.photo}}"></image>
           <text class="cart-pro-name">{{item.name}}</text>
-          <text class="cart-pro-price">￥{{item.sellprice}}</text>
+          <text class="cart-pro-price">￥{{number.twoDecimal(item.sellprice)}}</text>
           <view class="cart-count-box card-menu shadow-lg radius">
-            <text class="cart-count-down" bindtap="minusCount" data-index="{{index}}">-</text>
+            <text class="cart-count-down" catchtap="minusCount" data-index="{{index}}">-</text>
             <text class="cart-count-num">{{item.buyNum}}</text>
-            <text class="cart-count-add" bindtap="addCount" data-index="{{index}}">+</text>
+            <text class="cart-count-add" catchtap="addCount" data-index="{{index}}">+</text>
           </view>
         </view>
       </view>
@@ -57,3 +58,44 @@
   <button class="cu-btn bg-blue round shadow-blur" style='margin-right:20px' bindtap='finishChoosing'>立即订购</button>
 </view>
 
+<view class="cu-modal bottom-modal {{modalName=='bottomModal'?'show':''}}" >
+  <view class="cu-dialog">
+    <view class="cu-bar bg-white margin-top">
+      <view class="action">
+        商品图片
+      </view>
+      <view class="action text-blue" bindtap="hideModal">确定</view>
+    </view>
+    <view class="weui-cell">
+      <view class="weui-cell__bd">
+        <view class="weui-uploader">
+          <view class="weui-uploader__bd">
+            <view class="weui-uploader__files">
+                <view class="weui-uploader__file">
+                  <image class="weui-uploader__img" src="{{host+'/goodsPic/'+curItem.photo}}" data-src="{{host+'/goodsPic/'+curItem.photo}}" bindtap="previewImage"></image>
+                </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="cu-form-group margin-top">
+      <view class="title">名称</view>
+      <input disabled="{{true}}" style="text-align:right" value="{{curItem.name}}"></input>
+    </view>
+    <view class="cu-form-group">
+      <view class="title">类型</view>
+      <input disabled="{{true}}" style="text-align:right" value="{{curItem.type}}">
+      </input>
+    </view>
+
+    <view class="cu-form-group margin-top">
+      <view class="title">单价 *</view>
+      <input disabled="{{back=='sell'}}" style="text-align:right" value='{{curItem.sellprice}}' bindinput='sellpriceChange'></input>
+    </view>
+    <view class="cu-form-group">
+      <view class="title">数量</view>
+      <input style="text-align:right" value='{{curItem.buyNum}}' bindinput='buyNumChange'></input>
+    </view>
+  </view>
+</view>
