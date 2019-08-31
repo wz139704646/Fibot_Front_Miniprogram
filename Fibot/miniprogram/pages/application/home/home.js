@@ -95,12 +95,6 @@ Page({
       badge: 0,
       name: '资金转账记录',
       url: '/pages/application/transferAccount/transferRecord/transferRecord'
-    }, {
-      icon: 'creative',
-      color: 'olive',
-      badge: 0,
-      name: '利润分析',
-      url: ''
     }],
     storeIconList: [{
       icon: 'goods',
@@ -199,6 +193,26 @@ Page({
         name: '资金日报表',
         url: '/pages/application/dailyFund/dailyFund'
       }
+    ],
+    dataAnalysisIconList: [{
+      icon: 'rank',
+      color: 'green',
+      badge: 0,
+      name: '主营业务',
+      url: '/pages/statistics/home/home'
+    }, {
+      icon: 'creative',
+      color: 'blue',
+      badge: 0,
+      name: '决策指标',
+      url: '/pages/statistics/decisionMaking/decisionMaking'
+    }, {
+      icon: 'text',
+      color: 'orange',
+      badge: 0,
+      name: '股票分析',
+      url: '/pages/statistics/stokeAnalysis/index'
+    }
     ],
     gridCol: 4,
     skin: false

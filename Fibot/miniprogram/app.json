@@ -6,6 +6,8 @@
     "pages/my/home/home",
     "pages/application/home/home",
     "pages/statistics/home/home",
+    "pages/statistics/decisionMaking/decisionMaking",
+    "pages/statistics/stokeAnalysis/index",
     "pages/audiotest/audiotest",
     "pages/talk/talk",
     "pages/application/sellList/sellList",

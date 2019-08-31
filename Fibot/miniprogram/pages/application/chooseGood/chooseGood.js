@@ -6,33 +6,33 @@ Page({
   data: {
     StatusBar: app.globalData.StatusBar,
     CustomBar: app.globalData.CustomBar,
-    
-    carts:[],
+
+    carts: [],
     hasList: true,
     selectAllStatus: false,
-    isShowBuyList:false,
+    isShowBuyList: false,
 
-    goodsList:[],
-    buyList:[],
-    badge:0,
-    total:0.00,
-    back:null,
-    searchList:[]
+    goodsList: [],
+    buyList: [],
+    badge: 0,
+    total: 0.00,
+    back: null,
+    searchList: []
   },
 
 
-  onLoad: function (options) {
+  onLoad: function(options) {
     console.log("load")
     var that = this
     var goodsList = this.data.goodsList
     this.setData({
       host: host,
-      back:options.back
+      back: options.back
     })
     that.initGoodList()
     wx.getStorage({
       key: 'buyInfo',
-      success: function (res) {
+      success: function(res) {
         console.log('获取buyInfo成功')
         if (res.data && res.data.list && res.data.list.length != 0) {
           let len = res.data.list.length
@@ -65,73 +65,73 @@ Page({
       success: res => {
         var goodsList = res.data.result.goodsList
         console.log(goodsList)
-        if(this.data.back == 'buy'){
+        if (this.data.back == 'buy') {
           for (var index in goodsList) {
             goodsList[index].sellprice = 0
           }
         }
-        for(var i in goodsList){
+        for (var i in goodsList) {
           goodsList[i].sellprice = util.twoDecimal(goodsList[i].sellprice)
         }
         this.setData({
-          goodsList:goodsList,
-          allgoodsList:goodsList
+          goodsList: goodsList,
+          allgoodsList: goodsList
         })
         that.initNum(goodsList)
       }
     })
   },
-  initNum(goodsList){
+  initNum(goodsList) {
     console.log(goodsList)
     for (var index in goodsList) {
       var buyParam = "goodsList[" + index + "].buyNum"
       var indexParam = "goodsList[" + index + "].index"
       this.setData({
         [buyParam]: 0,
-        [indexParam]:index
+        [indexParam]: index
       })
     }
     console.log(this.data.goodsList)
   },
   //显示购物车
-  showBuyList(e){
-    if(e.currentTarget.dataset.target=="showBuyList"){
+  showBuyList(e) {
+    if (e.currentTarget.dataset.target == "showBuyList") {
       this.setData({
         isShowBuyList: true,
         goodsList: this.data.buyList
       })
-    }else{
+    } else {
       this.setData({
-        isShowBuyList:false,
-        goodsList:this.data.allgoodsList
+        isShowBuyList: false,
+        goodsList: this.data.allgoodsList
       })
     }
-    
+
   },
 
   //选择完毕
-  finishChoosing(e){
+  finishChoosing(e) {
     var pages = getCurrentPages();
-    var currPage = pages[pages.length - 1];   //当前页面
-    var prevPage = pages[pages.length - 2];  //上一个页面
+    var currPage = pages[pages.length - 1]; //当前页面
+    var prevPage = pages[pages.length - 2]; //上一个页面
     console.log(this.data.buyList)
     //直接调用上一个页面对象的setData()方法，把数据存到上一个页面中去
     prevPage.setData({
       buyList: currPage.data.buyList,
-      total:currPage.data.total
+      total: currPage.data.total
     });
     wx.navigateBack({
       delta: 1
     })
   },
 
-  sInputChange(e){
+  sInputChange(e) {
     inputVal = e.detail.value
     var that = this
     that.search()
   },
 
-  search(e){
+  search(e) {
     var that = this
     console.log("正在搜索")
     this.setData({
@@ -145,7 +145,7 @@ Page({
       var j = 0
       for (var i = 0, len = this.data.goodsList.length; i < len; i++) {
         var name = this.data.goodsList[i].name
-        if (name.indexOf(inputVal) != -1 ) {
+        if (name.indexOf(inputVal) != -1) {
           this.data.searchList.push(this.data.goodsList[i])
           console.log("is in")
         }
@@ -230,7 +230,7 @@ Page({
     //allgoodsList[index].buyNum -= 1
     this.setData({
       goodsList: goodsList,
-      allgoodsList:allgoodsList
+      allgoodsList: allgoodsList
     });
     that.getTotalPriceABuyList()
     that.calcBadge()
@@ -241,30 +241,84 @@ Page({
    */
   getTotalPriceABuyList() {
     let goodsList = this.data.goodsList;
-    var buyList = []             
+    var buyList = []
     let total = 0;
-    for (let i = 0; i < goodsList.length; i++) {         
-      if (goodsList[i].selected && goodsList[i].buyNum>0) {
-        buyList.push(goodsList[i])                  
+    for (let i = 0; i < goodsList.length; i++) {
+      if (goodsList[i].selected && goodsList[i].buyNum > 0) {
+        buyList.push(goodsList[i])
         total += goodsList[i].buyNum * goodsList[i].sellprice;
       }
     }
-    this.setData({                        
-      buyList:buyList,
+    this.setData({
+      buyList: buyList,
       total: total.toFixed(2)
     })
   },
   //计算徽章
-  calcBadge(){
+  calcBadge() {
     var badge = 0
     var goodsList = this.data.goodsList
-    for(var i in goodsList){
-      if(goodsList[i].selected && goodsList[i].buyNum>0){
+    for (var i in goodsList) {
+      if (goodsList[i].selected && goodsList[i].buyNum > 0 && goodsList[i].sellprice > 0) {
         badge = badge + 1
       }
     }
     this.setData({
-      badge:badge
+      badge: badge
+    })
+  },
+
+  showModal(e) {
+    console.log(e)
+    this.setData({
+      modalName: 'bottomModal',
+      curItem: e.currentTarget.dataset.item
+    })
+  },
+  hideModal(e){
+    var that = this
+    this.setData({
+      modalName:null
+    })
+    that.getTotalPriceABuyList();
+    that.calcBadge()
+  },
+
+  previewImage: function (e) {
+    var current = e.target.dataset.src
+    var imageList = []
+    imageList.push(current)
+    wx.previewImage({
+      current: current,
+      urls: imageList
+    })
+  },
+
+  sellpriceChange(e){
+    console.log(e.detail.value)
+    var index = this.data.curItem.index
+    var goodsList = this.data.goodsList
+    var sellprice = e.detail.value
+    if(sellprice==null||sellprice<0){
+      sellprice = 0
+    }
+    goodsList[index].sellprice = sellprice
+    this.setData({
+      goodsList:goodsList
+    })
+  },
+
+  buyNumChange(e){
+    console.log(e.detail.value)
+    var index = this.data.curItem.index
+    var goodsList = this.data.goodsList
+    var buyNum = e.detail.value
+    if(buyNum<0||buyNum==null){
+      buyNum = 0
+    }
+    goodsList[index].buyNum = buyNum
+    this.setData({
+      goodsList: goodsList
     })
   }
 

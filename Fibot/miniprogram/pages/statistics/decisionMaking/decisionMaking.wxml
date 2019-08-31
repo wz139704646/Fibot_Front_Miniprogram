@@ -1,13 +1,13 @@
 <!--miniprogram/pages/finding/home/home.wxml-->
 <!-- <button class="cu-btn bg-green shadow bg-gradual-blue" bindtap="showModal" data-target="DrawerModalL">Left</button> -->
-<scroll-view scroll-y class='scrollPage bg-gradual-green'>
+<scroll-view scroll-y class='scrollPage bg-gradual-blue'>
   <cu-custom isBack="{{true}}">
     <view slot="backText">返回</view>
-    <view slot="content">主营业务分析</view>
+    <view slot="content">决策指标分析</view>
   </cu-custom>
   <view class="cu-bar margin-top">
     <view class="action" bindtap="showModal" data-target="DrawerModalL">
-      <text class="grey"></text> Hi， 你来了！选一个你感兴趣的业务指标吧。
+      <text class="grey"></text> Hi， 你来了！选一个你感兴趣的决策指标吧。
     </view>
     <view class="action" bindtap="showModal" data-target="DrawerModalL">
       <view class="cu-item">
@@ -21,11 +21,11 @@
       <view slot="header">
         <view class="cu-bar bg-white solid-bottom">
           <view class='action'>
-            <text class='cuIcon-titles text-green'></text> {{statis.title}}
+            <text class='cuIcon-titles text-blue '></text> {{statis.title}}
           </view>
           <view hidden='{{!statis.showPeriod}}' class="cu-capsule radius margin-right">
             <block wx:for="{{statis.period}}" wx:for-item="per" wx:for-index="perIdx" wx:key="perIdx">
-              <view class="cu-tag {{statis.showIdx==perIdx ? 'bg-green' : 'line-green'}}" bindtap='chooseDayOrMonth' data-stat="{{index}}" data-per="{{perIdx}}">
+              <view class="cu-tag {{statis.showIdx==perIdx ? 'bg-blue' : 'line-blue'}}" bindtap='chooseDayOrMonth' data-stat="{{index}}" data-per="{{perIdx}}">
                 {{per.title}}
               </view>
             </block>
@@ -42,7 +42,7 @@
           </view>
         </view>
       </view>
-      <!-- <view class='bg-gradual-blue'>
+    <!-- <view class='bg-gradual-blue'>
         <view class="cu-list menu {{menuBorder?'sm-border':''}} {{menuCard?'card-menu margin-top':''}}">
           <view class="bg-gradual-blue cu-item {{menuArrow?'arrow':''}}">
             <view class="content">

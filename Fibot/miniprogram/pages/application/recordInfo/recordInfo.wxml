@@ -29,7 +29,7 @@
   </view>
   <block wx:key wx:for='{{buyList}}' wx:for-index='index'>
     <van-card tag="{{item.type}}" price="合计:{{back ? back=='sell' ? number.twoDecimal(item.sumprice) : number.twoDecimal(item.price*item.number) : '出错'}}" desc="单价:{{back=='sell' ? number.twoDecimal(item.sumprice/item.number) : number.twoDecimal(item.price)}}\r\n数量:{{item.number}}" title="{{item.goodsName}}" thumb="{{host+'/goodsPic/'+item.goodsPhoto}}" thumb-mode="aspectFill">
-      <!-- TODO 入库的修改 -->
+      <!-- TODO 出库的修改 -->
       <view wx:if="{{fun=='出库'}}" slot="footer">
         <view wx:key wx:for="{{1}}" wx:for-item="outlist" data-id="item.goodsId">
           <view class="cu-form-group">
