@@ -20,7 +20,7 @@
     <van-panel use-header-slot custom-class="margin-bottom">
       <view>
         <view class="cu-item padding-sm radius shadow-wrap">
-          <view class="container">
+          <view class="container" hidden="{{chartHidden}}">
             <ec-canvas id="mychart-dom-area" canvas-id="mychart-area" ec="{{ ec }}"></ec-canvas>
           </view>
           <view class="cu-list menu-avatar bg-green">
