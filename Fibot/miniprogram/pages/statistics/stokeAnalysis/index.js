@@ -1,6 +1,6 @@
 import * as echarts from '../../../ec-canvas/echarts';
 
-const app = getApp(); 
+const app = getApp();
 const host = app.globalData.requestHost;
 var mychart = null;
 
@@ -27,7 +27,7 @@ function initPEChart(canvas, width, height) {
       category = Object.keys(res.data.result).slice(0, 5)
       category.push(Object.keys(res.data.result)[6])
       category.push(Object.keys(res.data.result)[5])
-      barData = Object.values(res.data.result).map(function(arr){
+      barData = Object.values(res.data.result).map(function (arr) {
         return arr[0]
       }).slice(0, 5)
       barData.push(res.data.result['贵阳银行'][0])
@@ -70,7 +70,7 @@ function initPEChart(canvas, width, height) {
             }
           }
         },
-        series: [ {
+        series: [{
           name: 'P/E市盈率',
           type: 'bar',
           barWidth: 10,
@@ -115,7 +115,7 @@ function initPBChart(canvas, width, height) {
       category = Object.keys(res.data.result).slice(0, 5)
       category.push(Object.keys(res.data.result)[6])
       category.push(Object.keys(res.data.result)[5])
-      barData = Object.values(res.data.result).map(function (arr)      {
+      barData = Object.values(res.data.result).map(function (arr) {
         return arr[1]
       }).slice(0, 5)
       barData.push(res.data.result['贵阳银行'][1])
@@ -199,7 +199,9 @@ Page({
     ec: {
       onInit: initPEChart
     },
-    diagrams: ['  ', 'K线图', '市盈率P/E', '市净率P/B', '市现率PCF', '市销率P/S'],
+    chartHidden: false,
+    CustomBar: app.globalData.CustomBar,
+    diagrams: ['市盈率P/E', '市净率P/B', '市现率PCF', '市销率P/S'],
   },
 
   onLoad: function (options) {
@@ -207,9 +209,9 @@ Page({
     // myChart = initPEChart()
   },
 
-  drawDiagram: function (diagram, year=0) {
-    console.log('开始画'+diagram)
-    if (diagram == '市盈率P/E'){
+  drawDiagram: function (diagram, year = 0) {
+    console.log('开始画' + diagram)
+    if (diagram == '市盈率P/E') {
       console.log(this.data)
       wx.showLoading({
         title: '画图中',
@@ -558,7 +560,7 @@ Page({
         }
       })
     }
-    else{
+    else {
       wx.showToast({
         title: '开发中，敬请期待',
         icon: "none",
@@ -575,12 +577,14 @@ Page({
     console.log("show list")
     console.log(e)
     this.setData({
-      modalName: e.currentTarget.dataset.target
+      modalName: e.currentTarget.dataset.target,
+      chartHidden: true
     })
   },
   hideModal(e) {
     this.setData({
-      modalName: null
+      modalName: null,
+      chartHidden: false
     })
   },
   chooseDiagram: function (e) {

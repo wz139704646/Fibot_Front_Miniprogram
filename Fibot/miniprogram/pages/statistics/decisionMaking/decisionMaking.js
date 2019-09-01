@@ -10,7 +10,7 @@ var startPos = null;
 var date = new Date();
 var curr_year = date.getFullYear();
 var curr_month = date.getMonth() + 1
-var windowWidth = 320
+var windowWidth = wx.getSystemInfoSync().windowWidth - 15;
 Page({
 
   /**
@@ -35,6 +35,7 @@ Page({
       showIdx: 0
     }
     ,
+    chartHidden: false,
     diagrams: ['债务率', '流动比率', '速动比率', '现金比率', '资产周转率'],
     CustomBar: app.globalData.CustomBar,
   },
@@ -87,7 +88,7 @@ Page({
     var data = [];
     var time = [];
     var types = [];
-    var windowWidth = 320;
+    var windowWidth = wx.getSystemInfoSync().windowWidth - 15;
     arr = [];
     try {
       var res = wx.getSystemInfoSync();
@@ -95,10 +96,6 @@ Page({
     } catch (e) {
       console.error('getSystemInfoSync failed!');
     }
-    wx.showLoading({
-      title: '画图中',
-      mask: true
-    })
     if (diagram == '债务率') {
       chartType = 'line'
       wx.request({
@@ -330,7 +327,13 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.drawDiagram('债务率', 2019)
+    wx.showLoading({
+      title: '画图中',
+      mask: true
+    })
+    setTimeout(()=>{
+      this.drawDiagram('债务率', 2019)
+    }, 500)
   },
 
   /**
@@ -390,12 +393,14 @@ Page({
     console.log("show list")
     console.log(e)
     this.setData({
-      modalName: e.currentTarget.dataset.target
+      modalName: e.currentTarget.dataset.target,
+      chartHidden: true
     })
   },
   hideModal(e) {
     this.setData({
-      modalName: null
+      modalName: null,
+      chartHidden: false
     })
   },
   chooseDiagram: function (e) {

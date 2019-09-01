@@ -1,6 +1,6 @@
 <!--miniprogram/pages/finding/home/home.wxml-->
 <!-- <button class="cu-btn bg-green shadow bg-gradual-blue" bindtap="showModal" data-target="DrawerModalL">Left</button> -->
-<scroll-view scroll-y class='scrollPage bg-gradual-blue'>
+<view class=' bg-gradual-blue'>
   <cu-custom isBack="{{true}}">
     <view slot="backText">返回</view>
     <view slot="content">决策指标分析</view>
@@ -34,7 +34,7 @@
       </view>
       <view>
         <view class="cu-item padding-sm radius shadow-wrap bg-white">
-          <view class="container">
+          <view class="container" hidden="{{chartHidden}}">
             <canvas canvas-id="pieCanvas" class="canvas" style="height:300px" bindtouchstart="touchHandler" bindtouchmove="moveHandler" bindtouchend="touchEndHandler"></canvas>
             <view style="margin-top:30px;text-align:center">点击或拖动图片查看详细数据</view>
           </view>
@@ -73,7 +73,7 @@
     </van-panel>
   </view>
 
-</scroll-view>
+</view>
 
 <view class="cu-modal drawer-modal justify-start {{modalName=='DrawerModalL'?'show':''}}" bindtap="hideModal">
   <view class="cu-dialog basis-lg" catchtap style="top:{{CustomBar}}px;height:calc(100vh - {{CustomBar}}px)">

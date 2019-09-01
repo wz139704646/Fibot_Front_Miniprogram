@@ -10,7 +10,7 @@ var startPos = null;
 var date = new Date();
 var curr_year = date.getFullYear();
 var curr_month = date.getMonth() + 1
-var windowWidth = 320
+var windowWidth = wx.getSystemInfoSync().windowWidth - 15
 Page({
 
   /**
@@ -35,6 +35,7 @@ Page({
       showIdx: 0
     }
     ,
+    chartHidden: false,
     diagrams: ['营业收入', '营业支出', '营业利润', '利润总额', '净利润', '毛利率', '净利率'],
     CustomBar: app.globalData.CustomBar,
   },
@@ -87,7 +88,7 @@ Page({
     var data = [];
     var time = [];
     var types = [];
-    var windowWidth = 320;
+    var windowWidth = wx.getSystemInfoSync().windowWidth - 15;
     arr = [];
     try {
       var res = wx.getSystemInfoSync();
@@ -95,10 +96,6 @@ Page({
     } catch (e) {
       console.error('getSystemInfoSync failed!');
     }
-    wx.showLoading({
-      title: '画图中',
-      mask: true
-    })
     if (diagram == '营业支出') {
       chartType = 'line'
       wx.request({
@@ -112,6 +109,8 @@ Page({
         },
         success: res => {
           console.log(res.data.result)
+          categories = []
+          data = []
           for (var k in res.data.result) {
             categories.push(k)
             data.push(res.data.result[k])
@@ -146,7 +145,7 @@ Page({
             series: [{
               name: '营业支出',
               data: data,
-              format: function (val, name) {
+              format: function (val) {
                 return parseFloat(val).toFixed(2) + '万';
               }
             }],
@@ -234,14 +233,14 @@ Page({
             series: [{
               name: '食品类',
               data: food_arr,
-              format: function (val, name) {
+              format: function (val) {
                 return val.toFixed(2) + '万';
               }
             },
             {
               name: '日用品类',
               data: daily_goods_arr,
-              format: function (val, name) {
+              format: function (val) {
                 return (val).toFixed(2) + '万';
               }
             },
@@ -255,7 +254,7 @@ Page({
             {
               name: '其他类',
               data: other_goods_arr,
-              format: function (val, name) {
+              format: function (val) {
                 return (val).toFixed(2) + '万';
               }
             }],
@@ -298,6 +297,8 @@ Page({
         },
         success: res => {
           console.log(res.data.result)
+          categories = []
+          data = []
           for (var k in res.data.result) {
             categories.push(k)
             data.push(res.data.result[k])
@@ -403,6 +404,8 @@ Page({
           "Content-Type": 'application/json'
         },
         success: res => {
+          categories = []
+          data = []
           console.log(res.data.result)
           for (var k in res.data.result) {
             categories.push(k)
@@ -457,6 +460,8 @@ Page({
         },
         success: res => {
           console.log(res.data.result)
+          categories = []
+          data = []
           for (var k in res.data.result) {
             categories.push(k)
             data.push(res.data.result[k])
@@ -510,6 +515,8 @@ Page({
         },
         success: res => {
           console.log(res.data.result)
+          categories = []
+          data = []
           for (var k in res.data.result) {
             categories.push(k)
             data.push(res.data.result[k])
@@ -531,7 +538,7 @@ Page({
             series: [{
               name: '净利率',
               data: data,
-              format: function (val, name) {
+              format: function (val) {
                 return parseFloat(val).toFixed(2) + '%';
               }
             }],
@@ -570,7 +577,13 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.drawDiagram('营业收入', 2019)
+    wx.showLoading({
+      title: '画图中',
+      mask: true
+    })
+    setTimeout(() => {
+      this.drawDiagram('营业收入', 2019)
+    }, 1500)
   },
 
   /**
@@ -792,6 +805,7 @@ Page({
             "Content-Type": 'application/json'
           },
           success: res => {
+            arr = []
             for (var k in res.data.result) {
               arr.push({
                 name: k,
@@ -950,6 +964,7 @@ Page({
             "Content-Type": 'application/json'
           },
           success: res => {
+            arr = []
             for (var k in res.data.result) {
               arr.push({
                 name: k,
@@ -983,12 +998,14 @@ Page({
     console.log("show list")
     console.log(e)
     this.setData({
-      modalName: e.currentTarget.dataset.target
+      modalName: e.currentTarget.dataset.target,
+      chartHidden: true
     })
   },
   hideModal(e) {
     this.setData({
-      modalName: null
+      modalName: null,
+      chartHidden: false
     })
   },
   chooseDiagram: function (e) {
