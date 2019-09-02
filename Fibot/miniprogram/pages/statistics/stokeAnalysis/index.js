@@ -54,7 +54,22 @@ function initPEChart(canvas, width, height) {
           data: category,
           axisLabel: {
             interval: 0,
-            rotate: -10
+            // rotate: -10,
+            margin: 10,
+            formatter: function (val) {
+              return val.split("").join("\n");
+            }
+          },
+          axisPointer: {
+            label: {
+              margin: 100,
+              padding:[
+                25,
+                20,
+                20,
+                10,
+              ]
+            }
           },
           axisLine: {
             lineStyle: {
@@ -142,7 +157,10 @@ function initPBChart(canvas, width, height) {
           data: category,
           axisLabel: {
             interval: 0,
-            rotate: -10
+            // rotate: -10
+            formatter: function (val) {
+              return val.split("").join("\n");
+            }
           },
           axisLine: {
             lineStyle: {
@@ -256,7 +274,10 @@ Page({
               data: category,
               axisLabel: {
                 interval: 0,
-                rotate: -10
+                // rotate: -10
+                formatter: function (val) {
+                  return val.split("").join("\n");
+                }
               },
               axisLine: {
                 lineStyle: {
@@ -343,7 +364,10 @@ Page({
               data: category,
               axisLabel: {
                 interval: 0,
-                rotate: -10
+                // rotate: -10
+                formatter: function (val) {
+                  return val.split("").join("\n");
+                }
               },
               axisLine: {
                 lineStyle: {
@@ -430,7 +454,10 @@ Page({
               data: category,
               axisLabel: {
                 interval: 0,
-                rotate: -10
+                // rotate: -10
+                formatter: function (val) {
+                  return val.split("").join("\n");
+                }
               },
               axisLine: {
                 lineStyle: {
@@ -517,7 +544,16 @@ Page({
               data: category,
               axisLabel: {
                 interval: 0,
-                rotate: -10
+                // rotate: -10,
+                formatter: function (val) {
+                  return val.split("").join("\n");
+                }
+              },
+              axisPointer: {
+                label: {
+                  margin: 100,
+                  color: 'red'
+                },
               },
               axisLine: {
                 lineStyle: {
