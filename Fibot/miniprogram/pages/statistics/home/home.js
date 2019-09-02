@@ -1010,6 +1010,7 @@ Page({
   },
   chooseDiagram: function (e) {
     console.log(e.currentTarget.dataset.diag)
+    this.hideModal(e)
     this.drawDiagram(e.currentTarget.dataset.diag, 2019)
   },
 })

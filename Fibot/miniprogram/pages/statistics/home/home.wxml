@@ -50,8 +50,8 @@
 <view class="cu-modal drawer-modal justify-start {{modalName=='DrawerModalL'?'show':''}}" bindtap="hideModal">
   <view class="cu-dialog basis-lg" catchtap style="top:{{CustomBar}}px;height:calc(100vh - {{CustomBar}}px)">
     <view class="cu-list menu text-left">
-      <view class="cu-item arrow" wx:for="{{diagrams.length}}" wx:key>
-        <view class="content" bindtap="chooseDiagram" data-diag="{{diagrams[index]}}">
+      <view class="cu-item arrow" wx:for="{{diagrams.length}}" wx:key bindtap="chooseDiagram" data-diag="{{diagrams[index]}}">
+        <view class="content">
           <view>{{diagrams[index]}}</view>
         </view>
       </view>
