@@ -9,6 +9,9 @@
     <text class="cuIcon-search"></text>
     <input type="text" placeholder="请输入商品名" confirm-type="search" bindconfirm='search' value='{{inputVal}}' bindinput='inputChange'></input>
   </view>
+  <view class="action">
+    <button class="cu-btn bg-blue shadow-blur round" bindtap='search'>搜索</button>
+  </view>
 </view>
 <scroll-view scroll-y class="indexes" style="height:calc(100vh - {{CustomBar}}px - 50px);margin-top:42px;" scroll-with-animation="true" enable-back-to-top="true">
   <block wx:for="{{goodsList}}" wx:key wx:for-index='index'>

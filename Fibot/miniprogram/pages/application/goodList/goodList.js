@@ -17,6 +17,7 @@ Page({
   },
 
   initGoodList(){
+    var that = this
     wx.request({
       url: host + '/queryGoods',
       data: JSON.stringify({
@@ -30,11 +31,14 @@ Page({
         console.log(res)
         console.log(res.data.result.goodsList)
         this.setData({
-          goodList: res.data.result.goodsList
+          goodList:res.data.result.goodsList
         })
+        that.initpyGoodList()
       }
     })
+  },
 
+  initpyGoodList(){
     var that = this
     wx.cloud.callFunction({
       name: 'convert2pinyin',
@@ -50,7 +54,8 @@ Page({
         console.log('添加pinyin成功')
         console.log(res)
         this.setData({
-          goodList: res.data.result.goodsList
+          goodList: res.result,
+          allgoodList:res.result
         })
       },
       fail: err => {
@@ -71,27 +76,31 @@ Page({
     console.log("查看分析")
   },
 
+  inputChange(e) {
+    console.log(e.detail.value)
+    inputVal = e.detail.value
+  },
+
   search(e) {
     var that = this
     console.log("正在搜索")
     if (inputVal == "") {
       this.setData({
-        goodList: this.data.goodList
+        goodList: this.data.allgoodList
       })
     } else {
-      this.data.goodList = []
-      for (let i = 0; i < this.data.goodList.length; i++) {
-        let j = this.data.goodList[i].pinyin
-        let k = j.toUpperCase().charCodeAt(0)
-        let l = this.data.goodList[i].name
-        if (j.indexOf(inputVal) != -1 || l.indexOf(inputVal) != -1) {
-          this.data.goodList[k - 65].push(this.data.goodList[i])
+      var gList = []
+      var goodList = this.data.allgoodList
+      for (var i = 0; i < goodList.length; i++) {
+        var pinyin = goodList[i].pinyin
+        var name = goodList[i].name
+        if (pinyin.indexOf(inputVal) != -1 || name.indexOf(inputVal) != -1) {
+          gList.push(goodList[i])
         }
       }
-
       this.setData({
-        goodList: this.data.goodList
-      });
+        goodList: gList
+      })
     }
   },
 })

@@ -1,5 +1,6 @@
 const app = getApp()
 const host = app.globalData.requestHost
+var inputVal = ''
 
 Page({
   data: {
@@ -17,6 +18,7 @@ Page({
     })
   },
   initGoodList() {
+    var that = this
     wx.request({
       url: host + '/queryStoreGoods',
       data: JSON.stringify({
@@ -32,9 +34,37 @@ Page({
         this.setData({
           goodsList: res.data.result.goodsList
         })
+        that.initpyGoodList()
       }
     })
   },
+
+  initpyGoodList() {
+    var that = this
+    wx.cloud.callFunction({
+      name: 'convert2pinyin',
+      data: {
+        jsonStr: JSON.stringify(this.data.goodsList),
+        options: {
+          field: 'name',
+          pinyin: 'pinyin',
+          initial: 'firstletter'
+        }
+      },
+      success: res => {
+        console.log('添加pinyin成功')
+        console.log(res)
+        this.setData({
+          goodsList: res.result,
+          allgoodsList: res.result
+        })
+      },
+      fail: err => {
+        console.error('fail')
+      }
+    })
+  },
+
   showStoreDetails(e){
     console.log("查看库存详情")
     var that = this
@@ -63,14 +93,38 @@ Page({
       }
     })
   },
-  // showModal(e) {
-  //   this.setData({
-  //     modalName: 'bottomModal'
-  //   })
-  // },
   hideModal(e) {
     this.setData({
       modalName: null
     })
   },
+
+  inputChange(e) {
+    console.log(e.detail.value)
+    inputVal = e.detail.value
+  },
+
+  search(e) {
+    var that = this
+    console.log("正在搜索")
+    if (inputVal == "") {
+      this.setData({
+        goodsList: this.data.allgoodsList
+      })
+    } else {
+      var gList = []
+      var goodsList = this.data.allgoodsList
+      for (var i = 0; i < goodsList.length; i++) {
+        var pinyin = goodsList[i].pinyin
+        var name = goodsList[i].name
+        if (pinyin.indexOf(inputVal) != -1 || name.indexOf(inputVal) != -1) {
+          gList.push(goodsList[i])
+        }
+      }
+      this.setData({
+        goodsList: gList
+      })
+    }
+  },
+
 })
