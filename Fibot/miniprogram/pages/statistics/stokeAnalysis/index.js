@@ -10,6 +10,7 @@ function initPEChart(canvas, width, height) {
     title: '画图中',
     mask: true
   })
+  console.log(token)
   if(token){
     wx.request({
       url: host + '/data/getIndustryData',
