@@ -21,37 +21,42 @@ Page({
   },
   //确认添加
   addsuccess(e) {
-    wx.request({
-      url: host + '/addWarehouse',
-      data: JSON.stringify({
-        companyId: app.globalData.companyId,
-        name: name,
-        site: site
-      }),
-      method: "POST",
-      header: {
-        "Content-Type": 'application/json'
-      },
-      success: res => {
-        wx.showToast({
-          title: '添加成功',
-          duration:2000,
-          icon:"none",
-          mask:true
-        })
-        console.log(res)
-        wx.redirectTo({
-          url: '/pages/index/index',
-        })
-      },
-      fail:res => {
-        wx.showToast({
-          title: '添加失败',
-          icon:"none",
-          mask:true
-        })
-      }
-    })
+    let token = app.getToken()
+    if (token) {
+      wx.request({
+        url: host + '/addWarehouse',
+        data: JSON.stringify({
+          companyId: app.globalData.companyId,
+          name: name,
+          site: site
+        }),
+        method: "POST",
+        header: {
+          "Content-Type": 'application/json',
+          'Authorization': token
+        },
+        success: res => {
+          wx.showToast({
+            title: '添加成功',
+            duration: 2000,
+            icon: "none",
+            mask: true
+          })
+          console.log(res)
+          wx.redirectTo({
+            url: '/pages/index/index',
+          })
+        },
+        fail: res => {
+          wx.showToast({
+            title: '添加失败',
+            icon: "none",
+            mask: true
+          })
+        }
+      })
+    }
+    
   },
   //取消添加
   addfail(e) {

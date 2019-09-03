@@ -18,25 +18,30 @@ Page({
     })
   },
   initGoodList() {
-    var that = this
-    wx.request({
-      url: host + '/queryStoreGoods',
-      data: JSON.stringify({
-        companyId: app.globalData.companyId
-      }),
-      method: "POST",
-      header: {
-        "Content-Type": 'application/json'
-      },
-      success: res => {
-        console.log(res)
-        console.log(res.data.result.goodsList)
-        this.setData({
-          goodsList: res.data.result.goodsList
-        })
-        that.initpyGoodList()
-      }
-    })
+    let token = app.getToken()
+    if (token) {
+      var that = this
+      wx.request({
+        url: host + '/queryStoreGoods',
+        data: JSON.stringify({
+          companyId: app.globalData.companyId
+        }),
+        method: "POST",
+        header: {
+          "Content-Type": 'application/json',
+          'Authorization': token
+        },
+        success: res => {
+          console.log(res)
+          console.log(res.data.result.goodsList)
+          this.setData({
+            goodsList: res.data.result.goodsList
+          })
+          that.initpyGoodList()
+        }
+      })
+    }
+    
   },
 
   initpyGoodList() {
@@ -67,31 +72,36 @@ Page({
 
   showStoreDetails(e){
     console.log("查看库存详情")
-    var that = this
-    wx.request({
-      url: host + '/queryGoodsStoreByGoodsId',
-      data:JSON.stringify({
-        companyId:app.globalData.companyId,
-        goodsId:e.currentTarget.dataset.id
-      }),
-      method:"POST",
-      header:{
-        "Content-Type": 'application/json'
-      },
-      success:function(res){
-        console.log(res)
-        var storeList = res.data.result
-        for(var i in storeList){
-          storeList[i]['value'] = storeList[i].wareHouseName + ": " + storeList[i].number
-        }
-        console.log(storeList)
-        that.setData({
-          storeList:storeList,
-          modalName: 'bottomModal'
-        })
+    let token = app.getToken()
+    if (token) {
+      var that = this
+      wx.request({
+        url: host + '/queryGoodsStoreByGoodsId',
+        data: JSON.stringify({
+          companyId: app.globalData.companyId,
+          goodsId: e.currentTarget.dataset.id
+        }),
+        method: "POST",
+        header: {
+          "Content-Type": 'application/json',
+          'Authorization': token
+        },
+        success: function (res) {
+          console.log(res)
+          var storeList = res.data.result
+          for (var i in storeList) {
+            storeList[i]['value'] = storeList[i].wareHouseName + ": " + storeList[i].number
+          }
+          console.log(storeList)
+          that.setData({
+            storeList: storeList,
+            modalName: 'bottomModal'
+          })
 
-      }
-    })
+        }
+      })
+    }
+    
   },
   hideModal(e) {
     this.setData({

@@ -17,25 +17,30 @@ Page({
   },
 
   initGoodList(){
-    var that = this
-    wx.request({
-      url: host + '/queryGoods',
-      data: JSON.stringify({
-        companyId:app.globalData.companyId
-      }),
-      method: "POST",
-      header: {
-        "Content-Type": 'application/json'
-      },
-      success: res => {
-        console.log(res)
-        console.log(res.data.result.goodsList)
-        this.setData({
-          goodList:res.data.result.goodsList
-        })
-        that.initpyGoodList()
-      }
-    })
+    let token = app.getToken()
+    if (token) {
+      var that = this
+      wx.request({
+        url: host + '/queryGoods',
+        data: JSON.stringify({
+          companyId: app.globalData.companyId
+        }),
+        method: "POST",
+        header: {
+          "Content-Type": 'application/json',
+          'Authorization': token
+        },
+        success: res => {
+          console.log(res)
+          console.log(res.data.result.goodsList)
+          this.setData({
+            goodList: res.data.result.goodsList
+          })
+          that.initpyGoodList()
+        }
+      })
+    }
+    
   },
 
   initpyGoodList(){

@@ -20,21 +20,26 @@ Page({
     that.getbrList()
   },
   getbrList(){
-    var that = this
-    wx.request({
-      url: host + '/queryPurchase',
-      data: JSON.stringify({
-        companyId: app.globalData.companyId
-      }),
-      method: "POST",
-      header: {
-        "Content-Type": 'application/json'
-      },
-      success(res){
-        console.log(res)
-        that.initbrList(res.data.result)
-      }
-    })
+    let token = app.getToken()
+    if (token) {
+      var that = this
+      wx.request({
+        url: host + '/queryPurchase',
+        data: JSON.stringify({
+          companyId: app.globalData.companyId
+        }),
+        method: "POST",
+        header: {
+          "Content-Type": 'application/json',
+          'Authorization': token
+        },
+        success(res) {
+          console.log(res)
+          that.initbrList(res.data.result)
+        }
+      })
+    }
+    
   },
   initbrList(brList) {
     var that = this

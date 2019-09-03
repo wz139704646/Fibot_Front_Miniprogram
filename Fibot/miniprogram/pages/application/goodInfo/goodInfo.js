@@ -27,57 +27,62 @@ Page({
     that.getInformation(options)
   },
   getInformation(e){
-    var that = this
-    wx.request({
-      url: host +'/queryGoods',
-      data:JSON.stringify({
-        companyId:app.globalData.companyId,
-        name:e.name
-      }),
-      method:"POST",
-      header:{
-        "Content-Type": 'application/json'
-      },
-      success:res=>{
-        console.log(res)
-        var good = res.data.result.goodsList[0]
-        var typeList = this.data.typeList
-        var unitInfoList = this.data.unitInfoList
-        var gindex
-        var uindex
-        var imageList = []
-        imageList[0] = host + '/goodsPic/' + good.photo
-        for (var index in typeList) {
-          if(good.type==typeList[index]){
-            gindex = index
+    let token = app.getToken()
+    if (token) {
+      var that = this
+      wx.request({
+        url: host + '/queryGoods',
+        data: JSON.stringify({
+          companyId: app.globalData.companyId,
+          name: e.name
+        }),
+        method: "POST",
+        header: {
+          "Content-Type": 'application/json',
+          'Authorization': token
+        },
+        success: res => {
+          console.log(res)
+          var good = res.data.result.goodsList[0]
+          var typeList = this.data.typeList
+          var unitInfoList = this.data.unitInfoList
+          var gindex
+          var uindex
+          var imageList = []
+          imageList[0] = host + '/goodsPic/' + good.photo
+          for (var index in typeList) {
+            if (good.type == typeList[index]) {
+              gindex = index
+            }
           }
-        }
-        console.log("gindex="+gindex)
-        for (var index in unitInfoList) {
-          if (good.unitInfo == unitInfoList[index]) {
-            uindex = index
+          console.log("gindex=" + gindex)
+          for (var index in unitInfoList) {
+            if (good.unitInfo == unitInfoList[index]) {
+              uindex = index
+            }
           }
+          console.log("uindex=" + uindex)
+          that.setData({
+            id: good.id,
+            name: good.name,
+            barcode: good.barcode,
+            brand: good.brand,
+            imageList: imageList,
+            photo: good.photo,
+            sellprice: good.sellprice,
+            gindex: gindex,
+            uindex: uindex,
+            type: good.type,
+            unitInfo: good.unitInfo
+          })
+        },
+        fail: res => {
+          console.log(res)
         }
-        console.log("uindex="+uindex)
-        that.setData({
-          id:good.id,
-          name:good.name,
-          barcode:good.barcode,
-          brand:good.brand,
-          imageList:imageList,
-          photo:good.photo,
-          sellprice:good.sellprice,
-          gindex:gindex,
-          uindex:uindex,
-          type:good.type,
-          unitInfo:good.unitInfo
-        })
-      },
-      fail:res=>{
-        console.log(res)
-      }
+
+      })
+    }
     
-    })
   },
   nameChange(e) {
     console.log(e);

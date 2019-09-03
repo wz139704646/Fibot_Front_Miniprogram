@@ -52,34 +52,38 @@ Page({
     })
   },
   initGoodList() {
-    var that = this
-    wx.request({
-      url: host + '/queryGoods',
-      data: JSON.stringify({
-        companyId: app.globalData.companyId
-      }),
-      method: "POST",
-      header: {
-        "Content-Type": 'application/json'
-      },
-      success: res => {
-        var goodsList = res.data.result.goodsList
-        console.log(goodsList)
-        if (this.data.back == 'buy') {
-          for (var index in goodsList) {
-            goodsList[index].sellprice = 0
+    let token = app.getToken()
+    if (token) {
+      var that = this
+      wx.request({
+        url: host + '/queryGoods',
+        data: JSON.stringify({
+          companyId: app.globalData.companyId
+        }),
+        method: "POST",
+        header: {
+          "Content-Type": 'application/json',
+          'Authorization': token
+        },
+        success: res => {
+          var goodsList = res.data.result.goodsList
+          console.log(goodsList)
+          if (this.data.back == 'buy') {
+            for (var index in goodsList) {
+              goodsList[index].sellprice = 0
+            }
           }
+          for (var i in goodsList) {
+            goodsList[i].sellprice = util.twoDecimal(goodsList[i].sellprice)
+          }
+          this.setData({
+            goodsList: goodsList,
+            allgoodsList: goodsList
+          })
+          that.initNum(goodsList)
         }
-        for (var i in goodsList) {
-          goodsList[i].sellprice = util.twoDecimal(goodsList[i].sellprice)
-        }
-        this.setData({
-          goodsList: goodsList,
-          allgoodsList: goodsList
-        })
-        that.initNum(goodsList)
-      }
-    })
+      })
+    }
   },
   initNum(goodsList) {
     console.log(goodsList)

@@ -54,34 +54,39 @@ Page({
     }
   },
   addsuccess() {
-    wx.request({
-      url: host + '/addCustomer',
-      data: JSON.stringify({
-        companyId:app.globalData.companyId,
-        name: name,
-        phone: phone,
-        bankAccount: bankaccount,
-        bankname: bankname
-      }),
-      method: "POST",
-      header: {
-        "Content-Type": 'application/json'
-      },
-      success: res => {
-        wx.showToast({
-          title: 'add success',
-          duration:4000,
-          mask:true
-        })
-        console.log(res)
-        wx.redirectTo({
-          url: '/pages/index/index',
-        })
-      },
-      fail:res => {
-        console.log(res)
-      }
-    })
+    let token = app.getToken()
+    if (token) {
+      wx.request({
+        url: host + '/addCustomer',
+        data: JSON.stringify({
+          companyId: app.globalData.companyId,
+          name: name,
+          phone: phone,
+          bankAccount: bankaccount,
+          bankname: bankname
+        }),
+        method: "POST",
+        header: {
+          "Content-Type": 'application/json',
+          'Authorization': token
+        },
+        success: res => {
+          wx.showToast({
+            title: 'add success',
+            duration: 4000,
+            mask: true
+          })
+          console.log(res)
+          wx.redirectTo({
+            url: '/pages/index/index',
+          })
+        },
+        fail: res => {
+          console.log(res)
+        }
+      })
+    }
+    
   },
   addcancel(e) {
     wx.redirectTo({
