@@ -20,75 +20,79 @@ Page({
     this.setData({
       fun: options.fun
     })
+    let token = app.getToken()
     let that = this
-    wx.request({
-      url: host+'/querySell',
-      header: {
-        'Content-Type': 'application/json'
-      },
-      method: 'POST',
-      data: JSON.stringify({
-        companyId: app.globalData.companyId,
-      }),
-      success: res => {
-        // 添加拼音属性
-        console.log(res)
-        let list = res.data.result
-        wx.cloud.callFunction({
-          name: 'convert2pinyin',
-          data: {
-            jsonStr: JSON.stringify(list),
-            options: {
-              field: 'customerName',
-              pinyin: 'pinyin'
-            }
-          }
-        }).then( res => {
-          // 存储索引列表和所有列表
+    if(token){
+      wx.request({
+        url: host + '/querySell',
+        header: {
+          'Content-Type': 'application/json',
+          'Authorization': token
+        },
+        method: 'POST',
+        data: JSON.stringify({
+          companyId: app.globalData.companyId,
+        }),
+        success: res => {
+          // 添加拼音属性
           console.log(res)
-          var newlist = res.result
-          var datelist = []
-          var index1
-          for(let i in newlist){
-            //newlist[i]['index'] = i
-            newlist[i]['date'] = newlist[i]['date'].toString().substring(0, 10)
-            newlist[i]['sum'] = that.calcTotal(newlist[i].goodsList)
-            index1 = that.ifDateInList(newlist[i].date, datelist)
-            //console.log(index1)
-            if(index1){
-              //console.log("add")
-              datelist[index1-1].list.push(newlist[i])
-            }else{
-              var list = []
-              list.push(newlist[i])
-              datelist.push({
-                date:newlist[i].date,
-                list:list
-              })
+          let list = res.data.result
+          wx.cloud.callFunction({
+            name: 'convert2pinyin',
+            data: {
+              jsonStr: JSON.stringify(list),
+              options: {
+                field: 'customerName',
+                pinyin: 'pinyin'
+              }
             }
-          }
-          datelist.sort(that.sortNumber)
-          console.log(datelist)
-          that.setData({
-            sellList: datelist,
-            allList: datelist
+          }).then(res => {
+            // 存储索引列表和所有列表
+            console.log(res)
+            var newlist = res.result
+            var datelist = []
+            var index1
+            for (let i in newlist) {
+              //newlist[i]['index'] = i
+              newlist[i]['date'] = newlist[i]['date'].toString().substring(0, 10)
+              newlist[i]['sum'] = that.calcTotal(newlist[i].goodsList)
+              index1 = that.ifDateInList(newlist[i].date, datelist)
+              //console.log(index1)
+              if (index1) {
+                //console.log("add")
+                datelist[index1 - 1].list.push(newlist[i])
+              } else {
+                var list = []
+                list.push(newlist[i])
+                datelist.push({
+                  date: newlist[i].date,
+                  list: list
+                })
+              }
+            }
+            datelist.sort(that.sortNumber)
+            console.log(datelist)
+            that.setData({
+              sellList: datelist,
+              allList: datelist
+            })
+          }).catch(err => {
+            console.error(err)
+            wx.showToast({
+              title: '商品信息出错',
+              icon: 'none'
+            })
           })
-        }).catch(err => {
-          console.error(err)
+        },
+        fail: err1 => {
+          console.error(err1)
           wx.showToast({
-            title: '商品信息出错',
-            icon: 'none'
+            title: '加载失败',
+            image: '../../../imgs/fail.png'
           })
-        })
-      },
-      fail: err1 => {
-        console.error(err1)
-        wx.showToast({
-          title: '加载失败',
-          image: '../../../imgs/fail.png'
-        })
-      }
-    })
+        }
+      })
+    }
   },
   //按日期排序
   sortNumber(a, b)
