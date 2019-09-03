@@ -84,6 +84,7 @@ Page({
 
   drawDiagram: function (diagram, year = 0, month = 0) {
     console.log("开始画图！")
+    let token = app.getToken()
     var categories = [];
     var data = [];
     var time = [];
@@ -96,230 +97,236 @@ Page({
     } catch (e) {
       console.error('getSystemInfoSync failed!');
     }
-    if (diagram == '债务率') {
-      chartType = 'line'
-      wx.request({
-        url: host + '/data/getDebtRate',
-        method: "GET",
-        header: {
-          "Content-Type": 'application/json'
-        },
-        success: res => {
-          console.log(res.data.result)
-          for (var k in res.data.result) {
-            categories.push(k)
-            data.push(res.data.result[k])
-          }
-          console.log(categories)
-          console.log(data)
-          this.setData({
-            statis:
-            {
-              title: '债务率分析',
-              showPeriod: false
+    if (token) {
+      if (diagram == '债务率') {
+        chartType = 'line'
+        wx.request({
+          url: host + '/data/getDebtRate',
+          method: "GET",
+          header: {
+            'Content-Type': 'application/json',
+            'Authorization': token
+          },
+          success: res => {
+            console.log(res.data.result)
+            for (var k in res.data.result) {
+              categories.push(k)
+              data.push(res.data.result[k])
             }
-          })
-          pieChart = new wxCharts({
-            canvasId: 'pieCanvas',
-            type: 'line',
-            categories: categories,
-            animation: false,
-            series: [{
-              name: '债务率',
-              data: data,
-              format: function (val, name) {
-                return parseFloat(val).toFixed(2) + '%';
+            console.log(categories)
+            console.log(data)
+            this.setData({
+              statis:
+              {
+                title: '债务率分析',
+                showPeriod: false
               }
-            }],
-            width: windowWidth,
-            height: 300,
-            dataLabel: true,
-            dataPointShape: true,
-            enableScroll: true,
-            extra: {
-              lineStyle: 'curve'
-            }
-          });
-        },
-        fail: res => {
-          console.error("未成功获取到债务率")
-        },
-        complete: res => {
-          wx.hideLoading()
-        }
-      })
-    }
-    else if (diagram == '流动比率' || diagram == '速动比率') {
-      chartType = 'line'
-      wx.request({
-        url: host + '/data/getLiquidRatio',
-        method: "GET",
-        header: {
-          "Content-Type": 'application/json'
-        },
-        success: res => {
-          console.log(res.data.result)
-          for (var k in res.data.result) {
-            categories.push(k)
-            data.push(res.data.result[k])
-          }
-          categories.push(String(curr_year))
-          data.push(res.data.result[curr_year-1])
-          console.log(categories)
-          console.log(data)
-          this.setData({
-            statis:
-            {
-              title: diagram,
-              showPeriod: false
-            }
-          })
-          pieChart = new wxCharts({
-            canvasId: 'pieCanvas',
-            type: 'line',
-            categories: categories,
-            animation: false,
-            series: [{
-              name: diagram,
-              data: data,
-              format: function (val, name) {
-                return parseFloat(val).toFixed(2) + '%';
+            })
+            pieChart = new wxCharts({
+              canvasId: 'pieCanvas',
+              type: 'line',
+              categories: categories,
+              animation: false,
+              series: [{
+                name: '债务率',
+                data: data,
+                format: function (val, name) {
+                  return parseFloat(val).toFixed(2) + '%';
+                }
+              }],
+              width: windowWidth,
+              height: 300,
+              dataLabel: true,
+              dataPointShape: true,
+              enableScroll: true,
+              extra: {
+                lineStyle: 'curve'
               }
-            }],
-            width: windowWidth,
-            height: 300,
-            dataLabel: true,
-            dataPointShape: true,
-            enableScroll: true,
-            extra: {
-              lineStyle: 'curve'
-            }
-          });
-        },
-        fail: res => {
-          console.error("未成功获取到" + diagram)
-        },
-        complete: res => {
-          wx.hideLoading()
-        }
-      })
-    }
-    else if (diagram == '资产周转率') {
-      chartType = 'line'
-      wx.request({
-        url: host + '/data/getTurnoverRate',
-        method: "GET",
-        header: {
-          "Content-Type": 'application/json'
-        },
-        success: res => {
-          console.log(res.data.result)
-          for (var k in res.data.result) {
-            categories.push(k)
-            data.push(res.data.result[k])
+            });
+          },
+          fail: res => {
+            console.error("未成功获取到债务率")
+          },
+          complete: res => {
+            wx.hideLoading()
           }
-          console.log(categories)
-          console.log(data)
-          this.setData({
-            statis:
-            {
-              title: '资产周转率分析',
-              showPeriod: false
-            }
-          })
-          pieChart = new wxCharts({
-            canvasId: 'pieCanvas',
-            type: 'line',
-            categories: categories,
-            animation: false,
-            series: [{
-              name: '资产周转率',
-              data: data,
-              format: function (val, name) {
-                return parseFloat(val).toFixed(5) + '%';
-              }
-            }],
-            width: windowWidth,
-            height: 300,
-            dataLabel: true,
-            dataPointShape: true,
-            enableScroll: true,
-            extra: {
-              lineStyle: 'curve'
-            }
-          });
-        },
-        fail: res => {
-          console.error("未成功获取到资产周转率")
-        },
-        complete: res => {
-          wx.hideLoading()
-        }
-      })
-    }
-    else if (diagram == '现金比率') {
-      chartType = 'line'
-      wx.request({
-        url: host + '/data/getCashRatio',
-        method: "GET",
-        header: {
-          "Content-Type": 'application/json'
-        },
-        success: res => {
-          console.log(res.data.result)
-          for (var k in res.data.result) {
-            categories.push(k)
-            data.push(res.data.result[k])
-          }
-          console.log(categories)
-          console.log(data)
-          this.setData({
-            statis:
-            {
-              title: '现金比率分析',
-              showPeriod: false
-            }
-          })
-          pieChart = new wxCharts({
-            canvasId: 'pieCanvas',
-            type: 'line',
-            categories: categories,
-            animation: false,
-            series: [{
-              name: '现金比率',
-              data: data,
-              format: function (val, name) {
-                return parseFloat(val).toFixed(2) + '%';
-              }
-            }],
-            width: windowWidth,
-            height: 300,
-            dataLabel: true,
-            dataPointShape: true,
-            enableScroll: true,
-            extra: {
-              lineStyle: 'curve'
-            }
-          });
-        },
-        fail: res => {
-          console.error("未成功获取到现金率")
-        },
-        complete: res => {
-          wx.hideLoading()
-        }
-      })
-    }
-    else {
-      console.log("Not implemented yet!")
-      complete: res => {
-        wx.hideLoading()
+        })
       }
-      wx.showToast({
-        title: '开发中，敬请期待',
-        icon: "none",
-        duration: 2000,
-      })
+      else if (diagram == '流动比率' || diagram == '速动比率') {
+        chartType = 'line'
+        wx.request({
+          url: host + '/data/getLiquidRatio',
+          method: "GET",
+          header: {
+            'Content-Type': 'application/json',
+            'Authorization': token
+          },
+          success: res => {
+            console.log(res.data.result)
+            for (var k in res.data.result) {
+              categories.push(k)
+              data.push(res.data.result[k])
+            }
+            categories.push(String(curr_year))
+            data.push(res.data.result[curr_year - 1])
+            console.log(categories)
+            console.log(data)
+            this.setData({
+              statis:
+              {
+                title: diagram,
+                showPeriod: false
+              }
+            })
+            pieChart = new wxCharts({
+              canvasId: 'pieCanvas',
+              type: 'line',
+              categories: categories,
+              animation: false,
+              series: [{
+                name: diagram,
+                data: data,
+                format: function (val, name) {
+                  return parseFloat(val).toFixed(2) + '%';
+                }
+              }],
+              width: windowWidth,
+              height: 300,
+              dataLabel: true,
+              dataPointShape: true,
+              enableScroll: true,
+              extra: {
+                lineStyle: 'curve'
+              }
+            });
+          },
+          fail: res => {
+            console.error("未成功获取到" + diagram)
+          },
+          complete: res => {
+            wx.hideLoading()
+          }
+        })
+      }
+      else if (diagram == '资产周转率') {
+        chartType = 'line'
+        wx.request({
+          url: host + '/data/getTurnoverRate',
+          method: "GET",
+          header: {
+            'Content-Type': 'application/json',
+            'Authorization': token
+          },
+          success: res => {
+            console.log(res.data.result)
+            for (var k in res.data.result) {
+              categories.push(k)
+              data.push(res.data.result[k])
+            }
+            console.log(categories)
+            console.log(data)
+            this.setData({
+              statis:
+              {
+                title: '资产周转率分析',
+                showPeriod: false
+              }
+            })
+            pieChart = new wxCharts({
+              canvasId: 'pieCanvas',
+              type: 'line',
+              categories: categories,
+              animation: false,
+              series: [{
+                name: '资产周转率',
+                data: data,
+                format: function (val, name) {
+                  return parseFloat(val).toFixed(5) + '%';
+                }
+              }],
+              width: windowWidth,
+              height: 300,
+              dataLabel: true,
+              dataPointShape: true,
+              enableScroll: true,
+              extra: {
+                lineStyle: 'curve'
+              }
+            });
+          },
+          fail: res => {
+            console.error("未成功获取到资产周转率")
+          },
+          complete: res => {
+            wx.hideLoading()
+          }
+        })
+      }
+      else if (diagram == '现金比率') {
+        chartType = 'line'
+        wx.request({
+          url: host + '/data/getCashRatio',
+          method: "GET",
+          header: {
+            'Content-Type': 'application/json',
+            'Authorization': token
+          },
+          success: res => {
+            console.log(res.data.result)
+            for (var k in res.data.result) {
+              categories.push(k)
+              data.push(res.data.result[k])
+            }
+            console.log(categories)
+            console.log(data)
+            this.setData({
+              statis:
+              {
+                title: '现金比率分析',
+                showPeriod: false
+              }
+            })
+            pieChart = new wxCharts({
+              canvasId: 'pieCanvas',
+              type: 'line',
+              categories: categories,
+              animation: false,
+              series: [{
+                name: '现金比率',
+                data: data,
+                format: function (val, name) {
+                  return parseFloat(val).toFixed(2) + '%';
+                }
+              }],
+              width: windowWidth,
+              height: 300,
+              dataLabel: true,
+              dataPointShape: true,
+              enableScroll: true,
+              extra: {
+                lineStyle: 'curve'
+              }
+            });
+          },
+          fail: res => {
+            console.error("未成功获取到现金率")
+          },
+          complete: res => {
+            wx.hideLoading()
+          }
+        })
+      }
+      else {
+        console.log("Not implemented yet!")
+        complete: res => {
+          wx.hideLoading()
+        }
+        wx.showToast({
+          title: '开发中，敬请期待',
+          icon: "none",
+          duration: 2000,
+        })
+      }
     }
   },
 
@@ -333,7 +340,7 @@ Page({
     })
     setTimeout(()=>{
       this.drawDiagram('债务率', 2019)
-    }, 500)
+    }, 1500)
   },
 
   /**
@@ -405,6 +412,7 @@ Page({
   },
   chooseDiagram: function (e) {
     console.log(e.currentTarget.dataset.diag)
+    this.hideModal(e)
     this.drawDiagram(e.currentTarget.dataset.diag, 2019)
   },
 })

@@ -84,6 +84,7 @@ Page({
 
   drawDiagram: function (diagram, year = 0, month = 0) {
     console.log("开始画图！")
+    let token = app.getToken()
     var categories = [];
     var data = [];
     var time = [];
@@ -96,480 +97,489 @@ Page({
     } catch (e) {
       console.error('getSystemInfoSync failed!');
     }
-    if (diagram == '营业支出') {
-      chartType = 'line'
-      wx.request({
-        url: host + '/data/getOperatingExpenditureByYear',
-        data: JSON.stringify({
-          year: year
-        }),
-        method: "POST",
-        header: {
-          "Content-Type": 'application/json'
-        },
-        success: res => {
-          console.log(res.data.result)
-          categories = []
-          data = []
-          for (var k in res.data.result) {
-            categories.push(k)
-            data.push(res.data.result[k])
+    if (token) {
+      if (diagram == '营业支出') {
+        chartType = 'line'
+        wx.request({
+          url: host + '/data/getOperatingExpenditureByYear',
+          data: JSON.stringify({
+            year: year
+          }),
+          method: "POST",
+          header: {
+            'Content-Type': 'application/json',
+            'Authorization': token
+          },
+          success: res => {
+            console.log(res.data.result)
+            categories = []
+            data = []
+            for (var k in res.data.result) {
+              categories.push(k)
+              data.push(res.data.result[k])
+            }
+            categories.push(13)
+            console.log(categories)
+            console.log(data)
+            this.setData({
+              statis:
+              {
+                title: '营业支出分析',
+                showPeriod: true,
+                period: [
+                  {
+                    title: '本月'
+                  },
+                  {
+                    title: '本年'
+                  },
+                  {
+                    title: '总计'
+                  },
+                ],
+                showIdx: 1
+              }
+            })
+            pieChart = new wxCharts({
+              canvasId: 'pieCanvas',
+              type: 'line',
+              categories: categories,
+              animation: false,
+              series: [{
+                name: '营业支出',
+                data: data,
+                format: function (val) {
+                  return parseFloat(val).toFixed(2) + '万';
+                }
+              }],
+              width: windowWidth,
+              height: 300,
+              dataLabel: true,
+              dataPointShape: true,
+              enableScroll: true,
+              extra: {
+                lineStyle: 'curve'
+              }
+            });
+          },
+          fail: res => {
+            console.error("未成功获取到营业支出数据")
+          },
+          complete: res => {
+            wx.hideLoading()
           }
-          categories.push(13)
-          console.log(categories)
-          console.log(data)
-          this.setData({
-            statis:
-            {
-              title: '营业支出分析',
-              showPeriod: true,
-              period: [
-                {
-                  title: '本月'
-                },
-                {
-                  title: '本年'
-                },
-                {
-                  title: '总计'
-                },
-              ],
-              showIdx: 1
-            }
-          })
-          pieChart = new wxCharts({
-            canvasId: 'pieCanvas',
-            type: 'line',
-            categories: categories,
-            animation: false,
-            series: [{
-              name: '营业支出',
-              data: data,
-              format: function (val) {
-                return parseFloat(val).toFixed(2) + '万';
-              }
-            }],
-            width: windowWidth,
-            height: 300,
-            dataLabel: true,
-            dataPointShape: true,
-            enableScroll: true,
-            extra: {
-              lineStyle: 'curve'
-            }
-          });
-        },
-        fail: res => {
-          console.error("未成功获取到营业支出数据")
-        },
-        complete: res => {
-          wx.hideLoading()
-        }
-      })
-    }
-    else if (diagram == '营业收入') {
-      chartType = 'line'
-      console.log('开始画营业收入的图')
-      var food_arr = [];
-      var daily_goods_arr = [];
-      var other_goods_arr = [];
-      var electronic_goods_arr = [];
-      wx.request({
-        url: host + '/data/getTotalSalesByYearAndMonth',
-        method: "POST",
-        data: JSON.stringify({
-          year: year
-        }),
-        header: {
-          "Content-Type": 'application/json'
-        },
-        success: res => {
-          console.log(res.data.result)
-          categories = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
-          // 我也不知道为啥13它才能显示出12月
-          for (var k in res.data.result) {
-            console.log(k.slice(2))
-            if (k.slice(2) == '食品类') {
-              food_arr.push(res.data.result[k])
-            }
-            else if (k.slice(2) == '日用品类') {
-              daily_goods_arr.push(res.data.result[k])
-            }
-            else if (k.slice(2) == '其他类') {
-              other_goods_arr.push(res.data.result[k])
-            }
-            else if (k.slice(2) == '电子类') {
-              electronic_goods_arr.push(res.data.result[k])
-            }
-            else {
-              console.log("THIS SHOULD NOT Happend! Maybe because there is a new type not added!")
-            };
-          }
-          this.setData({
-            statis:
-            {
-              title: '营业收入分析',
-              showPeriod: true,
-              period: [
-                {
-                  title: '本月'
-                },
-                {
-                  title: '本年'
-                },
-                {
-                  title: '总计'
-                },
-              ],
-              showIdx: 1
-            }
-          })
-          console.log(categories)
-          pieChart = new wxCharts({
-            canvasId: 'pieCanvas',
-            type: 'line',
-            categories: categories,
-            animation: false,
-            series: [{
-              name: '食品类',
-              data: food_arr,
-              format: function (val) {
-                return val.toFixed(2) + '万';
-              }
-            },
-            {
-              name: '日用品类',
-              data: daily_goods_arr,
-              format: function (val) {
-                return (val).toFixed(2) + '万';
-              }
-            },
-            {
-              name: '电子类',
-              data: electronic_goods_arr,
-              format: function (val, name) {
-                return (val).toFixed(2) + '万';
-              }
-            },
-            {
-              name: '其他类',
-              data: other_goods_arr,
-              format: function (val) {
-                return (val).toFixed(2) + '万';
-              }
-            }],
-            xAxis: {
-              disableGrid: false
-            },
-            yAxis: {
-              title: '当月总销售额',
-              format: function (val) {
-                return val;
-              },
-              min: 0
-            },
-            width: windowWidth,
-            height: 300,
-            dataLabel: true,
-            dataPointShape: true,
-            enableScroll: true,
-            extra: {
-              lineStyle: 'curve'
-            }
-          });
-          console.log('complete')
-        },
-        fail: res => {
-          console.error("未成功获取到销售数据")
-        },
-        complete: res => {
-          wx.hideLoading()
-        }
-      })
-    }
-    else if (diagram == '营业利润') {
-      chartType = 'line'
-      wx.request({
-        url: host + '/data/getOperatingProfits',
-        method: "GET",
-        header: {
-          "Content-Type": 'application/json'
-        },
-        success: res => {
-          console.log(res.data.result)
-          categories = []
-          data = []
-          for (var k in res.data.result) {
-            categories.push(k)
-            data.push(res.data.result[k])
-          }
-          console.log(categories)
-          console.log(data)
-          this.setData({
-            statis:
-            {
-              title: '营业利润分析',
-              showPeriod: false
-            }
-          })
-          pieChart = new wxCharts({
-            canvasId: 'pieCanvas',
-            type: 'line',
-            categories: categories,
-            animation: false,
-            series: [{
-              name: '营业利润',
-              data: data,
-              format: function (val, name) {
-                return parseFloat(val).toFixed(2) + '万';
-              }
-            }],
-            width: windowWidth,
-            height: 300,
-            dataLabel: true,
-            dataPointShape: true,
-            enableScroll: true,
-            extra: {
-              lineStyle: 'curve'
-            }
-          });
-        },
-        fail: res => {
-          console.error("未成功获取到营业利润数据")
-        },
-        complete: res => {
-          wx.hideLoading()
-        }
-      })
-    }
-    else if (diagram == '利润总额') {
-      chartType = 'line'
-      wx.request({
-        url: host + '/data/getTotalProfits',
-        method: "GET",
-        header: {
-          "Content-Type": 'application/json'
-        },
-        success: res => {
-          console.log(res.data.result)
-          for (var k in res.data.result) {
-            categories.push(k)
-            data.push(res.data.result[k])
-          }
-          console.log(categories)
-          console.log(data)
-          this.setData({
-            statis:
-            {
-              title: '利润总额分析',
-              showPeriod: false
-            }
-          })
-          pieChart = new wxCharts({
-            canvasId: 'pieCanvas',
-            type: 'line',
-            categories: categories,
-            animation: false,
-            series: [{
-              name: '利润总额',
-              data: data,
-              format: function (val, name) {
-                return parseFloat(val).toFixed(2) + '万';
-              }
-            }],
-            width: windowWidth,
-            height: 300,
-            dataLabel: true,
-            dataPointShape: true,
-            enableScroll: true,
-            extra: {
-              lineStyle: 'curve'
-            }
-          });
-        },
-        fail: res => {
-          console.error("未成功获取到利润总额数据")
-        },
-        complete: res => {
-          wx.hideLoading()
-        }
-      })
-    }
-    else if (diagram == '净利润') {
-      chartType = 'line'
-      wx.request({
-        url: host + '/data/getNetProfit',
-        method: "GET",
-        header: {
-          "Content-Type": 'application/json'
-        },
-        success: res => {
-          categories = []
-          data = []
-          console.log(res.data.result)
-          for (var k in res.data.result) {
-            categories.push(k)
-            data.push(res.data.result[k])
-          }
-          console.log(categories)
-          console.log(data)
-          this.setData({
-            statis:
-            {
-              title: '净利润分析',
-              showPeriod: false
-            }
-          })
-          pieChart = new wxCharts({
-            canvasId: 'pieCanvas',
-            type: 'line',
-            categories: categories,
-            animation: false,
-            series: [{
-              name: '净利润',
-              data: data,
-              format: function (val, name) {
-                return parseFloat(val).toFixed(2) + '万';
-              }
-            }],
-            width: windowWidth,
-            height: 300,
-            dataLabel: true,
-            dataPointShape: true,
-            enableScroll: true,
-            extra: {
-              lineStyle: 'curve'
-            }
-          });
-        },
-        fail: res => {
-          console.error("未成功获取到利润数据")
-        },
-        complete: res => {
-          wx.hideLoading()
-        }
-      })
-    }
-    else if (diagram == '毛利率') {
-      chartType = 'line'
-      wx.request({
-        url: host + '/data/getGrossProfitRate',
-        method: "GET",
-        header: {
-          "Content-Type": 'application/json'
-        },
-        success: res => {
-          console.log(res.data.result)
-          categories = []
-          data = []
-          for (var k in res.data.result) {
-            categories.push(k)
-            data.push(res.data.result[k])
-          }
-          console.log(categories)
-          console.log(data)
-          this.setData({
-            statis:
-            {
-              title: '毛利率分析',
-              showPeriod: false
-            }
-          })
-          pieChart = new wxCharts({
-            canvasId: 'pieCanvas',
-            type: 'line',
-            categories: categories,
-            animation: false,
-            series: [{
-              name: '毛利率',
-              data: data,
-              format: function (val, name) {
-                return parseFloat(val).toFixed(2) + '%';
-              }
-            }],
-            width: windowWidth,
-            height: 300,
-            dataLabel: true,
-            dataPointShape: true,
-            enableScroll: true,
-            extra: {
-              lineStyle: 'curve'
-            }
-          });
-        },
-        fail: res => {
-          console.error("未成功获取到毛利率")
-        },
-        complete: res => {
-          wx.hideLoading()
-        }
-      })
-    }
-    else if (diagram == '净利率') {
-      chartType = 'line'
-      wx.request({
-        url: host + '/data/getNetProfitRate',
-        method: "GET",
-        header: {
-          "Content-Type": 'application/json'
-        },
-        success: res => {
-          console.log(res.data.result)
-          categories = []
-          data = []
-          for (var k in res.data.result) {
-            categories.push(k)
-            data.push(res.data.result[k])
-          }
-          console.log(categories)
-          console.log(data)
-          this.setData({
-            statis:
-            {
-              title: '净利率分析',
-              showPeriod: false
-            }
-          })
-          pieChart = new wxCharts({
-            canvasId: 'pieCanvas',
-            type: 'line',
-            categories: categories,
-            animation: false,
-            series: [{
-              name: '净利率',
-              data: data,
-              format: function (val) {
-                return parseFloat(val).toFixed(2) + '%';
-              }
-            }],
-            width: windowWidth,
-            height: 300,
-            dataLabel: true,
-            dataPointShape: true,
-            enableScroll: true,
-            extra: {
-              lineStyle: 'curve'
-            }
-          });
-        },
-        fail: res => {
-          console.error("未成功获取到净利率")
-        },
-        complete: res => {
-          wx.hideLoading()
-        }
-      })
-    }
-    else {
-      console.log("Not implemented yet!")
-      complete: res => {
-        wx.hideLoading()
+        })
       }
-      wx.showToast({
-        title: '开发中，敬请期待',
-        icon: "none",
-        duration: 2000,
-      })
+      else if (diagram == '营业收入') {
+        chartType = 'line'
+        console.log('开始画营业收入的图')
+        var food_arr = [];
+        var daily_goods_arr = [];
+        var other_goods_arr = [];
+        var electronic_goods_arr = [];
+        wx.request({
+          url: host + '/data/getTotalSalesByYearAndMonth',
+          method: "POST",
+          data: JSON.stringify({
+            year: year
+          }),
+          header: {
+            'Content-Type': 'application/json',
+            'Authorization': token
+          },
+          success: res => {
+            console.log(res.data.result)
+            categories = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
+            // 我也不知道为啥13它才能显示出12月
+            for (var k in res.data.result) {
+              console.log(k.slice(2))
+              if (k.slice(2) == '食品类') {
+                food_arr.push(res.data.result[k])
+              }
+              else if (k.slice(2) == '日用品类') {
+                daily_goods_arr.push(res.data.result[k])
+              }
+              else if (k.slice(2) == '其他类') {
+                other_goods_arr.push(res.data.result[k])
+              }
+              else if (k.slice(2) == '电子类') {
+                electronic_goods_arr.push(res.data.result[k])
+              }
+              else {
+                console.log("THIS SHOULD NOT Happend! Maybe because there is a new type not added!")
+              };
+            }
+            this.setData({
+              statis:
+              {
+                title: '营业收入分析',
+                showPeriod: true,
+                period: [
+                  {
+                    title: '本月'
+                  },
+                  {
+                    title: '本年'
+                  },
+                  {
+                    title: '总计'
+                  },
+                ],
+                showIdx: 1
+              }
+            })
+            console.log(categories)
+            pieChart = new wxCharts({
+              canvasId: 'pieCanvas',
+              type: 'line',
+              categories: categories,
+              animation: false,
+              series: [{
+                name: '食品类',
+                data: food_arr,
+                format: function (val) {
+                  return val.toFixed(2) + '万';
+                }
+              },
+              {
+                name: '日用品类',
+                data: daily_goods_arr,
+                format: function (val) {
+                  return (val).toFixed(2) + '万';
+                }
+              },
+              {
+                name: '电子类',
+                data: electronic_goods_arr,
+                format: function (val, name) {
+                  return (val).toFixed(2) + '万';
+                }
+              },
+              {
+                name: '其他类',
+                data: other_goods_arr,
+                format: function (val) {
+                  return (val).toFixed(2) + '万';
+                }
+              }],
+              xAxis: {
+                disableGrid: false
+              },
+              yAxis: {
+                title: '当月总销售额',
+                format: function (val) {
+                  return val;
+                },
+                min: 0
+              },
+              width: windowWidth,
+              height: 300,
+              dataLabel: true,
+              dataPointShape: true,
+              enableScroll: true,
+              extra: {
+                lineStyle: 'curve'
+              }
+            });
+            console.log('complete')
+          },
+          fail: res => {
+            console.error("未成功获取到销售数据")
+          },
+          complete: res => {
+            wx.hideLoading()
+          }
+        })
+      }
+      else if (diagram == '营业利润') {
+        chartType = 'line'
+        wx.request({
+          url: host + '/data/getOperatingProfits',
+          method: "GET",
+          header: {
+            'Content-Type': 'application/json',
+            'Authorization': token
+          },
+          success: res => {
+            console.log(res.data.result)
+            categories = []
+            data = []
+            for (var k in res.data.result) {
+              categories.push(k)
+              data.push(res.data.result[k])
+            }
+            console.log(categories)
+            console.log(data)
+            this.setData({
+              statis:
+              {
+                title: '营业利润分析',
+                showPeriod: false
+              }
+            })
+            pieChart = new wxCharts({
+              canvasId: 'pieCanvas',
+              type: 'line',
+              categories: categories,
+              animation: false,
+              series: [{
+                name: '营业利润',
+                data: data,
+                format: function (val, name) {
+                  return parseFloat(val).toFixed(2) + '万';
+                }
+              }],
+              width: windowWidth,
+              height: 300,
+              dataLabel: true,
+              dataPointShape: true,
+              enableScroll: true,
+              extra: {
+                lineStyle: 'curve'
+              }
+            });
+          },
+          fail: res => {
+            console.error("未成功获取到营业利润数据")
+          },
+          complete: res => {
+            wx.hideLoading()
+          }
+        })
+      }
+      else if (diagram == '利润总额') {
+        chartType = 'line'
+        wx.request({
+          url: host + '/data/getTotalProfits',
+          method: "GET",
+          header: {
+            'Content-Type': 'application/json',
+            'Authorization': token
+          },
+          success: res => {
+            console.log(res.data.result)
+            for (var k in res.data.result) {
+              categories.push(k)
+              data.push(res.data.result[k])
+            }
+            console.log(categories)
+            console.log(data)
+            this.setData({
+              statis:
+              {
+                title: '利润总额分析',
+                showPeriod: false
+              }
+            })
+            pieChart = new wxCharts({
+              canvasId: 'pieCanvas',
+              type: 'line',
+              categories: categories,
+              animation: false,
+              series: [{
+                name: '利润总额',
+                data: data,
+                format: function (val, name) {
+                  return parseFloat(val).toFixed(2) + '万';
+                }
+              }],
+              width: windowWidth,
+              height: 300,
+              dataLabel: true,
+              dataPointShape: true,
+              enableScroll: true,
+              extra: {
+                lineStyle: 'curve'
+              }
+            });
+          },
+          fail: res => {
+            console.error("未成功获取到利润总额数据")
+          },
+          complete: res => {
+            wx.hideLoading()
+          }
+        })
+      }
+      else if (diagram == '净利润') {
+        chartType = 'line'
+        wx.request({
+          url: host + '/data/getNetProfit',
+          method: "GET",
+          header: {
+            'Content-Type': 'application/json',
+            'Authorization': token
+          },
+          success: res => {
+            categories = []
+            data = []
+            console.log(res.data.result)
+            for (var k in res.data.result) {
+              categories.push(k)
+              data.push(res.data.result[k])
+            }
+            console.log(categories)
+            console.log(data)
+            this.setData({
+              statis:
+              {
+                title: '净利润分析',
+                showPeriod: false
+              }
+            })
+            pieChart = new wxCharts({
+              canvasId: 'pieCanvas',
+              type: 'line',
+              categories: categories,
+              animation: false,
+              series: [{
+                name: '净利润',
+                data: data,
+                format: function (val, name) {
+                  return parseFloat(val).toFixed(2) + '万';
+                }
+              }],
+              width: windowWidth,
+              height: 300,
+              dataLabel: true,
+              dataPointShape: true,
+              enableScroll: true,
+              extra: {
+                lineStyle: 'curve'
+              }
+            });
+          },
+          fail: res => {
+            console.error("未成功获取到利润数据")
+          },
+          complete: res => {
+            wx.hideLoading()
+          }
+        })
+      }
+      else if (diagram == '毛利率') {
+        chartType = 'line'
+        wx.request({
+          url: host + '/data/getGrossProfitRate',
+          method: "GET",
+          header: {
+            'Content-Type': 'application/json',
+            'Authorization': token
+          },
+          success: res => {
+            console.log(res.data.result)
+            categories = []
+            data = []
+            for (var k in res.data.result) {
+              categories.push(k)
+              data.push(res.data.result[k])
+            }
+            console.log(categories)
+            console.log(data)
+            this.setData({
+              statis:
+              {
+                title: '毛利率分析',
+                showPeriod: false
+              }
+            })
+            pieChart = new wxCharts({
+              canvasId: 'pieCanvas',
+              type: 'line',
+              categories: categories,
+              animation: false,
+              series: [{
+                name: '毛利率',
+                data: data,
+                format: function (val, name) {
+                  return parseFloat(val).toFixed(2) + '%';
+                }
+              }],
+              width: windowWidth,
+              height: 300,
+              dataLabel: true,
+              dataPointShape: true,
+              enableScroll: true,
+              extra: {
+                lineStyle: 'curve'
+              }
+            });
+          },
+          fail: res => {
+            console.error("未成功获取到毛利率")
+          },
+          complete: res => {
+            wx.hideLoading()
+          }
+        })
+      }
+      else if (diagram == '净利率') {
+        chartType = 'line'
+        wx.request({
+          url: host + '/data/getNetProfitRate',
+          method: "GET",
+          header: {
+            'Content-Type': 'application/json',
+            'Authorization': token
+          },
+          success: res => {
+            console.log(res.data.result)
+            categories = []
+            data = []
+            for (var k in res.data.result) {
+              categories.push(k)
+              data.push(res.data.result[k])
+            }
+            console.log(categories)
+            console.log(data)
+            this.setData({
+              statis:
+              {
+                title: '净利率分析',
+                showPeriod: false
+              }
+            })
+            pieChart = new wxCharts({
+              canvasId: 'pieCanvas',
+              type: 'line',
+              categories: categories,
+              animation: false,
+              series: [{
+                name: '净利率',
+                data: data,
+                format: function (val) {
+                  return parseFloat(val).toFixed(2) + '%';
+                }
+              }],
+              width: windowWidth,
+              height: 300,
+              dataLabel: true,
+              dataPointShape: true,
+              enableScroll: true,
+              extra: {
+                lineStyle: 'curve'
+              }
+            });
+          },
+          fail: res => {
+            console.error("未成功获取到净利率")
+          },
+          complete: res => {
+            wx.hideLoading()
+          }
+        })
+      }
+      else {
+        console.log("Not implemented yet!")
+        complete: res => {
+          wx.hideLoading()
+        }
+        wx.showToast({
+          title: '开发中，敬请期待',
+          icon: "none",
+          duration: 2000,
+        })
+      }
     }
   },
 
@@ -665,6 +675,7 @@ Page({
     let stat = e.currentTarget.dataset.stat
     let per = e.currentTarget.dataset.per
     let statis = this.data.statis
+    let token = app.getToken()
     statis.showIdx = per
     console.log(per)
     console.log(statis.period[per].title)
@@ -672,326 +683,332 @@ Page({
     this.setData({
       statis: statis
     })
-    if(statis.title == '营业收入分析'){
-      if (statis.period[per].title == '本月'){
-        var categories = this.getCurrMonthDays()
-        console.log(categories)
-        chartType = 'line'
-        console.log('开始画本月营业收入的图')
-        var food_arr = [];
-        var daily_goods_arr = [];
-        var other_goods_arr = [];
-        var electronic_goods_arr = [];
-        wx.request({
-          url: host + '/data/getOperatingIncomeByYearAndMonth',
-          method: "POST",
-          data: JSON.stringify({
-            year: curr_year,
-            month: curr_month,
-          }),
-          header: {
-            "Content-Type": 'application/json'
-          },
-          success: res => {
-            for (var k in res.data.result) {
-              console.log(k.slice(2))
-              if (k.slice(2) == '食品类') {
-                food_arr.push(res.data.result[k])
-              }
-              else if (k.slice(2) == '日用品类') {
-                daily_goods_arr.push(res.data.result[k])
-              }
-              else if (k.slice(2) == '其他类') {
-                other_goods_arr.push(res.data.result[k])
-              }
-              else if (k.slice(2) == '电子类') {
-                electronic_goods_arr.push(res.data.result[k])
-              }
-              else {
-                console.log("THIS SHOULD NOT Happend! Maybe because there is a new type not added!")
-              };
-            }
-            this.setData({
-              statis:
-              {
-                title: '营业收入分析',
-                showPeriod: true,
-                period: [
-                  {
-                    title: '本月'
-                  },
-                  {
-                    title: '本年'
-                  },
-                  {
-                    title: '总计'
-                  },
-                ],
-                showIdx: 0
-              }
-            })
-            console.log(categories)
-            pieChart = new wxCharts({
-              canvasId: 'pieCanvas',
-              type: 'line',
-              categories: categories,
-              animation: false,
-              series: [{
-                name: '食品类',
-                data: food_arr,
-                format: function (val, name) {
-                  return val.toFixed(2) + '万';
+    if(token){
+      if (statis.title == '营业收入分析') {
+        if (statis.period[per].title == '本月') {
+          var categories = this.getCurrMonthDays()
+          console.log(categories)
+          chartType = 'line'
+          console.log('开始画本月营业收入的图')
+          var food_arr = [];
+          var daily_goods_arr = [];
+          var other_goods_arr = [];
+          var electronic_goods_arr = [];
+          wx.request({
+            url: host + '/data/getOperatingIncomeByYearAndMonth',
+            method: "POST",
+            data: JSON.stringify({
+              year: curr_year,
+              month: curr_month,
+            }),
+            header: {
+              'Content-Type': 'application/json',
+              'Authorization': token
+            },
+            success: res => {
+              for (var k in res.data.result) {
+                console.log(k.slice(2))
+                if (k.slice(2) == '食品类') {
+                  food_arr.push(res.data.result[k])
                 }
-              },
-              {
-                name: '日用品类',
-                data: daily_goods_arr,
-                format: function (val, name) {
-                  return (val).toFixed(2) + '万';
+                else if (k.slice(2) == '日用品类') {
+                  daily_goods_arr.push(res.data.result[k])
                 }
-              },
-              {
-                name: '电子类',
-                data: electronic_goods_arr,
-                format: function (val, name) {
-                  return (val).toFixed(2) + '万';
+                else if (k.slice(2) == '其他类') {
+                  other_goods_arr.push(res.data.result[k])
                 }
-              },
-              {
-                name: '其他类',
-                data: other_goods_arr,
-                format: function (val, name) {
-                  return (val).toFixed(2) + '万';
+                else if (k.slice(2) == '电子类') {
+                  electronic_goods_arr.push(res.data.result[k])
                 }
-              }],
-              xAxis: {
-                disableGrid: false
-              },
-              yAxis: {
-                title: '当月总销售额',
-                format: function (val) {
-                  return val;
+                else {
+                  console.log("THIS SHOULD NOT Happend! Maybe because there is a new type not added!")
+                };
+              }
+              this.setData({
+                statis:
+                {
+                  title: '营业收入分析',
+                  showPeriod: true,
+                  period: [
+                    {
+                      title: '本月'
+                    },
+                    {
+                      title: '本年'
+                    },
+                    {
+                      title: '总计'
+                    },
+                  ],
+                  showIdx: 0
+                }
+              })
+              console.log(categories)
+              pieChart = new wxCharts({
+                canvasId: 'pieCanvas',
+                type: 'line',
+                categories: categories,
+                animation: false,
+                series: [{
+                  name: '食品类',
+                  data: food_arr,
+                  format: function (val, name) {
+                    return val.toFixed(2) + '万';
+                  }
                 },
-                min: 0
-              },
-              width: windowWidth,
-              height: 300,
-              dataLabel: true,
-              dataPointShape: true,
-              enableScroll: true,
-              extra: {
-                lineStyle: 'curve'
-              }
-            });
-            console.log('complete')
-          },
-          fail: res => {
-            console.error("未成功获取到销售数据")
-          },
-          complete: res => {
-            wx.hideLoading()
-          }
-        })
-      }
-      else if (statis.period[per].title == '本年'){
-        this.drawDiagram('营业收入', curr_year)
-      }
-      else if (statis.period[per].title == '总计'){
-        chartType = 'pie'
-        wx.request({
-          url: host + '/data/getTotalOperatingIncome',
-          method: "POST",
-          header: {
-            "Content-Type": 'application/json'
-          },
-          success: res => {
-            arr = []
-            for (var k in res.data.result) {
-              arr.push({
-                name: k,
-                data: res.data.result[k]
-              });
-            }
-            pieChart = new wxCharts({
-              animation: true,
-              canvasId: 'pieCanvas',
-              type: 'pie',
-              series: arr,
-              width: windowWidth,
-              height: 300,
-              dataLabel: true,
-            });
-          },
-          fail: res => {
-            console.error("未成功获取到营收数据")
-          },
-          complete: res => {
-            wx.hideLoading()
-          }
-        })
-      }
-    }
-    else if (statis.title == '营业支出分析') {
-      if (statis.period[per].title == '本月') {
-        var categories = this.getCurrMonthDays()
-        console.log(categories)
-        chartType = 'line'
-        console.log('开始画本月营业支出的图')
-        var food_arr = [];
-        var daily_goods_arr = [];
-        var other_goods_arr = [];
-        var electronic_goods_arr = [];
-        wx.request({
-          url: host + '/data/getOperatingExpenditureByYearAndMonth',
-          method: "POST",
-          data: JSON.stringify({
-            year: curr_year,
-            month: curr_month,
-          }),
-          header: {
-            "Content-Type": 'application/json'
-          },
-          success: res => {
-            for (var k in res.data.result) {
-              console.log(k.slice(2))
-              if (k.slice(2) == '食品类') {
-                food_arr.push(res.data.result[k])
-              }
-              else if (k.slice(2) == '日用品类') {
-                daily_goods_arr.push(res.data.result[k])
-              }
-              else if (k.slice(2) == '其他类') {
-                other_goods_arr.push(res.data.result[k])
-              }
-              else if (k.slice(2) == '电子类') {
-                electronic_goods_arr.push(res.data.result[k])
-              }
-              else {
-                console.log("THIS SHOULD NOT Happend! Maybe because there is a new type not added!")
-              };
-            }
-            this.setData({
-              statis:
-              {
-                title: '营业支出分析',
-                showPeriod: true,
-                period: [
-                  {
-                    title: '本月'
-                  },
-                  {
-                    title: '本年'
-                  },
-                  {
-                    title: '总计'
-                  },
-                ],
-                showIdx: 0
-              }
-            })
-            console.log(categories)
-            pieChart = new wxCharts({
-              canvasId: 'pieCanvas',
-              type: 'line',
-              categories: categories,
-              animation: false,
-              series: [{
-                name: '食品类',
-                data: food_arr,
-                format: function (val, name) {
-                  return val.toFixed(2) + '万';
-                }
-              },
-              {
-                name: '日用品类',
-                data: daily_goods_arr,
-                format: function (val, name) {
-                  return (val).toFixed(2) + '万';
-                }
-              },
-              {
-                name: '电子类',
-                data: electronic_goods_arr,
-                format: function (val, name) {
-                  return (val).toFixed(2) + '万';
-                }
-              },
-              {
-                name: '其他类',
-                data: other_goods_arr,
-                format: function (val, name) {
-                  return (val).toFixed(2) + '万';
-                }
-              }],
-              xAxis: {
-                disableGrid: false
-              },
-              yAxis: {
-                title: '当月总销售额',
-                format: function (val) {
-                  return val;
+                {
+                  name: '日用品类',
+                  data: daily_goods_arr,
+                  format: function (val, name) {
+                    return (val).toFixed(2) + '万';
+                  }
                 },
-                min: 0
-              },
-              width: windowWidth,
-              height: 300,
-              dataLabel: true,
-              dataPointShape: true,
-              enableScroll: true,
-              extra: {
-                lineStyle: 'curve'
-              }
-            });
-            console.log('complete')
-          },
-          fail: res => {
-            console.error("未成功获取到销售数据")
-          },
-          complete: res => {
-            wx.hideLoading()
-          }
-        })
-      }
-      else if (statis.period[per].title == '本年') {
-        this.drawDiagram('营业支出', curr_year)
-      }
-      else if (statis.period[per].title == '总计') {
-        chartType = 'pie'
-        wx.request({
-          url: host + '/data/getTotalOperatingExpenditure',
-          method: "POST",
-          header: {
-            "Content-Type": 'application/json'
-          },
-          success: res => {
-            arr = []
-            for (var k in res.data.result) {
-              arr.push({
-                name: k,
-                data: res.data.result[k]
+                {
+                  name: '电子类',
+                  data: electronic_goods_arr,
+                  format: function (val, name) {
+                    return (val).toFixed(2) + '万';
+                  }
+                },
+                {
+                  name: '其他类',
+                  data: other_goods_arr,
+                  format: function (val, name) {
+                    return (val).toFixed(2) + '万';
+                  }
+                }],
+                xAxis: {
+                  disableGrid: false
+                },
+                yAxis: {
+                  title: '当月总销售额',
+                  format: function (val) {
+                    return val;
+                  },
+                  min: 0
+                },
+                width: windowWidth,
+                height: 300,
+                dataLabel: true,
+                dataPointShape: true,
+                enableScroll: true,
+                extra: {
+                  lineStyle: 'curve'
+                }
               });
+              console.log('complete')
+            },
+            fail: res => {
+              console.error("未成功获取到销售数据")
+            },
+            complete: res => {
+              wx.hideLoading()
             }
-            pieChart = new wxCharts({
-              animation: true,
-              canvasId: 'pieCanvas',
-              type: 'pie',
-              series: arr,
-              width: windowWidth,
-              height: 300,
-              dataLabel: true,
-            });
-          },
-          fail: res => {
-            console.error("未成功获取到营业支出数据")
-          },
-          complete: res => {
-            wx.hideLoading()
-          }
-        })
+          })
+        }
+        else if (statis.period[per].title == '本年') {
+          this.drawDiagram('营业收入', curr_year)
+        }
+        else if (statis.period[per].title == '总计') {
+          chartType = 'pie'
+          wx.request({
+            url: host + '/data/getTotalOperatingIncome',
+            method: "POST",
+            header: {
+              'Content-Type': 'application/json',
+              'Authorization': token
+            },
+            success: res => {
+              arr = []
+              for (var k in res.data.result) {
+                arr.push({
+                  name: k,
+                  data: res.data.result[k]
+                });
+              }
+              pieChart = new wxCharts({
+                animation: true,
+                canvasId: 'pieCanvas',
+                type: 'pie',
+                series: arr,
+                width: windowWidth,
+                height: 300,
+                dataLabel: true,
+              });
+            },
+            fail: res => {
+              console.error("未成功获取到营收数据")
+            },
+            complete: res => {
+              wx.hideLoading()
+            }
+          })
+        }
       }
-    }
-    else{
-      wx.hideLoading()
+      else if (statis.title == '营业支出分析') {
+        if (statis.period[per].title == '本月') {
+          var categories = this.getCurrMonthDays()
+          console.log(categories)
+          chartType = 'line'
+          console.log('开始画本月营业支出的图')
+          var food_arr = [];
+          var daily_goods_arr = [];
+          var other_goods_arr = [];
+          var electronic_goods_arr = [];
+          wx.request({
+            url: host + '/data/getOperatingExpenditureByYearAndMonth',
+            method: "POST",
+            data: JSON.stringify({
+              year: curr_year,
+              month: curr_month,
+            }),
+            header: {
+              'Content-Type': 'application/json',
+              'Authorization': token
+            },
+            success: res => {
+              for (var k in res.data.result) {
+                console.log(k.slice(2))
+                if (k.slice(2) == '食品类') {
+                  food_arr.push(res.data.result[k])
+                }
+                else if (k.slice(2) == '日用品类') {
+                  daily_goods_arr.push(res.data.result[k])
+                }
+                else if (k.slice(2) == '其他类') {
+                  other_goods_arr.push(res.data.result[k])
+                }
+                else if (k.slice(2) == '电子类') {
+                  electronic_goods_arr.push(res.data.result[k])
+                }
+                else {
+                  console.log("THIS SHOULD NOT Happend! Maybe because there is a new type not added!")
+                };
+              }
+              this.setData({
+                statis:
+                {
+                  title: '营业支出分析',
+                  showPeriod: true,
+                  period: [
+                    {
+                      title: '本月'
+                    },
+                    {
+                      title: '本年'
+                    },
+                    {
+                      title: '总计'
+                    },
+                  ],
+                  showIdx: 0
+                }
+              })
+              console.log(categories)
+              pieChart = new wxCharts({
+                canvasId: 'pieCanvas',
+                type: 'line',
+                categories: categories,
+                animation: false,
+                series: [{
+                  name: '食品类',
+                  data: food_arr,
+                  format: function (val, name) {
+                    return val.toFixed(2) + '万';
+                  }
+                },
+                {
+                  name: '日用品类',
+                  data: daily_goods_arr,
+                  format: function (val, name) {
+                    return (val).toFixed(2) + '万';
+                  }
+                },
+                {
+                  name: '电子类',
+                  data: electronic_goods_arr,
+                  format: function (val, name) {
+                    return (val).toFixed(2) + '万';
+                  }
+                },
+                {
+                  name: '其他类',
+                  data: other_goods_arr,
+                  format: function (val, name) {
+                    return (val).toFixed(2) + '万';
+                  }
+                }],
+                xAxis: {
+                  disableGrid: false
+                },
+                yAxis: {
+                  title: '当月总销售额',
+                  format: function (val) {
+                    return val;
+                  },
+                  min: 0
+                },
+                width: windowWidth,
+                height: 300,
+                dataLabel: true,
+                dataPointShape: true,
+                enableScroll: true,
+                extra: {
+                  lineStyle: 'curve'
+                }
+              });
+              console.log('complete')
+            },
+            fail: res => {
+              console.error("未成功获取到销售数据")
+            },
+            complete: res => {
+              wx.hideLoading()
+            }
+          })
+        }
+        else if (statis.period[per].title == '本年') {
+          this.drawDiagram('营业支出', curr_year)
+        }
+        else if (statis.period[per].title == '总计') {
+          chartType = 'pie'
+          wx.request({
+            url: host + '/data/getTotalOperatingExpenditure',
+            method: "POST",
+            header: {
+              'Content-Type': 'application/json',
+              'Authorization': token
+            },
+            success: res => {
+              arr = []
+              for (var k in res.data.result) {
+                arr.push({
+                  name: k,
+                  data: res.data.result[k]
+                });
+              }
+              pieChart = new wxCharts({
+                animation: true,
+                canvasId: 'pieCanvas',
+                type: 'pie',
+                series: arr,
+                width: windowWidth,
+                height: 300,
+                dataLabel: true,
+              });
+            },
+            fail: res => {
+              console.error("未成功获取到营业支出数据")
+            },
+            complete: res => {
+              wx.hideLoading()
+            }
+          })
+        }
+      }
+      else {
+        wx.hideLoading()
+      }
     }
   },
   showModal(e) {
@@ -1010,6 +1027,7 @@ Page({
   },
   chooseDiagram: function (e) {
     console.log(e.currentTarget.dataset.diag)
+    this.hideModal(e)
     this.drawDiagram(e.currentTarget.dataset.diag, 2019)
   },
 })

@@ -1,12 +1,12 @@
 <!--index.wxml-->
 
-<scroll-view scroll-y class='scrollPage bg-gradual-orange'>
+<scroll-view scroll-y class='scrollPage bg-gradual-blue'>
   <cu-custom isBack="{{true}}">
     <view slot="backText">返回</view>
     <view slot="content" style='fontsize:40px'>股票分析</view>
   </cu-custom>
-  <view class="cu-bar margin-top">
-    <view class="action" bindtap="showModal" data-target="DrawerModalL">
+  <view class="cu-bar margin-top" bindtap="showModal" data-target="DrawerModalL">
+    <view class="action">
       <text class="white"></text> Hi， 你来了！选一个你感兴趣的估值指标吧。
     </view>
     <view class="action" bindtap="showModal" data-target="DrawerModalL">
@@ -37,8 +37,8 @@
 <view class="cu-modal drawer-modal justify-start {{modalName=='DrawerModalL'?'show':''}}" bindtap="hideModal">
   <view class="cu-dialog basis-lg" catchtap style="top:{{CustomBar}}px;height:calc(100vh - {{CustomBar}}px)">
     <view class="cu-list menu text-left">
-      <view class="cu-item arrow" wx:for="{{diagrams.length}}" wx:key>
-        <view class="content" bindtap="chooseDiagram" data-diag="{{diagrams[index]}}">
+      <view class="cu-item arrow" wx:for="{{diagrams.length}}" wx:key bindtap="chooseDiagram" data-diag="{{diagrams[index]}}">
+        <view class="content">
           <view>{{diagrams[index]}}</view>
         </view>
       </view>
