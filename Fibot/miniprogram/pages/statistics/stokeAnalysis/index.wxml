@@ -1,6 +1,6 @@
 <!--index.wxml-->
 
-<scroll-view scroll-y class='scrollPage bg-gradual-orange'>
+<scroll-view scroll-y class='scrollPage bg-gradual-blue'>
   <cu-custom isBack="{{true}}">
     <view slot="backText">返回</view>
     <view slot="content" style='fontsize:40px'>股票分析</view>

@@ -10,6 +10,7 @@ function initPEChart(canvas, width, height) {
     title: '画图中',
     mask: true
   })
+  console.log(token)
   if(token){
     wx.request({
       url: host + '/data/getIndustryData',
@@ -98,8 +99,8 @@ function initPEChart(canvas, width, height) {
                 color: new echarts.graphic.LinearGradient(
                   0, 0, 0, 1,
                   [
-                    { offset: 0, color: '#FF7F00' },
-                    { offset: 1, color: '#FF4500' }
+                    { offset: 0, color: '#00FFEE' },
+                    { offset: 1, color: '#00E2FF' }
                   ]
                 )
               }
@@ -193,8 +194,8 @@ function initPBChart(canvas, width, height) {
                 color: new echarts.graphic.LinearGradient(
                   0, 0, 0, 1,
                   [
-                    { offset: 0, color: '#FF7F00' },
-                    { offset: 1, color: '#FF4500' }
+                    { offset: 0, color: '#00FFEE' },
+                    { offset: 1, color: '#00E2FF' }
                   ]
                 )
               }
@@ -314,8 +315,8 @@ Page({
                     color: new echarts.graphic.LinearGradient(
                       0, 0, 0, 1,
                       [
-                        { offset: 0, color: '#FF7F00' },
-                        { offset: 1, color: '#FF4500' }
+                        { offset: 0, color: '#00FFEE' },
+                        { offset: 1, color: '#00E2FF' }
                       ]
                     )
                   }
@@ -405,8 +406,8 @@ Page({
                     color: new echarts.graphic.LinearGradient(
                       0, 0, 0, 1,
                       [
-                        { offset: 0, color: '#FF7F00' },
-                        { offset: 1, color: '#FF4500' }
+                        { offset: 0, color: '#00FFEE' },
+                        { offset: 1, color: '#00E2FF' }
                       ]
                     )
                   }
@@ -496,8 +497,8 @@ Page({
                     color: new echarts.graphic.LinearGradient(
                       0, 0, 0, 1,
                       [
-                        { offset: 0, color: '#FF7F00' },
-                        { offset: 1, color: '#FF4500' }
+                        { offset: 0, color: '#00FFEE' },
+                        { offset: 1, color: '#00E2FF' }
                       ]
                     )
                   }
@@ -593,8 +594,8 @@ Page({
                     color: new echarts.graphic.LinearGradient(
                       0, 0, 0, 1,
                       [
-                        { offset: 0, color: '#FF7F00' },
-                        { offset: 1, color: '#FF4500' }
+                        { offset: 0, color: '#00FFEE' },
+                        { offset: 1, color: '#00E2FF' }
                       ]
                     )
                   }
