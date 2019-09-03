@@ -196,13 +196,13 @@ Page({
     ],
     dataAnalysisIconList: [{
       icon: 'rank',
-      color: 'green',
+      color: 'red',
       badge: 0,
       name: '主营业务',
       url: '/pages/statistics/home/home'
     }, {
       icon: 'creative',
-      color: 'blue',
+      color: 'green',
       badge: 0,
       name: '决策指标',
       url: '/pages/statistics/decisionMaking/decisionMaking'
