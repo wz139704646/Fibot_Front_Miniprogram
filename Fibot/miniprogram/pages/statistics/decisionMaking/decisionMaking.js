@@ -333,7 +333,7 @@ Page({
     })
     setTimeout(()=>{
       this.drawDiagram('债务率', 2019)
-    }, 500)
+    }, 1500)
   },
 
   /**
