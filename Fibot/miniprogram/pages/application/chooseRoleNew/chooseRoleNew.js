@@ -1,4 +1,19 @@
 // pages/application/chooseRoleNew/chooseRoleNew.js
+const app = getApp();
+Page({
+  data: {
+    StatusBar: app.globalData.StatusBar,
+    CustomBar: app.globalData.CustomBar,
+    ColorList: app.globalData.ColorList,
+  },
+  onLoad: function () { },
+  pageBack() {
+    wx.navigateBack({
+      delta: 1
+    });
+  }
+});
+
 Component({
   options: {
     addGlobalClass: true,
@@ -42,14 +57,14 @@ Component({
     {
       title: '销售管理',
       name: '市场销售 贯通公司销售之道',
-      color: 'brown',
+      color: 'purple',
       url: ''
       //icon: 'tagfill'
     },
     {
       title: '市场营销',
       name: '精准营销 推广公司品牌力量',
-      color: 'gray',
+      color: 'brown',
       url: ''
       //icon: 'myfill'
     },

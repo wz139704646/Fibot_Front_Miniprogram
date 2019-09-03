@@ -9,7 +9,9 @@ Component({
     starCount: 0,
     forksCount: 0,
     visitTotal: 0,
-    logoutModal: false,
+    logoutModal: false, 
+    companyName: "街道口职业技术学院",
+    roleName: "销售管理"
   },
   attached() {
     console.log("success")
@@ -51,17 +53,7 @@ Component({
       }
       return e
     },
-    CopyLink(e) {
-      wx.setClipboardData({
-        data: e.currentTarget.dataset.link,
-        success: res => {
-          wx.showToast({
-            title: '已复制',
-            duration: 1000,
-          })
-        }
-      })
-    },
+   
     showModal(e) {
       this.setData({
         modalName: e.currentTarget.dataset.target

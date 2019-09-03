@@ -1,6 +1,6 @@
 {
   "usingComponents": {
-    "application": "/pages/application/home/home",
+    "application": "/pages/main/main",
     "statistics": "/pages/statistics/home/home",
     "my": "/pages/my/home/home"
   }

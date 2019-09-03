@@ -51,7 +51,6 @@
     "pages/application/ap/paymentDetail/paymentDetail",
     "pages/application/start/start",
     "pages/application/chooseRoleNew/chooseRoleNew",
-    "pages/application/chooseRole/chooseRole",
     "pages/mainq/accounting/accounting",
     "pages/mainq/boss/boss",
     "pages/mainq/salesExecutive/salesExecutive",
