@@ -2,7 +2,7 @@
   <view class="cu-bar fixed none-bg text-white bg-img" style="height:{{CustomBar}}px;padding-top:{{StatusBar}}px;">
     <view class="cu-content">
       <!-- <image class="cu-avatar round lg bg-white" src="{{app.globalData.userInfo.avatarUrl}}" bindtap="navigateToHome"></image> -->
-      <image class="cu-avatar round lg bg-white" src="https://ossweb-img.qq.com/images/lol/web201310/skin/big99008.jpg" ></image>
+      <image class="cu-avatar round lg bg-white" src="https://ossweb-img.qq.com/images/lol/web201310/skin/big99008.jpg"></image>
       <text class='icon-back' style="margin-left:6px">财务人员</text>
     </view>
   </view>
@@ -20,7 +20,7 @@
       </view>
     </view>
   </view>
-  
+
   <view class="padding canui-card-fiex-radius-box">
     <view class="cu-list grid col-4 no-border">
       <view class="cu-item" wx:for="{{financialIconList}}" wx:key bindtap='show' id="{{item.url}}">
@@ -36,8 +36,8 @@
 
     </view>
   </view>
-  
-  <view class="cu-card case" style="margin-top:150px">
+
+  <view class="cu-card case" style="margin-top:250px">
     <block wx:for="{{statis}}" wx:key="{{index}}">
       <van-panel use-header-slot custom-class="margin-bottom">
         <view slot="header">
@@ -57,7 +57,16 @@
         <view>
           <view class="cu-item padding-sm radius shadow-wrap bg-white">
             <view class="image">
-              <image src="http://workfile.wangjubao.com/125_81_1420529454274.png" mode="widthFix"></image>
+
+              <view class="cu-item padding-sm radius shadow-wrap bg-white">
+                <view class="container" hidden='{{chartHidden}}'>
+                  <canvas canvas-id="pieCanvas1" class="canvas" style="height:300px" bindtouchstart="touchHandler" bindtouchmove="moveHandler" bindtouchend="touchEndHandler"></canvas>
+                  <view style="margin-top:30px;text-align:center">点击或拖动图片查看详细数据</view>
+                </view>
+                <view class="cu-list menu-avatar bg-blue">
+                </view>
+              </view>
+
               <view class="cu-tag bg-red">新</view>
             </view>
             <view class="cu-list menu-avatar">
@@ -78,7 +87,7 @@
       </view>
     </view>
     <view class="cu-item">
-        <view class="cuIcon-roundclose xl text-grey hide" bindtap='hide'></view>
-      </view>
+      <view class="cuIcon-roundclose xl text-grey hide" bindtap='hide'></view>
+    </view>
   </view>
 </view>

@@ -2,6 +2,29 @@ page {
     padding-top: 50px;
     padding-bottom:170rpx;
 }
+
+.container1 {
+  position: absolute;
+  padding-top: 200px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+} 
+
+.container2 {
+  position: absolute;
+  padding-top: 0px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+} 
+
 .cu-custom{
     position: absolute;
     top: 0px;

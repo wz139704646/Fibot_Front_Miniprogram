@@ -27,12 +27,6 @@ Page({
       badge: 0,
       name: '销售开单',
       url: "/pages/application/sellBill/sellBill"
-    }, {
-      icon: 'search',
-      color: 'red',
-      badge: 0,
-      name: '查看近期',
-      url: "/pages/application/searchRecent/searchRecent"
     }],
     buyIconList: [{
       icon: 'deliver_fill',

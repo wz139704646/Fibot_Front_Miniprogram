@@ -12,6 +12,10 @@ page {
     background-image:linear-gradient(90deg, #0081ff, #1cbbb4);
 }
 
+.picture-margin{
+  margin-top:180px
+}
+
 .cu-avatar.lg {
 	width: 80rpx;
 	height: 80rpx;
