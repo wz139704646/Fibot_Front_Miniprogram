@@ -19,7 +19,7 @@
         <text class="smalltitle">你可以试试这样说\n FinBot，今天卖了多少钱？</text>
         <view>
           <button class="confirm-btn cu-btn  bg-blue shadow" size='large' btnStyle="width: 200rpx;border-radius: 100rpx;" bindtap="goToIndex">
-            <view class="cuIcon-voice" size = "large"></view>
+            <text class='cuIcon-voice voiceIcon'></text>
           </button>
           <!-- <button class="confirm-btn" size='large' btnStyle="width: 200rpx;border-radius: 100rpx;color: #fff;" bindtap="goToIndex">
           TALK
