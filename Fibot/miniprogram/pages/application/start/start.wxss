@@ -165,6 +165,5 @@ page{
 }
 
 .voiceIcon{
-  position: absolute;
-  display: flex;
+  font-size: 100rpx;
 }
