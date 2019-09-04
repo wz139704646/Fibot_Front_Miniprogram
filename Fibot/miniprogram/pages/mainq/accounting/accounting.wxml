@@ -28,6 +28,12 @@
         </view>
         <text>{{item.name}}</text>
       </view>
+
+      <view class="cu-item" bindtap='showFunction'>
+        <view class="cuIcon-roundadd text-grey"></view>
+        <text>添加</text>
+      </view>
+
     </view>
   </view>
   
@@ -53,28 +59,26 @@
             <view class="image">
               <image src="http://workfile.wangjubao.com/125_81_1420529454274.png" mode="widthFix"></image>
               <view class="cu-tag bg-red">新</view>
-              <!-- <view class="cu-bar bg-shadeBottom">
-            <text class="text-cut">我已天理为凭，踏入这片荒芜，不再受凡人的枷锁遏制。我已天理为凭，踏入这片荒芜，不再受凡人的枷锁遏制。</text>
-          </view> -->
             </view>
             <view class="cu-list menu-avatar">
-              <!-- <view class="cu-item">
-                <view class="cu-avatar round lg" style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big10006.jpg);"></view>
-            <view class="content flex-sub">
-                <view class="text-grey">正义天使 凯尔</view>
-                <view class="text-gray text-sm flex justify-between">
-                  十天前
-                  <view class="text-gray text-sm">
-                    <text class="cuIcon-attentionfill margin-lr-xs"></text> 10
-                    <text class="cuIcon-appreciatefill margin-lr-xs"></text> 20
-                    <text class="cuIcon-messagefill margin-lr-xs"></text> 30
-                  </view>
-                </view>
-              </view> -->
             </view>
           </view>
         </view>
       </van-panel>
     </block>
+  </view>
+</view>
+
+<view class="addBackground {{isShow?'isShow':'isHide'}}">
+  <view class='addContent'>
+    <view class="cu-list grid col-4 no-border">
+      <view class="cu-item" wx:for="{{sellIconList}}" wx:key bindtap='add' data-index="{{index}}">
+        <view class="cuIcon-{{item.icon}} text-{{item.color}}"></view>
+        <text>{{item.name}}</text>
+      </view>
+    </view>
+    <view class="cu-item">
+        <view class="cuIcon-roundclose xl text-grey hide" bindtap='hide'></view>
+      </view>
   </view>
 </view>

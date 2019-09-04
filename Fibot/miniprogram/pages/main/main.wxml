@@ -31,7 +31,7 @@
             <text>{{item.name}}</text>
           </view>
 
-          <view class="cu-item" bindtap='show'>
+          <view class="cu-item" bindtap='showFunction'>
             <view class="cuIcon-roundadd text-grey"></view>
             <text>添加</text>
           </view>

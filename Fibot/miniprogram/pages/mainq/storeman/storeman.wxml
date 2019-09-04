@@ -28,6 +28,12 @@
         </view>
         <text>{{item.name}}</text>
       </view>
+
+      <view class="cu-item" bindtap='showFunction'>
+        <view class="cuIcon-roundadd text-grey"></view>
+        <text>添加</text>
+      </view>
+
     </view>
   </view>
   
@@ -76,5 +82,19 @@
         </view>
       </van-panel>
     </block>
+  </view>
+</view>
+
+<view class="addBackground {{isShow?'isShow':'isHide'}}">
+  <view class='addContent'>
+    <view class="cu-list grid col-4 no-border">
+      <view class="cu-item" wx:for="{{sellIconList}}" wx:key bindtap='add' data-index="{{index}}">
+        <view class="cuIcon-{{item.icon}} text-{{item.color}}"></view>
+        <text>{{item.name}}</text>
+      </view>
+    </view>
+    <view class="cu-item">
+        <view class="cuIcon-roundclose xl text-grey hide" bindtap='hide'></view>
+      </view>
   </view>
 </view>

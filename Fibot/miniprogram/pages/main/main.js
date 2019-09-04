@@ -143,7 +143,7 @@ Page({
   },
 
   //点击添加
-  show: function () {
+  showFunction: function () {
     this.setData({
       isShow: true
     })
