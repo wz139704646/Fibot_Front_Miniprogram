@@ -69,11 +69,7 @@ Page({
     console.log("navigate")
   },
 
-  navigateToHome: function (e) {
-    wx.navigateTo({
-      url: '/pages/my/home/home',
-    })
-  },
+  
 
   //分页面跳转
   show(e) {

@@ -76,36 +76,41 @@ Page({
     }
   },
   addsuccess(e){
-    var that = this
-    wx.request({
-      url: host + '/addGoods',
-      data: JSON.stringify({
-        companyId: app.globalData.companyId,
-        name: this.data.name,
-        sellprice: this.data.sellprice,
-        type: this.data.type[this.data.gindex],
-        unitInfo: this.data.unitInfo[this.data.uindex],
-        barcode:this.data.barcode
-        
-      }),
-      method: "POST",
-      header: {
-        "Content-Type": 'application/json'
-      },
-      success: res => {
-        wx.showToast({
-          title: '添加成功',
-          icon:'none',
-          duration:'3000',
-          mask:true
-        })
-        that.upload(res)
-        console.log(res.data)
-        wx.redirectTo({
-          url: '/pages/index/index',
-        })
-      }
-    })
+    let token = app.getToken()
+    if (token) {
+      var that = this
+      wx.request({
+        url: host + '/addGoods',
+        data: JSON.stringify({
+          companyId: app.globalData.companyId,
+          name: this.data.name,
+          sellprice: this.data.sellprice,
+          type: this.data.type[this.data.gindex],
+          unitInfo: this.data.unitInfo[this.data.uindex],
+          barcode: this.data.barcode
+
+        }),
+        method: "POST",
+        header: {
+          "Content-Type": 'application/json',
+          'Authorization': token
+        },
+        success: res => {
+          wx.showToast({
+            title: '添加成功',
+            icon: 'none',
+            duration: '3000',
+            mask: true
+          })
+          that.upload(res)
+          console.log(res.data)
+          wx.redirectTo({
+            url: '/pages/index/index',
+          })
+        }
+      })
+    }
+    
 
   },
   addfail(e){

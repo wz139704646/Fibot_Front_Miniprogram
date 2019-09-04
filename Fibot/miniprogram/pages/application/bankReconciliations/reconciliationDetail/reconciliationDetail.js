@@ -99,25 +99,30 @@ Page({
   },
 
   checkSuccess(e) {
-    wx.request({
-      url: host + '/checkBankStatus',
-      data: JSON.stringify({
-        voucher: this.data.voucher,
-      }),
-      method: "POST",
-      header: {
-        "Content-Type": 'application/json'
-      },
-      success: res => {
-        console.log(res)
-        wx.showToast({
-          title: 'add success',
-        })
-        wx.redirectTo({
-          url: '/pages/application/bankReconciliations/reconciliationShow/reconciliationShow',
-        })
-      }
-    })
+    let token = app.getToken()
+    if (token) {
+      wx.request({
+        url: host + '/checkBankStatus',
+        data: JSON.stringify({
+          voucher: this.data.voucher,
+        }),
+        method: "POST",
+        header: {
+          "Content-Type": 'application/json',
+          'Authorization': token
+        },
+        success: res => {
+          console.log(res)
+          wx.showToast({
+            title: 'add success',
+          })
+          wx.redirectTo({
+            url: '/pages/application/bankReconciliations/reconciliationShow/reconciliationShow',
+          })
+        }
+      })
+    }
+
   }
 
 })

@@ -14,7 +14,7 @@ Page({
     pyallsupplierList: [],
   },
 
-  getSupplierList() {
+  getSupplierList(token) {
     var that = this
     wx.request({
       url: host + '/queryAllSupplier',
@@ -23,7 +23,8 @@ Page({
       }),
       method: "POST",
       header: {
-        "Content-Type": 'application/json'
+        "Content-Type": 'application/json',
+        'Authorization': token
       },
       success: res => {
         console.log(res)
@@ -106,7 +107,11 @@ Page({
         type: options.type
       })
     }
-    this.getSupplierList()
+    let token = app.getToken()
+    if(token){
+      this.getSupplierList(token)
+    }
+    
   },
   onReady() {
     let that = this;

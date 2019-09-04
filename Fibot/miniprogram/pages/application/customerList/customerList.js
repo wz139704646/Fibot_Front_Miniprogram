@@ -17,25 +17,30 @@ Page({
   },
 
   getCustomerList(){
-    var that = this
-    wx.request({
-      url: host + '/queryAllCustomer',
-      data: JSON.stringify({
-        companyId:app.globalData.companyId
-      }),
-      method: "POST",
-      header: {
-        "Content-Type": 'application/json'
-      },
-      success: res => {
-        console.log(res)
-        console.log(res.data.result)
-        this.setData({
-          customerList:res.data.result
-        })
-        that.initCustomerList()
-      }
-    })
+    let token = app.getToken()
+    if (token) {
+      var that = this
+      wx.request({
+        url: host + '/queryAllCustomer',
+        data: JSON.stringify({
+          companyId: app.globalData.companyId
+        }),
+        method: "POST",
+        header: {
+          "Content-Type": 'application/json',
+          'Authorization': token
+        },
+        success: res => {
+          console.log(res)
+          console.log(res.data.result)
+          this.setData({
+            customerList: res.data.result
+          })
+          that.initCustomerList()
+        }
+      })
+    }
+    
   },
 
   initCustomerList() {

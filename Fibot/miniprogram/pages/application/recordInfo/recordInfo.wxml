@@ -28,23 +28,23 @@
     <text class="cuIcon-goods text-orange"></text>
   </view>
   <block wx:key wx:for='{{buyList}}' wx:for-index='index'>
-    <van-card tag="{{item.type}}" price="合计:{{back ? back=='sell' ? number.twoDecimal(item.sumprice) : number.twoDecimal(item.price*item.number) : '出错'}}" desc="单价:{{back=='sell' ? number.twoDecimal(item.sumprice/item.number) : number.twoDecimal(item.price)}}\r\n数量:{{item.number}}" title="{{item.goodsName}}" thumb="{{host+'/goodsPic/'+item.goodsPhoto}}" thumb-mode="aspectFill">
+    <van-card price="合计:{{back ? back=='sell' ? number.twoDecimal(item.sumprice) : number.twoDecimal(item.price*item.number) : '出错'}}" desc="单价:{{back=='sell' ? number.twoDecimal(item.sumprice/item.number) : number.twoDecimal(item.price)}}\r\n数量:{{item.number}}"
+      title="{{item.goodsName}}" thumb="{{host+'/goodsPic/'+item.goodsPhoto}}" thumb-mode="aspectFill" data-item="{{item}}" data-index="{{index}}" bindtap="showModal">
       <!-- TODO 出库的修改 -->
       <view wx:if="{{fun=='出库'}}" slot="footer">
-        <view wx:key wx:for="{{1}}" wx:for-item="outlist" data-id="item.goodsId">
+        <view wx:key wx:for="{{item.outlist}}" wx:for-item="outlist" wx:for-index='oindex'>
           <view class="cu-form-group">
-      <!-- <view class="title">调出仓库</view> -->
-      <picker bindchange="sPickerChange" value="{{outlist[index]}}" range="{{storeList}}" range-key="{{'name'}}" data-index="{{index}}">
-      <view class="picker">
-        {{outStore[index]?storeList[outStore[index]].name:'请选择仓库'}}
-      </view>
-    </picker>
-      <input placeholder="请输入数量" style="text-align:right" value="{{name}}" bindinput='nameChange'></input>
-    </view>
+            <picker disabled="{{true}}" value="{{outlist.value}}" range="{{outList}}" range-key="{{'value'}}">
+              <view class="picker">
+                {{outlist.value}}
+              </view>
+            </picker>
+            <input disabled="{{true}}" placeholder="请输入数量" style="text-align:right" value="{{outlist.storeNum}}"></input>
+          </view>
         </view>
       </view>
     </van-card>
-    
+
     <view class="divLine"></view>
   </block>
   <view class="cu-bar bg-white">
@@ -68,14 +68,23 @@
 </view>
 
 <!-- 选库存的模态框 -->
-<view class="cu-modal bottom-modal {{isShow?'show':''}}" bindtap="hideModal">
+<view class="cu-modal bottom-modal {{isShow?'show':''}}">
   <view class="cu-dialog">
     <view class="cu-bar bg-white">
-      <view class="action text-green">确定</view>
+      <view class="action text-green" bindtap="confirmModal" data-i="">确定</view>
       <view class="action text-blue" bindtap="hideModal">取消</view>
     </view>
     <view class="padding-xl">
-      Modal 内容。
+      <van-card desc="应出库数量:{{curItem.number}}"
+      title="{{curItem.goodsName}}" thumb="{{host+'/goodsPic/'+curItem.goodsPhoto}}" thumb-mode="aspectFill">
+      </van-card>
+      
+      <view wx:key wx:for="{{curStoreList}}" wx:for-index='index'>
+        <view class="cu-form-group">
+          <view class="title">{{curStoreList[index].value}}</view>
+          <input placeholder="请输入数量" style="text-align:right" value="{{curStoreList[index].storeNum}}" bindinput='numberChange' data-index="{{index}}"></input>
+        </view>
+      </view>
     </view>
   </view>
 </view>

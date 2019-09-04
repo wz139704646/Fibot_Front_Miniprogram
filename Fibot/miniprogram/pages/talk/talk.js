@@ -66,6 +66,7 @@ Page({
 
 
   onLoad: function(options) {
+    let token = app.getToken()
     initData(this);
     // this.setData({
     //   cusHeadIcon: app.globalData.userInfo.avatarUrl,
@@ -74,6 +75,7 @@ Page({
   },
 
   onShow: function() {
+    let token = app.getToken()
     const recorder = wx.getRecorderManager()
     let that = this
     recorder.onStart(() => {
@@ -123,11 +125,13 @@ Page({
 
     // 处理对话，调用自然语言处理
     let date = util.getcurDateFormatString(new Date())
+    let token = app.getToken()
     wx.request({
       url: host + '/languageProcess',
       method: 'POST',
       header: {
-        "Content-Type": 'application/json'
+        "Content-Type": 'application/json',
+        'Authorization': token
       },
       data: JSON.stringify({
         language: e.detail.value,

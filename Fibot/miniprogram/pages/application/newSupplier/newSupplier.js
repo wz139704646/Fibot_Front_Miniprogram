@@ -40,31 +40,36 @@ Page({
   },
   //确认添加
   addsuccess(e) {
-    wx.request({
-      url: host + '/addSupplier',
-      data: JSON.stringify({
-        companyId: app.globalData.companyId,
-        name: name,
-        phone: phone,
-        bankaccount: bankaccount,
-        bankname: bankname,
-        taxpayerNumber:taxpayernumber,
-        site:site
+    let token = app.getToken()
+    if (token) {
+      wx.request({
+        url: host + '/addSupplier',
+        data: JSON.stringify({
+          companyId: app.globalData.companyId,
+          name: name,
+          phone: phone,
+          bankaccount: bankaccount,
+          bankname: bankname,
+          taxpayerNumber: taxpayernumber,
+          site: site
 
-      }),
-      method: "POST",
-      header: {
-        "Content-Type": 'application/json'
-      },
-      success: res => {
-        wx.showToast({
-          title: 'add success',
-        })
-        wx.redirectTo({
-          url: '/pages/index/index',
-        })
-      }
-    })
+        }),
+        method: "POST",
+        header: {
+          "Content-Type": 'application/json',
+          'Authorization': token
+        },
+        success: res => {
+          wx.showToast({
+            title: 'add success',
+          })
+          wx.redirectTo({
+            url: '/pages/index/index',
+          })
+        }
+      })
+    }
+    
   },
   //取消添加
   addfail(e) {

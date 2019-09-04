@@ -22,7 +22,6 @@
   </view>
 
   <view class="padding canui-card-fiex-radius-box">
-
     <swiper class="screen-swiper square-dot" indicator-dots="{{true}}" circular="{{true}}" autoplay="{{false}}">
       <swiper-item wx:for="{{4}}" wx:key>
         <view class="cu-list grid col-4 no-border">
@@ -41,7 +40,7 @@
     </swiper>
   </view>
 
-  <view class="cu-card case" style="margin-top:80px">
+  <view class="cu-card case" style="margin-top:150px">
     <block wx:for="{{statis}}" wx:key="{{index}}">
       <van-panel use-header-slot custom-class="margin-bottom">
         <view slot="header">
@@ -68,19 +67,6 @@
           </view> -->
             </view>
             <view class="cu-list menu-avatar">
-              <!-- <view class="cu-item">
-                <view class="cu-avatar round lg" style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big10006.jpg);"></view>
-            <view class="content flex-sub">
-                <view class="text-grey">正义天使 凯尔</view>
-                <view class="text-gray text-sm flex justify-between">
-                  十天前
-                  <view class="text-gray text-sm">
-                    <text class="cuIcon-attentionfill margin-lr-xs"></text> 10
-                    <text class="cuIcon-appreciatefill margin-lr-xs"></text> 20
-                    <text class="cuIcon-messagefill margin-lr-xs"></text> 30
-                  </view>
-                </view>
-              </view> -->
             </view>
           </view>
         </view>
