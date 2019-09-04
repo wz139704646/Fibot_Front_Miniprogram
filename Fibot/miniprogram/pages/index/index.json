@@ -1,6 +1,8 @@
 {
   "usingComponents": {
-    "application": "/pages/main/main",
+    "accounting": "/pages/mainq/accounting/accounting",
+    "salesExecutive" :"/pages/mainq/salesExecutive/salesExecutive",
+    "storeman": "/pages/mainq/storeman/storeman",
     "statistics": "/pages/statistics/home/home",
     "my": "/pages/my/home/home"
   }

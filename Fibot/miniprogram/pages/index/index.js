@@ -3,11 +3,16 @@ const host = app.globalData.requestHost
 
 Page({
   data: {
-    PageCur: 'application'
+    PageCur: 'accounting'
   },
 
   // 页面加载函数
   onLoad: function(options) {
+    if(options.role){
+      this.setData({
+        PageCur:options.role
+      })
+    }
     // 获取用户信息，如果没有登录则转入登录页面
     let that = this
     console.log("onload")
@@ -169,8 +174,17 @@ Page({
   NavChange(e) {
     console.log("navigate change")
     console.log(e)
+    var PageLast = this.data.PageLast
+    if(PageLast){
+      this.setData({
+        PageCur: PageLast
+      })
+    }  
+  },
+  NavChangeToMy(e){
     this.setData({
-      PageCur: e.currentTarget.dataset.cur
+      PageLast: this.data.PageCur,
+      PageCur: 'my'
     })
   },
   onShareAppMessage() {

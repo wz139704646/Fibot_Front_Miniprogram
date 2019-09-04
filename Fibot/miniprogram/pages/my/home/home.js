@@ -167,7 +167,7 @@ Component({
     },
 
     chooseRole: function(e){
-      wx.redirectTo({
+      wx.navigateTo({
         url: '/pages/application/chooseRoleNew/chooseRoleNew',
       })
     },

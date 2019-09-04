@@ -1,7 +1,7 @@
 <view class="cu-custom" style="height:{{CustomBar}}px;">
   <view class="cu-bar fixed none-bg text-white bg-img" style="height:{{CustomBar}}px;padding-top:{{StatusBar}}px;">
     <view class="cu-content">
-      <image class="cu-avatar round lg bg-white" src="https://ossweb-img.qq.com/images/lol/web201310/skin/big25002.jpg" bindtap="navigateToHome"></image>
+      <image class="cu-avatar round lg bg-white" src="https://ossweb-img.qq.com/images/lol/web201310/skin/big25002.jpg" ></image>
       <!-- <image class="cu-avatar round lg bg-white" src="{{app.globalData.userInfo.avatarUrl}}" bindtap="navigateToHome"></image> -->
       <text class='icon-back' style="margin-left:6px">销售主管</text>
     </view>

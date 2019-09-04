@@ -6,7 +6,7 @@
 
 <view class='cu-tabbar-height'></view>
   <view class='nav-list'>
-    <navigator open-type="navigate" hover-class='none' url="/pages/basics/{{item.url}}/{{item.url}}" class="nav-li bg-{{item.color}} shadow-blur" wx:for="{{elements}}" wx:key>
+    <navigator open-type="navigate" hover-class='none' url="{{item.url}}" class="nav-li bg-{{item.color}} shadow-blur" wx:for="{{elements}}" wx:key>
       <view class="nav-title">{{item.title}}</view>
       <view class="nav-name">{{item.name}}</view>
       <text class='cuIcon-{{item.icon}}'></text>
