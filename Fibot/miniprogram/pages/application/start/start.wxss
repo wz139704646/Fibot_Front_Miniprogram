@@ -163,3 +163,7 @@ page{
 .confirm-btn:active {
   opacity: .8;
 }
+
+.voiceIcon{
+  font-size: 100rpx;
+}
