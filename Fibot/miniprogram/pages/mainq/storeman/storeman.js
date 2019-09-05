@@ -69,8 +69,6 @@ Page({
     console.log("navigate")
   },
 
-  
-
   //分页面跳转
   show(e) {
     console.log("navigate")
