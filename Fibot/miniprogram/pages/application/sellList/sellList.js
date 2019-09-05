@@ -130,8 +130,9 @@ Page({
   toDetail(e) {
     console.log(e)
     var id = e.currentTarget.dataset.id
+    var status = e.currentTarget.dataset.status
     wx.navigateTo({
-      url: '../recordInfo/recordInfo?back=sell'+'&id=' + id +'&fun='+this.data.fun
+      url: '../recordInfo/recordInfo?back=sell'+'&id=' + id +'&fun='+this.data.fun + '&status=' + status
     })
   },
   //搜索TODO

@@ -62,7 +62,7 @@
   <view wx:if="{{fun=='入库'&&status=='运'}}" class="divLine"></view>
   <view class="cu-bar bg-white">
     <view wx:if="{{fun=='入库'&&status=='运'}}" class="action text-red" bindtap="buyArrived">确认入库</view>
-    <view wx:if="{{fun=='出库'}}" class="action text-red" bindtap="sellOut">确认出库</view>
+    <view wx:if="{{fun=='出库'&&status!=1}}" class="action text-red" bindtap="onSubmit">确认出库</view>
     <view class="action text-blue" bindtap="backToList">返回列表</view>
   </view>
 </view>

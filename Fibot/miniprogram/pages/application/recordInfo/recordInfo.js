@@ -7,24 +7,24 @@ Page({
    * 页面的初始数据
    */
   data: {
-    index:null,
-    pname:"",
-    storeList:[],
-    isShow:false,
-    curOutList:[],
-    curStoreList:[],
+    index: null,
+    pname: "",
+    storeList: [],
+    isShow: false,
+    curOutList: [],
+    curStoreList: [],
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
+  onLoad: function(options) {
     var that = this
     console.log(options)
     this.setData({
       host: host
     })
-    if(!options.id || !options.back){
+    if (!options.id || !options.back) {
       wx.showToast({
         title: '获取订单信息失败！',
         icon: 'none'
@@ -32,19 +32,19 @@ Page({
       return
     }
     this.setData({
-      id:options.id,
-      status:options.status,
+      id: options.id,
+      status: options.status,
       back: options.back,
       fun: options.fun
     })
     let token = app.getToken()
-    if(token){
+    if (token) {
       that.initInfo(options, token)
       if (this.data.fun == "入库") {
         that.getStoreList()
-      }  
+      }
     }
-    
+
   },
   PickerChange(e) {
     console.log(e);
@@ -52,8 +52,8 @@ Page({
       index: e.detail.value
     })
   },
-  getStoreList(token){
-    if(token){
+  getStoreList(token) {
+    if (token) {
       wx.request({
         url: host + '/queryWarehouse',
         data: JSON.stringify({
@@ -75,20 +75,20 @@ Page({
           console.log(res)
         }
       })
-    }else{
+    } else {
       app.relogin()
     }
-    
+
   },
 
-  initInfo(e,token){
+  initInfo(e, token) {
     var that = this
     var id = e.id
-    var back = e.back 
+    var back = e.back
     // 根据返回页面获取请求不同的api
     console.log(token)
     let api = back == 'sell' ? '/querySell' : '/queryPurchase'
-    if(token){
+    if (token) {
       wx.request({
         url: host + api,
         data: JSON.stringify({
@@ -173,48 +173,48 @@ Page({
           that.calTotal(list[0].goodsList, back)
         },
       })
-    }  
+    }
   },
 
   //返回上一页
-  backToList(e){
+  backToList(e) {
     console.log(e)
     wx.navigateBack({
-      delta:1
+      delta: 1
     })
   },
   //计算总价
   calTotal(list, back) {
     var total = 0
-    if(back == 'buy') {
+    if (back == 'buy') {
       for (var index in list) {
         total = total + list[index].number * list[index].price
       }
     } else {
-      for(var index in list) {
+      for (var index in list) {
         total += list[index].sumprice
       }
     }
     total = util.twoDecimal(total)
-    console.log("total = "+total)
+    console.log("total = " + total)
     this.setData({
       total: total
     })
   },
   //确认入库
-  buyArrived(){
+  buyArrived() {
     var that = this
-    if(this.data.index==null){
+    if (this.data.index == null) {
       wx.showModal({
         title: '提示',
         content: '请选择入库仓库',
-        showCancel:false
+        showCancel: false
       })
-    }else{
+    } else {
       wx.showModal({
         title: '确认入库',
         content: '确认订单' + this.data.id + "入库",
-        success: function (res) {
+        success: function(res) {
           if (res.confirm) {
             wx.showLoading({
               title: '请求提交中',
@@ -224,17 +224,17 @@ Page({
             that.storeInWareHouse()
           }
         },
-        fail: function (err) {
+        fail: function(err) {
           console.error('调起模态确认框失败', err)
         }
       })
     }
-    
+
   },
-  storeInWareHouse(){
+  storeInWareHouse() {
     //入库请求
     let token = app.getToken()
-    if(token){
+    if (token) {
       wx.request({
         url: host + '/storeInWarehouse',
         data: JSON.stringify({
@@ -262,53 +262,84 @@ Page({
           console.log(res)
         }
       })
-    }else{
+    } else {
       app.relogin()
+    }
+  },
+  onSubmit(e) {
+    var that = this
+    if(that.ifAllOverSurpposedNum){
+      var outList = []
+      var buyList = this.data.buyList
+      for(var i in buyList){
+        for(var j in buyList[i].outlist)
+        outList.push({
+          goodsId:buyList[i].goodsId,
+          wareHouseId:buyList[i].outlist[j].wareHouseId,
+          number: buyList[i].outlist[j].storeNum
+        })
+      }
+      this.setData({
+        outList:outList
+      })
+      wx.showModal({
+        title: '出库确认',
+        content: '是否确认将订单' + this.data.id + '中的商品确认出库',
+        success(res) {
+          if (res.confirm) {
+            that.sellOut()
+          }
+        }
+      })
+    } 
+  },
+  //确认出库
+  sellOut() {
+    let token = app.getToken()
+    console.log(this.data)
+    if(token){
+      wx.request({
+        url: host + '/deliverFromWareHouse',
+        data:JSON.stringify({
+          companyId:app.globalData.companyId,
+          sellId:this.data.id,
+          outList:this.data.outList
+        }),
+        method:"POST",
+        header: {
+          "Content-Type": 'application/json',
+          'Authorization': token
+        },
+        success(res){
+          console.log(res)
+          wx.showToast({
+            title: '已出库',
+            duration: 2000,
+            mask: true
+          })
+          console.log(res)
+          wx.redirectTo({
+            url: '/pages/index/index',
+          })
+        }
+      })
     }
     
   },
-  //确认出库
-  sellOut(){
-    //TODO
-    wx.showToast({
-      title: '确认出库',
-      duration: 2000,
-      mask: true
-    })
-    console.log(res)
-    wx.redirectTo({
-      url: '/pages/index/index',
-    })
-  },
-  //TODO
-  chooseWareHouse(e){
-    console.log(e)
-    if(this.data.back=="sell"&&this.data.fun=="出库"){
-      this.setData({
-        isShow:true
-      })
-    }
-  },
-  chooseFinished(e){
-    //TODO 将该商品出库信息添加到outlist中去
-    this.setData({
-      isShow:false
-    })
-  },
-  showModal(e){
+  //显示modal
+  showModal(e) {
     var that = this
     let token = app.getToken()
     var curItem = e.currentTarget.dataset.item
     var curIndex = e.currentTarget.dataset.index
     console.log(e)
-    if(token){
+    if (token) {
       this.setData({
         isShow: true,
         curItem: curItem,
         curIndex: curIndex
       })
-      
-      if(!curItem.outlist){
+      if (!curItem.outlist) {
         wx.request({
           url: host + '/queryGoodsStoreByGoodsId',
           data: JSON.stringify({
@@ -320,7 +351,7 @@ Page({
             "Content-Type": 'application/json',
             'Authorization': token
           },
-          success: function (res) {
+          success: function(res) {
             console.log(res)
             var storeList = res.data.result
             for (var i in storeList) {
@@ -332,38 +363,78 @@ Page({
             })
           }
         })
-      }else{
+      } else {
         that.setData({
           curStoreList: curItem.outlist,
         })
       }
-      
-    }   
+
+    }
   },
-  hideModal(e){
+  hideModal(e) {
     this.setData({
-      isShow:false
+      isShow: false
     })
   },
-  numberChange(e){
+  //modal里数量改变
+  numberChange(e) {
     console.log(e)
     var index = e.currentTarget.dataset.index
     var curStoreList = this.data.curStoreList
-    curStoreList[index]['storeNum'] = e.detail.value
+    if (curStoreList[index].number < e.detail.value) {
+      wx.showModal({
+        content: '输入值应小于该仓库库存',
+        showCancel: false
+      })
+      curStoreList[index]['storeNum'] = 0
+    }else{
+      curStoreList[index]['storeNum'] = e.detail.value
+    }
     this.setData({
       curStoreList: curStoreList
     })
   },
-  confirmModal(e){
+  //modal确认
+  confirmModal(e) {
     var curItem = this.data.curItem
     var curIndex = this.data.curIndex
     var curStoreList = this.data.curStoreList
     var buyList = this.data.buyList
-    buyList[curIndex]['outlist'] = curStoreList
-    this.setData({
-      buyList:buyList,
-      isShow:false
-    })
-    console.log(buyList)
+    if(this.ifOverSurpposedNum(curStoreList,buyList[curIndex].number)){
+      buyList[curIndex]['outlist'] = curStoreList
+      this.setData({
+        buyList: buyList,
+        isShow: false
+      })
+      console.log(buyList)
+    }else{
+      wx.showModal({
+        title: '',
+        content: '请调整出库数量满足要求',
+        showCancel:false
+      })
+    }
+  },
+  //判断出库是否超过应出库数
+  ifOverSurpposedNum(curlist,supposedNum){
+    var num = 0
+    for(var i in curlist){
+      num += curlist[i].storeNum
+    }
+    if(num == supposedNum){
+      return true
+    }else{
+      return false
+    }
+  },
+  ifAllOverSurpposedNum(){
+    var that = this
+    var buyList = this.data.buyList
+    for(var i in buyList){
+      if(!that.ifOverSurpposedNum(buyList[i].outlist,buyList[i].number)){
+        return false
+      }
+    }
+    return true
   }
 })
