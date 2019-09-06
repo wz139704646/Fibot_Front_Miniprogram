@@ -1,0 +1,10 @@
+{
+  "usingComponents": {
+    "accounting": "/pages/main/mainq/accounting/accounting",
+    "salesExecutive" :"/pages/main/mainq/salesExecutive/salesExecutive",
+    "storeman": "/pages/main/mainq/storeman/storeman",
+    "my": "/pages/main/my/home/home"
+  }
+}
+
+

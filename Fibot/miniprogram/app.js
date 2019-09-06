@@ -24,6 +24,8 @@ App({
     // requestHost: 'https://47.100.244.29',
     requestHost:'https://www.fibot.cn', 
     imgBase: 'cloud://zqr-testdemo-974f2b.7a71-zqr-testdemo-974f2b',
+    applicationBase: "/pages/application",
+    statisticsBase: "/pages/statistics",
     companyId:"5",
     ColorList: [{
       title: '嫣红',
@@ -112,7 +114,7 @@ App({
       success: () => {
         setTimeout(() => {
           wx.redirectTo({
-            url: '/pages/login/login',
+            url: '/pages/main/login/login',
           })
         }, 1000)
       }
