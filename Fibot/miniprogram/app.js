@@ -23,6 +23,7 @@ App({
     //requestHost: 'http://47.100.244.29',
     // requestHost: 'https://47.100.244.29',
     requestHost:'https://www.fibot.cn', 
+    imgBase: 'cloud://zqr-testdemo-974f2b.7a71-zqr-testdemo-974f2b',
     companyId:"5",
     ColorList: [{
       title: '嫣红',

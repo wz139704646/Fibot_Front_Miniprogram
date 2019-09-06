@@ -1,5 +1,7 @@
 // pages/application/trialBalance/trialBalance.js
 const app = getApp()
+const host = app.globalData.requestHost
+
 Page({
 
   /**
@@ -8,114 +10,169 @@ Page({
   data: {
     CustomBar: app.globalData.CustomBar,
     timeIndex: [0, 0],
-    timeArray: [
-      [2019, 2018, 2017],
-      [1, 2, 3, 4, 5, 6]
-    ],
-    trials: [
-      {
-        code: 1001,
-        activeNames: [],
-        subs: [
-          {
-            code: 1001,
-            name: '库存现金',
-            debit: 12000,
-            credit: 3200,
-            init: 64000,
-            term: 51680
+    timeArray: [[], []],
+    trials: []
+  },
+
+  // 查询科目余额已记录的期数
+  getTimes: function(callback) {
+    let token = app.getToken()
+    let that = this
+    if(token) {
+      wx.request({
+        url: host +'/finance/subject/getTimes',
+        method: 'GET',
+        header: {
+          'Content-Type': 'application/json',
+          'Authorization': token
+        },
+        success: res => {
+          if (res.statusCode == 555) {
+            app.relogin()
+          } else if (res.statusCode == 403) {
+            wx.showToast({
+              title: '无权限查看',
+              icon: 'none',
+              duration: 1000
+            })
+          } else if (res.statusCode != 200 || !res.data.success) {
+            wx.showToast({
+              title: res.data.errMsg || '请求失败', icon: 'none', duration: 1000
+            })
+          } else {
+            let {low, up} = res.data.result
+            let lowy = parseInt(low.substring(0, 4))
+            let lowm = parseInt(low.substring(4))
+            let upy = parseInt(up.substring(0, 4))
+            let upm = parseInt(up.substring(4))
+            let years = []
+            let times = []
+            let genTime = (start, end) => {
+              let genT = []
+              for (let i = start; i <= end; i++) {
+                if (i > 9) {
+                  genT.push(`${i}`)
+                }
+                else {
+                  genT.push(`0${i}`)
+                }
+              }
+              return genT
+            }
+            for(let y=lowy; y<=upy; y++){
+              let s = 1
+              let e = 12
+              if(y==lowy){
+                s = lowm
+              }
+              if(y==upy){
+                e = upm
+              }
+              years.push(y)
+              times.push(genTime(s, e))
+            }
+            that.setData({
+              years, times
+            }, callback)
           }
-        ]
-      },
-      {
-        code: 1002,
-        activeNames: [],
-        subs: [
-          {
-            code: 1002,
-            name: '银行存款',
-            debit: 12000,
-            credit: 3200,
-            init: -64000,
-            term: -51680
-          },
-          {
-            code: 1002010,
-            name: '银行存款-花旗银行',
-            debit: 12000,
-            credit: 3200,
-            init: -64000,
-            term: -51680
+        }
+      })
+    }
+  },
+
+  getBalanceWithTimeType: function(time, typeIdx){
+    console.log(time)
+    let token = app.getToken()
+    let that = this
+    if(token) {
+      let type = this.data.trials[typeIdx].type
+      let subsPath = `trials[${typeIdx}].subs`
+      wx.request({
+        url: host +'/finance/subject/getBalance',
+        method: 'GET',
+        header: {
+          'Content-Type': 'application/json',
+          'Authorization': token
+        },
+        data: {
+          time: time,
+          type: type
+        },
+        success: res => {
+          if (res.statusCode == 555) {
+            app.relogin()
+          } else if (res.statusCode == 403) {
+            wx.showToast({
+              title: '无权限查看',
+              icon: 'none',
+              duration: 1000
+            })
+          } else if (res.statusCode != 200 || !res.data.success) {
+            wx.showToast({
+              title: `${type}` + (res.data.errMsg || '请求失败'),
+              icon: 'none', duration: 1000
+            })
+          } else {
+            let subs = res.data.result
+            that.setData({
+              [subsPath]: subs
+            }, ()=>{
+              that.setData({
+                filterTrials: that.data.trials
+              })
+            })
           }
-        ]
-      },
-      {
-        code: 1002,
-        activeNames: [],
-        subs: [
-          {
-            code: 1002,
-            name: '银行存款',
-            debit: 12000,
-            credit: 3200,
-            init: -64000,
-            term: -51680
-          },
-          {
-            code: 1002010,
-            name: '银行存款-花旗银行',
-            debit: 12000,
-            credit: 3200,
-            init: -64000,
-            term: -51680
+        }
+      })
+    }
+  },
+
+  getInitBalance: function(time){
+    let token = app.getToken()
+    let that = this
+    if (token) {
+      wx.request({
+        url: host + '/finance/subject/getTypes',
+        method: 'GET',
+        header: {
+          'Content-Type': 'application/json',
+          'Authorization': token
+        },
+        success: res => {
+          if (res.statusCode == 555) {
+            app.relogin()
+          } else if (res.statusCode == 403) {
+            wx.showToast({
+              title: '无权限查看',
+              icon: 'none',
+              duration: 1000
+            })
+          } else if (res.statusCode != 200 || !res.data.success) {
+            wx.showToast({
+              title: res.data.errMsg || '请求失败', icon: 'none', duration: 1000
+            })
+          } else {
+            let trials = []
+            let types = res.data.result
+            for (let tp of types) {
+              trials.push({
+                type: tp,
+                activeNames: [],
+                subs: []
+              })
+            }
+            that.setData({
+              trials,
+              filterTrials: trials
+            }, () => {
+              for(let t in trials){
+                that.getBalanceWithTimeType(time, t)
+              }
+            })
           }
-        ]
-      },
-      {
-        code: 1002,
-        activeNames: [],
-        subs: [
-          {
-            code: 1002,
-            name: '银行存款',
-            debit: 12000,
-            credit: 3200,
-            init: -64000,
-            term: -51680
-          },
-          {
-            code: 1002010,
-            name: '银行存款-花旗银行',
-            debit: 12000,
-            credit: 3200,
-            init: -64000,
-            term: -51680
-          }
-        ]
-      },
-      {
-        code: 1002,
-        activeNames: [],
-        subs: [
-          {
-            code: 1002,
-            name: '银行存款',
-            debit: 12000,
-            credit: 3200,
-            init: -64000,
-            term: -51680
-          },
-          {
-            code: 1002010,
-            name: '银行存款-花旗银行',
-            debit: 12000,
-            credit: 3200,
-            init: -64000,
-            term: -51680
-          }
-        ]
-      }
-    ]
+        }
+      })
+    }
   },
 
   /**
@@ -126,6 +183,18 @@ Page({
     this.setData({
       filterTrials: data.trials,
       searchText: ""
+    })
+    this.getTimes(()=>{
+      let {years, times} = this.data
+      let timeArray = [[], []]
+      timeArray[0] = years
+      timeArray[1] = times[0]
+      this.setData({
+        timeIndex: [0, 0],
+        timeArray
+      }, () => {
+        this.getInitBalance(years[0]+times[0][0])
+      })
     })
   },
 
@@ -163,8 +232,18 @@ Page({
   // 时间选择item改变
   MultiChange(e) {
     console.log('index', e)
+    let idx = e.detail.value
     this.setData({
-      timeIndex: e.detail.value
+      timeIndex: idx,
+      searchText: ''
+    }, () => {
+      // 根据期数的变化重新 getBalance
+      let trials = this.data.trials
+      let timeArr = this.data.timeArray
+      let time = timeArr[0][idx[0]]+timeArr[1][idx[1]]
+      for (let t in trials) {
+        this.getBalanceWithTimeType(time, t)
+      }
     })
   },
 
@@ -174,16 +253,11 @@ Page({
       timeArray: this.data.timeArray,
       timeIndex: this.data.timeIndex
     }
+    let {times} = this.data.times
     data.timeIndex[e.detail.column] = e.detail.value
     // 改变的列为年份
     if (e.detail.column == 0) {
-      // 年份不为今年，则满12期
-      if (data.timeArray[0][data.timeIndex[0]] != (new Date()).getFullYear()) {
-        data.timeArray[1] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-      } else {
-        // 如果年份为今年，则可能不满12期（这里可能根据后台来改变）
-        data.timeArray[1] = [1, 2, 3, 4, 5, 6]
-      }
+      data.timeArray[1] = times[e.detail.value]
       data.timeIndex[1] = 0
     }
     this.setData(data)

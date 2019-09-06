@@ -7,7 +7,7 @@
 <view class="cu-list menu-avatar no-padding card-menu shadow-lg radius">
   <van-cell-group title="明细科目信息">
     <van-cell title="类别" value="{{typeName}}" is-link clickable bindtap="onChooseType" />
-    <van-cell title="上级科目" value="{{upperName}}" is-link clickable bindtap="onChooseUpper" />
+    <van-cell title="上级科目" value="{{curSub.text}}" is-link clickable bindtap="onChooseUpper" />
     <van-field label="科目代码" input-align="right" value="{{ newCode }}" placeholder="请输入科目代码" bind:change="onCodeInput" />
     <van-field label="科目名称" input-align="right" value="{{ newName }}" placeholder="请输入科目名称" bind:change="onNameInput" />
   </van-cell-group>
@@ -19,5 +19,5 @@
 </view>
 
 <van-popup show="{{ showPicker }}" position="bottom" bind:close="onModalClose">
-  <van-picker show-toolbar columns="{{ modalName=='type' ? typeNames : subs }}" bind:cancel="onModalClose" bind:confirm="onPickerConfirm" />
+  <van-picker show-toolbar columns="{{ modalName=='type' ? types : subs }}" bind:cancel="onModalClose" bind:confirm="onPickerConfirm" />
 </van-popup>

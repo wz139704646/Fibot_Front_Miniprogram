@@ -1,4 +1,6 @@
 // pages/application/subjects/addSubject/addSubject.js
+const app = getApp()
+const host = app.globalData.requestHost
 const subjectUtil = require('../util.js')
 
 Page({
@@ -7,110 +9,141 @@ Page({
    * 页面的初始数据
    */
   data: {
-    newCode: '',
-    newName: '',
     showPicker: false,
+  },
+
+  getAllTypes: function(callback) {
+    let that = this
+    let token = app.getToken()
+    if(token) {
+      wx.request({
+        url: host +'/finance/subject/getTypes',
+        method: 'GET',
+        header: {
+          'Content-Type': 'application/json',
+          'Authorization': token
+        },
+        success: res => {
+          if (res.statusCode == 555) {
+            app.relogin()
+          } else if (res.statusCode == 403) {
+            // 用户权限不足
+            console.log('权限不足')
+            wx.showToast({
+              title: '无权限查看',
+              icon: 'none',
+              duration: 1000
+            })
+          } else if (res.statusCode != 200 || !res.data.success) {
+            wx.showToast({
+              title: res.data.errMsg || '请求失败', icon: 'none', duration: 1000
+            })
+          } else {
+            let types = res.data.result
+            that.setData({
+              types
+            }, callback)
+          }
+        }
+      })
+    }
+  },
+
+  getNewCode: function(code){
+    let token = app.getToken()
+    let that = this
+    if (token) {
+      wx.request({
+        url: host +'/finance/subject/getNewCode?subject_code='+code,
+        method: 'GET',
+        header: {
+          'Content-Type': 'application/json',
+          'Authorization': token
+        },
+        success: res => {
+          if (res.statusCode == 555) {
+            app.relogin()
+          } else if (res.statusCode == 403) {
+            wx.showToast({
+              title: '无权限获取数据',
+              icon: 'none',
+              duration: 1000
+            })
+          } else if (res.statusCode != 200 || !res.data.success) {
+            wx.showToast({
+              title: res.data.errMsg || '请求失败', icon: 'none', duration: 1000
+            })
+          } else {
+            let newCode = res.data.result
+            that.setData({newCode})
+          }        
+        }
+      })
+    }
+  },
+
+  getSubjectsWithType: function(tp) {
+    let token = app.getToken()
+    let that = this
+    if (token) {
+      wx.request({
+        url: host + '/finance/subject/getSubjects?type=' + tp,
+        method: 'GET',
+        header: {
+          'Content-Type': 'application/json',
+          'Authorization': token
+        },
+        success: res => {
+          if (res.statusCode == 555) {
+            app.relogin()
+          } else if (res.statusCode == 403) {
+            wx.showToast({
+              title: '无权限查看',
+              icon: 'none',
+              duration: 1000
+            })
+          } else if (res.statusCode != 200 || !res.data.success) {
+            wx.showToast({
+              title: res.data.errMsg || '请求失败', icon: 'none', duration: 1000
+            })
+          } else {
+            // 将科目设置到picker数据源中
+            let subs = res.data.result
+            for(let i in subs){
+              subs[i]['text'] = `${subs[i].subject_code} ${subs[i].name}`
+            }
+            that.setData({
+              subs,
+              curSub: subs[0],
+              newName: subs[0].name
+            }, ()=>{
+              that.getNewCode(subs[0].subject_code)
+            })
+          }
+        }
+      })
+    }
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    let type = options.type
     let typeName = options.typeName
-    // TODO 获取所有类别和当前类别下的所有科目信息
-
-    // 样例数据
-    var subjects =  [
-      {
-        title: '资产类',
-        id: 0,
-        subs: [
-          {
-            code: 1001,
-            name: '库存现金'
-          },
-          {
-            code: 1002,
-            name: '银行存款'
-          }
-        ]
-      },
-      {
-        title: '负债类',
-        id: 1,
-        subs: [
-          {
-            code: 2001,
-            name: '短期借款'
-          },
-          {
-            code: 2101,
-            name: '交易性金融负债'
-          }
-        ]
-      },
-      {
-        title: '权益类',
-        id: 2,
-        subs: [
-          {
-            code: 4001,
-            name: '实收资本'
-          },
-          {
-            code: 4002,
-            name: '资本公积'
-          }
-        ]
-      },
-      {
-        title: '成本类',
-        id: 3,
-        subs: [
-          {
-            code: 5001,
-            name: '生产成本'
-          },
-          {
-            code: 5101,
-            name: '制造费用'
-          }
-        ]
-      },
-      {
-        title: '损益类',
-        id: 4,
-        subs: [
-          {
-            code: 6001,
-            name: '主营业务收入'
-          },
-          {
-            code: 6051,
-            name: '其他业务收入'
-          }
-        ]
-      }
-    ]
-    // 提取类别名便于picker使用
-    let typeNames = []
-    for(var s of subjects) {
-      typeNames.push(s.title)
+    let that = this
+    let token = app.getToken()
+    if (token) {
+      // 获取所有类别和当前类别下的所有科目信息
+      that.getAllTypes(() => {
+        let {types} = that.data
+        let typeName = types[0]
+        that.setData({
+          types, typeName
+        }, ()=>{
+          that.getSubjectsWithType(typeName)
+        })
+      })
     }
-    for(var i in subjects) {
-      subjects[i].subs = subjectUtil.setSubjectPickerText(subjects[i].subs)
-    }
-    this.setData({
-      typeName: typeName,
-      type: type,
-      upperName: `${subjects[type].subs[0].code} ${subjects[type].subs[0].name}`,
-      subs: subjects[type].subs,
-      newCode: `${subjects[type].subs[0].code}01`,
-      newName: `${subjects[type].subs[0].name}`,
-      types: subjects,
-      typeNames: typeNames
-    })
   },
 
   /**
@@ -157,41 +190,63 @@ Page({
 
   onSubmit: function(e) {
     let that = this
+    let token = app.getToken()
     console.log('submit')
-    var { typeName, upperName, newCode, newName} = this.data
-    wx.showModal({
-      title: '确认添加',
-      content: `明细科目 ${newCode} ${newName} 将被添加到${typeName}${upperName}下，是否确认？`,
-      success: function(res) {
-        if(res.confirm) {
-          wx.showLoading({
-            title: '请求提交中',
-            mask: true
-          })
-          // TODO 添加新的明细科目
-          
-          // 添加完毕，返回，将数据添加到上级页面
-          var pages = getCurrentPages()
-          var old = pages[pages.length-2]
-          var {type, newCode, newName} = that.data
-          wx.navigateBack({
-            success: () => {
-              // 在原页面的数据中新增一项
-              var subject = old.data.subjects[type]
-              var idx = subject.subs.findIndex((sub) => sub.code > newCode)
-              idx = idx == -1 ? subject.subs.length : idx
-              subject.subs.splice(idx, 0, {code: newCode, name: newName})
-              old.setData({
-                subjects: old.data.subjects
-              })
-            }
-          })
+    if (token) {
+      var { typeName, curSub, newCode, newName } = this.data
+      wx.showModal({
+        title: '确认添加',
+        content: `明细科目 ${newCode} ${newName} 将被添加到${typeName}${curSub.text}下，是否确认？`,
+        success: function (res) {
+          if (res.confirm) {
+            wx.showLoading({
+              title: '请求提交中',
+              mask: true
+            })
+            // 添加新的明细科目
+            wx.request({
+              url: host + '/finance/subject/addSubject',
+              method: 'POST',
+              header: {
+                'Content-Type': 'application/json',
+                'Authorization': token
+              },
+              data: JSON.stringify({
+                subject_code: newCode,
+                name: newName,
+                superior_subject_code: curSub.subject_code
+              }),
+              success: res => {
+                if (res.statusCode == 555) {
+                  app.relogin()
+                } else if (res.statusCode == 403) {
+                  wx.showToast({
+                    title: '无权限添加明细科目',
+                    icon: 'none',
+                    duration: 1000
+                  })
+                } else if (res.statusCode != 200 || !res.data.success) {
+                  wx.showToast({
+                    title: res.data.errMsg || '请求失败', icon: 'none', duration: 1000
+                  })
+                } else {
+                  // 添加完毕，返回，将数据添加到上级页面
+                  var pages = getCurrentPages()
+                  var old = pages[pages.length - 2]
+                  var { typeName, newCode, newName } = that.data
+                  wx.navigateBack({
+                    success: () => {}
+                  })
+                }
+              }
+            })
+          }
+        },
+        fail: function (err) {
+          console.error('调起模态确认框失败', err)
         }
-      },
-      fail: function(err) {
-        console.error('调起模态确认框失败', err)
-      }
-    })
+      })
+    }
   },
 
   onCancel: function(e) {
@@ -205,25 +260,21 @@ Page({
   },
 
   setType: function (typeId, typeName) {
-    // TODO 通过typeId发起请求获取所有科目并保存在data.subs，并设置默认科目代码和名称
-
-    let { types } = this.data
+    // 通过typeId发起请求获取所有科目并保存在data.subs，并设置默认科目代码和名称
     this.setData({
-      typeName: typeName,
-      type: typeId,
-      upperName: `${types[typeId].subs[0].code} ${types[typeId].subs[0].name}`,
-      subs: types[typeId].subs,
-      newCode: `${types[typeId].subs[0].code}01`,
-      newName: `${types[typeId].subs[0].name}`
+      typeName
+    }, () => {
+      this.getSubjectsWithType(typeName)
     })
   },
 
-  setUpper: function (idx, text) {
+  setUpper: function (idx, curSub) {
     let { subs } = this.data
     this.setData({
-      upperName: text,
-      newCode: `${subs[idx].code}01`,
-      newName: subs[idx].name
+      newName: subs[idx].name,
+      curSub: curSub
+    }, ()=>{
+      this.getNewCode(subs[idx].subject_code)
     })
   },
 
@@ -235,7 +286,7 @@ Page({
     if(modalName == 'type') {
       this.setType(index, value)
     } else {
-      this.setUpper(index, value.text)
+      this.setUpper(index, value)
     }
     this.onModalClose()
   },

@@ -9,8 +9,7 @@
     <view class="text-bold">时间选择</view>
     <picker mode="multiSelector" bindchange="MultiChange" bindcolumnchange="MultiColumnChange" value="{{timeIndex}}" range="{{timeArray}}">
       <view class="picker">
-        {{timeArray[0][timeIndex[0]]}}-{{ timeArray[1][timeIndex[1]]
-        < 10 ? '0'+ timeArray[1][timeIndex[1]] : timeArray[1][timeIndex[1]] }}期 </view>
+        {{timeArray[0][timeIndex[0]]}}-{{ timeArray[1][timeIndex[1]]}}期 </view>
     </picker>
   </view>  
   <view class="cu-bar bg-grey light search">
@@ -25,30 +24,30 @@
 </view>
   <scroll-view style="margin-top: 15vh;">
     <block wx:for="{{filterTrials}}" wx:key="{{index}}" wx:for-item="main">
-      <van-cell-group title="{{main.code}}">
+      <van-cell-group title="{{main.type}}">
         <van-collapse value="{{ main.activeNames }}" bind:change="onActiveChange" data-idx="{{index}}">
           <block wx:for="{{main.subs}}" wx:key="{{index}}" wx:for-item="sub" wx:for-index="idx">
-            <van-collapse-item title="{{sub.code}} {{sub.name}}" name="{{sub.code}}">
+            <van-collapse-item title="{{sub.subject_code}} {{sub.name}}" name="{{sub.subject_code}}">
               <view class="cu-bar bg-white cu-bar-item">
                 <view>期初余额</view>
                 <view>
-                  <van-tag color="{{sub.init>0 ? '#0081ff' : '#f37b1d'}}" round>{{sub.init>0 ? "借" : "贷"}}</van-tag>
-                  <text class="{{sub.init>0 ? 'text-blue' : 'text-orange'}}"> {{abs.abs(sub.init)}}</text>
+                  <van-tag color="{{sub.opening_balance == 0 ? '#8799a3' : sub.credit_debit == '借' ? '#0081ff' : '#f37b1d'}}" round>{{sub.opening_balance == 0 ? '平' : sub.credit_debit}}</van-tag>
+                  <text class="{{sub.opening_balance == 0 ? 'text-grey' : sub.credit_debit == '借' ? 'text-blue' : 'text-orange'}}"> {{sub.opening_balance}}</text>
                 </view>
               </view>
               <view class="cu-bar bg-white cu-bar-item">
                 <view>本期借方发生额</view>
-                <view class="text-blue">{{sub.debit}}</view>
+                <view class="text-blue">{{sub.credit}}</view>
               </view>
               <view class="cu-bar bg-white cu-bar-item">
                 <view>本期贷方发生额</view>
-                <view class="text-orange">{{sub.credit}}</view>
+                <view class="text-orange">{{sub.debit}}</view>
               </view>
               <view class="cu-bar bg-white cu-bar-item">
                 <view>期末余额</view>
                 <view>
-                  <van-tag color="{{sub.term>0 ? '#0081ff' : '#f37b1d'}}" round>{{sub.term>0 ? "借" : "贷"}}</van-tag>
-                  <text class="{{sub.term>0 ? 'text-blue' : 'text-orange'}}"> {{abs.abs(sub.term)}}</text>
+                  <van-tag color="{{sub.closing_balance == 0 ? '#8799a3' : sub.credit_debit == '借' ? '#0081ff' : '#f37b1d'}}" round>{{sub.closing_balance == 0 ? '平' : sub.credit_debit}}</van-tag>
+                  <text class="{{sub.closing_balance == 0 ? 'text-grey' : sub.credit_debit == '借' ? 'text-blue' : 'text-orange'}}"> {{sub.closing_balance}}</text>
                 </view>
               </view>
             </van-collapse-item>
