@@ -4,13 +4,13 @@ var app = getApp();
 const host = app.globalData.requestHost
 var pieChart = null;
 var arr = null;
-var lineChart = null;
 var chartType = "";
 var startPos = null;
 var date = new Date();
 var curr_year = date.getFullYear();
 var curr_month = date.getMonth() + 1
 var windowWidth = wx.getSystemInfoSync().windowWidth - 15
+var fix_first_touch_bug = 0;
 Page({
 
   /**
@@ -35,6 +35,11 @@ Page({
       showIdx: 0
     }
     ,
+    //用于详情页的数据
+    passingData: [
+
+    ],
+    month: 0,
     chartHidden: false,
     diagrams: ['营业收入', '营业支出', '营业利润', '利润总额', '净利润', '毛利率', '净利率'],
     CustomBar: app.globalData.CustomBar,
@@ -67,6 +72,9 @@ Page({
     else {
       console.log('not implemented')
     }
+    if(fix_first_touch_bug == 0){
+      this.touchEndHandler(e)
+    }
   },
   moveHandler: function (e) {
     console.log('move')
@@ -74,12 +82,36 @@ Page({
   },
   touchEndHandler: function (e) {
     console.log('touch end')
+    this.setData({
+      passingData: []
+    })
+    var that = this;
     pieChart.scrollEnd(e);
     pieChart.showToolTip(e, {
       format: function (item, category) {
+        that.addDataToPassingData(category, item.name, item.data)
         return category + ' ' + item.name + ':' + item.data
       }
     });
+  },
+
+  longPress: function (e) {
+    wx.navigateTo({
+      url: '/pages/statistics/detail/detail?id=1',
+      success: function (res) {
+        // 通过eventChannel向被打开页面传送数据
+        res.eventChannel.emit('acceptDataFromOpenerPage', {
+          year: 2019,
+          name: '营收'
+        }
+        )
+        pieChart.showToolTip(e, {
+          format: function (item, category) {
+            return category + ' ' + item.name + ':' + item.data
+          }
+        });
+      }
+    })
   },
 
   drawDiagram: function (diagram, year = 0, month = 0) {
@@ -111,7 +143,6 @@ Page({
             'Authorization': token
           },
           success: res => {
-            console.log(res.data.result)
             categories = []
             data = []
             for (var k in res.data.result) {
@@ -119,8 +150,6 @@ Page({
               data.push(res.data.result[k])
             }
             categories.push(13)
-            console.log(categories)
-            console.log(data)
             this.setData({
               statis:
               {
@@ -1030,4 +1059,14 @@ Page({
     this.hideModal(e)
     this.drawDiagram(e.currentTarget.dataset.diag, 2019)
   },
+  addDataToPassingData: function(category, name, value) {
+    var v = [name, value]
+    this.data.passingData.push(v)
+    var chartname = this.data.statis.title
+    this.setData({
+      month: category,
+      passingData: this.data.passingData,
+      chartName: chartname
+    })
+  }
 })

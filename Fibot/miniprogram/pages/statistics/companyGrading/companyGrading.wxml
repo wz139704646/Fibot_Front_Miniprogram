@@ -31,7 +31,7 @@
     </van-panel>
   </view>
 
-  <view class="cu-bar bg-white solid-bottom margin-top">
+  <!-- <view class="cu-bar bg-white solid-bottom margin-top">
     <view class="action">
       <text class="cuIcon-title text-orange "></text> 列表左滑
     </view>
@@ -53,7 +53,7 @@
         <view class="bg-red">删除</view>
       </view>
     </view>
-  </view>
+  </view> -->
 
 </scroll-view>
 

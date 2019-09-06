@@ -9,6 +9,7 @@
     "pages/statistics/decisionMaking/decisionMaking",
     "pages/statistics/stokeAnalysis/index",
     "pages/statistics/companyGrading/companyGrading",
+    "pages/statistics/detail/detail",
     "pages/audiotest/audiotest",
     "pages/talk/talk",
     "pages/application/sellList/sellList",
