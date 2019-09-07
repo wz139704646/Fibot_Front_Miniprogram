@@ -53,6 +53,9 @@ Page({
     let date = util.getcurDateFormatString(new Date())
     this.setData({
       date: { idate: date, tdate: date }
+    }, () => {
+      let token = app.getToken()
+      
     })
     this.loadVoucher(date, date)
   },

@@ -1,6 +1,7 @@
 const app = getApp();
 const applicationBase = app.globalData.applicationBase
 const statisticsBase = app.globalData.statisticsBase
+
 Page({
   data: {
     StatusBar: app.globalData.StatusBar,
@@ -195,19 +196,19 @@ Page({
       color: 'red',
       badge: 0,
       name: '主营业务',
-      url: statisticsBase+'/pages/statistics/home/home'
+      url: statisticsBase+'/pages/home/home'
     }, {
       icon: 'creative',
       color: 'green',
       badge: 0,
       name: '决策指标',
-      url: statisticsBase +'/pages/statistics/decisionMaking/decisionMaking'
+      url: statisticsBase +'/pages/decisionMaking/decisionMaking'
     }, {
       icon: 'text',
       color: 'orange',
       badge: 0,
       name: '股票分析',
-      url: statisticsBase +'/pages/statistics/stokeAnalysis/index'
+      url: statisticsBase +'/pages/stokeAnalysis/index'
     }
     ],
     gridCol: 4,

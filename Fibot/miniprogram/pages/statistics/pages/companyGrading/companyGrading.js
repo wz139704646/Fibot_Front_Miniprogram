@@ -1,4 +1,4 @@
-import * as echarts from '../../../ec-canvas/echarts';
+import * as echarts from '../../../../ec-canvas/echarts';
 
 const app = getApp();
 const host = app.globalData.requestHost;
