@@ -9,7 +9,12 @@
     "pages/main/mainq/salesExecutive/salesExecutive",
     "pages/main/mainq/storeman/storeman",
     "pages/main/talk/talk",
-    "pages/main/my/home/home"
+    "pages/main/my/home/home",
+    "pages/statistics/pages/companyGrading/companyGrading",
+    "pages/statistics/pages/decisionMaking/decisionMaking",
+    "pages/statistics/pages/detail/detail",
+    "pages/statistics/pages/home/home",
+    "pages/statistics/pages/stokeAnalysis/index",
   ],
   "window": {
     "navigationBarBackgroundColor": "#03A9F4", 

@@ -1,5 +1,5 @@
 // miniprogram/pages/finding/home/home.js
-var wxCharts = require('../../../utils/wxcharts-min.js');
+var wxCharts = require('../../../../utils/wxcharts-min.js');
 var app = getApp();
 const host = app.globalData.requestHost
 var pieChart = null;
@@ -48,10 +48,10 @@ Page({
   touchHandler: function (e) {
     console.log(this.data)
     if (chartType == 'pie') {
-      if (this.data.statis.title == '营业收入分析'){
+      if (this.data.statis.title == '营业收入分析') {
         var intro_text = '总营业收入为'
       }
-      else if (this.data.statis.title == '营业支出分析'){
+      else if (this.data.statis.title == '营业支出分析') {
         var intro_text = '总营业支出为'
       }
       wx.showModal({
@@ -72,7 +72,7 @@ Page({
     else {
       console.log('not implemented')
     }
-    if(fix_first_touch_bug == 0){
+    if (fix_first_touch_bug == 0) {
       this.touchEndHandler(e)
     }
   },
@@ -674,14 +674,14 @@ Page({
 
   },
 
-  getNumberOfDays: function(month){
+  getNumberOfDays: function (month) {
     var one_date = new Date()
     one_date.setMonth(month)
     one_date.setDate(0)
     return one_date.getDate()
   },
 
-  getCurrMonthDays: function(e){
+  getCurrMonthDays: function (e) {
     if (this.getNumberOfDays(curr_month) == 31) {
       return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31]
     }
@@ -712,7 +712,7 @@ Page({
     this.setData({
       statis: statis
     })
-    if(token){
+    if (token) {
       if (statis.title == '营业收入分析') {
         if (statis.period[per].title == '本月') {
           var categories = this.getCurrMonthDays()
@@ -1059,7 +1059,7 @@ Page({
     this.hideModal(e)
     this.drawDiagram(e.currentTarget.dataset.diag, 2019)
   },
-  addDataToPassingData: function(category, name, value) {
+  addDataToPassingData: function (category, name, value) {
     var v = [name, value]
     this.data.passingData.push(v)
     var chartname = this.data.statis.title
