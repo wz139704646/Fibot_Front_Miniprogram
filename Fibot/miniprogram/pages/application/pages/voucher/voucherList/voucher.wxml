@@ -31,10 +31,20 @@
     </view>
   </view>
 </view>
-<scroll-view style="margin-top: 25vh;">
+<scroll-view style="margin-top: 22vh;">
   <van-cell-group wx:if="{{date.idate <= date.tdate}}">
-    <block wx:for="{{vouchers}}" wx:key>
-      <van-cell hidden="{{item.date>date.tdate || item.date<date.idate}}" title="{{item.no}} {{item.abstract}}" value="￥{{number.numFixed(item.total, 2)}}" label="{{item.date}}" is-link bindtap="onVoucherTapped" data-no="{{item.no}}" data-date="{{item.date}}" />
+    <view class="text-center padding text-bold" hidden="{{filterVouchers && filterVouchers.length>0}}">无相关凭证</view>
+    <block wx:for="{{filterVouchers}}" wx:key>
+      <van-swipe-cell right-width="{{ 55 }}" left-width="{{ 55 }}">
+        <van-cell hidden="{{item.date>date.tdate || item.date<date.idate}}" title="{{item.voucher_no}} {{item.abstract}}" value="￥{{number.numFixed(item.total, 2)}}" label="{{item.date}}" is-link bindtap="onVoucherTapped" data-no="{{item.voucher_no}}" data-date="{{item.date}}"
+        />
+        <view slot="right" class="delete-box">
+          <van-button type="danger" bindtap="onVoucherDelete" data-idx="{{index}}">删除</van-button>
+        </view>
+        <view slot="left" class="delete-box">
+          <van-button type="info" bindtap="onVoucherModify" data-idx="{{index}}">修改</van-button>
+        </view>
+      </van-swipe-cell>
     </block>
   </van-cell-group>
   <view class="text-center padding text-bold" wx:else>起始日期不能大于截止日期！</view>
