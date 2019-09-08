@@ -42,8 +42,9 @@ Page({
     month: 0,
     chartHidden: false,
     diagrams: ['营业收入', '营业支出', '营业利润', '利润总额', '净利润', '毛利率', '净利率'],
-    curr_time: 0,
+    curr_time: '本年',
     totalRecords: [],
+    monthChoosed: 0,
     CustomBar: app.globalData.CustomBar,
   },
 
@@ -93,35 +94,53 @@ Page({
   touchEndHandler: function (e) {
     console.log('touch end')
     this.setData({
-      passingData: []
+      passingData: [],
     })
     var that = this;
     pieChart.scrollEnd(e);
     pieChart.showToolTip(e, {
       format: function (item, category) {
-        that.addDataToPassingData(category, item.name, item.data)
+        that.updateInfo(category, item.name, item.data)
         return category + ' ' + item.name + ':' + item.data
       }
     });
   },
 
   longPress: function (e) {
-    wx.navigateTo({
-      url: '/pages/statistics/pages/detail/detail?id=1',
-      success: function (res) {
-        // 通过eventChannel向被打开页面传送数据
-        res.eventChannel.emit('acceptDataFromOpenerPage', {
-          year: 2019,
-          name: '营收'
+    if(this.data.curr_time == '本年'){
+      console.log('add Data for passing')
+      console.log(this.data.monthChoosed)
+      console.log(curr_year)
+      let token = app.getToken()
+      var that = this
+      wx.request({
+        url: host + '/data/getSalesDetailByYearAndMonth',
+        data: JSON.stringify({
+          year: curr_year,
+          month: this.data.monthChoosed
+        }),
+        method: "POST",
+        header: {
+          'Content-Type': 'application/json',
+          'Authorization': token
+        },
+        success: res => {
+          console.log(res.data)
+          that.setData({
+            totalRecords: res.data.result,
+            category: String(curr_year) + '年' + String(this.data.monthChoosed) + '月'
+          })
+          wx.navigateTo({
+            url: '/pages/statistics/pages/sumDetail/sumDetail',
+          })
         }
-        )
-        pieChart.showToolTip(e, {
-          format: function (item, category) {
-            return category + ' ' + item.name + ':' + item.data
-          }
-        });
-      }
-    })
+      }) 
+    }
+    else if (this.data.curr_time == '本月'){
+      wx.navigateTo({
+        url: '/pages/application/pages/sellList/sellList',
+      })
+    }
   },
 
   drawDiagram: function (diagram, year = 0, month = 0) {
@@ -1103,51 +1122,9 @@ Page({
       })
     }
   },
-  addDataToPassingData: function (category, name=0, value=0) {
-    console.log('add Data for passing')
-    console.log(category)
-    console.log(name)
-    console.log(value)
-    let per = e.currentTarget.dataset.per
-    if (this.data.statis.period[per].title == '总计'){
-      wx.request({
-        url: host + '/data/getSalesDetailByCategory',
-        data: JSON.stringify({
-          category: category
-        }),
-        method: "POST",
-        header: {
-          'Content-Type': 'application/json',
-          'Authorization': token
-        },
-        success: res => {
-          console.log('success pass')
-          console.log(res)
-          return;
-        }
-      })
-    }
-    wx.request({
-      url: host + '/data/getSalesDetailByYearAndMonth',
-      data: JSON.stringify({
-        year: year
-      }),
-      method: "POST",
-      header: {
-        'Content-Type': 'application/json',
-        'Authorization': token
-      },
-      success: res => {
-
-      }
-    })
-    var v = [name, value]
-    this.data.passingData.push(v)
-    var chartname = this.data.statis.title
+  updateInfo: function (category, name=0, value=0) {
     this.setData({
-      month: category,
-      passingData: this.data.passingData,
-      chartName: chartname
+      monthChoosed: category
     })
   }
 })

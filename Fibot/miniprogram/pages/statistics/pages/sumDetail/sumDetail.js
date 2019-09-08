@@ -3,9 +3,7 @@ var curr_year = date.getFullYear();
 Page({
   data: {
     records: [
-      '1',
-      '2',
-      '3'
+      '该月没有任何销售记录'
     ],
     month: 0,
     year: curr_year,
