@@ -239,6 +239,10 @@ Page({
     this.drawDiagram(2019)
   },
 
+  onShow: function () {
+    console.log('财务人员')
+  },
+
   NavToTalk(e) {
     wx.navigateTo({
       url: applicationBase+'/pages/start/start',

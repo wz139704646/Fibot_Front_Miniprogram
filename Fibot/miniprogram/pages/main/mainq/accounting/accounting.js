@@ -81,14 +81,26 @@ Page({
     ],
 
     chartHidden: false,
-    CustomBar: app.globalData.CustomBar
+    CustomBar: app.globalData.CustomBar,
+
+    liftimes: {
+      attached: function () {
+        console.log('财务人员')
+        this.drawDiagram()
+      }
+    }
   },
 
   onLoad: function (options) {
     this.setData({
       financialIconList: this.data.financialIconList
     })
+    console.log('财务人员')
     this.drawDiagram()
+  },
+
+  onShow: function () {
+    console.log('财务人员')
   },
 
   NavToTalk(e) {
@@ -104,6 +116,7 @@ Page({
     wx.navigateTo({
       url: e.currentTarget.id,
     })
+    console.log('财务人员')
   },
 
   //长按删除功能
@@ -166,12 +179,6 @@ Page({
   //点击图片触发
   touchHandler: function (e) {
     console.log('touch')
-    if (this.data.statis.title == '营收分析') {
-      var intro_text = '总营业收入为'
-    }
-    else if (this.data.statis.title == '营业支出分析') {
-      var intro_text = '总营业支出为'
-    }
     wx.showModal({
       content: arr[pieChart1.getCurrentDataIndex(e)].name + '营业收入' + arr[pieChart1.getCurrentDataIndex(e)].data + '元',
       showCancel: false,
@@ -206,6 +213,7 @@ Page({
 
   //画图函数
   drawDiagram: function (year = 0, month = 0) {
+    console.log("draw")
     var token = app.getToken()
     wx.request({
       url: host + '/data/getTotalOperatingIncome',
@@ -221,6 +229,7 @@ Page({
             name: k,
             data: res.data.result[k]
           });
+          console.log(arr)
         }
         pieChart1 = new wxCharts({
           animation: true,
