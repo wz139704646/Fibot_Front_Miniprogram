@@ -20,7 +20,7 @@ Page({
     var pages = getCurrentPages()
     let prev = pages[pages.length-2]
     console.log(prev.data.month)
-    console.log(prev.data.passingData)
+    console.log(prev.data.record)
     this.setData({
       records: prev.data.passingData,
       month: prev.data.month,

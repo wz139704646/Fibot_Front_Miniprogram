@@ -64,7 +64,7 @@ Page({
             title: 'add success',
           })
           wx.redirectTo({
-            url: '/pages/index/index',
+            url: '/pages/main/index/index',
           })
         }
       })
@@ -74,7 +74,7 @@ Page({
   //取消添加
   addfail(e) {
     wx.redirectTo({
-      url: '/pages/index/index',
+      url: '/pages/main/index/index',
     })
   },
   //一系列输入框的valuechange

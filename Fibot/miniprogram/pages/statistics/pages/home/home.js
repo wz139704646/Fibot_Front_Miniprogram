@@ -42,25 +42,36 @@ Page({
     month: 0,
     chartHidden: false,
     diagrams: ['营业收入', '营业支出', '营业利润', '利润总额', '净利润', '毛利率', '净利率'],
+    curr_time: '本年',
+    totalRecords: [],
+    monthChoosed: 0,
     CustomBar: app.globalData.CustomBar,
   },
 
   touchHandler: function (e) {
     console.log(this.data)
+    var that = this
     if (chartType == 'pie') {
-      if (this.data.statis.title == '营业收入分析'){
+      if (this.data.statis.title == '营业收入分析') {
         var intro_text = '总营业收入为'
       }
-      else if (this.data.statis.title == '营业支出分析'){
+      else if (this.data.statis.title == '营业支出分析') {
         var intro_text = '总营业支出为'
       }
       wx.showModal({
         content: arr[pieChart.getCurrentDataIndex(e)].name + intro_text + arr[pieChart.getCurrentDataIndex(e)].data + '元',
-        showCancel: false,
+        showCancel: true,
         confirmText: "我知道啦",
+        cancelText: '查看详情',
+        confirmColor: 'grey',
+        cancelColor: 'grey',
         success: function (res) {
           if (res.confirm) {
-            console.log('用户点击确定')
+            console.log('用户点击我知道啦')
+          }
+          else if(res.cancel) {
+            console.log('用户点击查看详情')
+            that.clickViewTotalInPie(arr[pieChart.getCurrentDataIndex(e)].name)
           }
         }
       });
@@ -72,7 +83,7 @@ Page({
     else {
       console.log('not implemented')
     }
-    if(fix_first_touch_bug == 0){
+    if (fix_first_touch_bug == 0) {
       this.touchEndHandler(e)
     }
   },
@@ -83,35 +94,53 @@ Page({
   touchEndHandler: function (e) {
     console.log('touch end')
     this.setData({
-      passingData: []
+      passingData: [],
     })
     var that = this;
     pieChart.scrollEnd(e);
     pieChart.showToolTip(e, {
       format: function (item, category) {
-        that.addDataToPassingData(category, item.name, item.data)
+        that.updateInfo(category, item.name, item.data)
         return category + ' ' + item.name + ':' + item.data
       }
     });
   },
 
   longPress: function (e) {
-    wx.navigateTo({
-      url: '/pages/statistics/detail/detail?id=1',
-      success: function (res) {
-        // 通过eventChannel向被打开页面传送数据
-        res.eventChannel.emit('acceptDataFromOpenerPage', {
-          year: 2019,
-          name: '营收'
+    if(this.data.curr_time == '本年'){
+      console.log('add Data for passing')
+      console.log(this.data.monthChoosed)
+      console.log(curr_year)
+      let token = app.getToken()
+      var that = this
+      wx.request({
+        url: host + '/data/getSalesDetailByYearAndMonth',
+        data: JSON.stringify({
+          year: curr_year,
+          month: this.data.monthChoosed
+        }),
+        method: "POST",
+        header: {
+          'Content-Type': 'application/json',
+          'Authorization': token
+        },
+        success: res => {
+          console.log(res.data)
+          that.setData({
+            totalRecords: res.data.result,
+            category: String(curr_year) + '年' + String(this.data.monthChoosed) + '月'
+          })
+          wx.navigateTo({
+            url: '/pages/statistics/pages/sumDetail/sumDetail',
+          })
         }
-        )
-        pieChart.showToolTip(e, {
-          format: function (item, category) {
-            return category + ' ' + item.name + ':' + item.data
-          }
-        });
-      }
-    })
+      }) 
+    }
+    else if (this.data.curr_time == '本月'){
+      wx.navigateTo({
+        url: '/pages/application/pages/sellList/sellList',
+      })
+    }
   },
 
   drawDiagram: function (diagram, year = 0, month = 0) {
@@ -674,14 +703,14 @@ Page({
 
   },
 
-  getNumberOfDays: function(month){
+  getNumberOfDays: function (month) {
     var one_date = new Date()
     one_date.setMonth(month)
     one_date.setDate(0)
     return one_date.getDate()
   },
 
-  getCurrMonthDays: function(e){
+  getCurrMonthDays: function (e) {
     if (this.getNumberOfDays(curr_month) == 31) {
       return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31]
     }
@@ -710,9 +739,10 @@ Page({
     console.log(statis.period[per].title)
     console.log(statis.title)
     this.setData({
-      statis: statis
+      statis: statis,
+      curr_time: statis.period[per].title
     })
-    if(token){
+    if (token) {
       if (statis.title == '营业收入分析') {
         if (statis.period[per].title == '本月') {
           var categories = this.getCurrMonthDays()
@@ -1059,14 +1089,42 @@ Page({
     this.hideModal(e)
     this.drawDiagram(e.currentTarget.dataset.diag, 2019)
   },
-  addDataToPassingData: function(category, name, value) {
-    var v = [name, value]
-    this.data.passingData.push(v)
-    var chartname = this.data.statis.title
+  clickViewTotalInPie(category){
+    console.log(category)
+    console.log(this.data.curr_time)
     this.setData({
-      month: category,
-      passingData: this.data.passingData,
-      chartName: chartname
+      totalRecords: []
+    })
+    var that = this
+    let token = app.getToken()
+    if (this.data.curr_time == '总计') {
+      wx.request({
+        url: host + '/data/getSalesDetailByCategory',
+        data: JSON.stringify({
+          category: category
+        }),
+        method: "POST",
+        header: {
+          'Content-Type': 'application/json',
+          'Authorization': token
+        },
+        success: res => {
+          console.log('success pass')
+          console.log(res.data.result)
+          that.setData({
+            totalRecords: res.data.result,
+            category: category
+          })
+          wx.navigateTo({
+            url: '/pages/statistics/pages/sumDetail/sumDetail',
+          })
+        }
+      })
+    }
+  },
+  updateInfo: function (category, name=0, value=0) {
+    this.setData({
+      monthChoosed: category
     })
   }
 })

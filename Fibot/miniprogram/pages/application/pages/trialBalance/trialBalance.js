@@ -59,7 +59,7 @@ Page({
               }
               return genT
             }
-            for(let y=lowy; y<=upy; y++){
+            for(let y=upy; y<=lowy; y--){
               let s = 1
               let e = 12
               if(y==lowy){
@@ -131,6 +131,9 @@ Page({
     let token = app.getToken()
     let that = this
     if (token) {
+      wx.showLoading({
+        title: ''
+      })
       wx.request({
         url: host + '/finance/subject/getTypes',
         method: 'GET',
@@ -170,6 +173,9 @@ Page({
               }
             })
           }
+        },
+        complete: () => {
+          wx.hideLoading()
         }
       })
     }
@@ -283,27 +289,27 @@ Page({
     let filter = []
     let trials = this.data.trials
     for(var t of trials) {
-      // 包含大类的科目，直接所有的包含进去
-      if((`${t.code}`).includes(searchText)){
+      // 搜索类，直接所有的包含进去
+      if((`${t.type}`).includes(searchText)){
         filter.push(JSON.parse(JSON.stringify(t)))
         let len = filter.length
         filter[len-1].activeNames = []
         for(var item of t.subs) {
-          filter[len-1].activeNames.push(item.code)
+          filter[len-1].activeNames.push(item.subject_code)
         }
       } else  {
         // 否则检查其子科目
         for(var item of t.subs) {
-          if((`${item.code}`).includes(searchText) ||
+          if((`${item.subject_code}`).includes(searchText) ||
           item.name.includes(searchText)) {
             var len = filter.length
-            if(len==0 || filter[len-1].code!=t.code) {
+            if(len==0 || filter[len-1].type!=t.type) {
               filter.push(JSON.parse(JSON.stringify(t)))
               filter[len].subs = [item]
-              filter[len].activeNames = [item.code]
+              filter[len].activeNames = [item.subject_code]
             } else {
               filter[len-1].subs.push(item)
-              filter[len-1].activeNames.push(item.code)
+              filter[len-1].activeNames.push(item.subject_code)
             }
           }
         }

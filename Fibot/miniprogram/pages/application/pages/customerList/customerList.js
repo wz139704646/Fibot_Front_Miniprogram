@@ -69,6 +69,10 @@ Page({
     })
   },
   addElement(){
+    this.data.pycustomerList.push({
+      first:'-',
+      cList:[]
+    })
     for (let j = 0; j < 26; j++) {
       this.data.pycustomerList.push({
         first: String.fromCharCode(65 + j),
@@ -78,7 +82,7 @@ Page({
   },
   delElement(){
     var k = 0
-    for (let j = 0; j < 26 - k; j++) {
+    for (let j = 0; j < 27 - k; j++) {
       if (this.data.pycustomerList[j].cList.length == 0) {
         this.data.pycustomerList.splice(j,1)
         j--
@@ -89,12 +93,17 @@ Page({
   },
   initpycustomerList(){
     var that = this
+    var customerList = this.data.customerList
     that.addElement()
 
     for (let i = 0; i < this.data.customerList.length; i++) {
       let j = this.data.customerList[i].firstletter
       let k = j.charCodeAt(0)
-      this.data.pycustomerList[k - 65].cList.push(this.data.customerList[i])
+      if(k<65 || k>90){
+        this.data.pycustomerList[0].cList.push(customerList[i])
+      }else{
+        this.data.pycustomerList[k - 64].cList.push(customerList[i])
+      }   
     }
 
     that.delElement()
@@ -193,6 +202,7 @@ Page({
   },
   search(e) {
     var that = this
+    var customerList = this.data.customerList
     console.log("正在搜索")
     if(inputVal == ""){
       this.setData({
@@ -206,12 +216,15 @@ Page({
         let k = j.toUpperCase().charCodeAt(0)
         let l = this.data.customerList[i].name
         if(j.indexOf(inputVal) != -1 || l.indexOf(inputVal) != -1){
-          this.data.pycustomerList[k - 65].cList.push(this.data.customerList[i])
+          if (k < 65 || k > 90) {
+            this.data.pycustomerList[0].cList.push(customerList[i])
+          } else {
+            this.data.pycustomerList[k - 64].cList.push(customerList[i])
+          }   
         }
       }
       that.delElement()
       console.log(this.data.pycustomerList)
-
       this.setData({
         pycustomerList: this.data.pycustomerList,
         listCur: this.data.pycustomerList[0].first
