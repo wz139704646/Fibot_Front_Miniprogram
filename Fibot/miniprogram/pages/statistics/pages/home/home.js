@@ -107,39 +107,138 @@ Page({
   },
 
   longPress: function (e) {
-    if(this.data.curr_time == '本年'){
-      console.log('add Data for passing')
-      console.log(this.data.monthChoosed)
-      console.log(curr_year)
-      let token = app.getToken()
-      var that = this
-      wx.request({
-        url: host + '/data/getSalesDetailByYearAndMonth',
-        data: JSON.stringify({
-          year: curr_year,
-          month: this.data.monthChoosed
-        }),
-        method: "POST",
-        header: {
-          'Content-Type': 'application/json',
-          'Authorization': token
-        },
-        success: res => {
-          console.log(res.data)
-          that.setData({
-            totalRecords: res.data.result,
-            category: String(curr_year) + '年' + String(this.data.monthChoosed) + '月'
-          })
-          wx.navigateTo({
-            url: '/pages/statistics/pages/sumDetail/sumDetail',
-          })
+    var that = this
+    if (this.data.statis.title = '营业收入分析'){
+      if (this.data.curr_time == '本年') {
+        console.log('add Data for passing')
+        console.log(this.data.monthChoosed)
+        console.log(curr_year)
+        let token = app.getToken()
+        wx.request({
+          url: host + '/data/getSalesDetailByYearAndMonth',
+          data: JSON.stringify({
+            year: curr_year,
+            month: this.data.monthChoosed
+          }),
+          method: "POST",
+          header: {
+            'Content-Type': 'application/json',
+            'Authorization': token
+          },
+          success: res => {
+            console.log(res.data)
+            that.setData({
+              totalRecords: res.data.result,
+              category: String(curr_year) + '年' + String(this.data.monthChoosed) + '月',
+            })
+            wx.navigateTo({
+              url: '/pages/statistics/pages/sumDetail/sumDetail',
+            })
+          }
+        })
+      }
+      else if (this.data.curr_time == '本月') {
+        //处理成2019-09-01类型字符串
+        if (parseInt(curr_month) < 10 & parseInt(this.data.monthChoosed) < 10) {
+          var searchValue = String(curr_year) + '-0' + curr_month + '-0' + String(this.data.monthChoosed)
         }
-      }) 
+        else if (parseInt(curr_month) < 10 & parseInt(this.data.monthChoosed) >= 10) {
+          var searchValue = String(curr_year) + '-0' + curr_month + '-' + String(this.data.monthChoosed)
+        }
+        else if (parseInt(curr_month) >= 10 & parseInt(this.data.monthChoosed) >= 10) {
+          var searchValue = String(curr_year) + '-' + curr_month + '-' + String(this.data.monthChoosed)
+        }
+        else if (parseInt(curr_month) >= 10 || parseInt(this.data.monthChoosed) < 10) {
+          var searchValue = String(curr_year) + '-' + curr_month + '-0' + String(this.data.monthChoosed)
+        }
+        wx.navigateTo({
+          url: '/pages/application/pages/sellList/sellList',
+          success: function (res) {
+            console.log(searchValue)
+            that.setData({
+              e: {
+                type: "input",
+                timeStamp: 1567943215368,
+                detail: {
+                  value: searchValue,
+                  cursor: 10,
+                  keyCode: 49
+                },
+                target: {
+                  id: "",
+                  dataset: {},
+                  offsetTop: 9,
+                  offsetLeft: 43
+                },
+                currentTarget: {
+                  id: "",
+                  dataset: {},
+                  offsetTop: 9,
+                  offsetLeft: 43
+                },
+                touches: [],
+                type: "input",
+                __proto__: Object
+              },
+              searchValue: searchValue
+            })
+          }
+        })
+      }
     }
-    else if (this.data.curr_time == '本月'){
-      wx.navigateTo({
-        url: '/pages/application/pages/sellList/sellList',
-      })
+    else if (this.data.statis.title == '营业支出分析'){
+      if (this.data.curr_time == '本年') {
+        console.log('add Data for passing')
+        console.log(this.data.monthChoosed)
+        console.log(curr_year)
+        let token = app.getToken()
+        wx.request({
+          url: host + '/data/getSalesDetailByYearAndMonth',
+          data: JSON.stringify({
+            year: curr_year,
+            month: this.data.monthChoosed
+          }),
+          method: "POST",
+          header: {
+            'Content-Type': 'application/json',
+            'Authorization': token
+          },
+          success: res => {
+            console.log(res.data)
+            that.setData({
+              totalRecords: res.data.result,
+              category: String(curr_year) + '年' + String(this.data.monthChoosed) + '月',
+            })
+            wx.navigateTo({
+              url: '/pages/statistics/pages/sumDetail/sumDetail',
+            })
+          }
+        })
+      }
+      else if (this.data.curr_time == '本月') {
+        //处理成2019-09-01类型字符串
+        if (parseInt(curr_month) < 10 & parseInt(this.data.monthChoosed) < 10) {
+          var searchValue = String(curr_year) + '-0' + curr_month + '-0' + String(this.data.monthChoosed)
+        }
+        else if (parseInt(curr_month) < 10 & parseInt(this.data.monthChoosed) >= 10) {
+          var searchValue = String(curr_year) + '-0' + curr_month + '-' + String(this.data.monthChoosed)
+        }
+        else if (parseInt(curr_month) >= 10 & parseInt(this.data.monthChoosed) >= 10) {
+          var searchValue = String(curr_year) + '-' + curr_month + '-' + String(this.data.monthChoosed)
+        }
+        else if (parseInt(curr_month) >= 10 || parseInt(this.data.monthChoosed) < 10) {
+          var searchValue = String(curr_year) + '-' + curr_month + '-0' + String(this.data.monthChoosed)
+        }
+        wx.navigateTo({
+          url: '/pages/application/pages/sellList/sellList',
+          success: function (res) {
+            console.log(searchValue)
+            that.setData({
+              searchValue: searchValue
+            })
+          }
+        })
+      }
     }
   },
 
@@ -1070,6 +1169,7 @@ Page({
       }
     }
   },
+
   showModal(e) {
     console.log("show list")
     console.log(e)
@@ -1078,17 +1178,20 @@ Page({
       chartHidden: true
     })
   },
+
   hideModal(e) {
     this.setData({
       modalName: null,
       chartHidden: false
     })
   },
+
   chooseDiagram: function (e) {
     console.log(e.currentTarget.dataset.diag)
     this.hideModal(e)
     this.drawDiagram(e.currentTarget.dataset.diag, 2019)
   },
+
   clickViewTotalInPie(category){
     console.log(category)
     console.log(this.data.curr_time)
@@ -1122,6 +1225,7 @@ Page({
       })
     }
   },
+
   updateInfo: function (category, name=0, value=0) {
     this.setData({
       monthChoosed: category

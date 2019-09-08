@@ -9,20 +9,33 @@ Page({
   data: {
     StatusBar: app.globalData.StatusBar,
     CustomBar: app.globalData.CustomBar,
-    fun:null,
-    sellList: [ ]
+    fun: null,
+    sellList: []
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    //改了一下，加一个获取传入数据的代码
+    var pages = getCurrentPages()
+    let prev = pages[pages.length - 2]
+    if (prev.data.searchValue != null) {
+      this.setData({
+        inputValue: prev.data.searchValue
+      })
+      prev.setData({
+        searchValue: null
+      })
+      this.search(prev.data.e)
+    }
+    //就改了这些
     this.setData({
       fun: options.fun
     })
     let token = app.getToken()
     let that = this
-    if(token){
+    if (token) {
       wx.request({
         url: host + '/querySell',
         header: {
@@ -95,34 +108,33 @@ Page({
     }
   },
   //按日期排序
-  sortNumber(a, b)
-  {
+  sortNumber(a, b) {
     return a.date - b.date
   },
   //计算总价
-  calcTotal(list){
+  calcTotal(list) {
     var total = 0
-    for(var i in list){
+    for (var i in list) {
       total = total + list[i].sumprice
     }
     return util.twoDecimal(total)
   },
   //判断日期是否在列表内
-  ifDateInList(date,list){
-    for(var i in list){
-      var num = parseInt(i)+1
-      if(date == list[i].date) return num
+  ifDateInList(date, list) {
+    for (var i in list) {
+      var num = parseInt(i) + 1
+      if (date == list[i].date) return num
     }
     return false
   },
   //判断id是否在列表内
-  ifIdInList(id,list){
-    for(var i in list){
-      for(var j in list[i].list){
+  ifIdInList(id, list) {
+    for (var i in list) {
+      for (var j in list[i].list) {
         if (id == list[i].id) {
           return true
         }
-      }     
+      }
     }
     return false
   },
@@ -132,33 +144,34 @@ Page({
     var id = e.currentTarget.dataset.id
     var status = e.currentTarget.dataset.status
     wx.navigateTo({
-      url: '../recordInfo/recordInfo?back=sell'+'&id=' + id +'&fun='+this.data.fun + '&status=' + status
+      url: '../recordInfo/recordInfo?back=sell' + '&id=' + id + '&fun=' + this.data.fun + '&status=' + status
     })
   },
   //搜索TODO
-  search: function(e){
+  search: function (e) {
+    console.log(e)
     var that = this
     let searchText = e.detail.value
-    if(!searchText){
+    if (!searchText) {
       this.setData({
-        sellList:this.data.allList
+        sellList: this.data.allList
       })
     }
     searchText = searchText.toLowerCase()
     let slist = this.data.allList
     let sellList = []
     //查日期
-    for(var i in slist){
-      if(slist[i].date.indexOf(searchText)!=-1){
+    for (var i in slist) {
+      if (slist[i].date.indexOf(searchText) != -1) {
         sellList.push(slist[i])
       }
     }
     //查姓名
     var index1
-    for(var i in slist){
-      for(var j in slist[i].list){
+    for (var i in slist) {
+      for (var j in slist[i].list) {
         var rlist = slist[i].list[j]
-        if(rlist.pinyin.indexOf(searchText)!=-1){
+        if (rlist.pinyin.indexOf(searchText) != -1) {
           index1 = that.ifDateInList(rlist.date, sellList)
           if (index1) {
             //console.log("add")
@@ -175,29 +188,29 @@ Page({
       }
     }
     //TODO查商品 还有bug 添加多次
-    for(var i in slist){
-      for(var j in slist[i].list){
+    for (var i in slist) {
+      for (var j in slist[i].list) {
         var rlist = slist[i].list[j]
         var ifbreak = false
-        for(var l in sellList){
-          for(var m in sellList[l].list){
+        for (var l in sellList) {
+          for (var m in sellList[l].list) {
             console.log(rlist.id + ",,," + sellList[l].list[m].id)
-            if(rlist.id == sellList[l].list[m].id){
+            if (rlist.id == sellList[l].list[m].id) {
               ifbreak = true
             }
             console.log(ifbreak)
           }
-          
+
         }
-        if(ifbreak){
+        if (ifbreak) {
           break
           console.log("break")
         }
-        for(var k in slist[i].list[j].goodsList){
+        for (var k in slist[i].list[j].goodsList) {
           // if (that.ifIdInList(rlist.id, sellList)){
           //   break
           // }
-          if(rlist.goodsList[k].goodsName.indexOf(searchText)!=-1){
+          if (rlist.goodsList[k].goodsName.indexOf(searchText) != -1) {
             index1 = that.ifDateInList(rlist.date, sellList)
             if (index1) {
               sellList[index1 - 1].list.push(rlist)
