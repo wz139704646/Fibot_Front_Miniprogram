@@ -59,7 +59,7 @@ Page({
               }
               return genT
             }
-            for(let y=lowy; y<=upy; y++){
+            for(let y=upy; y<=lowy; y--){
               let s = 1
               let e = 12
               if(y==lowy){
@@ -131,6 +131,9 @@ Page({
     let token = app.getToken()
     let that = this
     if (token) {
+      wx.showLoading({
+        title: ''
+      })
       wx.request({
         url: host + '/finance/subject/getTypes',
         method: 'GET',
@@ -170,6 +173,9 @@ Page({
               }
             })
           }
+        },
+        complete: () => {
+          wx.hideLoading()
         }
       })
     }

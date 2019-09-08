@@ -78,7 +78,7 @@ Page({
   // 添加应收单据
   addReceivable: function(e) {
     wx.navigateTo({
-      url: '/pages/application/ar/receivables/receivables?back=addReceipt',
+      url: '../receivables/receivables?back=addReceipt',
     })
   },
 
