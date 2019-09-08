@@ -1,1 +1,37 @@
 /* miniprogram/pages/application/voucher/voucherDetail/voucherDetail.wxss */
+.image-card{
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cu-modal.top-modal::before {
+	vertical-align: top;
+}
+
+.cu-modal.top-modal .cu-dialog {
+	width: 100%;
+	border-radius: 0;
+}
+
+.cu-modal.top-modal {
+	margin-top: -1000rpx;
+}
+
+.bg-op{
+  opacity: 0.5;
+}
+
+.cu-modal.drawer-modal {
+	transform: scale(1);
+}
+
+.cu-modal.drawer-modal .cu-dialog {
+	transition-duration: 0.3s;
+}
+
+.cu-modal.drawer-modal.show .cu-dialog {
+	transform: translateY(0%);
+}

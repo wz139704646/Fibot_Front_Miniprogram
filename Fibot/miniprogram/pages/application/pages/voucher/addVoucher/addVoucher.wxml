@@ -14,8 +14,8 @@
     </picker>
   </view>
   <view class="cu-form-group">
-    <view class="title">凭证编号</view>
-    <input placeholder="输入凭证编号" value="{{no}}" bindinput="onNoInput"></input>
+    <view class="title">凭证编号： {{voucher_no_prefix}}</view>
+    <input style="text-align: right;" placeholder="输入凭证编号" value="{{voucher_no}}" bindinput="onNoInput"></input>
   </view>
 
   <van-cell-group title="分录">
@@ -23,7 +23,7 @@
       <block wx:for="{{entries}}" wx:key>
         <van-swipe-cell right-width="{{ 55 }}">
           <van-collapse-item title="{{item.abstract || '请输入摘要'}}" label="{{item.subject.name || '请选择科目'}}" name="{{index}}" border="{{true}}" value="{{item.total || 0}}￥" >
-            <button disabled type="" class="cu-btn icon sm {{item.cd == '借' ? 'bg-blue' : 'bg-orange' }}" slot="icon">{{item.cd}}</button>
+            <button disabled type="" class="cu-btn icon sm {{item.credit_debit == '借' ? 'bg-blue' : 'bg-orange' }}" slot="icon">{{item.credit_debit}}</button>
             <view class="padding-xs bg-grey light">
               <view class="cu-form-group">
                 <view class="title">摘要</view>
@@ -32,7 +32,7 @@
               </view>
               <view class="cu-form-group" bindtap='onSubjectSelect' data-idx="{{index}}">
                 <view class="title">科目</view>
-                <input disabled placeholder='请选择科目' value='{{item.subject.code ? item.subject.code+" "+item.subject.name : ""}}' style="text-align:right"></input>
+                <input disabled placeholder='请选择科目' value='{{item.subject.subject_code ? item.subject.subject_code+" "+item.subject.name : ""}}' style="text-align:right"></input>
                 <text class="cuIcon-right text-orange"></text>
               </view>
               <view class="cu-form-group">
@@ -55,7 +55,8 @@
       <view class="action">
         附件
       </view>
-      <van-field value="{{ numOfAttachments }}" input-align="center" placeholder="输入附件数" border="{{ false }}" bind:change="onNumInput" style="width:35vw;" input-class="bg-grey light"/>
+      <van-field value="{{ attachments_number }}" input-align="center" placeholder="输入附件数" border="{{ false }}" bind:change="onNumInput" style="width:35vw;" input-class="bg-grey light" icon="question-o"
+  bind:click-icon="onAttachmentQClicked" />
     </view>
     <view class="cu-form-group">
       <view class="grid col-4 grid-square flex-sub">

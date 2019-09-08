@@ -65,7 +65,7 @@ Page({
             app.relogin()
           } else if (res.statusCode == 403) {
             wx.showToast({
-              title: '无权限获取数据',
+              title: '无权限获取新科目代码',
               icon: 'none',
               duration: 1000
             })
@@ -115,7 +115,7 @@ Page({
             that.setData({
               subs,
               curSub: subs[0],
-              newName: subs[0].name
+              newName: subs[0].name+"-"
             }, ()=>{
               that.getNewCode(subs[0].subject_code)
             })
@@ -271,7 +271,7 @@ Page({
   setUpper: function (idx, curSub) {
     let { subs } = this.data
     this.setData({
-      newName: subs[idx].name,
+      newName: subs[idx].name+"-",
       curSub: curSub
     }, ()=>{
       this.getNewCode(subs[idx].subject_code)
