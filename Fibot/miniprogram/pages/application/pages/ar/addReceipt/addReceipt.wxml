@@ -16,10 +16,10 @@
 
   <view class="cu-form-group bg-white" bindtap='addReceivable'>
     <view class="title">应收单据</view>
-    <input disabled placeholder='请选择应收单据' style="text-align:right" value="{{receivables ? (receivables.length ? receivables.length+' 笔' : '') : ''}}" ></input>
+    <input disabled placeholder='请选择应收单据' style="text-align:right" value="{{receivables ? (receivables.length ? receivables.length+' 笔' : '') : ''}}"></input>
     <text class="cuIcon-right text-blue"></text>
   </view>
-  
+
   <view class="margin-bottom">
     <van-collapse value="{{ activeNames }}" bind:change="onCollapseChange">
       <van-swipe-cell wx:key wx:for="{{receivables}}" right-width="{{ 55 }}">
@@ -48,7 +48,22 @@
     </view>
   </view>
   <van-field input-align="right" label="本次收款" value="{{ receiveText }}" border="{{ true }}" bind:input="onReceiveChange" type="digit" placeholder="输入收款金额" />
-  <van-field input-align="right" label="本次收款" value="{{ receiveText }}" border="{{ true }}" bind:input="onReceiveChange" type="digit" placeholder="输入收款金额" />
+  <view wx:if="{{receive>0}}" class="cu-form-group">
+    <view class="title">收款方式</view>
+    <picker mode="selector" range="{{payMethods}}" value="{{method}}" bindchange="MethodChange">
+      <view class="picker">
+        {{method}}
+      </view>
+    </picker>
+  </view>
+  <view wx:if="{{receive>0 && method!='现金'}}" class="cu-form-group margin-bottom">
+    <view class="title">银行名称</view>
+    <picker mode="selector" range="{{payBanks}}" value="{{bank}}" bindchange="BankChange">
+      <view class="picker">
+        {{bank}}
+      </view>
+    </picker>
+  </view>
 </view>
 
 <view class="padding flex flex-direction">

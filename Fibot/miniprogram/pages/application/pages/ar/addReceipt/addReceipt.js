@@ -12,6 +12,41 @@ Page({
 
   },
 
+  getPayBanks: function () {
+    let token = app.getToken()
+    let that = this
+    if (token) {
+      wx.request({
+        url: host + '/arap/getBankNames',
+        method: 'GET',
+        header: {
+          'Content-Type': 'application/json',
+          'Authorization': token
+        },
+        success: res => {
+          if (res.statusCode == 555) {
+            app.relogin()
+          } else if (res.statusCode == 403) {
+            wx.showToast({
+              title: '无权限获取银行列表',
+              icon: 'none',
+              duration: 1000
+            })
+          } else if (res.statusCode != 200 || !res.data.success) {
+            wx.showToast({
+              title: res.data.errMsg || '请求失败', icon: 'none', duration: 1000
+            })
+          } else {
+            that.setData({
+              payBanks: res.data.result,
+              bank: res.data.result[0]
+            })
+          }
+        }
+      })
+    }
+  },
+
   // 更新应收单据中的收款数额
   updateReceivables: function(){
     let { receivables, receive } = this.data
@@ -36,7 +71,42 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    let token = app.getToken()
+    let that = this
+    if (token) {
+      wx.request({
+        url: host + '/arap/getPayMethods',
+        method: 'GET',
+        header: {
+          'Content-Type': 'application/json',
+          'Authorization': token
+        },
+        success: res => {
+          if (res.statusCode == 555) {
+            app.relogin()
+          } else if (res.statusCode == 403) {
+            wx.showToast({
+              title: '无权限获取支付方式',
+              icon: 'none',
+              duration: 1000
+            })
+          } else if (res.statusCode != 200 || !res.data.success) {
+            wx.showToast({
+              title: res.data.errMsg || '请求失败', icon: 'none', duration: 1000
+            })
+          } else {
+            that.setData({
+              payMethods: res.data.result,
+              method: res.data.result[0]
+            }, () => {
+              if (res.data.result[0] != '现金') {
+                that.getPayBanks()
+              }
+            })
+          }
+        }
+      })
+    }
   },
 
   changeNumofReceive: function() {
@@ -123,7 +193,7 @@ Page({
   onSave: function(e) {
     let token = app.getToken()
     if (token) {
-      let { receivables, total, receive } = this.data
+      let { receivables, total, receive, method, bank } = this.data
       if(!receivables || receivables.length==0) {
         // 要求有应收单据
         wx.showToast({
@@ -144,11 +214,30 @@ Page({
             })
           }
         })
+      } else if (receive > 0 && !method) {
+        wx.showToast({
+          title: '请选择付款方式',
+          icon: 'none'
+        })
+      } else if (receive > 0 && method != '现金' && !bank) {
+        wx.showToast({
+          title: '请选择付款银行',
+          icon: 'none'
+        })
       } else {
         // 遍历每一笔单据，发送请求添加收款记录
         for (let r of receivables) {
           // 要求核销的金额大于0
           if (r.receive > 0) {
+            let postData = {
+              sellId: r.sellId,
+              amount: r.receive,
+              date: this.data.date,
+              clearForm: method
+            }
+            if (method != '现金') {
+              postData['bankName'] = bank
+            }
             wx.request({
               url: host + '/arap/addReceive',
               method: 'POST',
@@ -156,11 +245,7 @@ Page({
                 'Content-Type': 'application/json',
                 'Authorization': token
               },
-              data: JSON.stringify({
-                sellId: r.sellId,
-                amount: r.receive,
-                date: this.data.date
-              }),
+              data: JSON.stringify(postData),
               success: res => {
                 if(res.statusCode == 555) {
                   app.relogin()
@@ -199,6 +284,23 @@ Page({
           wx.navigateBack({})
         }
       }
+    })
+  },
+
+  MethodChange: function (e) {
+    let method = this.data.payMethods[e.detail.value]
+    this.setData({
+      method
+    }, () => {
+      if (method != '现金') {
+        this.getPayBanks()
+      }
+    })
+  },
+
+  BankChange: function (e) {
+    this.setData({
+      bank: this.data.payBanks[e.detail.value]
     })
   }
 })

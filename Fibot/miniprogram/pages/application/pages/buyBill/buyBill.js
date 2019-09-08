@@ -150,7 +150,7 @@ Page({
     }
     let token = app.getToken()
     if(token) {
-      let {date, total, payAmount, note, method, bank, buyList} = this.data
+      let {date, total, payAmount, note, method, bank} = this.data
       let that = this
       if(!buyList || buyList.length == 0) {
         return
@@ -175,7 +175,13 @@ Page({
         })
         return
       }
-
+      console.log('参数', {
+        companyId: app.globalData.companyId,
+        //原来是:this.data.buyList
+        purchases: buyList,
+        date: that.data.date,
+        supplierId: that.data.supplierId
+      })
       wx.request({
         url: host + '/addPurchase',
         data: JSON.stringify({
@@ -239,7 +245,8 @@ Page({
               let postData = {
                 purchaseId: res.data.result,
                 amount: payAmount,
-                date: date
+                date: date,
+                clearForm: method
               }
               if (method != '现金'){
                 postData['bankName'] = bank

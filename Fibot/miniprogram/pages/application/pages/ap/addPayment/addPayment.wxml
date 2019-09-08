@@ -46,6 +46,22 @@
     </view>
   </view>
   <van-field input-align="right" label="本次收款" value="{{ payText }}" border="{{ true }}" bind:input="onPayChange" type="digit" placeholder="输入收款金额" />
+  <view wx:if="{{pay>0}}" class="cu-form-group">
+    <view class="title">付款方式</view>
+    <picker mode="selector" range="{{payMethods}}" value="{{method}}" bindchange="MethodChange">
+      <view class="picker">
+        {{method}}
+      </view>
+    </picker>
+  </view>
+  <view wx:if="{{pay>0 && method!='现金'}}" class="cu-form-group margin-bottom">
+    <view class="title">银行名称</view>
+    <picker mode="selector" range="{{payBanks}}" value="{{bank}}" bindchange="BankChange">
+      <view class="picker">
+        {{bank}}
+      </view>
+    </picker>
+  </view>
 </view>
 
 <view class="padding flex flex-direction">
