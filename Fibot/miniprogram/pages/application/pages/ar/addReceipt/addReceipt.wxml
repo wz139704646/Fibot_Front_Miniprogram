@@ -48,6 +48,7 @@
     </view>
   </view>
   <van-field input-align="right" label="本次收款" value="{{ receiveText }}" border="{{ true }}" bind:input="onReceiveChange" type="digit" placeholder="输入收款金额" />
+  <van-field input-align="right" label="本次收款" value="{{ receiveText }}" border="{{ true }}" bind:input="onReceiveChange" type="digit" placeholder="输入收款金额" />
 </view>
 
 <view class="padding flex flex-direction">

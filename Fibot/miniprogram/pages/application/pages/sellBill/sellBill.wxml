@@ -32,6 +32,22 @@
   <view class="title">本次收款</view>
   <input placeholder="输入收款金额" value="{{amountText}}" bindinput="onPayAmountInput"></input>
 </view>
+<view wx:if="{{total>0 && customer.name && payAmount>0}}" class="cu-form-group margin-top margin-bottom">
+  <view class="title">付款方式</view>
+  <picker mode="selector" range="{{payMethods}}" value="{{method}}" bindchange="MethodChange">
+    <view class="picker">
+      {{method}}
+    </view>
+  </picker>
+</view>
+<view wx:if="{{total>0 && customer.name && method!='现金' && payAmount>0}}" class="cu-form-group margin-top margin-bottom">
+  <view class="title">银行名称</view>
+  <picker mode="selector" range="{{payBanks}}" value="{{bank}}" bindchange="BankChange">
+    <view class="picker">
+      {{bank}}
+    </view>
+  </picker>
+</view>
 <view wx:if="{{total>0&&customer.name}}" class="cu-form-group margin-top margin-bottom">
   <view class="title">备注</view>
   <input placeholder="输入未付款原因" value="{{note}}" bindinput="onNoteInput"></input>

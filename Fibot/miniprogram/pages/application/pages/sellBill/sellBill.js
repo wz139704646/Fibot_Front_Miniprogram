@@ -33,11 +33,82 @@ Page({
   data: {
   },
 
+  getPayBanks: function() {
+    let token = app.getToken()
+    let that = this
+    if(token) {
+      wx.request({
+        url: host +'/arap/getBankNames',
+        method: 'GET',
+        header: {
+          'Content-Type': 'application/json',
+          'Authorization': token
+        },
+        success: res => {
+          if (res.statusCode == 555) {
+            app.relogin()
+          } else if (res.statusCode == 403) {
+            wx.showToast({
+              title: '无权限获取银行列表',
+              icon: 'none',
+              duration: 1000
+            })
+          } else if (res.statusCode != 200 || !res.data.success) {
+            wx.showToast({
+              title: res.data.errMsg || '请求失败', icon: 'none', duration: 1000
+            })
+          } else {
+            that.setData({
+              payBanks: res.data.result,
+              bank: res.data.result[0]
+            })
+          }
+        }
+      })
+    }
+  },
+
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
     initPage(this)
+    let token = app.getToken()
+    let that = this
+    if(token) {
+      wx.request({
+        url: host +'/arap/getPayMethods',
+        method: 'GET',
+        header: {
+          'Content-Type': 'application/json',
+          'Authorization': token
+        },
+        success: res => {
+          if (res.statusCode == 555) {
+            app.relogin()
+          } else if (res.statusCode == 403) {
+            wx.showToast({
+              title: '无权限获取支付方式',
+              icon: 'none',
+              duration: 1000
+            })
+          } else if (res.statusCode != 200 || !res.data.success) {
+            wx.showToast({
+              title: res.data.errMsg || '请求失败', icon: 'none', duration: 1000
+            })
+          } else {
+            that.setData({
+              payMethods: res.data.result,
+              method: res.data.result[0]
+            },() => {
+              if(res.data.result[0] != '现金'){
+                that.getPayBanks()
+              }
+            })
+          }
+        }
+      })
+    }
   },
 
   DateChange(e) {
@@ -71,12 +142,24 @@ Page({
     if(token) {
       let that = this
       let slist = this.data.buyList
-      let { total, payAmount } = this.data
+      let { total, payAmount, method, bank } = this.data
       if (!slist || slist.length == 0)
         return
       else if (payAmount > total) {
         wx.showToast({
           title: '收款金额应小于等于总价',
+          icon: 'none'
+        })
+        return
+      } else if(payAmount>0 && !method){
+        wx.showToast({
+          title: '请选择收款方式',
+          icon: 'none'
+        })
+        return
+      } else if(payAmount>0 && method!='现金' && !bank){
+        wx.showToast({
+          title: '请选择收款银行',
           icon: 'none'
         })
         return
@@ -149,6 +232,15 @@ Page({
             })
             // 收款金额大于0 添加收款
             if(that.data.payAmount > 0){
+              let postData = {
+                sellId: res.data.result,
+                amount: that.data.payAmount,
+                date: that.data.date,
+                clearForm: method
+              }
+              if (method!='现金'){
+                postData['bankName'] = that.data.bank
+              }
               wx.request({
                 url: host + '/arap/addReceive',
                 method: 'POST',
@@ -156,11 +248,7 @@ Page({
                   'Content-Type': 'application/json',
                   'Authorization': token
                 },
-                data: JSON.stringify({
-                  sellId: res.data.result,
-                  amount: that.data.payAmount,
-                  date: that.data.date
-                }),
+                data: JSON.stringify(postData),
                 success: res3 => {
                   console.log('添加收款', res3)
                   if (res3.statusCode == 555) {
@@ -223,6 +311,18 @@ Page({
   cancelBill() {
     wx.redirectTo({
       url: '/pages/index/index',
+    })
+  },
+
+  MethodChange: function(e) {
+    this.setData({
+      method: e.detail.value
+    })
+  },
+
+  BankChange: function(e) {
+    this.setData({
+      bank: e.detail.value
     })
   }
 })
