@@ -63,6 +63,10 @@ Page({
     })
   },
   addElement() {
+    this.data.pysupplierList.push({
+      first: '-',
+      sList: []
+    })
     for (let j = 0; j < 26; j++) {
       this.data.pysupplierList.push({
         first: String.fromCharCode(65 + j),
@@ -83,12 +87,17 @@ Page({
   },
   initpysupplierList() {
     var that = this
+    var supplierList = this.data.supplierList
     that.addElement()
     
     for (let i = 0; i < this.data.supplierList.length; i++) {
       let j = this.data.supplierList[i].firstletter
       let k = j.charCodeAt(0)
-      this.data.pysupplierList[k - 65].sList.push(this.data.supplierList[i])
+      if (k < 65 || k > 90) {
+        this.data.pysupplierList[0].sList.push(supplierList[i])
+      } else {
+        this.data.pysupplierList[k - 64].sList.push(supplierList[i])
+      }   
     }
     console.log(this.data.pysupplierList)
 
@@ -191,6 +200,7 @@ Page({
   },
   search(e) {
     var that = this
+    var supplierList = this.data.supplierList
     console.log("正在搜索")
     if (inputVal == "") {
       this.setData({
@@ -199,12 +209,16 @@ Page({
     } else {
       this.data.pysupplierList = []
       that.addElement()
-      for (let i = 0; i < this.data.supplierList.length; i++) {
+      for (let i = 0; i < supplierList.length; i++) {
         let j = this.data.supplierList[i].pinyin
         let k = j.toUpperCase().charCodeAt(0)
         let l = this.data.supplierList[i].name
         if (j.indexOf(inputVal) != -1 || l.indexOf(inputVal) != -1) {
-          this.data.pysupplierList[k - 65].sList.push(this.data.supplierList[i])
+          if (k < 65 || k > 90) {
+            this.data.pysupplierList[0].sList.push(supplierList[i])
+          } else {
+            this.data.pysupplierList[k - 64].sList.push(supplierList[i])
+          }   
         }
       }
       that.delElement()
