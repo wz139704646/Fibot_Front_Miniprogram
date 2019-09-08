@@ -42,11 +42,14 @@ Page({
     month: 0,
     chartHidden: false,
     diagrams: ['营业收入', '营业支出', '营业利润', '利润总额', '净利润', '毛利率', '净利率'],
+    curr_time: 0,
+    totalRecords: [],
     CustomBar: app.globalData.CustomBar,
   },
 
   touchHandler: function (e) {
     console.log(this.data)
+    var that = this
     if (chartType == 'pie') {
       if (this.data.statis.title == '营业收入分析') {
         var intro_text = '总营业收入为'
@@ -56,11 +59,18 @@ Page({
       }
       wx.showModal({
         content: arr[pieChart.getCurrentDataIndex(e)].name + intro_text + arr[pieChart.getCurrentDataIndex(e)].data + '元',
-        showCancel: false,
+        showCancel: true,
         confirmText: "我知道啦",
+        cancelText: '查看详情',
+        confirmColor: 'grey',
+        cancelColor: 'grey',
         success: function (res) {
           if (res.confirm) {
-            console.log('用户点击确定')
+            console.log('用户点击我知道啦')
+          }
+          else if(res.cancel) {
+            console.log('用户点击查看详情')
+            that.clickViewTotalInPie(arr[pieChart.getCurrentDataIndex(e)].name)
           }
         }
       });
@@ -97,7 +107,7 @@ Page({
 
   longPress: function (e) {
     wx.navigateTo({
-      url: '/pages/statistics/detail/detail?id=1',
+      url: '/pages/statistics/pages/detail/detail?id=1',
       success: function (res) {
         // 通过eventChannel向被打开页面传送数据
         res.eventChannel.emit('acceptDataFromOpenerPage', {
@@ -710,7 +720,8 @@ Page({
     console.log(statis.period[per].title)
     console.log(statis.title)
     this.setData({
-      statis: statis
+      statis: statis,
+      curr_time: statis.period[per].title
     })
     if (token) {
       if (statis.title == '营业收入分析') {
@@ -1059,7 +1070,77 @@ Page({
     this.hideModal(e)
     this.drawDiagram(e.currentTarget.dataset.diag, 2019)
   },
-  addDataToPassingData: function (category, name, value) {
+  clickViewTotalInPie(category){
+    console.log(category)
+    console.log(this.data.curr_time)
+    this.setData({
+      totalRecords: []
+    })
+    var that = this
+    let token = app.getToken()
+    if (this.data.curr_time == '总计') {
+      wx.request({
+        url: host + '/data/getSalesDetailByCategory',
+        data: JSON.stringify({
+          category: category
+        }),
+        method: "POST",
+        header: {
+          'Content-Type': 'application/json',
+          'Authorization': token
+        },
+        success: res => {
+          console.log('success pass')
+          console.log(res.data.result)
+          that.setData({
+            totalRecords: res.data.result,
+            category: category
+          })
+          wx.navigateTo({
+            url: '/pages/statistics/pages/sumDetail/sumDetail',
+          })
+        }
+      })
+    }
+  },
+  addDataToPassingData: function (category, name=0, value=0) {
+    console.log('add Data for passing')
+    console.log(category)
+    console.log(name)
+    console.log(value)
+    let per = e.currentTarget.dataset.per
+    if (this.data.statis.period[per].title == '总计'){
+      wx.request({
+        url: host + '/data/getSalesDetailByCategory',
+        data: JSON.stringify({
+          category: category
+        }),
+        method: "POST",
+        header: {
+          'Content-Type': 'application/json',
+          'Authorization': token
+        },
+        success: res => {
+          console.log('success pass')
+          console.log(res)
+          return;
+        }
+      })
+    }
+    wx.request({
+      url: host + '/data/getSalesDetailByYearAndMonth',
+      data: JSON.stringify({
+        year: year
+      }),
+      method: "POST",
+      header: {
+        'Content-Type': 'application/json',
+        'Authorization': token
+      },
+      success: res => {
+
+      }
+    })
     var v = [name, value]
     this.data.passingData.push(v)
     var chartname = this.data.statis.title
