@@ -76,7 +76,8 @@
         "pages/decisionMaking/decisionMaking",
         "pages/stokeAnalysis/index",
         "pages/companyGrading/companyGrading",
-        "pages/detail/detail"
+        "pages/detail/detail",
+        "pages/sumDetail/sumDetail"
       ]
     }
   ],

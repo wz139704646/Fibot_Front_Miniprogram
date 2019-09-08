@@ -19,7 +19,7 @@ Page({
     "lunbo": [
       { "url": imgBase+"/imgs/lunbo1.png" },
       { "url": imgBase +"/imgs/lunbo2.png" },
-      { "url": imgBase +"/imgs/lunbo2.png" },
+      { "url": imgBase +"/imgs/lunbo3.png" },
     ],
   },
 
