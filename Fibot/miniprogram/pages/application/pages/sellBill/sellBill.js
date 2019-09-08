@@ -31,6 +31,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    host: host
   },
 
   getPayBanks: function() {
@@ -88,7 +89,7 @@ Page({
             app.relogin()
           } else if (res.statusCode == 403) {
             wx.showToast({
-              title: '无权限获取支付方式',
+              title: '无权限获取收款方式',
               icon: 'none',
               duration: 1000
             })
@@ -315,14 +316,19 @@ Page({
   },
 
   MethodChange: function(e) {
+    let method = this.data.payMethods[e.detail.value]
     this.setData({
-      method: e.detail.value
+      method
+    }, () => {
+      if (method != '现金'){
+        this.getPayBanks()
+      }
     })
   },
 
   BankChange: function(e) {
     this.setData({
-      bank: e.detail.value
+      bank: this.data.payBanks[e.detail.value]
     })
   }
 })

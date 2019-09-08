@@ -23,24 +23,24 @@
   <text class="cuIcon-goods text-orange"></text>
 </view>
 <block wx:key wx:for='{{buyList}}' wx:for-index='index'>
-  <van-card tag="{{item.type}}" price="合计:{{number.twoDecimal(item.sellprice*item.buyNum)}}" desc="单价:{{item.sellprice}}\r\n数量:{{item.buyNum}}" title="{{item.name}}" thumb="{{host+'/goodsPic/'+item.goodsPhoto}}" thumb-mode="aspectFill">
+  <van-card tag="{{item.type}}" price="合计:{{number.twoDecimal(item.sellprice*item.buyNum)}}" desc="单价:{{item.sellprice}}\r\n数量:{{item.buyNum}}" title="{{item.name}}" thumb="{{host+'/goodsPic/'+item.photo}}" thumb-mode="aspectFill">
     </van-card>
   <view class="divLine"></view>
 </block>
 
-<view wx:if="{{total>0&&customer.name}}" class="cu-form-group margin-top margin-bottom">
+<view wx:if="{{total>0&&customer.name}}" class="cu-form-group margin-top ">
   <view class="title">本次收款</view>
-  <input placeholder="输入收款金额" value="{{amountText}}" bindinput="onPayAmountInput"></input>
+  <input placeholder="输入收款金额" value="{{amountText}}" style="text-align: right;" bindinput="onPayAmountInput"></input>
 </view>
-<view wx:if="{{total>0 && customer.name && payAmount>0}}" class="cu-form-group margin-top margin-bottom">
-  <view class="title">付款方式</view>
+<view wx:if="{{total>0 && customer.name && payAmount>0}}" class="cu-form-group">
+  <view class="title">收款方式</view>
   <picker mode="selector" range="{{payMethods}}" value="{{method}}" bindchange="MethodChange">
     <view class="picker">
       {{method}}
     </view>
   </picker>
 </view>
-<view wx:if="{{total>0 && customer.name && method!='现金' && payAmount>0}}" class="cu-form-group margin-top margin-bottom">
+<view wx:if="{{total>0 && customer.name && method!='现金' && payAmount>0}}" class="cu-form-group margin-bottom">
   <view class="title">银行名称</view>
   <picker mode="selector" range="{{payBanks}}" value="{{bank}}" bindchange="BankChange">
     <view class="picker">
@@ -50,11 +50,11 @@
 </view>
 <view wx:if="{{total>0&&customer.name}}" class="cu-form-group margin-top margin-bottom">
   <view class="title">备注</view>
-  <input placeholder="输入未付款原因" value="{{note}}" bindinput="onNoteInput"></input>
+  <input placeholder="输入未付款原因" value="{{note}}" style="text-align: right;" bindinput="onNoteInput"></input>
 </view>
 
 <view wx:if="{{total>0&&customer.name}}" class="cu-bar bg-white">
   <view class="action text-red text-price">总价:{{total}}</view>
-  <view wx:if="{{supplierId!=0}}" class="action text-blue" bindtap="submitBill">确认订单</view>
-  <view wx:if="{{supplierId!=0}}" class="action text-blue" bindtap="cancelBill">取消订单</view>
+  <view wx:if="{{customer.id}}" class="action text-blue" bindtap="submitBill">确认订单</view>
+  <view wx:if="{{customer.id}}" class="action text-blue" bindtap="cancelBill">取消订单</view>
 </view>
