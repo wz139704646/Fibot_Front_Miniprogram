@@ -67,6 +67,10 @@ Page({
     this.drawDiagram()
   },
 
+  onShow: function () {
+    console.log('财务人员')
+  },
+
   NavToTalk(e) {
     wx.navigateTo({
       url: applicationBase+'/pages/start/start',

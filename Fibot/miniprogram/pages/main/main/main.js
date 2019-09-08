@@ -71,13 +71,18 @@ Page({
       showMonth: true,
       showPeriod: false
     }
-    ]
+    ],
   },
 
   onLoad: function (options) {
     this.setData({
       financialIconList: this.data.financialIconList
     })
+    console.log('财务人员')
+  },
+  
+  onShow: function () {
+    console.log('财务人员')
   },
 
   NavToTalk(e) {

@@ -201,5 +201,43 @@ Page({
       url: applicationBase +'/pages/start/start',
     })
     console.log("navigate")
+  },
+
+  drawDiagram: function (year = 0, month = 0) {
+    console.log("draw")
+    var token = app.getToken()
+    wx.request({
+      url: host + '/data/getTotalOperatingIncome',
+      method: "POST",
+      header: {
+        'Content-Type': 'application/json',
+        'Authorization': token
+      },
+      success: res => {
+        arr = []
+        for (var k in res.data.result) {
+          arr.push({
+            name: k,
+            data: res.data.result[k]
+          });
+          console.log(arr)
+        }
+        pieChart1 = new wxCharts({
+          animation: true,
+          canvasId: 'pieCanvas1',
+          type: 'pie',
+          series: arr,
+          width: windowWidth,
+          height: 300,
+          dataLabel: true,
+        });
+      },
+      fail: res => {
+        console.error("未成功获取到营业支出数据")
+      },
+      complete: res => {
+
+      }
+    })
   }
 })
