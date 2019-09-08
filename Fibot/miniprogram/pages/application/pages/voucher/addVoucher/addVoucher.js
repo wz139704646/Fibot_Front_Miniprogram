@@ -105,6 +105,8 @@ Page({
   DateChange: function(e) {
     this.setData({
       date: e.detail.value
+    }, () => {
+      this.getDefaultNo(e.detail.value)
     })
   },
 
@@ -398,7 +400,7 @@ Page({
     wx.showToast({
       title: '指凭证的附加单据数，按照实际情况，与上传情况无关',
       icon: 'none',
-      duration: 1000
+      duration: 3000
     })
   },
 
