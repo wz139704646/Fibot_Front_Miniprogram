@@ -49,7 +49,7 @@ Page({
             let times = []
             let genTime = (start, end) => {
               let genT = []
-              for (let i = start; i <= end; i++) {
+              for (let i = end; i >= start; i--) {
                 if (i > 9) {
                   genT.push(`${i}`)
                 }
@@ -59,7 +59,7 @@ Page({
               }
               return genT
             }
-            for(let y=upy; y<=lowy; y--){
+            for(let y=upy; y>=lowy; y--){
               let s = 1
               let e = 12
               if(y==lowy){
@@ -239,12 +239,17 @@ Page({
   MultiChange(e) {
     console.log('index', e)
     let idx = e.detail.value
+    let {trials} = this.data
+    // 清空之前的科目余额列表
+    for(let t in trials){
+      trials[t].subs = []
+    }
     this.setData({
       timeIndex: idx,
-      searchText: ''
+      searchText: '',
+      trials
     }, () => {
       // 根据期数的变化重新 getBalance
-      let trials = this.data.trials
       let timeArr = this.data.timeArray
       let time = timeArr[0][idx[0]]+timeArr[1][idx[1]]
       for (let t in trials) {

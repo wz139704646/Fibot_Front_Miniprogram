@@ -32,6 +32,19 @@ Page({
     ]
   },
 
+  calcCurTotal: function () {
+    let { filterPayments } = this.data
+    let total = 0
+    for (let f of filterPayments) {
+      for (let r of f.records) {
+        total += r.amount
+      }
+    }
+    this.setData({
+      total
+    })
+  },
+
   // 根据搜索框中的输入对收款记录进行筛选
   filterBySearchText: function () {
     let { searchText, payments } = this.data
@@ -51,11 +64,11 @@ Page({
           }
         }
       }
-      this.setData({ filterPayments })
+      this.setData({ filterPayments }, () => { this.calcCurTotal() })
     } else {
       this.setData({
         filterPayments: payments
-      })
+      }, () => { this.calcCurTotal() })
     }
   },
 
@@ -129,7 +142,7 @@ Page({
     let token = app.getToken()
     if (token) {
       var that = this
-      var data = days ? JSON.stringify({ days }) : {}
+      var data = days ? JSON.stringify({ days }) : JSON.stringify({})
       wx.request({
         url: host + '/arap/queryPayment',
         method: 'POST',
@@ -156,7 +169,7 @@ Page({
               let len = payments.length
               let newItem = {
                 id: rawData[i].id,
-                date: rawData[i].date.substring(0, 10),
+                date: rawData[i].date ? rawData[i].date.substring(0, 10) : rawData[i].date,
                 amount: rawData[i].pay,
                 purchaseId: rawData[i].purchaseId
               }

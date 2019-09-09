@@ -45,6 +45,7 @@ Page({
     curr_time: '本年',
     totalRecords: [],
     monthChoosed: 0,
+    curr_diagram: '营业收入',
     CustomBar: app.globalData.CustomBar,
   },
 
@@ -52,10 +53,10 @@ Page({
     console.log(this.data)
     var that = this
     if (chartType == 'pie') {
-      if (this.data.statis.title == '营业收入分析') {
+      if (this.data.curr_diagram == '营业收入') {
         var intro_text = '总营业收入为'
       }
-      else if (this.data.statis.title == '营业支出分析') {
+      else if (this.data.curr_diagram == '营业支出') {
         var intro_text = '总营业支出为'
       }
       wx.showModal({
@@ -108,31 +109,47 @@ Page({
 
   longPress: function (e) {
     var that = this
-    if (this.data.statis.title = '营业收入分析'){
+    console.log('longPress')
+    console.log(this.data.curr_diagram)
+    if (this.data.curr_diagram == '营业收入'){
       if (this.data.curr_time == '本年') {
-        console.log('add Data for passing')
-        console.log(this.data.monthChoosed)
-        console.log(curr_year)
-        let token = app.getToken()
-        wx.request({
-          url: host + '/data/getSalesDetailByYearAndMonth',
-          data: JSON.stringify({
-            year: curr_year,
-            month: this.data.monthChoosed
-          }),
-          method: "POST",
-          header: {
-            'Content-Type': 'application/json',
-            'Authorization': token
-          },
-          success: res => {
-            console.log(res.data)
+        //处理成2019-09类型字符串
+        if (parseInt(this.data.monthChoosed) < 10) {
+          var searchValue = String(curr_year) + '-0' + String(this.data.monthChoosed)
+        }
+        else{
+          var searchValue = String(curr_year) + '-' + String(this.data.monthChoosed)
+        }
+        wx.navigateTo({
+          url: '/pages/application/pages/sellList/sellList',
+          success: function (res) {
+            console.log(searchValue)
             that.setData({
-              totalRecords: res.data.result,
-              category: String(curr_year) + '年' + String(this.data.monthChoosed) + '月',
-            })
-            wx.navigateTo({
-              url: '/pages/statistics/pages/sumDetail/sumDetail',
+              e: {
+                type: "input",
+                timeStamp: 1567943215368,
+                detail: {
+                  value: searchValue,
+                  cursor: 10,
+                  keyCode: 49
+                },
+                target: {
+                  id: "",
+                  dataset: {},
+                  offsetTop: 9,
+                  offsetLeft: 43
+                },
+                currentTarget: {
+                  id: "",
+                  dataset: {},
+                  offsetTop: 9,
+                  offsetLeft: 43
+                },
+                touches: [],
+                type: "input",
+                __proto__: Object
+              },
+              searchValue: searchValue
             })
           }
         })
@@ -186,31 +203,46 @@ Page({
         })
       }
     }
-    else if (this.data.statis.title == '营业支出分析'){
+    else if (this.data.curr_diagram == '营业支出'){
+      console.log('应该没问题')
       if (this.data.curr_time == '本年') {
-        console.log('add Data for passing')
-        console.log(this.data.monthChoosed)
-        console.log(curr_year)
-        let token = app.getToken()
-        wx.request({
-          url: host + '/data/getSalesDetailByYearAndMonth',
-          data: JSON.stringify({
-            year: curr_year,
-            month: this.data.monthChoosed
-          }),
-          method: "POST",
-          header: {
-            'Content-Type': 'application/json',
-            'Authorization': token
-          },
-          success: res => {
-            console.log(res.data)
+        //处理成2019-09类型字符串
+        if (parseInt(this.data.monthChoosed) < 10) {
+          var searchValue = String(curr_year) + '-0' + String(this.data.monthChoosed)
+        }
+        else {
+          var searchValue = String(curr_year) + '-' + String(this.data.monthChoosed)
+        }
+        wx.navigateTo({
+          url: '/pages/application/pages/buyList/buyList',
+          success: function (res) {
+            console.log(searchValue)
             that.setData({
-              totalRecords: res.data.result,
-              category: String(curr_year) + '年' + String(this.data.monthChoosed) + '月',
-            })
-            wx.navigateTo({
-              url: '/pages/statistics/pages/sumDetail/sumDetail',
+              e: {
+                type: "input",
+                timeStamp: 1567943215368,
+                detail: {
+                  value: searchValue,
+                  cursor: 10,
+                  keyCode: 49
+                },
+                target: {
+                  id: "",
+                  dataset: {},
+                  offsetTop: 9,
+                  offsetLeft: 43
+                },
+                currentTarget: {
+                  id: "",
+                  dataset: {},
+                  offsetTop: 9,
+                  offsetLeft: 43
+                },
+                touches: [],
+                type: "input",
+                __proto__: Object
+              },
+              searchValue: searchValue
             })
           }
         })
@@ -230,15 +262,42 @@ Page({
           var searchValue = String(curr_year) + '-' + curr_month + '-0' + String(this.data.monthChoosed)
         }
         wx.navigateTo({
-          url: '/pages/application/pages/sellList/sellList',
+          url: '/pages/application/pages/buyList/buyList',
           success: function (res) {
             console.log(searchValue)
             that.setData({
+              e: {
+                type: "input",
+                timeStamp: 1567943215368,
+                detail: {
+                  value: searchValue,
+                  cursor: 10,
+                  keyCode: 49
+                },
+                target: {
+                  id: "",
+                  dataset: {},
+                  offsetTop: 9,
+                  offsetLeft: 43
+                },
+                currentTarget: {
+                  id: "",
+                  dataset: {},
+                  offsetTop: 9,
+                  offsetLeft: 43
+                },
+                touches: [],
+                type: "input",
+                __proto__: Object
+              },
               searchValue: searchValue
             })
           }
         })
       }
+    }
+    else{
+      //do nothing
     }
   },
 
@@ -1188,6 +1247,9 @@ Page({
 
   chooseDiagram: function (e) {
     console.log(e.currentTarget.dataset.diag)
+    this.setData({
+      curr_diagram: e.currentTarget.dataset.diag
+    })
     this.hideModal(e)
     this.drawDiagram(e.currentTarget.dataset.diag, 2019)
   },
@@ -1201,28 +1263,36 @@ Page({
     var that = this
     let token = app.getToken()
     if (this.data.curr_time == '总计') {
-      wx.request({
-        url: host + '/data/getSalesDetailByCategory',
-        data: JSON.stringify({
-          category: category
-        }),
-        method: "POST",
-        header: {
-          'Content-Type': 'application/json',
-          'Authorization': token
-        },
-        success: res => {
-          console.log('success pass')
-          console.log(res.data.result)
-          that.setData({
-            totalRecords: res.data.result,
+      if(this.curr_diagram == '营业收入'){
+        wx.request({
+          url: host + '/data/getSalesDetailByCategory',
+          data: JSON.stringify({
             category: category
-          })
-          wx.navigateTo({
-            url: '/pages/statistics/pages/sumDetail/sumDetail',
-          })
-        }
-      })
+          }),
+          method: "POST",
+          header: {
+            'Content-Type': 'application/json',
+            'Authorization': token
+          },
+          success: res => {
+            console.log('success pass')
+            console.log(res.data.result)
+            that.setData({
+              totalRecords: res.data.result,
+              category: category
+            })
+            wx.navigateTo({
+              url: '/pages/statistics/pages/sumDetail/sumDetail',
+            })
+          }
+        })
+      }
+      else if (this.data.curr_diagram == '营业支出'){
+        
+      }
+      else{
+
+      }
     }
   },
 

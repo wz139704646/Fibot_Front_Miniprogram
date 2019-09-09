@@ -32,6 +32,19 @@ Page({
     ]
   },
 
+  calcCurTotal: function() {
+    let {filterReceipts} = this.data
+    let total = 0
+    for(let f of filterReceipts){
+      for(let r of f.records){
+        total += r.amount
+      }
+    }
+    this.setData({
+      total
+    })
+  },
+
   // 根据搜索框中的输入对收款记录进行筛选
   filterBySearchText: function () {
     let { searchText, receipts } = this.data
@@ -51,11 +64,11 @@ Page({
           }
         }
       }
-      this.setData({ filterReceipts })
+      this.setData({ filterReceipts }, () => {this.calcCurTotal()})
     } else {
       this.setData({
         filterReceipts: receipts
-      })
+      }, () => { this.calcCurTotal() })
     }
   },
 

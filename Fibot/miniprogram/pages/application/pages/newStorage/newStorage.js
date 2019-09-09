@@ -59,8 +59,6 @@ Page({
   },
   //取消添加
   addfail(e) {
-    wx.redirectTo({
-      url: '/pages/index/index',
-    })
+    wx.navigateBack({})
   },
 })

@@ -17,18 +17,6 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    //改了一下，加一个获取传入数据的代码
-    var pages = getCurrentPages()
-    let prev = pages[pages.length - 2]
-    if (prev.data.searchValue != null) {
-      this.setData({
-        inputValue: prev.data.searchValue
-      })
-      prev.setData({
-        searchValue: null
-      })
-      this.search(prev.data.e)
-    }
     //就改了这些
     this.setData({
       fun: options.fun
@@ -88,6 +76,21 @@ Page({
             that.setData({
               sellList: datelist,
               allList: datelist
+            }, () => {
+              //改了一下，加一个获取传入数据的代码
+              var pages = getCurrentPages()
+              let prev = pages[pages.length - 2]
+              if (prev.data.searchValue != null) {
+                this.setData({
+                  inputValue: prev.data.searchValue
+                }, () => {
+                  this.search(prev.data.e)
+                })
+                prev.setData({
+                  searchValue: null
+                })
+
+              }
             })
           }).catch(err => {
             console.error(err)

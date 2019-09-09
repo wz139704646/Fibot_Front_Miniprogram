@@ -102,11 +102,16 @@ Page({
               mask: true
             })
           } else {
-            let {purchaseId, pay, date, status} = res1.data.result[0]
-            that.setData({
-              purchaseId, id, date, pay, 
+            let {purchaseId, pay, date, status, clear_form, bank_name} = res1.data.result[0]
+            date = date ? date.substring(0, 10) : ''
+            let setdata = {
+              purchaseId, id, date, pay, clear_form,
               verified: status
-            })
+            }
+            if (bank_name) {
+              setdata['bank_name'] = bank_name
+            }
+            that.setData(setdata)
             that.loadPurchaseInfo(purchaseId)
           }
         }
