@@ -139,7 +139,7 @@ Page({
     let token = app.getToken()
     if (token) {
       var that = this
-      var data = days ? JSON.stringify({ days }) : {}
+      var data = days ? JSON.stringify({ days }) : JSON.stringify({})
       wx.request({
         url: host + '/arap/queryPurchasePay',
         method: 'POST',

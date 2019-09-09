@@ -74,7 +74,42 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-
+    let token = app.getToken()
+    let that = this
+    if (token) {
+      wx.request({
+        url: host + '/arap/getPayMethods',
+        method: 'GET',
+        header: {
+          'Content-Type': 'application/json',
+          'Authorization': token
+        },
+        success: res => {
+          if (res.statusCode == 555) {
+            app.relogin()
+          } else if (res.statusCode == 403) {
+            wx.showToast({
+              title: '无权限获取支付方式',
+              icon: 'none',
+              duration: 1000
+            })
+          } else if (res.statusCode != 200 || !res.data.success) {
+            wx.showToast({
+              title: res.data.errMsg || '请求失败', icon: 'none', duration: 1000
+            })
+          } else {
+            that.setData({
+              payMethods: res.data.result,
+              method: res.data.result[0]
+            }, () => {
+              if (res.data.result[0] != '现金') {
+                that.getPayBanks()
+              }
+            })
+          }
+        }
+      })
+    }
   },
 
   changeNumOfPay: function() {

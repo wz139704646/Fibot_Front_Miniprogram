@@ -129,7 +129,7 @@ Page({
     let token = app.getToken()
     if (token) {
       var that = this
-      var data = days ? JSON.stringify({ days }) : {}
+      var data = days ? JSON.stringify({ days }) : JSON.stringify({})
       wx.request({
         url: host + '/arap/queryPayment',
         method: 'POST',
@@ -156,7 +156,7 @@ Page({
               let len = payments.length
               let newItem = {
                 id: rawData[i].id,
-                date: rawData[i].date.substring(0, 10),
+                date: rawData[i].date ? rawData[i].date.substring(0, 10) : rawData[i].date,
                 amount: rawData[i].pay,
                 purchaseId: rawData[i].purchaseId
               }
