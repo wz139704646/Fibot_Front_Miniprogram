@@ -79,11 +79,16 @@ Page({
               mask: true
             })
           } else {
-            let { sellId, receive, date, status } = res1.data.result[0]
-            that.setData({
-              sellId, id, date, receive,
+            let { sellId, receive, date, status, bank_name, clear_form } = res1.data.result[0]
+            date = date ? date.substring(0, 10) : ''
+            let setdata = {
+              sellId, id, date, receive, clear_form,
               verified: status
-            })
+            }
+            if (bank_name){
+              setdata['bank_name'] = bank_name
+            }
+            that.setData(setdata)
             that.loadSellInfo(sellId)
           }
         }

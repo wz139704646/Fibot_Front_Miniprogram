@@ -45,7 +45,7 @@
       <input disabled style="text-align:right" value="￥{{total}}"></input>
     </view>
   </view>
-  <van-field input-align="right" label="本次收款" value="{{ payText }}" border="{{ true }}" bind:input="onPayChange" type="digit" placeholder="输入收款金额" />
+  <van-field input-align="right" label="本次付款" value="{{ payText }}" border="{{ true }}" bind:input="onPayChange" type="digit" placeholder="输入收款金额" />
   <view wx:if="{{pay>0}}" class="cu-form-group">
     <view class="title">付款方式</view>
     <picker mode="selector" range="{{payMethods}}" value="{{method}}" bindchange="MethodChange">

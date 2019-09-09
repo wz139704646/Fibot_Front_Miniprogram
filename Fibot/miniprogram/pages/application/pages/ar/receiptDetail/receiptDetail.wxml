@@ -19,6 +19,8 @@
     </van-collapse>
     <van-cell title="订单总金额" value="￥{{ sell.total }}" />
     <van-cell title="本次收款" value="￥{{ receive }}" />
+    <van-cell title="收款方式" value="{{ clear_form || '' }}" />
+    <van-cell wx:if="{{clear_form != '现金' && bank_name}}" title="收款银行" value="{{ bank_name }}" />
   </van-cell-group>
   <view style="height: 10vh"></view>
 </view>

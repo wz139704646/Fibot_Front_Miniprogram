@@ -32,6 +32,19 @@ Page({
     ]
   },
 
+  calcCurTotal: function () {
+    let { filterPayables } = this.data
+    let total = 0
+    for (let f of filterPayables) {
+      for (let r of f.records) {
+        total += r.remain
+      }
+    }
+    this.setData({
+      total
+    })
+  },
+
   // 根据搜索框中的输入对应收单进行筛选
   filterBySearchText: function () {
     let { searchText, payables } = this.data
@@ -51,11 +64,11 @@ Page({
           }
         }
       }
-      this.setData({ filterPayables })
+      this.setData({ filterPayables }, () => { this.calcCurTotal() })
     } else {
       this.setData({
         filterPayables: payables
-      })
+      }, () => { this.calcCurTotal() })
     }
   },
 
@@ -185,7 +198,8 @@ Page({
               }
             }
             that.setData({
-              payables, total
+              payables, total,
+              filterPayables: payables
             })
           }
         },
