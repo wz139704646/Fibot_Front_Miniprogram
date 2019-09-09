@@ -1,5 +1,5 @@
 
-<accounting wx:if="{{PageCur=='accounting'}}"></accounting>
+<accounting hidden="{{PageCur!='accounting'}}"></accounting>
 <salesExecutive wx:if="{{PageCur=='salesExecutive'}}"></salesExecutive>
 <storeman wx:if="{{PageCur=='storeman'}}"></storeman>
 <my wx:if="{{PageCur=='my'}}"></my>
