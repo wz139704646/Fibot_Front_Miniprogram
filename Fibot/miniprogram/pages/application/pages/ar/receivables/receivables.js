@@ -32,6 +32,19 @@ Page({
     ]
   },
 
+  calcCurTotal: function () {
+    let { filterReceivables } = this.data
+    let total = 0
+    for (let f of filterReceivables) {
+      for (let r of f.records) {
+        total += r.remain
+      }
+    }
+    this.setData({
+      total
+    })
+  },
+
   // 根据搜索框中的输入对应收单进行筛选
   filterBySearchText: function () {
     let { searchText, receivables } = this.data
@@ -51,11 +64,11 @@ Page({
           }
         }
       }
-      this.setData({ filterReceivables })
+      this.setData({ filterReceivables }, () => { this.calcCurTotal() })
     } else {
       this.setData({
         filterReceivables: receivables
-      })
+      }, () => { this.calcCurTotal() })
     }
   },
 
@@ -164,7 +177,8 @@ Page({
               }
             }
             that.setData({
-              receivables, total
+              receivables, total,
+              filterReceivables: receivables
             })
           }
         },
@@ -247,8 +261,8 @@ Page({
   onReceivableSelected: function(e) {
     console.log(e)
     let {idx, index} = e.currentTarget.dataset.path
-    let {selectedReceivables, selectedTotal, receivables} = this.data
-    let record = receivables[idx].records[index]
+    let { selectedReceivables, selectedTotal, filterReceivables} = this.data
+    let record = filterReceivables[idx].records[index]
     // e.detail.value不为空数组，表示勾选上
     if(e.detail.value.length) {
       let position = selectedReceivables.findIndex(item => item.date<record.date)
