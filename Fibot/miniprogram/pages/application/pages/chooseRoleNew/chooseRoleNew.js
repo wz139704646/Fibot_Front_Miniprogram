@@ -30,7 +30,7 @@ Component({
       title: '人资管理',
       name: '人力资源 管理公司人事调度',
       color: 'blue',
-      url: ''
+      url: '/pages/main/index/index?role=humanResourse'
       //icon: 'colorlens'
     },
     {
@@ -44,14 +44,14 @@ Component({
       title: '行政管理',
       name: '行政事务 统筹公司组织管理',
       color: 'green',
-      url: ''
+      url: '/pages/main/index/index?role=publicAdministraion'
       //icon: 'icon'
     },
     {
       title: '生产管理',
       name: '基层生产 扎实公司底层实力',
       color: 'grey',
-      url: '/pages/main/mainq/'
+      url: '/pages/main/index/index?role=production'
       //icon: 'btn'
     },
     {
@@ -65,7 +65,7 @@ Component({
       title: '市场营销',
       name: '精准营销 推广公司品牌力量',
       color: 'brown',
-      url: ''
+      url: '/pages/main/index/index?role=marketing'
       //icon: 'myfill'
     },
     {
