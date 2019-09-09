@@ -1,5 +1,6 @@
 const app = getApp()
 const host = app.globalData.requestHost
+var inputVar = ''
 
 Page({
 
@@ -33,7 +34,8 @@ Page({
       success(res){
         console.log(res)
         that.setData({
-          fixedAssetList:res.data.results
+          fixedAssetList:res.data.results,
+          allfixedAssetList:res.data.results
         })
       }
     })
@@ -43,6 +45,39 @@ Page({
     wx.navigateTo({
       url: '../newFixedAsset/newFixedAsset',
     })
+  },
+
+  toDetail(e){
+    console.log(e)
+    wx.navigateTo({
+      url: '../fixedAssetDetails/fixedAssetDetails?item='+JSON.stringify(e.currentTarget.dataset.item),
+    })
+  },
+
+  search(e){
+    var searchText = e.detail.value
+    if(!searchText){
+      this.setData({
+        fixedAssetList: this.data.allfixedAssetList
+      })
+    }else{
+      var fixedAssetList = this.data.fixedAssetList
+      var slist = []
+      for (var i in fixedAssetList) {
+        if (fixedAssetList[i].asset_name.indexOf(searchText) != -1) {
+          slist.push(fixedAssetList[i])
+        }
+      }
+      this.setData({
+        fixedAssetList: slist
+      })
+    } 
+  },
+
+  inputChange(e){
+    var that = this
+    inputVar = e.detail.value
+    that.search(e)
   }
 
 })

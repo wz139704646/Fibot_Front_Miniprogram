@@ -81,14 +81,8 @@ Page({
       name: '新增固定资产',
         url: applicationBase + '/pages/fixedAssets/newFixedAsset/newFixedAsset'
     }, {
-      icon: 'moneybag',
-      color: 'orange',
-      badge: 0,
-      name: '资金流水',
-      url: ''
-    }, {
       icon: 'newshot',
-      color: 'yellow',
+      color: 'red',
       badge: 0,
       name: '资金转账记录',
         url: applicationBase+'/pages/transferAccount/transferRecord/transferRecord'

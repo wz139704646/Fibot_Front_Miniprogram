@@ -6,6 +6,17 @@
  height: 5rpx;
 }
 
+.indexes {
+  position: relative;
+}
+
+.cu-list.menu-avatar>.cu-item .content {
+	position: absolute;
+	left: 190rpx;
+	width: calc(100% - 96rpx - 60rpx - 120rpx - 20rpx);
+	line-height: 1.6em;
+}
+
 .cu-list.menu-avatar>.cu-item .content1 {
 	position: absolute;
 	left: 420rpx;
