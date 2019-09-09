@@ -1,0 +1,43 @@
+<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
+  <view slot="backText">返回</view>
+  <view slot="content">固定资产列表</view>
+</cu-custom>
+<view class="cu-bar bg-white search fixed" style="top:{{CustomBar}}px;">
+  <view class="search-form round">
+    <text class="cuIcon-search"></text>
+    <input type="text" placeholder="输入搜索的关键词" confirm-type="search" bindconfirm='search' value='{{inputVal}}' bindinput='inputChange'></input>
+  </view>
+</view>
+
+<scroll-view scroll-y class="indexes" style="height:calc(100vh - {{CustomBar}}px - 50px);margin-top:42px;" scroll-with-animation="true" enable-back-to-top="true">
+  <block wx:for="{{fixedAssetList}}" wx:key wx:for-index='index'>
+    <view class="cu-list menu-avatar no-padding card-menu shadow-lg radius">
+      <view class="cu-item" data-id="{{item.id}}" bindtap="">
+        <image class="cu-avatar lg bg-white" src="{{host+'/goodsPic/'+item.photo}}"></image>
+        <view class="content">
+          <view class="text-black text-xl text-bold">
+            {{item.asset_name}}
+          </view>
+          <view class="text-gray text-sm">
+            数量:{{item.count}}
+          </view>
+        </view>
+        <view class="content1">
+          <view class="text-gray text-sm">
+            购入日期:{{item.date}}
+          </view>
+          <view class="text-gray text-sm">
+            预计寿命:{{item.estimated_useful_life}}
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="divLine"></view>
+  </block>
+</scroll-view>
+
+<view class="text-gray" style="position: fixed; bottom: 20rpx; right: 20rpx;">
+  <button class="cu-btn icon bg-blue shadow lg" bindtap="addFixedAsset">
+    <text class="cuIcon-add" style="font-size: 50rpx;"></text>
+  </button>
+</view>

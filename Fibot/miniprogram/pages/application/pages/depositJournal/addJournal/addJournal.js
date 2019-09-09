@@ -1,4 +1,3 @@
-// pages/application/depositJournal/addJournal/addJournal.js
 const app = getApp()
 const util = require('../../../../../utils/util.js')
 const host = app.globalData.requestHost
