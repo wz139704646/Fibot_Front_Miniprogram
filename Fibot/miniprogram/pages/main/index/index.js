@@ -2,6 +2,120 @@ const app = getApp()
 const host = app.globalData.requestHost
 const applicationBase = app.globalData.applicationBase
 
+function initPEChart(canvas, width, height) {
+  let token = app.getToken()
+  wx.showLoading({
+    title: '画图中',
+    mask: true
+  })
+  console.log(token)
+  if (token) {
+    wx.request({
+      url: host + '/data/getIndustryData',
+      method: "POST",
+      header: {
+        'Content-Type': 'application/json',
+        'Authorization': token
+      },
+      success: res => {
+        mychart = echarts.init(canvas, null, {
+          width: width,
+          height: height
+        });
+        canvas.setChart(mychart);
+        // Generate data
+        var category = [];
+        var barData = [];
+        category = Object.keys(res.data.result).slice(0, 5)
+        category.push(Object.keys(res.data.result)[6])
+        category.push(Object.keys(res.data.result)[5])
+        barData = Object.values(res.data.result).map(function (arr) {
+          return arr[0]
+        }).slice(0, 5)
+        barData.push(res.data.result['贵阳银行'][0])
+        barData.push(res.data.result['行业平均'][0])
+        console.log(category)
+        console.log(barData)
+
+        // option
+        var option = {
+          backgroundColor: 'white',
+          tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+              type: 'shadow'
+            }
+          },
+          legend: {
+            data: ['P/E市盈率'],
+            textStyle: {
+              color: 'black'
+            }
+          },
+          xAxis: {
+            data: category,
+            axisLabel: {
+              interval: 0,
+              // rotate: -10,
+              margin: 10,
+              formatter: function (val) {
+                return val.split("").join("\n");
+              }
+            },
+            axisPointer: {
+              label: {
+                margin: 100,
+                padding: [
+                  25,
+                  20,
+                  20,
+                  10,
+                ]
+              }
+            },
+            axisLine: {
+              lineStyle: {
+                color: 'black'
+              }
+            }
+          },
+          yAxis: {
+            splitLine: { show: false },
+            axisLine: {
+              lineStyle: {
+                color: 'black'
+              }
+            }
+          },
+          series: [{
+            name: 'P/E市盈率',
+            type: 'bar',
+            barWidth: 10,
+            itemStyle: {
+              normal: {
+                barBorderRadius: 5,
+                color: new echarts.graphic.LinearGradient(
+                  0, 0, 0, 1,
+                  [
+                    { offset: 0, color: '#00FFEE' },
+                    { offset: 1, color: '#00E2FF' }
+                  ]
+                )
+              }
+            },
+            data: barData
+          }]
+        };
+        mychart.setOption(option);
+        return mychart;
+      },
+      complete: res => {
+        wx.hideLoading()
+      }
+    })
+  }
+};
+
 Page({
   data: {
     PageCur: 'accounting',

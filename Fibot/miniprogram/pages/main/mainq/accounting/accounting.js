@@ -7,9 +7,12 @@ var pieChart2 = null;
 var arr = null;
 var startPos = null;
 var windowWidth = wx.getSystemInfoSync().windowWidth - 15
+var firstOpen = true
 
 Page({
   data: {
+    distance: 10000,
+    activeNames: [],
     StatusBar: app.globalData.StatusBar,
     CustomBar: app.globalData.CustomBar,
     financialIconList: [{
@@ -80,7 +83,7 @@ Page({
     // }
     ],
 
-    chartHidden: false,
+    chartHidden: true,
     CustomBar: app.globalData.CustomBar,
 
     liftimes: {
@@ -137,6 +140,33 @@ Page({
           sellIconList: list
         });
       }
+    })
+  },
+
+  onChange(event) {
+    this.setData({
+      activeNames: event.detail,
+      financialIconList: this.data.financialIconList
+    });
+    console.log('财务人员')
+    this.drawDiagram()
+    if(firstOpen){
+      wx.navigateTo({
+        url: '/pages/main/mainq/accounting/accounting',
+        success: function () {
+          console.log('nav')
+        }
+      })
+      firstOpen = false
+    }
+  },
+
+  clickbtn: function(e){
+    console.log('click')
+    this.drawDiagram()
+    this.setData({
+      distance: 200,
+      chartHidden: false
     })
   },
 
