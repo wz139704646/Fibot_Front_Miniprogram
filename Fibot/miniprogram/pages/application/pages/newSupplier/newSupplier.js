@@ -61,7 +61,8 @@ Page({
         },
         success: res => {
           wx.showToast({
-            title: 'add success',
+            title: '添加成功',
+            mask: true
           })
           wx.redirectTo({
             url: '/pages/main/index/index',

@@ -1,0 +1,55 @@
+<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
+  <view slot="backText">返回</view>
+  <view slot="content">新增固定资产</view>
+</cu-custom>
+
+<view class="bg-white padding margin text-center">
+  <view class="cu-form-group margin-top">
+    <view class="title">名称</view>
+    <input placeholder="请输入" style="text-align:right" value='{{name}}' bindinput='nameChange'></input>
+  </view>
+
+  <view class="cu-form-group">
+    <view class="title">单位</view>
+    <input placeholder="请输入" style="text-align:right" value='{{pieces}}' bindinput='piecesChange'></input>
+  </view>
+
+  <view class="cu-form-group">
+    <view class="title">折旧方案</view>
+    <picker mode="selector" value="{{indexOfDepreciation}}" range="{{depreciation}}" bindchange="depreciationChange">
+      <view class="picker">
+        {{indexOfDepreciation?depreciation[indexOfDepreciation]:'请选择'}}
+      </view>
+    </picker>
+  </view>
+
+  <view class="cu-form-group">
+    <view class="title">数量</view>
+    <input type="number" placeholder="请输入" style="text-align:right" value='{{count}}' bindinput='countChange'></input>
+  </view>
+
+  <view class="cu-form-group">
+    <view class="title">初始价值</view>
+    <input placeholder="请输入" style="text-align:right" value='{{initial_value}}' bindinput='initial_valueChange'></input>
+  </view>
+
+  <view class="cu-form-group">
+    <view class="title">买入日期</view>
+    <picker mode="date" value="{{date}}" start="2015-09-01" end="2020-09-01" bindchange="DateChange">
+      <view class="picker">
+        {{date}}
+      </view>
+    </picker>
+  </view>
+
+  <view class="cu-form-group">
+    <view class="title">预估寿命</view>
+    <input type="number" placeholder="请输入" style="text-align:right" value='{{estimated_useful_life}}' bindinput='estimated_useful_lifeChange'></input>
+  </view>
+
+  <view class="padding flex flex-direction">
+    <button class="cu-btn bg-blue margin-tb-sm lg" bindtap='onSubmit'>确认</button>
+    <button class="cu-btn bg-grey lg" bindtap='onCancel'>取消</button>
+  </view>
+
+</view>

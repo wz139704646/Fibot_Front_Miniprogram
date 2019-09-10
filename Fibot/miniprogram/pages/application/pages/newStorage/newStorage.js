@@ -38,7 +38,6 @@ Page({
         success: res => {
           wx.showToast({
             title: '添加成功',
-            duration: 2000,
             icon: "none",
             mask: true
           })

@@ -69,26 +69,20 @@ Page({
       name: '付款记录',
         url: applicationBase+'/pages/ap/payments/payments'
     }, {
-      icon: 'recharge',
+      icon: 'list',
       color: 'yellow',
       badge: 0,
-      name: '其他收入记录',
-      url: ''
+      name: '固定资产列表',
+        url: applicationBase +'/pages/fixedAssets/fixedAssetsList/fixedAssetsList'
     }, {
       icon: 'recharge',
       color: 'olive',
       badge: 0,
-      name: '其他支出记录',
-      url: ''
-    }, {
-      icon: 'moneybag',
-      color: 'orange',
-      badge: 0,
-      name: '资金流水',
-      url: ''
+      name: '新增固定资产',
+        url: applicationBase + '/pages/fixedAssets/newFixedAsset/newFixedAsset'
     }, {
       icon: 'newshot',
-      color: 'yellow',
+      color: 'red',
       badge: 0,
       name: '资金转账记录',
         url: applicationBase+'/pages/transferAccount/transferRecord/transferRecord'

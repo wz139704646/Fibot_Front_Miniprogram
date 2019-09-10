@@ -72,13 +72,13 @@ Page({
         },
         success: res => {
           wx.showToast({
-            title: 'add success',
+            title: '添加成功',
             duration: 4000,
             mask: true
           })
           console.log(res)
           wx.redirectTo({
-            url: '/pages/index/index',
+            url: '/pages/main/index/index',
           })
         },
         fail: res => {
@@ -90,7 +90,7 @@ Page({
   },
   addcancel(e) {
     wx.redirectTo({
-      url: '/pages/index/index',
+      url: '/pages/main/index/index',
     })
   },
   nameChange(e) {

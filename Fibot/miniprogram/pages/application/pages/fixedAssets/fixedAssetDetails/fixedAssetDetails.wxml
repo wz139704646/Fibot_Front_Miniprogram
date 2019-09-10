@@ -1,0 +1,52 @@
+<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
+  <view slot="backText">返回</view>
+  <view slot="content">固定资产详情</view>
+</cu-custom>
+
+<view class="bg-white padding margin text-center">
+  <view class="cu-form-group margin-top">
+    <view class="title">名称</view>
+    <input disabled placeholder="请输入" style="text-align:right" value='{{fixedAsset.asset_name}}'></input>
+  </view>
+
+  <view class="cu-form-group">
+    <view class="title">单位</view>
+    <input disabled placeholder="请输入" style="text-align:right" value='{{fixedAsset.pieces}}'></input>
+  </view>
+
+  <view class="cu-form-group">
+    <view class="title">折旧方案</view>
+    <input disabled placeholder="请输入" style="text-align:right" value='{{fixedAsset.depreciation}}'></input>
+  </view>
+
+  <view class="cu-form-group">
+    <view class="title">数量</view>
+    <input disabled type="number" placeholder="请输入" style="text-align:right" value='{{fixedAsset.count}}'></input>
+  </view>
+
+  <view class="cu-form-group">
+    <view class="title">初始价值</view>
+    <input disabled placeholder="请输入" style="text-align:right" value='{{fixedAsset.initial_value}}'></input>
+  </view>
+
+  <view class="cu-form-group">
+    <view class="title">买入日期</view>
+    <input disabled placeholder="请输入" style="text-align:right" value='{{fixedAsset.date}}'></input>
+  </view>
+
+  <view class="cu-form-group">
+    <view class="title">预估寿命</view>
+    <input type="number" placeholder="请输入" style="text-align:right" value='{{fixedAsset.estimated_useful_life}}'></input>
+  </view>
+
+  <view class="cu-form-group">
+    <view class="title">当前价值</view>
+    <input disabled type="number" placeholder="请输入" style="text-align:right" value='{{fixedAsset.current_value}}'></input>
+  </view>
+
+  <view class="padding flex flex-direction">
+    <button class="cu-btn bg-blue margin-tb-sm lg" bindtap='onSubmit'>确认</button>
+    <button class="cu-btn bg-grey lg" bindtap='onCancel'>取消</button>
+  </view>
+
+</view>

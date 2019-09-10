@@ -150,7 +150,7 @@ Page({
       url: '../recordInfo/recordInfo?back=sell' + '&id=' + id + '&fun=' + this.data.fun + '&status=' + status
     })
   },
-  //搜索TODO
+  //搜索
   search: function (e) {
     console.log(e)
     var that = this
@@ -197,7 +197,7 @@ Page({
         var ifbreak = false
         for (var l in sellList) {
           for (var m in sellList[l].list) {
-            console.log(rlist.id + ",,," + sellList[l].list[m].id)
+            //console.log(rlist.id + ",,," + sellList[l].list[m].id)
             if (rlist.id == sellList[l].list[m].id) {
               ifbreak = true
             }

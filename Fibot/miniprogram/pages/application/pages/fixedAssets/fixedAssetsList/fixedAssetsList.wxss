@@ -1,0 +1,25 @@
+.divLine{
+ background: #E0E3DA;
+ margin-left: 5%;
+ margin-right: 5%;
+ width: 90%;
+ height: 5rpx;
+}
+
+.indexes {
+  position: relative;
+}
+
+.cu-list.menu-avatar>.cu-item .content {
+	position: absolute;
+	left: 190rpx;
+	width: calc(100% - 96rpx - 60rpx - 120rpx - 20rpx);
+	line-height: 1.6em;
+}
+
+.cu-list.menu-avatar>.cu-item .content1 {
+	position: absolute;
+	left: 420rpx;
+	width: calc(100% - 96rpx - 60rpx - 120rpx - 20rpx);
+	line-height: 1.6em;
+}
