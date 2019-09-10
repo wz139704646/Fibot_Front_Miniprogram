@@ -357,6 +357,7 @@ Page({
             var storeList = res.data.result
             for (var i in storeList) {
               storeList[i]['value'] = storeList[i].wareHouseName + ": " + storeList[i].number
+              storeList[i]['storeNum'] = 0
             }
             console.log(storeList)
             that.setData({
@@ -394,6 +395,7 @@ Page({
     this.setData({
       curStoreList: curStoreList
     })
+    console.log(this.data.curStoreList)
   },
   //modal确认
   confirmModal(e) {
@@ -401,7 +403,9 @@ Page({
     var curIndex = this.data.curIndex
     var curStoreList = this.data.curStoreList
     var buyList = this.data.buyList
-    if(this.ifOverSurpposedNum(curStoreList,buyList[curIndex].number)){
+    console.log(buyList)
+    console.log(curStoreList)
+    if(this.ifEqSurpposedNum(curStoreList,buyList[curIndex].number)){
       buyList[curIndex]['outlist'] = curStoreList
       this.setData({
         buyList: buyList,
@@ -417,10 +421,10 @@ Page({
     }
   },
   //判断出库是否超过应出库数
-  ifOverSurpposedNum(curlist,supposedNum){
+  ifEqSurpposedNum(curlist,supposedNum){
     var num = 0
     for(var i in curlist){
-      num += curlist[i].storeNum
+      num += parseInt(curlist[i].storeNum)
     }
     if(num == supposedNum){
       return true
@@ -432,7 +436,7 @@ Page({
     var that = this
     var buyList = this.data.buyList
     for(var i in buyList){
-      if(!that.ifOverSurpposedNum(buyList[i].outlist,buyList[i].number)){
+      if(!that.ifEqSurpposedNum(buyList[i].outlist,buyList[i].number)){
         return false
       }
     }

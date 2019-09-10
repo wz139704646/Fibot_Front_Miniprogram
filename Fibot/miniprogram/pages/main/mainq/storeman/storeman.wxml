@@ -3,7 +3,7 @@
     <view class="cu-content">
       <!-- <image class="cu-avatar round lg bg-white" src="{{app.globalData.userInfo.avatarUrl}}" bindtap="navigateToHome"></image> -->
       <image class="cu-avatar round lg bg-white" src="https://ossweb-img.qq.com/images/lol/web201310/skin/big81005.jpg"></image>
-      <text class='icon-back' style="margin-left:6px">仓库管理员</text>
+      <text class='icon-back' style="margin-left:6px">仓库管理</text>
     </view>
   </view>
 </view>

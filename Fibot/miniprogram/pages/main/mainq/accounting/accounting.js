@@ -15,7 +15,7 @@ Page({
     activeNames: [],
     StatusBar: app.globalData.StatusBar,
     CustomBar: app.globalData.CustomBar,
-    financialIconList: [{
+    showIconList: [{
       icon: 'ticket',
       color: 'red',
       badge: 0,
@@ -96,7 +96,7 @@ Page({
 
   onLoad: function (options) {
     this.setData({
-      financialIconList: this.data.financialIconList
+      showIconList: this.data.showIconList
     })
     console.log('财务人员')
     this.drawDiagram()
@@ -146,7 +146,7 @@ Page({
   onChange(event) {
     this.setData({
       activeNames: event.detail,
-      financialIconList: this.data.financialIconList
+      showIconList: this.data.showIconList
     });
     console.log('财务人员')
     this.drawDiagram()

@@ -1,5 +1,8 @@
 {
   "usingComponents": {
-    "van-panel": "vant-weapp/panel"
+    "van-panel": "vant-weapp/panel",
+    "van-collapse": "vant-weapp/collapse",
+    "van-collapse-item": "vant-weapp/collapse-item",
+    "van-button": "vant-weapp/button"
   }
 }

@@ -68,7 +68,7 @@ Page({
   },
 
   onShow: function () {
-    console.log('财务人员')
+    console.log('仓库管理')
   },
 
   NavToTalk(e) {
