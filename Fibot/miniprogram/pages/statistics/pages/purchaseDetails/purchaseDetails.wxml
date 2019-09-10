@@ -1,0 +1,20 @@
+<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
+  <view slot="backText">返回</view>
+  <view slot="content">{{category}}采购情况</view>
+</cu-custom>
+
+<view class="cu-bar bg-white solid-bottom">
+  <view class="action" style='font-size:16px;'>
+    <text class="cuIcon-title text-blue"></text>{{category}}采购记录
+  </view>
+</view>
+
+<view class="cu-item" wx:for="{{records}}" wx:for-item="per">
+  <view class="cu-timeline">
+    <view class="cu-item">
+      <view class="content">
+        <text>{{per}} </text>
+      </view>
+    </view>
+  </view>
+</view>

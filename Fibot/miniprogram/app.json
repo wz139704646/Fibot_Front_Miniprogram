@@ -84,7 +84,8 @@
         "pages/stokeAnalysis/index",
         "pages/companyGrading/companyGrading",
         "pages/detail/detail",
-        "pages/sumDetail/sumDetail"
+        "pages/sumDetail/sumDetail",
+        "pages/purchaseDetails/purchaseDetails"
       ]
     }
   ],
