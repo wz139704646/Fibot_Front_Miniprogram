@@ -12,8 +12,13 @@
 <view class="cu-item" wx:for="{{records}}" wx:for-item="per">
   <view class="cu-timeline">
     <view class="cu-item">
-      <view class="content">
-        <text>{{per}} </text>
+      <view class="content card-css">
+        <van-card num="{{per[3]}}" price="{{per[2]}}" desc="采购总金额：{{per[0]}}元" title="{{per[1]}}" thumb="{{ imageURL }}" custom-class = "card-css">
+          <view slot="footer" class="desc-info">
+            <text>卖家：{{per[4]}} \n</text>
+            <text>采购时间：{{per[5]}} \n</text>
+          </view>
+        </van-card>
       </view>
     </view>
   </view>

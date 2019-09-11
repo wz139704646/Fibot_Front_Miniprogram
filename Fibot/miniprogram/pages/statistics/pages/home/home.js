@@ -1284,7 +1284,7 @@ Page({
             wx.navigateTo({
               url: '/pages/statistics/pages/sumDetail/sumDetail',
             })
-          }
+          } 
         })
       }
       else if (this.data.curr_diagram == '营业支出'){

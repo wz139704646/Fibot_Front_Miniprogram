@@ -13,7 +13,7 @@ Page({
     var pages = getCurrentPages()
     let prev = pages[pages.length - 2]
     this.setData({
-      records: prev.data.totalRecords,
+      records: Object.values(prev.data.totalRecords),
       category: prev.data.category
     })
   }

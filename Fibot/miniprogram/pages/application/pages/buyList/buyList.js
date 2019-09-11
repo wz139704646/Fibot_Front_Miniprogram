@@ -16,11 +16,11 @@ Page({
   onLoad(options){
     console.log(options)
     this.setData({
-      fun:options.fun
+      fun:options.query
     })
     var that = this
     that.getbrList()
-    if (options != null){
+    if (options.query != null){
       var pages = getCurrentPages()
       let prev = pages[pages.length - 2]
       console.log(prev.data)
@@ -100,8 +100,12 @@ Page({
         that.setData({
           brList: datelist,
           allbrList: datelist,
-          inputVal: that.data.e.detail.value
         })
+        if(that.data.fun != null){
+          that.setData({
+            inputVal: that.data.e.detail.value
+          })
+        }
         // that.initIndex()
       },
       fail: err => {
@@ -148,9 +152,14 @@ Page({
   },
   inputChange(e) {
     var that = this
-    console.log(e.detail.value)
-    inputVal = e.detail.value
-    that.search(e)
+    if (this.data.fun != null){
+      console.log(e.detail.value)
+      inputVal = e.detail.value
+      that.search(e)
+    }
+    else{
+      this.search(e)
+    }
   },
   //TODO 待改
   search(e) {
