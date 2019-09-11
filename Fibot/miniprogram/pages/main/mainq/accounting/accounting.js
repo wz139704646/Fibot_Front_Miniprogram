@@ -70,6 +70,47 @@ Page({
     }
     ],
 
+    addIconList: [{
+      icon: 'ticket',
+      color: 'red',
+      badge: 0,
+      name: '凭证',
+      url: applicationBase + '/pages/voucher/voucherList/voucher'
+    }, {
+      icon: 'copy',
+      color: 'yellow',
+      badge: 0,
+      name: '报表',
+      url: ''
+    }, {
+      icon: 'sort',
+      color: 'yellow',
+      badge: 0,
+      name: '科目余额',
+      url: applicationBase + '/pages/trialBalance/trialBalance'
+    },
+    {
+      icon: 'text',
+      color: 'blue',
+      badge: 0,
+      name: '科目表',
+      url: applicationBase + '/pages/subjects/subjects/subjects'
+    },
+    {
+      icon: 'rankfill',
+      color: 'orange',
+      badge: 0,
+      name: '存款日记账',
+      url: applicationBase + '/pages/depositJournal/addJournal/addJournal'
+    }, {
+      icon: 'refund',
+      color: 'red',
+      badge: 0,
+      name: '库存现金',
+      url: applicationBase + '/pages/cashOnHand/cashShow/cashShow'
+    }
+    ],
+
     statis: [{
       title: '营收分析',
       showMonth: false,
@@ -125,7 +166,7 @@ Page({
   //长按删除功能
   delete: function (e) {
     var that = this;
-    var list = that.data.sellIconList;
+    var list = that.data.showIconList;
     var index = e.currentTarget.dataset.index;//获取当前长按下标
     wx.showModal({
       title: '提示',
@@ -137,7 +178,7 @@ Page({
           return false;
         }
         that.setData({
-          sellIconList: list
+          showIconList: list
         });
       }
     })
@@ -173,19 +214,20 @@ Page({
   //添加功能
   add: function (e) {
     var that = this;
-    var list = that.data.sellIconList;
+    var list = that.data.addIconList;
+    var showIconList = that.data.showIconList;
     var index = e.currentTarget.dataset.index;//获取当前长按下标
     wx.showModal({
       title: '提示',
       content: '确定要添加该功能吗？',
       success: function (res) {
         if (res.confirm) {
-          list.push(list[index]);
+          showIconList.push(list[index]);
         } else if (res.cancel) {
           return false;
         }
         that.setData({
-          sellIconList: list,
+          showIconList: showIconList,
           isShow: false
         });
       }
