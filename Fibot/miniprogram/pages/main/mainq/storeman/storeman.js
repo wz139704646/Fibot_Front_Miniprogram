@@ -12,7 +12,7 @@ Page({
   data: {
     StatusBar: app.globalData.StatusBar,
     CustomBar: app.globalData.CustomBar,
-    storeIconList: [{
+    showIconList: [{
       icon: 'goods',
       color: 'red',
       badge: 0,
@@ -50,6 +50,43 @@ Page({
       url: applicationBase+'/pages/sellList/sellList?fun=出库'
     }],
 
+    addIconList: [{
+      icon: 'goods',
+      color: 'red',
+      badge: 0,
+      name: '新增商品',
+      url: applicationBase + '/pages/newGood/newGood'
+    }, {
+      icon: 'list',
+      color: 'orange',
+      badge: 0,
+      name: '商品列表',
+      url: applicationBase + '/pages/goodList/goodList'
+    }, {
+      icon: 'deliver',
+      color: 'yellow',
+      badge: 0,
+      name: '调拨记录',
+      url: applicationBase + '/pages/transferGood/transferRecord/transferRecord'
+    }, {
+      icon: 'pick',
+      color: 'olive',
+      badge: 0,
+      name: '新增仓库',
+      url: applicationBase + '/pages/newStorage/newStorage'
+    }, {
+      icon: 'edit',
+      color: 'red',
+      badge: 0,
+      name: '入库',
+      url: applicationBase + '/pages/buyList/buyList?fun=入库'
+    }, {
+      icon: 'edit',
+      color: 'orange',
+      badge: 0,
+      name: '出库',
+      url: applicationBase + '/pages/sellList/sellList?fun=出库'
+    }],
 
     statis: [{
       title: '库存分析',
@@ -62,7 +99,7 @@ Page({
 
   onLoad: function (options) {
     this.setData({
-      financialIconList: this.data.financialIconList
+      showIconList: this.data.showIconList
     })
     this.drawDiagram()
   },
@@ -89,7 +126,7 @@ Page({
   //长按删除功能
   delete: function (e) {
     var that = this;
-    var list = that.data.sellIconList;
+    var list = that.data.showIconList;
     var index = e.currentTarget.dataset.index;//获取当前长按下标
     wx.showModal({
       title: '提示',
@@ -101,7 +138,7 @@ Page({
           return false;
         }
         that.setData({
-          sellIconList: list
+          showIconList: list
         });
       }
     })
@@ -110,19 +147,20 @@ Page({
   //添加功能
   add: function (e) {
     var that = this;
-    var list = that.data.sellIconList;
+    var list = that.data.addIconList;
+    var showIconList = that.data.showIconList;
     var index = e.currentTarget.dataset.index;//获取当前长按下标
     wx.showModal({
       title: '提示',
       content: '确定要添加该功能吗？',
       success: function (res) {
         if (res.confirm) {
-          list.push(list[index]);
+          showIconList.push(list[index]);
         } else if (res.cancel) {
           return false;
         }
         that.setData({
-          sellIconList: list,
+          showIconList: showIconList,
           isShow: false
         });
       }

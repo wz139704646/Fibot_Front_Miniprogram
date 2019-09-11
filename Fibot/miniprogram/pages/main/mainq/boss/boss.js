@@ -179,6 +179,7 @@ Page({
   add: function (e) {
     var that = this;
     var list = that.data.addIconList;
+    var showIconList = that.data.showIconList;
     var index = e.currentTarget.dataset.index;//获取当前长按下标
     wx.showModal({
       title: '提示',

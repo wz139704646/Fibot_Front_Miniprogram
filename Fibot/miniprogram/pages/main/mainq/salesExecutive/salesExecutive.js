@@ -15,7 +15,7 @@ Page({
   data: {
     StatusBar: app.globalData.StatusBar,
     CustomBar: app.globalData.CustomBar,
-    sellIconList: [{
+    showIconList: [{
       icon: 'shop',
       color: 'red',
       badge: 0,
@@ -39,6 +39,32 @@ Page({
       badge: 0,
       name: '销售开单',
       url: applicationBase+"/pages/sellBill/sellBill"
+    }],
+
+    addIconList: [{
+      icon: 'shop',
+      color: 'red',
+      badge: 0,
+      name: '销售记录',
+      url: applicationBase + "/pages/sellList/sellList?fun=null"
+    }, {
+      icon: 'friendadd',
+      color: 'orange',
+      badge: 0,
+      name: '新增客户',
+      url: applicationBase + "/pages/newCustomer/newCustomer"
+    }, {
+      icon: 'peoplelist',
+      color: 'yellow',
+      badge: 0,
+      name: '客户列表',
+      url: applicationBase + "/pages/customerList/customerList"
+    }, {
+      icon: 'cart',
+      color: 'olive',
+      badge: 0,
+      name: '销售开单',
+      url: applicationBase + "/pages/sellBill/sellBill"
     }],
 
     statis: [{
@@ -234,7 +260,7 @@ Page({
 
   onLoad: function (options) {
     this.setData({
-      financialIconList: this.data.financialIconList
+      showIconList: this.data.showIconList
     })
     this.drawDiagram(2019)
   },
@@ -442,7 +468,7 @@ Page({
   //长按删除功能
   delete: function (e) {
     var that = this;
-    var list = that.data.sellIconList;
+    var list = that.data.showIconList;
     var index = e.currentTarget.dataset.index;//获取当前长按下标
     wx.showModal({
       title: '提示',
@@ -454,7 +480,7 @@ Page({
           return false;
         }
         that.setData({
-          sellIconList: list
+          showIconList: list
         });
       }
     })
@@ -463,19 +489,20 @@ Page({
   //添加功能
   add: function (e) {
     var that = this;
-    var list = that.data.sellIconList;
+    var list = that.data.addIconList;
+    var showIconList = that.data.showIconList;
     var index = e.currentTarget.dataset.index;//获取当前长按下标
     wx.showModal({
       title: '提示',
       content: '确定要添加该功能吗？',
       success: function (res) {
         if (res.confirm) {
-          list.push(list[index]);
+          showIconList.push(list[index]);
         } else if (res.cancel) {
           return false;
         }
         that.setData({
-          sellIconList: list,
+          showIconList: showIconList,
           isShow: false
         });
       }
