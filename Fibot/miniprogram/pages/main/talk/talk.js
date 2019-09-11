@@ -295,21 +295,6 @@ Page({
           console.log('查询结果缓存成功', res)
           wx.navigateTo({
             url: '../inquiryResult/inquiryResult',
-            success: () => {
-              let pages = getCurrentPages()
-              let len = pages.length
-              wx.showLoading({
-                title: '加载中',
-                mask: true
-              })
-              setTimeout(() => {
-                pages[len-1].setData({
-                  msg: 'hello'
-                }, () => {
-                  wx.hideLoading()
-                })
-              }, 500)
-            }
           })
         }
       })

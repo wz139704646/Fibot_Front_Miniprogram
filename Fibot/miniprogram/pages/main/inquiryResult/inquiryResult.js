@@ -13,7 +13,23 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    wx.showLoading({
+      title: '加载中',
+      mask: true
+    })
+    wx.getStorage({
+      key: 'inquiry',
+      success: function(res) {
+        this.setData(JSON.parse(res.data), () => {wx.hideLoading()})
+      },
+      fail: err => {
+        wx.showToast({
+          title: '获取数据失败，请退出重试',
+          icon: 'none',
+          duration: 3000
+        })
+      }
+    })
   },
 
   /**
@@ -41,7 +57,12 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-
+    wx.removeStorage({
+      key: 'inquiry',
+      success: function(res) {
+        console.log('查询缓存清除成功', res)
+      },
+    })
   },
 
   /**
