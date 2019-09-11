@@ -1,11 +1,11 @@
 <cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
   <view slot="backText">返回</view>
-  <view slot="content">{{category}}销售情况</view>
+  <view slot="content">{{category}}采购情况</view>
 </cu-custom>
 
 <view class="cu-bar bg-white solid-bottom">
   <view class="action" style='font-size:16px;'>
-    <text class="cuIcon-title text-blue"></text>{{category}}销售记录
+    <text class="cuIcon-title text-blue"></text>{{category}}采购记录
   </view>
 </view>
 
@@ -13,10 +13,11 @@
   <view class="cu-timeline">
     <view class="cu-item">
       <view class="content card-css">
-        <van-card num="{{per[3]}}" price="{{per[2]}}" desc="采购总金额：{{per[0]}}元" title="{{per[1]}}" thumb="{{ imageURL }}" custom-class = "card-css">
+        <van-card num="{{per[5]}}" price="{{per[6]}}" desc="采购总金额：{{per[3]}}" title="{{per[4]}}" thumb="{{ imageURL }}" custom-class = "card-css" tag="{{per[7]}}">
           <view slot="footer" class="desc-info">
-            <text>卖家：{{per[4]}} \n</text>
-            <text>采购时间：{{per[5]}} \n</text>
+            <text>采购者：{{per[0]}} \n</text>
+            <text>进货来源：{{per[1]}} \n</text>
+            <text>采购时间：{{per[2]}} \n</text>
           </view>
         </van-card>
       </view>

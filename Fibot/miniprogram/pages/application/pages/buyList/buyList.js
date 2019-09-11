@@ -9,15 +9,35 @@ Page({
     brList:[],
     allbrList:[],
     searchList:[],
-    fun:null
+    fun:null,
+    e: null
   },
+
   onLoad(options){
     console.log(options)
     this.setData({
-      fun:options.fun
+      fun:options.query
     })
     var that = this
     that.getbrList()
+    if (options.query != null){
+      var pages = getCurrentPages()
+      let prev = pages[pages.length - 2]
+      console.log(prev.data)
+      if (prev.data.e != null) {
+        console.log('判断要搜索')
+        that.setData({
+          inputValue: prev.data.e.detail.value,
+          e: prev.data.e
+        }, () => {
+          that.inputChange(prev.data.e)
+          console.log('search')
+        })
+        prev.setData({
+          searchValue: null
+        })
+      }
+    }
   },
   getbrList(){
     let token = app.getToken()
@@ -79,13 +99,21 @@ Page({
         console.log(datelist)
         that.setData({
           brList: datelist,
-          allbrList: datelist
+          allbrList: datelist,
         })
+        if(that.data.fun != null){
+          that.setData({
+            inputVal: that.data.e.detail.value
+          })
+        }
         // that.initIndex()
-
       },
       fail: err => {
         console.error('fail')
+      },
+      complete: res => {
+        console.log(that.data.e)
+        that.inputChange(that.data.e)
       }
     })
   },
@@ -124,12 +152,18 @@ Page({
   },
   inputChange(e) {
     var that = this
-    console.log(e.detail.value)
-    inputVal = e.detail.value
-    that.search(e)
+    if (this.data.fun != null){
+      console.log(e.detail.value)
+      inputVal = e.detail.value
+      that.search(e)
+    }
+    else{
+      this.search(e)
+    }
   },
   //TODO 待改
   search(e) {
+    console.log(e)
     var that = this
     let searchText = e.detail.value
     if (!searchText) {
@@ -138,6 +172,7 @@ Page({
       })
     }
     searchText = searchText.toLowerCase()
+    console.log(searchText)
     let blist = this.data.allbrList
     let buyList = []
     //查日期

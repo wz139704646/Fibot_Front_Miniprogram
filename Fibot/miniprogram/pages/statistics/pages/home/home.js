@@ -111,6 +111,7 @@ Page({
     var that = this
     console.log('longPress')
     console.log(this.data.curr_diagram)
+    console.log(this.data.curr_time)
     if (this.data.curr_diagram == '营业收入'){
       if (this.data.curr_time == '本年') {
         //处理成2019-09类型字符串
@@ -214,21 +215,20 @@ Page({
           var searchValue = String(curr_year) + '-' + String(this.data.monthChoosed)
         }
         wx.navigateTo({
-          url: '/pages/application/pages/buyList/buyList',
+          url: '/pages/application/pages/buyList/buyList?query=purchaseL',
           success: function (res) {
             console.log(searchValue)
             that.setData({
               e: {
                 type: "input",
-                timeStamp: 1567943215368,
+                timeStamp: 1568081218520,
                 detail: {
                   value: searchValue,
-                  cursor: 10,
-                  keyCode: 49
+                  cursor: 7,
+                  keyCode: 56
                 },
                 target: {
                   id: "",
-                  dataset: {},
                   offsetTop: 9,
                   offsetLeft: 43
                 },
@@ -262,7 +262,7 @@ Page({
           var searchValue = String(curr_year) + '-' + curr_month + '-0' + String(this.data.monthChoosed)
         }
         wx.navigateTo({
-          url: '/pages/application/pages/buyList/buyList',
+          url: '/pages/application/pages/buyList/buyList?query=purchaseL',
           success: function (res) {
             console.log(searchValue)
             that.setData({
@@ -1263,7 +1263,7 @@ Page({
     var that = this
     let token = app.getToken()
     if (this.data.curr_time == '总计') {
-      if(this.curr_diagram == '营业收入'){
+      if(this.data.curr_diagram == '营业收入'){
         wx.request({
           url: host + '/data/getSalesDetailByCategory',
           data: JSON.stringify({
@@ -1284,11 +1284,33 @@ Page({
             wx.navigateTo({
               url: '/pages/statistics/pages/sumDetail/sumDetail',
             })
-          }
+          } 
         })
       }
       else if (this.data.curr_diagram == '营业支出'){
-        
+        wx.request({
+          url: host + '/data/getPurchaseDetailByCategory',
+          data: JSON.stringify({
+            category: category
+          }),
+          method: "POST",
+          header: {
+            'Content-Type': 'application/json',
+            'Authorization': token
+          },
+          success: res => {
+            console.log(res)
+            console.log('success pass')
+            console.log(res.data.result)
+            that.setData({
+              totalRecords: res.data.result,
+              category: category
+            })
+            wx.navigateTo({
+              url: '/pages/statistics/pages/purchaseDetails/purchaseDetails',
+            })
+          }
+        })
       }
       else{
 

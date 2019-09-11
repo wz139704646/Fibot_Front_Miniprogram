@@ -3,7 +3,7 @@ var curr_year = date.getFullYear();
 Page({
   data: {
     records: [
-      '该月没有任何销售记录'
+      '该月没有任何采购记录'
     ],
     month: 0,
     year: curr_year,
@@ -16,5 +16,6 @@ Page({
       records: Object.values(prev.data.totalRecords),
       category: prev.data.category
     })
+    console.log(this.data.records)
   }
 })
