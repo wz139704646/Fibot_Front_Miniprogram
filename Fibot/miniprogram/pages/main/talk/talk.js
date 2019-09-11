@@ -4,6 +4,7 @@ const app = getApp();
 const util = require('../../../utils/util.js')
 var inputVal = '';
 var msgList = [];
+var inquiryResults = {};
 var windowWidth = wx.getSystemInfoSync().windowWidth;
 var windowHeight = wx.getSystemInfoSync().windowHeight;
 var keyHeight = 0;
@@ -142,41 +143,35 @@ Page({
           time: date
         }),
         success: res => {
-          if (res.statusCode != 200) {
-            wx.showToast({
-              title: '出现未知错误',
-              image: '/imgs/fail.png'
-            })
-            return
-          }
-          let data = res.data
-          if (data.success) {
-            let result = data.result
-            // 将返回信息作为server方发送
-            if (result && result.length > 0) {
-              for (let idx in result) {
-                msgList.push({
-                  speaker: 'server',
-                  contentType: 'text',
-                  content: result[idx]
-                })
-              }
-            } else {
-              msgList.push({
-                speaker: 'server',
-                contentType: 'text',
-                content: '不好意思，我听不懂你在说什么'
-              })
-            }
-          } else {
+          if (res.statusCode == 555) {
+            app.relogin()
+          } else if (res.statusCode == 403) {
             msgList.push({
               speaker: 'server',
               contentType: 'text',
-              content: '不好意思，我听不懂你在说什么'
+              content: '不好意思，您无权限查询该信息，请联系管理员添加相应权限'
             })
+          } else if (res.statusCode != 200 || !res.data.success) {
+            msgList.push({
+              speaker: 'server',
+              contentType: 'text',
+              content: res.data.errMsg || '请求失败！'
+            })
+          } else {
+            let result = res.data.result
+            for (let idx in result) {
+              msgList.push({
+                speaker: 'server',
+                contentType: 'link',
+                content: result[idx].summary
+              })
+              let id = msgList.length - 1
+              inquiryResults[`server-${idx}`] = result[idx]
+            }
           }
           this.setData({
-            msgList
+            msgList,
+            inquiryResults
           })
         },
         fail: err => {
@@ -288,4 +283,36 @@ Page({
       })
     })
   },
+
+  onMsgClicked: function(e) {
+    let idx = e.currentTarget.dataset.idx
+    let inquiryData = inquiryResults[`server-${idx}`]
+    if(inquiryData){
+      wx.setStorage({
+        key: 'inquiry',
+        data: JSON.stringify(inquiryData),
+        success: () => {
+          console.log('查询结果缓存成功', res)
+          wx.navigateTo({
+            url: '../inquiryResult/inquiryResult',
+            success: () => {
+              let pages = getCurrentPages()
+              let len = pages.length
+              wx.showLoading({
+                title: '加载中',
+                mask: true
+              })
+              setTimeout(() => {
+                pages[len-1].setData({
+                  msg: 'hello'
+                }, () => {
+                  wx.hideLoading()
+                })
+              }, 500)
+            }
+          })
+        }
+      })
+    }
+  }
 })

@@ -13,10 +13,11 @@
     "pages/main/mainq/production/production",
     "pages/main/mainq/marketing/marketing",
     "pages/main/talk/talk",
-    "pages/main/my/home/home"
+    "pages/main/my/home/home",
+    "pages/main/inquiryResult/inquiryResult"
   ],
   "window": {
-    "navigationBarBackgroundColor": "#03A9F4", 
+    "navigationBarBackgroundColor": "#03A9F4",
     "navigationBarTitleText": "财务机器人",
     "navigationStyle": "custom",
     "navigationBarTextStyle": "white"

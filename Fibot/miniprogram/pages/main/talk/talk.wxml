@@ -23,9 +23,10 @@
       <view class="cu-item" wx:if='{{item.speaker=="server"}}' id='msg-{{index}}'>
         <view class="cu-avatar radius" style="background-image:url(https://gss1.bdstatic.com/9vo3dSag_xI4khGkpoWK1HF6hhy/baike/w%3D268/sign=f0e412c3dd43ad4ba62e41c6ba035a89/8718367adab44aed07a45182bf1c8701a08bfbea.jpg);">
         </view>
-        <view class="main">
+        <view class="main" bindtap="onMsgClicked" data-idx="{{index}}">
           <view class="content shadow">
             <text>{{item.content}}</text>
+            <view wx:if="{{item.contentType == 'link'}}" class="text-blue cuIcon-link">点击查看详情</view>
           </view>
         </view>
         <!-- <view class="date">{{item.date}}</view> -->

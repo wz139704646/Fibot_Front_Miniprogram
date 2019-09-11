@@ -1,0 +1,75 @@
+<!--miniprogram/pages/main/inquiryResult/inquiryResult.wxml-->
+<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
+  <view slot="backText">返回</view>
+  <view slot="content">详情</view>
+</cu-custom>
+<view class="cu-card">
+  <view class="cu-item shadow-warp" style="border-radius: 10px;">
+    <view class="cu-list menu-avatar comment solids-top">
+      <view class="cu-item">
+        <view class="cu-avatar round" style="background-image:url(https://gss1.bdstatic.com/9vo3dSag_xI4khGkpoWK1HF6hhy/baike/w%3D268/sign=f0e412c3dd43ad4ba62e41c6ba035a89/8718367adab44aed07a45182bf1c8701a08bfbea.jpg);"></view>
+        <view class="content">
+          <view class="text-grey">Finbot</view>
+          <view class="text-gray text-content text-df">
+            您想要的是下面这些信息吗：
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+
+  <view class="cu-item shadow-warp" style="border-radius: 10px;">
+    <view class="bg-grey padding-sm radius margin-sm text-lg">
+      <view class="text-center">
+        <view>本月销售共 132 笔，总利润 10000￥本月销售共 132 笔，总利润 10000￥本月销售共 132 笔，总利润 10000￥</view>
+      </view>
+    </view>
+
+    <view wx:if="{{type=='collapse-group'}}">
+      <van-cell-group wx:for="{{groups}}" wx:key wx:for-key="group-index" wx:for-item="group" title="{{group.title || ''}}">
+        <van-collapse value="{{ group.activeNames }}" bind:change="onActiveChange" data-gidx="{{group-index}}">
+          <block wx:for="{{group.items}}" wx:key wx:for-item="item" wx:for-index="item-index">
+            <van-collapse-item title="{{item.title}}" name="{{item-index}}" label="{{item.label}}" value="{{item.value}}">
+              <view wx:if="{{item.tag}}" slot="icon">
+                <van-tag wx:if="{{item.tag}}" type="danger">{{item.tag}}</van-tag>
+              </view>
+              <view wx:if="{{item.content}}">
+                <block wx:if="{{item.content.type == 'list'}}" wx:for="{{item.content.items}}" wx:for-item="citem" wx:for-key="citem-idex">
+                  <van-cell title="{{citem.title}}" value="{{citem.value}}" label="{{citem.label}}">
+                    <view slot="title">
+                      <van-tag wx:if="{{citem.tag}}" type="danger">{{citem.tag}}</van-tag>
+                    </view>
+                  </van-cell>
+                </block>
+                <view wx:if="item.content.type == 'long-text'">
+                  {{item.content.text}}
+                </view>
+              </view>
+            </van-collapse-item>
+          </block>
+        </van-collapse>
+      </van-cell-group>
+    </view>
+
+    <view wx:elif="{{type=='list-group'}}">
+      <van-cell-group wx:for="{{groups}}" wx:key wx:for-key="group-index" wx:for-item="group" title="{{group.title || ''}}">
+        <block wx:if="{{group.items}}" wx:key>
+          <van-cell title="{{item.title}}" value="{{item.value}}" label="{{item.label}}">
+            <view slot="title">
+              <van-tag wx:if="{{item.tag}}" type="danger">{{item.tag}}</van-tag>
+            </view>
+          </van-cell>
+        </block>
+      </van-cell-group>
+    </view>
+
+    <view wx:elif="{{type=='long-text'}}">
+      <view class="padding-sm radius margin-top-sm text-lg">
+      <view class="text-center">
+        <view>{{text}}</view>
+      </view>
+    </view>
+    </view>
+  </view>
+</view>
