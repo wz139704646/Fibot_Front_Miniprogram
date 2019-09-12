@@ -2,6 +2,7 @@ const app = getApp()
 const util = require('../../../../utils/util.js')
 var inputVal = '';
 const host = app.globalData.requestHost
+const applicationBase = app.globalData.applicationBase
 Page({
   data: {
     StatusBar: app.globalData.StatusBar,
@@ -16,11 +17,15 @@ Page({
   onLoad(options){
     console.log(options)
     this.setData({
-      fun:options.query
+      fun:options.fun
     })
     var that = this
     that.getbrList()
-    if (options.query != null){
+    if (options.query){
+      console.log("aaa")
+      this.setData({
+        query: options.query
+      })
       var pages = getCurrentPages()
       let prev = pages[pages.length - 2]
       console.log(prev.data)
@@ -101,7 +106,7 @@ Page({
           brList: datelist,
           allbrList: datelist,
         })
-        if(that.data.fun != null){
+        if(that.data.query != null){
           that.setData({
             inputVal: that.data.e.detail.value
           })
@@ -112,8 +117,11 @@ Page({
         console.error('fail')
       },
       complete: res => {
-        console.log(that.data.e)
-        that.inputChange(that.data.e)
+        if(that.data.query){
+          console.log(that.data.e)
+          that.inputChange(that.data.e)
+        }
+        
       }
     })
   },
@@ -151,13 +159,15 @@ Page({
     return false
   },
   inputChange(e) {
+    console.log(e)
     var that = this
-    if (this.data.fun != null){
+    if (this.data.query){
       console.log(e.detail.value)
       inputVal = e.detail.value
       that.search(e)
     }
     else{
+
       this.search(e)
     }
   },
@@ -246,7 +256,7 @@ Page({
     var id = e.currentTarget.dataset.id
     var status = e.currentTarget.dataset.status
     wx.navigateTo({
-      url: '../recordInfo/recordInfo?back=buy&id=' + id + '&fun=' + this.data.fun + '&status=' + status
+      url: applicationBase +'/pages/recordInfo/recordInfo?back=buy&id=' + id + '&fun=' + this.data.fun + '&status=' + status
     })
   },
   

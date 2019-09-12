@@ -17,6 +17,30 @@ Page({
     StatusBar: app.globalData.StatusBar,
     CustomBar: app.globalData.CustomBar,
     showIconList: [{
+      icon: 'deliver_fill',
+      color: 'red',
+      badge: 0,
+      name: '采购记录',
+      url: applicationBase + '/pages/buyList/buyList?fun=null'
+    }, {
+        icon: 'friendaddfill',
+        color: 'orange',
+        badge: 0,
+        name: '新增供应商',
+        url: applicationBase + '/pages/newSupplier/newSupplier'
+      }, {
+        icon: 'expressman',
+        color: 'yellow',
+        badge: 0,
+        name: '供应商列表',
+        url: applicationBase + '/pages/supplierList/supplierList'
+      }, {
+        icon: 'file',
+        color: 'olive',
+        badge: 0,
+        name: '采购开单',
+        url: applicationBase + "/pages/buyBill/buyBill"
+      }, {
       icon: 'ticket',
       color: 'red',
       badge: 0,
