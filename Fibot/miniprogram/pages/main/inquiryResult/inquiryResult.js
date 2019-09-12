@@ -9,8 +9,6 @@ Page({
    * 页面的初始数据
    */
   data: {
-    type: 'long-text',
-    text: '哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈'
   },
 
   /**
@@ -25,7 +23,7 @@ Page({
     wx.getStorage({
       key: 'inquiry',
       success: function (res) {
-        that.setData(JSON.parse(res.data), () => { wx.hideLoading() })
+        that.setData(JSON.parse(res.data), () => {wx.hideLoading()})
         wx.showLoading({
           title: '画图中',
           mask: true
