@@ -28,7 +28,6 @@ Page({
           title: '画图中',
           mask: true
         })
-        console.log(res.data)
       },
       fail: err => {
         wx.showToast({
@@ -38,9 +37,9 @@ Page({
         })
       },
       complete: () => {
+        console.log(that.data)
         if (that.data.type == "pie") {
           var arr = []
-          console.log(Object.keys(that.data.diagram)[0])
           arr.push({
             name: '食品类',
             data: 0
@@ -68,13 +67,13 @@ Page({
             }
             for (var e in arr) {
               if (arr[e].name == String(Object.keys(that.data.diagram)[k])) {
-                arr[e].data = that.data.diagram[String(Object.keys(that.data.diagram)[0])]
+                arr[e].data = that.data.diagram[Object.keys(that.data.diagram)[k]]
+                console.log(arr[e].data)
                 console.log('break')
-                break
+                break;
               }
             }
           }
-          console.log(arr)
           mychart = new wxCharts({
             animation: true,
             canvasId: 'pieCanvas',
@@ -88,22 +87,28 @@ Page({
         else if (that.data.type == "line") {
           var categories = []
           var data = []
-          for (var k in that.data.diagram) {
-            categories.push(k)
-            data.push(that.data.diagram[k])
+          for (var k = 0; k < Object.keys(that.data.diagram).length; k++) {
+            if (Object.keys(that.data.diagram).length == 0) {
+              wx.hideLoading()
+              wx.showModal({
+                title: '未获取到数据',
+                content: '请确认',
+              })
+              return
+            }
+            categories.push(String(Object.keys(that.data.diagram)[k]))
+            data.push(that.data.diagram[String(Object.keys(that.data.diagram)[k])])
           }
-          console.log(categories)
-          console.log(data)
           mychart = new wxCharts({
             canvasId: 'pieCanvas',
             type: 'line',
             categories: categories,
             animation: false,
             series: [{
-              // name: '营业利润',
+              name: String(that.data.summary),
               data: data,
               format: function (val, name) {
-                return parseFloat(val).toFixed(2) + '万';
+                return parseFloat(val).toFixed(2) + '元';
               }
             }],
             width: windowWidth,
