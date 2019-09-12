@@ -50,6 +50,10 @@
           </block>
         </van-collapse>
       </van-cell-group>
+      <view class="container">
+        <canvas canvas-id="pieCanvas" class="canvas" style="height:300px" bindtouchstart="touchHandler" bindtouchmove="moveHandler" bindtouchend="touchEndHandler" bindlongpress='longPress'></canvas>
+        <view style="margin-top:30px;text-align:center">点击或拖动图片查看详细数据</view>
+      </view>
     </view>
 
     <view wx:elif="{{type=='list-group'}}">
@@ -62,14 +66,22 @@
           </van-cell>
         </block>
       </van-cell-group>
+      <view class="container">
+        <canvas canvas-id="pieCanvas" class="canvas" style="height:300px" bindtouchstart="touchHandler" bindtouchmove="moveHandler" bindtouchend="touchEndHandler" bindlongpress='longPress'></canvas>
+        <view style="margin-top:30px;text-align:center">点击或拖动图片查看详细数据</view>
+      </view>
     </view>
 
     <view wx:elif="{{type=='long-text'}}">
       <view class="padding-sm radius margin-top-sm text-lg">
-      <view class="text-center">
-        <view>{{text}}</view>
+        <view class="text-center">
+          <view>{{text}}</view>
+        </view>
       </view>
-    </view>
+      <view class="container">
+        <canvas canvas-id="pieCanvas" class="canvas" style="height:300px" bindtouchstart="touchHandler" bindtouchmove="moveHandler" bindtouchend="touchEndHandler" bindlongpress='longPress'></canvas>
+        <view style="margin-top:30px;text-align:center">点击或拖动图片查看详细数据</view>
+      </view>
     </view>
   </view>
 </view>

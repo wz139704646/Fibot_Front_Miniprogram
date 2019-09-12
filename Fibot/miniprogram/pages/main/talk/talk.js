@@ -126,7 +126,7 @@ Page({
     });
 
     // 处理对话，调用自然语言处理
-    let date = util.getcurDateFormatString(new Date())
+    // let date = "2019-09-12 00:00:00"
     let token = app.getToken()
     let that = this
     if(token) {
@@ -140,7 +140,7 @@ Page({
         data: JSON.stringify({
           language: e.detail.value,
           companyId: app.globalData.companyId,
-          time: date
+          // time: date
         }),
         success: res => {
           if (res.statusCode == 555) {
