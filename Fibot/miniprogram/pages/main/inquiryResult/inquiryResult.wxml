@@ -22,7 +22,7 @@
   <view class="cu-item shadow-warp" style="border-radius: 10px;">
     <view class="bg-grey padding-sm radius margin-sm text-lg">
       <view class="text-center">
-        <view>本月销售共 132 笔，总利润 10000￥本月销售共 132 笔，总利润 10000￥本月销售共 132 笔，总利润 10000￥</view>
+        <view>{{summary}}</view>
       </view>
     </view>
 
@@ -35,7 +35,7 @@
                 <van-tag wx:if="{{item.tag}}" type="danger">{{item.tag}}</van-tag>
               </view>
               <view wx:if="{{item.content}}">
-                <block wx:if="{{item.content.type == 'list'}}" wx:for="{{item.content.items}}" wx:for-item="citem" wx:for-key="citem-idex">
+                <block wx:if="{{item.content.type == 'list'}}" wx:key wx:for="{{item.content.items}}" wx:for-item="citem" wx:for-key="citem-idex">
                   <van-cell title="{{citem.title}}" value="{{citem.value}}" label="{{citem.label}}">
                     <view slot="title">
                       <van-tag wx:if="{{citem.tag}}" type="danger">{{citem.tag}}</van-tag>

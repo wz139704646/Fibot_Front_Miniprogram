@@ -25,7 +25,7 @@ Page({
     wx.getStorage({
       key: 'inquiry',
       success: function(res) {
-        this.setData(JSON.parse(res.data), () => {wx.hideLoading()})
+        that.setData(JSON.parse(res.data), () => {wx.hideLoading()})
         wx.showLoading({
           title: '画图中',
           mask: true
@@ -147,5 +147,13 @@ Page({
    */
   onShareAppMessage: function () {
 
+  },
+
+  onActiveChange: function(e) {
+    console.log(e)
+    let {gidx} = e.currentTarget.dataset
+    this.setData({
+      [`groups[${gidx}].activeNames`]: e.detail
+    })
   }
 })

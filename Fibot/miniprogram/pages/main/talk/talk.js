@@ -158,15 +158,16 @@ Page({
               content: res.data.errMsg || '请求失败！'
             })
           } else {
+            console.log(res)
             let result = res.data.result
             for (let idx in result) {
               msgList.push({
                 speaker: 'server',
-                contentType: 'link',
+                contentType: result[idx].type,
                 content: result[idx].summary
               })
               let id = msgList.length - 1
-              inquiryResults[`server-${idx}`] = result[idx]
+              inquiryResults[`server-${id}`] = result[idx]
             }
           }
           this.setData({
@@ -286,13 +287,14 @@ Page({
 
   onMsgClicked: function(e) {
     let idx = e.currentTarget.dataset.idx
+    console.log(e, idx)
     let inquiryData = inquiryResults[`server-${idx}`]
     if(inquiryData){
       wx.setStorage({
         key: 'inquiry',
         data: JSON.stringify(inquiryData),
         success: () => {
-          console.log('查询结果缓存成功', res)
+          console.log('查询结果缓存成功')
           wx.navigateTo({
             url: '../inquiryResult/inquiryResult',
           })
