@@ -19,7 +19,7 @@
   </view>
 
 
-  <view class="cu-item shadow-warp" style="border-radius: 10px;">
+  <view class="cu-item shadow-warp margin-bottom" style="border-radius: 10px;">
     <view class="bg-grey padding-sm radius margin-sm text-lg">
       <view class="text-center">
         <view>{{summary}}</view>
@@ -27,15 +27,15 @@
     </view>
 
     <view wx:if="{{type=='collapse-group'}}">
-      <van-cell-group wx:for="{{groups}}" wx:key wx:for-key="group-index" wx:for-item="group" title="{{group.title || ''}}">
-        <van-collapse value="{{ group.activeNames }}" bind:change="onActiveChange" data-gidx="{{group-index}}">
-          <block wx:for="{{group.items}}" wx:key wx:for-item="item" wx:for-index="item-index">
-            <van-collapse-item title="{{item.title}}" name="{{item-index}}" label="{{item.label}}" value="{{item.value}}">
+      <van-cell-group wx:for="{{groups}}" wx:key wx:for-index="groupIndex" wx:for-item="group" title="{{group.title || ''}}">
+        <van-collapse value="{{ group.activeNames }}" bind:change="onActiveChange" data-gidx="{{groupIndex}}">
+          <block wx:for="{{group.items}}" wx:key wx:for-item="item" wx:for-index="itemIndex">
+            <van-collapse-item title="{{item.title}}" name="{{itemIndex}}" label="{{item.label}}" value="{{item.value}}">
               <view wx:if="{{item.tag}}" slot="icon">
                 <van-tag wx:if="{{item.tag}}" type="danger">{{item.tag}}</van-tag>
               </view>
               <view wx:if="{{item.content}}">
-                <block wx:if="{{item.content.type == 'list'}}" wx:key wx:for="{{item.content.items}}" wx:for-item="citem" wx:for-key="citem-idex">
+                <block wx:if="{{item.content.type == 'list'}}" wx:key wx:for="{{item.content.lists}}" wx:for-item="citem" wx:for-index="citemIdex">
                   <van-cell title="{{citem.title}}" value="{{citem.value}}" label="{{citem.label}}">
                     <view slot="title">
                       <van-tag wx:if="{{citem.tag}}" type="danger">{{citem.tag}}</van-tag>
@@ -57,8 +57,8 @@
     </view>
 
     <view wx:elif="{{type=='list-group'}}">
-      <van-cell-group wx:for="{{groups}}" wx:key wx:for-key="group-index" wx:for-item="group" title="{{group.title || ''}}">
-        <block wx:if="{{group.items}}" wx:key>
+      <van-cell-group wx:for="{{groups}}" wx:key wx:for-index="groupIndex" wx:for-item="group" title="{{group.title || ''}}">
+        <block wx:if="{{group.items}}" wx:for="{{group.items}}" wx:key>
           <van-cell title="{{item.title}}" value="{{item.value}}" label="{{item.label}}">
             <view slot="title">
               <van-tag wx:if="{{item.tag}}" type="danger">{{item.tag}}</van-tag>
