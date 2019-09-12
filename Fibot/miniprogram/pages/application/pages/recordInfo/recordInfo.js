@@ -42,7 +42,7 @@ Page({
     if (token) {
       that.initInfo(options, token)
       if (this.data.fun == "入库") {
-        that.getStoreList()
+        that.getStoreList(token)
       }
     }
 
