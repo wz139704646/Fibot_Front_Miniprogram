@@ -1,5 +1,5 @@
 // miniprogram/pages/main/inquiryResult/inquiryResult.js
-var mychart= null;
+var mychart = null;
 var wxCharts = require('../../../utils/wxcharts-min.js');
 var windowWidth = wx.getSystemInfoSync().windowWidth - 15
 
@@ -24,12 +24,13 @@ Page({
     })
     wx.getStorage({
       key: 'inquiry',
-      success: function(res) {
-        this.setData(JSON.parse(res.data), () => {wx.hideLoading()})
+      success: function (res) {
+        that.setData(JSON.parse(res.data), () => { wx.hideLoading() })
         wx.showLoading({
           title: '画图中',
           mask: true
         })
+        console.log(res.data)
       },
       fail: err => {
         wx.showToast({
@@ -39,14 +40,43 @@ Page({
         })
       },
       complete: () => {
-        if (that.data.type == "pie"){
+        if (that.data.type == "pie") {
           var arr = []
-          for (var k in Object.keys(that.data.diagram)) {
-            arr.push({
-              name: k,
-              data: that.data.diagram[k]
-            });
+          console.log(Object.keys(that.data.diagram)[0])
+          arr.push({
+            name: '食品类',
+            data: 0
+          })
+          arr.push({
+            name: '日用品类',
+            data: 0
+          })
+          arr.push({
+            name: '电子类',
+            data: 0
+          })
+          arr.push({
+            name: '其他类',
+            data: 0
+          })
+          for (var k = 0;k<Object.keys(that.data.diagram).length;k++) {
+            if (Object.keys(that.data.diagram).length == 0){
+              wx.hideLoading()
+              wx.showModal({
+                title: '未获取到数据',
+                content: '请确认',
+              })
+              return
+            }
+            for (var e in arr) {
+              if (arr[e].name == String(Object.keys(that.data.diagram)[k])) {
+                arr[e].data = that.data.diagram[String(Object.keys(that.data.diagram)[0])]
+                console.log('break')
+                break
+              }
+            }
           }
+          console.log(arr)
           mychart = new wxCharts({
             animation: true,
             canvasId: 'pieCanvas',
@@ -57,7 +87,7 @@ Page({
             dataLabel: true,
           });
         }
-        else if(that.data.type == "line"){
+        else if (that.data.type == "line") {
           var categories = []
           var data = []
           for (var k in that.data.diagram) {
@@ -89,7 +119,7 @@ Page({
           });
         }
         () => {
-          wx.hideLoading() 
+          wx.hideLoading()
         }
       }
     })
@@ -122,7 +152,7 @@ Page({
   onUnload: function () {
     wx.removeStorage({
       key: 'inquiry',
-      success: function(res) {
+      success: function (res) {
         console.log('查询缓存清除成功', res)
       },
     })
@@ -147,5 +177,13 @@ Page({
    */
   onShareAppMessage: function () {
 
+  },
+
+  onActiveChange: function (e) {
+    console.log(e)
+    let { gidx } = e.currentTarget.dataset
+    this.setData({
+      [`groups[${gidx}].activeNames`]: e.detail
+    })
   }
 })

@@ -29,7 +29,7 @@ function initData(that) {
 
 function calScrollHeight(that, keyHeight) {
   var query = wx.createSelectorQuery();
-  query.select('.scrollMsg').boundingClientRect(function(rect) {}).exec();
+  query.select('.scrollMsg').boundingClientRect(function (rect) { }).exec();
 }
 
 
@@ -67,7 +67,7 @@ Page({
   },
 
 
-  onLoad: function(options) {
+  onLoad: function (options) {
     let token = app.getToken()
     initData(this);
     // this.setData({
@@ -76,7 +76,7 @@ Page({
 
   },
 
-  onShow: function() {
+  onShow: function () {
     let token = app.getToken()
     const recorder = wx.getRecorderManager()
     let that = this
@@ -108,7 +108,7 @@ Page({
     })
   },
 
-  sendMsg: function(e) {
+  sendMsg: function (e) {
     console.log("send")
     if (e.detail.value == "")
       return
@@ -129,7 +129,7 @@ Page({
     // let date = "2019-09-12 00:00:00"
     let token = app.getToken()
     let that = this
-    if(token) {
+    if (token) {
       wx.request({
         url: host + '/languageProcess',
         method: 'POST',
@@ -158,15 +158,16 @@ Page({
               content: res.data.errMsg || '请求失败！'
             })
           } else {
+            console.log(res)
             let result = res.data.result
             for (let idx in result) {
               msgList.push({
                 speaker: 'server',
-                contentType: 'link',
+                contentType: result[idx].type,
                 content: result[idx].summary
               })
               let id = msgList.length - 1
-              inquiryResults[`server-${idx}`] = result[idx]
+              inquiryResults[`server-${id}`] = result[idx]
             }
           }
           this.setData({
@@ -187,20 +188,20 @@ Page({
 
   },
 
-  sendByTapping: function(e) {
+  sendByTapping: function (e) {
     let text = inputVal
     e.detail.value = text != undefined ? text : ""
     this.sendMsg(e)
   },
 
-  changeInputType: function(e) {
+  changeInputType: function (e) {
     let type = this.data.soundInput
     this.setData({
       soundInput: !type
     })
   },
 
-  recordBegins: function(e) {
+  recordBegins: function (e) {
     console.log('touch start event')
     const recorder = wx.getRecorderManager()
     const options = {
@@ -232,19 +233,19 @@ Page({
     })
   },
 
-  recordEnds: function(e) {
+  recordEnds: function (e) {
     console.log('touch end event', e)
     var { recordStarted } = this.data
     var delta = 0
     if (!recordStarted) {
       delta = 1000
     }
-    setTimeout(()=>{
+    setTimeout(() => {
       wx.getRecorderManager().stop()
     }, delta)
   },
 
-  speechRecognition: function(res) {
+  speechRecognition: function (res) {
     let that = this
     wx.showToast({
       title: '识别中',
@@ -284,15 +285,16 @@ Page({
     })
   },
 
-  onMsgClicked: function(e) {
+  onMsgClicked: function (e) {
     let idx = e.currentTarget.dataset.idx
+    console.log(e, idx)
     let inquiryData = inquiryResults[`server-${idx}`]
-    if(inquiryData){
+    if (inquiryData) {
       wx.setStorage({
         key: 'inquiry',
         data: JSON.stringify(inquiryData),
         success: () => {
-          console.log('查询结果缓存成功', res)
+          console.log('查询结果缓存成功')
           wx.navigateTo({
             url: '../inquiryResult/inquiryResult',
           })

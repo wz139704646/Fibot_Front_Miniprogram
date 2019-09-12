@@ -26,7 +26,7 @@
         <view class="main" bindtap="onMsgClicked" data-idx="{{index}}">
           <view class="content shadow">
             <text>{{item.content}}</text>
-            <view wx:if="{{item.contentType == 'link'}}" class="text-blue cuIcon-link">点击查看详情</view>
+            <view wx:if="{{item.contentType != 'text'}}" class="text-blue cuIcon-link">点击查看详情</view>
           </view>
         </view>
         <!-- <view class="date">{{item.date}}</view> -->
