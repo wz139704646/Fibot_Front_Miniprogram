@@ -195,24 +195,6 @@ Page({
     })
   },
 
-  onChange(event) {
-    this.setData({
-      activeNames: event.detail,
-      showIconList: this.data.showIconList
-    });
-    console.log('财务人员')
-    this.drawDiagram()
-    if (firstOpen) {
-      wx.navigateTo({
-        url: '/pages/main/mainq/accounting/accounting',
-        success: function() {
-          console.log('nav')
-        }
-      })
-      firstOpen = false
-    }
-  },
-
   clickbtn: function(e) {
     console.log('click')
     this.drawDiagram()
