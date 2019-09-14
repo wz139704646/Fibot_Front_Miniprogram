@@ -35,53 +35,23 @@ Page({
     ],
 
     addIconList: [{
-      icon: 'ticket',
+      icon: 'rank',
       color: 'red',
       badge: 0,
-      name: '凭证',
-      url: applicationBase + '/pages/voucher/voucherList/voucher'
+      name: '主营业务',
+      url: statisticsBase + '/pages/home/home'
     }, {
-      icon: 'copy',
-      color: 'yellow',
-      badge: 0,
-      name: '报表',
-      url: ''
-      }, {
-        icon: 'sort',
-        color: 'yellow',
-        badge: 0,
-        name: '科目余额',
-        url: applicationBase + '/pages/trialBalance/trialBalance'
-      }, {
-        icon: 'text',
-        color: 'blue',
-        badge: 0,
-        name: '科目表',
-        url: applicationBase + '/pages/subjects/subjects/subjects'
-      }, {
-        icon: 'rankfill',
-        color: 'orange',
-        badge: 0,
-        name: '存款日记账',
-        url: applicationBase + '/pages/depositJournal/addJournal/addJournal'
-      }, {
-        icon: 'refund',
-        color: 'red',
-        badge: 0,
-        name: '库存现金',
-        url: applicationBase + '/pages/cashOnHand/cashShow/cashShow'
-      }, {
-        icon: 'copy',
+        icon: 'creative',
         color: 'green',
         badge: 0,
-        name: '银行对账',
-        url: applicationBase + '/pages/bankReconciliations/reconciliationShow/reconciliationShow'
+        name: '决策指标',
+        url: statisticsBase + '/pages/decisionMaking/decisionMaking'
       }, {
         icon: 'text',
-        color: 'yellow',
+        color: 'orange',
         badge: 0,
-        name: '资金日报表',
-        url: applicationBase + '/pages/dailyFund/dailyFund'
+        name: '股票分析',
+        url: statisticsBase + '/pages/stokeAnalysis/index'
       }
     ],
 

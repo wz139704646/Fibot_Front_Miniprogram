@@ -141,7 +141,7 @@ Page({
             title: 'add success',
           })
           wx.redirectTo({
-            url: '/pages/application/depositJournal/journalList/journalList',
+            url: '/pages/application/pages/depositJournal/journalList/journalList',
           })
         }
       })
@@ -209,7 +209,7 @@ Page({
           title: 'add success',
         })
         wx.redirectTo({
-          url: '/pages/application/depositJournal/journalList/journalList',
+          url: '/pages/application/pages/depositJournal/journalList/journalList',
         })
       }
     })
@@ -217,7 +217,7 @@ Page({
 
   onList(e) {
     wx.redirectTo({
-      url: '/pages/application/depositJournal/journalList/journalList',
+      url: '/pages/application/pages/depositJournal/journalList/journalList',
     })
   },
   /**
