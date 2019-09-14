@@ -45,7 +45,7 @@
       </view>
     </view>
 
-    <view wx:if="{{position=='admin'}}" class="cu-item arrow">
+    <view wx:if="{{roleName =='admin'}}" class="cu-item arrow">
       <button class="cu-btn content" bindtap="chooseRole">
         <text class="cuIcon-peoplelist text-cyan"></text>
         <text class="text-grey">切换角色</text>
