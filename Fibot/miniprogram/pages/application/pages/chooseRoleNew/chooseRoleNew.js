@@ -45,7 +45,7 @@ Component({
       title: '行政管理',
       name: '行政事务 统筹公司组织管理',
       color: 'green',
-      url: ""
+      url: mainBase + "/mainq/administration/administration"
       //icon: 'icon'
     },
     {

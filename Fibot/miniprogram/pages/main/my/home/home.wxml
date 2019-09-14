@@ -3,9 +3,9 @@
   <view class="UCenter-bg">
     
     <view class='cu-avatar xl margin-bottom round' style='background-image:url(http://mmbiz.qpic.cn/mmbiz_png/TavSduTtyTBgseu8ksuE8FmpWLE0PsFCIKDgaET6ZgjMIic6z5R5L5lsc6u1GTFrSzicLT5DK3prfF3NHQ7Ze8ow/0.png);'></view>
-    <view class="text-xl">Fibot</view>
+    <view class="text-xl">Finbot</view>
     <view class="margin-top-sm">
-      <text>By:No.1 Food Court</text>
+      <text>By: Alpha Type</text>
     </view>
     <image src="{{imgBase}}/imgs/wave.gif" mode="scaleToFill" class="gif-wave"></image>
   </view>
@@ -45,7 +45,7 @@
       </view>
     </view>
 
-    <view class="cu-item arrow">
+    <view wx:if="{{position=='admin'}}" class="cu-item arrow">
       <button class="cu-btn content" bindtap="chooseRole">
         <text class="cuIcon-peoplelist text-cyan"></text>
         <text class="text-grey">切换角色</text>
