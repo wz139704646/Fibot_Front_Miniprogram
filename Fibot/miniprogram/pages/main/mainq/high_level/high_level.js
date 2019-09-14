@@ -48,13 +48,6 @@ Page({
         badge: 0,
         name: '银行对账',
         url: applicationBase + '/pages/bankReconciliations/reconciliationShow/reconciliationShow'
-      },
-      {
-        icon: 'text',
-        color: 'yellow',
-        badge: 0,
-        name: '资金日报表',
-        url: applicationBase + '/pages/dailyFund/dailyFund'
       }
     ],
     //可添加图标
@@ -88,13 +81,6 @@ Page({
         badge: 0,
         name: '银行对账',
         url: applicationBase + '/pages/bankReconciliations/reconciliationShow/reconciliationShow'
-      },
-      {
-        icon: 'text',
-        color: 'yellow',
-        badge: 0,
-        name: '资金日报表',
-        url: applicationBase + '/pages/dailyFund/dailyFund'
       }
     ],
 
