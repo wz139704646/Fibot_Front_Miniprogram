@@ -53,7 +53,7 @@
     </view>
 
     <view class="cu-item arrow">
-      <navigator class="content" url="/pages/my/about/about" hover-class="none">
+      <navigator class="content" url="/pages/main/my/about/about" hover-class="none">
         <text class="cuIcon-apps text-grey"></text>
         <text class="text-grey">关于我们</text>
       </navigator>
