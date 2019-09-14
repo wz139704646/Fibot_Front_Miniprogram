@@ -140,45 +140,53 @@ Page({
     })
   },
   upload(id) {
-    var that = this
-    if(this.data.isChangeImg){
-      wx.uploadFile({
-        url: host + '/pic/upload',
-        filePath: this.data.imageList[0],
-        name: 'goods',
-        formData: {
-          id: id
-        },
-        success: res => {
-          console.log(res)
-          that.modify()
-        }
-      })
-    }else{
-      that.modify()
+    let token = app.getToken()
+    if (token) {
+      var that = this
+      if (this.data.isChangeImg) {
+        wx.uploadFile({
+          url: host + '/pic/upload',
+          filePath: this.data.imageList[0],
+          name: 'goods',
+          formData: {
+            id: id
+          },
+          success: res => {
+            console.log(res)
+            that.modify()
+          }
+        })
+      } else {
+        that.modify()
+      }
     }
     
   },
   delPic(){
-    var that = this
-    wx.request({
-      url: host + '/pic/delete/' + this.data.photo,
-      data:JSON.stringify({
-        filename:this.data.photo
-      }),
-      method:"POST",
-      header:{
-        "Content-Type":"application/json"
-      },
-      success:res=>{
-        console.log(res)
-        console.log(res.data.success)
-        that.upload(this.data.id)
-      },
-      fail:err=>{
-        console.log(err)
-      }
-    })
+    let token = app.getToken()
+    if (token) {
+      var that = this
+      wx.request({
+        url: host + '/pic/delete/' + this.data.photo,
+        data: JSON.stringify({
+          filename: this.data.photo
+        }),
+        method: "POST",
+        header: {
+          "Content-Type": "application/json",
+          'Authorization': token
+        },
+        success: res => {
+          console.log(res)
+          console.log(res.data.success)
+          that.upload(this.data.id)
+        },
+        fail: err => {
+          console.log(err)
+        }
+      })
+    }
+    
   },
   scanCode: function (event) {
     let that = this
@@ -252,30 +260,33 @@ Page({
     })
   },
   modify(){
-    //console.log(this.data.barcode)
-    wx.request({
-      url: host + '/updateGoodsInfo',
-      data:JSON.stringify({
-        id:this.data.id,
-        name:this.data.name,
-        sellprice:this.data.sellprice,
-        type:this.data.type,
-        barcode:this.data.barcode,
-        unitInfo:this.data.unitInfo
-      }),
-      method:"POST",
-      header:{
-        "Content-Type":"application/json"
-      },
-      success:res=>{
-        wx.showToast({
-          title: '修改成功',
-          icon: 'none',
-          mask: true
-        })
-        console.log(res)
-      }
-    })
-
+    let token = app.getToken()
+    if (token) {
+      //console.log(this.data.barcode)
+      wx.request({
+        url: host + '/updateGoodsInfo',
+        data: JSON.stringify({
+          id: this.data.id,
+          name: this.data.name,
+          sellprice: this.data.sellprice,
+          type: this.data.type,
+          barcode: this.data.barcode,
+          unitInfo: this.data.unitInfo
+        }),
+        method: "POST",
+        header: {
+          "Content-Type": "application/json",
+          'Authorization': token
+        },
+        success: res => {
+          wx.showToast({
+            title: '修改成功',
+            icon: 'none',
+            mask: true
+          })
+          console.log(res)
+        }
+      })
+    }
   }
 })

@@ -16,61 +16,56 @@ Page({
     StatusBar: app.globalData.StatusBar,
     CustomBar: app.globalData.CustomBar,
     showIconList: [{
-      icon: 'ticket',
+      icon: 'shop',
       color: 'red',
       badge: 0,
-      name: '凭证',
-      url: applicationBase+'/pages/voucher/voucherList/voucher'
+      name: '销售记录',
+      url: applicationBase + "/pages/sellList/sellList?fun=null"
     }, {
-      icon: 'copy',
-      color: 'yellow',
-      badge: 0,
-      name: '报表',
-      url: ''
-    }, {
-      icon: 'sort',
-      color: 'yellow',
-      badge: 0,
-      name: '科目余额',
-      url: applicationBase+'/pages/trialBalance/trialBalance'
-    },
-    {
-      icon: 'text',
-      color: 'blue',
-      badge: 0,
-      name: '科目表',
-      url: applicationBase+'/pages/subjects/subjects/subjects'
-    },
-    {
-      icon: 'rankfill',
+      icon: 'friendadd',
       color: 'orange',
       badge: 0,
-      name: '存款日记账',
-      url: applicationBase+'/pages/depositJournal/addJournal/addJournal'
+      name: '新增客户',
+      url: applicationBase + "/pages/newCustomer/newCustomer"
     }, {
-      icon: 'refund',
-      color: 'red',
-      badge: 0,
-      name: '库存现金',
-      url: applicationBase+'/pages/cashOnHand/cashShow/cashShow'
-    },
-    {
-      icon: 'copy',
-      color: 'green',
-      badge: 0,
-      name: '银行对账',
-      url: applicationBase+'/pages/bankReconciliations/reconciliationShow/reconciliationShow'
-    },
-    {
-      icon: 'text',
+      icon: 'peoplelist',
       color: 'yellow',
       badge: 0,
-      name: '资金日报表',
-      url: applicationBase+'/pages/dailyFund/dailyFund'
-    }
-    ],
+      name: '客户列表',
+      url: applicationBase + "/pages/customerList/customerList"
+    }, {
+      icon: 'cart',
+      color: 'olive',
+      badge: 0,
+      name: '销售开单',
+      url: applicationBase + "/pages/sellBill/sellBill"
+    }],
 
     addIconList: [{
+      icon: 'shop',
+      color: 'red',
+      badge: 0,
+      name: '销售记录',
+      url: applicationBase + "/pages/sellList/sellList?fun=null"
+    }, {
+        icon: 'friendadd',
+        color: 'orange',
+        badge: 0,
+        name: '新增客户',
+        url: applicationBase + "/pages/newCustomer/newCustomer"
+      }, {
+        icon: 'peoplelist',
+        color: 'yellow',
+        badge: 0,
+        name: '客户列表',
+        url: applicationBase + "/pages/customerList/customerList"
+      }, {
+        icon: 'cart',
+        color: 'olive',
+        badge: 0,
+        name: '销售开单',
+        url: applicationBase + "/pages/sellBill/sellBill"
+      }, {
       icon: 'ticket',
       color: 'red',
       badge: 0,
