@@ -1,4 +1,3 @@
-// pages/main/mainq/humanResourse/humanResourse.js
 // pages/main/boss/boss.js
 const app = getApp();
 var wxCharts = require('../../../../utils/wxcharts-min.js');
@@ -10,6 +9,7 @@ var arr = null;
 var startPos = null;
 var windowWidth = wx.getSystemInfoSync().windowWidth - 15
 var firstOpen = true
+const mainBase = app.globalData.mainBase
 
 Page({
   data: {
@@ -17,6 +17,7 @@ Page({
     activeNames: [],
     StatusBar: app.globalData.StatusBar,
     CustomBar: app.globalData.CustomBar,
+    //展示在页面图标
     showIconList: [{
       icon: 'ticket',
       color: 'red',
@@ -31,56 +32,48 @@ Page({
       url: ''
     }
     ],
-
+    //可添加图标
     addIconList: [{
-      icon: 'ticket',
-      color: 'red',
-      badge: 0,
-      name: '凭证',
-      url: applicationBase + '/pages/voucher/voucherList/voucher'
-    }, {
-      icon: 'copy',
+      icon: 'sort',
       color: 'yellow',
       badge: 0,
-      name: '报表',
-      url: ''
-      }, {
-        icon: 'sort',
-        color: 'yellow',
-        badge: 0,
-        name: '科目余额',
-        url: applicationBase + '/pages/trialBalance/trialBalance'
-      }, {
-        icon: 'text',
-        color: 'blue',
-        badge: 0,
-        name: '科目表',
-        url: applicationBase + '/pages/subjects/subjects/subjects'
-      }, {
-        icon: 'rankfill',
-        color: 'orange',
-        badge: 0,
-        name: '存款日记账',
-        url: applicationBase + '/pages/depositJournal/addJournal/addJournal'
-      }, {
-        icon: 'refund',
-        color: 'red',
-        badge: 0,
-        name: '库存现金',
-        url: applicationBase + '/pages/cashOnHand/cashShow/cashShow'
-      }, {
-        icon: 'copy',
-        color: 'green',
-        badge: 0,
-        name: '银行对账',
-        url: applicationBase + '/pages/bankReconciliations/reconciliationShow/reconciliationShow'
-      }, {
-        icon: 'text',
-        color: 'yellow',
-        badge: 0,
-        name: '资金日报表',
-        url: applicationBase + '/pages/dailyFund/dailyFund'
-      }
+      name: '科目余额',
+      url: applicationBase + '/pages/trialBalance/trialBalance'
+    },
+    {
+      icon: 'text',
+      color: 'blue',
+      badge: 0,
+      name: '科目表',
+      url: applicationBase + '/pages/subjects/subjects/subjects'
+    },
+    {
+      icon: 'rankfill',
+      color: 'orange',
+      badge: 0,
+      name: '存款日记账',
+      url: applicationBase + '/pages/depositJournal/addJournal/addJournal'
+    }, {
+      icon: 'refund',
+      color: 'red',
+      badge: 0,
+      name: '库存现金',
+      url: applicationBase + '/pages/cashOnHand/cashShow/cashShow'
+    },
+    {
+      icon: 'copy',
+      color: 'green',
+      badge: 0,
+      name: '银行对账',
+      url: applicationBase + '/pages/bankReconciliations/reconciliationShow/reconciliationShow'
+    },
+    {
+      icon: 'text',
+      color: 'yellow',
+      badge: 0,
+      name: '资金日报表',
+      url: applicationBase + '/pages/dailyFund/dailyFund'
+    }
     ],
 
     statis: [{
@@ -111,12 +104,12 @@ Page({
     this.setData({
       showIconList: this.data.showIconList
     })
-    console.log('人资管理')
+    console.log('高层管理')
     this.drawDiagram()
   },
 
   onShow: function () {
-    console.log('人资管理')
+    console.log('高层管理')
   },
 
   NavToTalk(e) {
@@ -132,7 +125,7 @@ Page({
     wx.navigateTo({
       url: e.currentTarget.id,
     })
-    console.log('人资管理')
+    console.log('高层管理')
   },
 
   //长按删除功能
@@ -161,11 +154,11 @@ Page({
       activeNames: event.detail,
       showIconList: this.data.showIconList
     });
-    console.log('人资管理')
+    console.log('高层管理')
     this.drawDiagram()
     if (firstOpen) {
       wx.navigateTo({
-        url: '/pages/main/mainq/humanResourse/humanResourse',
+        url: '/pages/main/mainq/boss/boss',
         success: function () {
           console.log('nav')
         }
@@ -291,6 +284,12 @@ Page({
       complete: res => {
 
       }
+    })
+  },
+
+  NavMy(e) {
+    wx.redirectTo({
+      url: mainBase + '/my/home/home?position=high_level',
     })
   },
 })

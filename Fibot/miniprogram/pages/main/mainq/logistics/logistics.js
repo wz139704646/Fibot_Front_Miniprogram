@@ -7,6 +7,7 @@ var pieChart2 = null;
 var arr = null;
 var startPos = null;
 var windowWidth = wx.getSystemInfoSync().windowWidth - 15
+const mainBase = app.globalData.mainBase
 
 Page({
   data: {
@@ -253,6 +254,12 @@ Page({
         }
       })
     }
+  },
+
+  NavMy(e) {
+    wx.redirectTo({
+      url: mainBase + '/my/home/home?position=logistics',
+    })
   },
 
 })

@@ -26,6 +26,7 @@ App({
     imgBase: 'cloud://zqr-testdemo-974f2b.7a71-zqr-testdemo-974f2b',
     applicationBase: "/pages/application",
     statisticsBase: "/pages/statistics",
+    mainBase:"/pages/main",
     companyId:"5",
     ColorList: [{
       title: '嫣红',

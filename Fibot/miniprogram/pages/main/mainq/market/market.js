@@ -9,6 +9,7 @@ var arr = null;
 var startPos = null;
 var windowWidth = wx.getSystemInfoSync().windowWidth - 15
 var firstOpen = true
+const mainBase = app.globalData.mainBase
 
 Page({
   data: {
@@ -290,6 +291,12 @@ Page({
       complete: res => {
 
       }
+    })
+  },
+
+  NavMy(e) {
+    wx.redirectTo({
+      url: mainBase + '/my/home/home?position=market',
     })
   },
 })

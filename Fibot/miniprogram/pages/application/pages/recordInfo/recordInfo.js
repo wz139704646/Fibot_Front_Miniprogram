@@ -334,7 +334,7 @@ Page({
     var curItem = e.currentTarget.dataset.item
     var curIndex = e.currentTarget.dataset.index
     console.log(e)
-    if (token) {
+    if (token && this.data.fun == "出库") {
       this.setData({
         isShow: true,
         curItem: curItem,

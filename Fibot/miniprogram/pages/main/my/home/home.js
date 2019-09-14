@@ -1,6 +1,7 @@
 const app = getApp()
 const host = app.globalData.requestHost
 const applicationBase = app.globalData.applicationBase
+const position = app.globalData.position
 
 Component({
   options: {
@@ -8,14 +9,19 @@ Component({
   },
   data: {
     imgBase: app.globalData.imgBase,
+    roleName: "",
     starCount: 0,
     forksCount: 0,
     visitTotal: 0,
     logoutModal: false, 
-    companyName: "街道口职业技术学院",
-    roleName: "销售管理"
+    companyName: "",
+    
   },
   attached() {
+    this.setData({
+      roleName:app.globalData.position,
+      companyName:app.globalData.companyName
+    })
     console.log("success")
     let that = this;
     wx.showLoading({
@@ -192,6 +198,22 @@ Component({
       wx.redirectTo({
         url: '/pages/main/login/login',
       })
+    },
+
+    NavToTalk(e) {
+      wx.navigateTo({
+        url: applicationBase + '/pages/start/start',
+      })
+      console.log("navigate")
+    },
+
+    NavHome(e) {
+      wx.redirectTo({
+        url: "../mainq/" + position + "/" + position,
+      })
     }
-  }
+
+  },
+
+  
 })
