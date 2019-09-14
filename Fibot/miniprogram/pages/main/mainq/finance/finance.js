@@ -151,7 +151,7 @@ Page({
     console.log('财务人员')
     this.getFundTotal()
     this.drawDiagram()
-
+    
   },
 
   onShow: function() {
@@ -339,6 +339,7 @@ Page({
   },
 
   getFundTotal(){
+    var that = this
     const token = app.getToken()
     if(token){
       wx.request({
@@ -353,25 +354,45 @@ Page({
         },
         success(res){
           console.log(res)
-        }
-      })
-
-      wx.request({
-        url: host+'queryAllCashRecord',
-        data: JSON.stringify({
-          companyId: app.globalData.companyId
-        }),
-        method: "POST",
-        header: {
-          'Content-Type': 'application/json',
-          'Authorization': token
-        },
-        success(res) {
-          console.log(res)
+          that.setData({
+            bankFund:res.data.result
+          })
+          that.getCashFund()
+          console.log(res.data.result)
         }
       })
     }
 
+  },
+
+  getCashFund(){
+    var that = this
+    let token = app.getToken()
+    wx.request({
+      url: host + '/queryAllCashRecord',
+      data: JSON.stringify({
+        companyId: app.globalData.companyId
+      }),
+      method: "POST",
+      header: {
+        'Content-Type': 'application/json',
+        'Authorization': token
+      },
+      success(res) {
+        console.log(res)
+        var cashlist = res.data.result
+        var cashFund = 0
+        for (var i in cashlist) {
+          cashFund += cashlist[i].variation
+        }
+        console.log(cashFund)
+        var FundResult = cashFund + that.data.bankFund
+        that.setData({
+          FundResult: FundResult
+        })
+        console.log(FundResult)
+      }
+    })
   }
 
 })

@@ -12,7 +12,7 @@
     <view class="cu-list menu">
       <view class="cu-item">
         <view class='content'>
-          <view class="text-xl">资金余额</view>
+          <view class="text-xl">资金余额: {{FundResult}}</view>
           <view class='text-sm'>应收账款</view>
           <view class='text-sm'>应付账款</view>
         </view>
