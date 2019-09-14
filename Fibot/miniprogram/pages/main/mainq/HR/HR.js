@@ -12,6 +12,7 @@ var windowWidth = wx.getSystemInfoSync().windowWidth - 15
 var firstOpen = true
 const position = app.globalData.position
 const mainBase = app.globalData.mainBase
+const statisticsBase = app.globalData.statisticsBase
 
 Page({
   data: {

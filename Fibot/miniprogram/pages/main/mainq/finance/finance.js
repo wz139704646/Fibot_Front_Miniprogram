@@ -149,7 +149,9 @@ Page({
       showIconList: this.data.showIconList
     })
     console.log('财务人员')
+    this.getFundTotal()
     this.drawDiagram()
+
   },
 
   onShow: function() {
@@ -335,4 +337,41 @@ Page({
       url: mainBase + '/my/home/home?position=finance',
     })
   },
+
+  getFundTotal(){
+    const token = app.getToken()
+    if(token){
+      wx.request({
+        url: host+'/querySumBankAmount',
+        data:JSON.stringify({
+          companyId:app.globalData.companyId
+        }),
+        method:"POST",
+        header: {
+          'Content-Type': 'application/json',
+          'Authorization': token
+        },
+        success(res){
+          console.log(res)
+        }
+      })
+
+      wx.request({
+        url: host+'queryAllCashRecord',
+        data: JSON.stringify({
+          companyId: app.globalData.companyId
+        }),
+        method: "POST",
+        header: {
+          'Content-Type': 'application/json',
+          'Authorization': token
+        },
+        success(res) {
+          console.log(res)
+        }
+      })
+    }
+
+  }
+
 })
