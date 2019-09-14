@@ -13,7 +13,7 @@
       <view class="cu-item">
         <view class='content'>
           <view class="text-xl">本月销售</view>
-          <view class='text-sm'>新增客户数</view>
+          <view class='text-sm'>本月销售额</view>
           <view class='text-sm'>卖出商品数</view>
         </view>
         <view class='action canui-status-3' bindtap="NavToTalk"></view>

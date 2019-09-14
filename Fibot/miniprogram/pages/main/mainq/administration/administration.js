@@ -180,7 +180,7 @@ Page({
     this.drawDiagram()
     if (firstOpen) {
       wx.navigateTo({
-        url: '/pages/main/mainq/publicAdministraion/publicAdministraion',
+        url: '/pages/main/mainq/administration/administration',
         success: function () {
           console.log('nav')
         }
@@ -311,7 +311,7 @@ Page({
 
   NavMy(e) {
     wx.redirectTo({
-      url: mainBase + '/my/home/home?position=publicAdministraion',
+      url: mainBase + '/my/home/home?position=administration',
     })
   },
 })

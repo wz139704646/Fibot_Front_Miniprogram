@@ -576,7 +576,7 @@ Page({
 
   NavMy(e) {
     wx.redirectTo({
-      url: mainBase + '/my/home/home?positon=seller',
+      url: mainBase + '/my/home/home?position=seller',
     })
   },
 

@@ -54,27 +54,23 @@
             </view>
           </view>
         </view>
-        <van-collapse value="{{ activeNames }}" bind:change="onChange">
-          <van-collapse-item title="点击展开" name="1">
-            <view>
+        <view>
+          <view class="cu-item padding-sm radius shadow-wrap bg-white">
+            <view class="image" style="height:300px">
               <view class="cu-item padding-sm radius shadow-wrap bg-white">
-                <view class="image" style="height:300px">
-                  <view class="cu-item padding-sm radius shadow-wrap bg-white">
-                    <view class="container">
-           <canvas canvas-id="pieCanvas1" class="canvas" bindtouchstart="touchHandler" bindtouchmove="moveHandler" bindtouchend="touchEndHandler" style="width:400px;height:400px;background:#fff;"></canvas>
-                      <view style="margin-top:30px;text-align:center">点击或拖动图片查看详细数据</view>
-                    </view>
-                    <view class="cu-list menu-avatar bg-blue">
-                    </view>
-                  </view>
-                  <view class="cu-tag bg-red">新</view>
+                <view class="container">
+                  <canvas canvas-id="pieCanvas1" class="canvas" bindtouchstart="touchHandler" bindtouchmove="moveHandler" bindtouchend="touchEndHandler" style="width:400px;height:400px;background:#fff;"></canvas>
+                  <view style="margin-top:30px;text-align:center">点击或拖动图片查看详细数据</view>
                 </view>
-                <view class="cu-list menu-avatar">
+                <view class="cu-list menu-avatar bg-blue">
                 </view>
               </view>
+              <view class="cu-tag bg-red">新</view>
             </view>
-          </van-collapse-item>
-        </van-collapse>
+            <view class="cu-list menu-avatar">
+            </view>
+          </view>
+        </view>
 
       </van-panel>
     </block>
@@ -108,7 +104,7 @@
   </view>
   <view class="action" bindtap="NavMy">
     <view class='cuIcon-cu-image'>
-      <image src="/imgs/my.png" style="margin-left:-98rpx" ></image>
+      <image src="/imgs/my.png" style="margin-left:-98rpx"></image>
     </view>
     <view class="text-gray" style="margin-right:100rpx">我的</view>
   </view>
