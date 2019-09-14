@@ -151,6 +151,10 @@ Page({
           formData: {
             id: id
           },
+          header: {
+            "Content-Type": "application/json",
+            'Authorization': token
+          },
           success: res => {
             console.log(res)
             that.modify()
