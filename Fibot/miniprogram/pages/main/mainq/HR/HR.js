@@ -10,6 +10,8 @@ var arr = null;
 var startPos = null;
 var windowWidth = wx.getSystemInfoSync().windowWidth - 15
 var firstOpen = true
+const position = app.globalData.position
+const mainBase = app.globalData.mainBase
 
 Page({
   data: {
@@ -261,6 +263,24 @@ Page({
       complete: res => {
 
       }
+    })
+  },
+
+  NavHome(e){
+    if(this.data.PageCur != "home"){
+      wx.redirectTo({
+        url: "../" + position + "/" + position,
+      })
+    }else{
+      this.setData({
+        PageCur:"home"
+      })
+    }
+  },
+
+  NavMy(e){
+    wx.redirectTo({
+      url: mainBase + '/my/home/home?position=HR',
     })
   },
 })

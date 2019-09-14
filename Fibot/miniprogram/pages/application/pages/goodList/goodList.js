@@ -1,7 +1,7 @@
 const app = getApp()
 const host = app.globalData.requestHost
 var inputVal = '';
-
+const applicationBase = app.globalData.applicationBase
 Page({
   data: {
     StatusBar: app.globalData.StatusBar,
@@ -58,7 +58,7 @@ Page({
       success: res => {
         console.log('添加pinyin成功')
         console.log(res)
-        this.setData({
+        that.setData({
           goodList: res.result,
           allgoodList:res.result
         })
@@ -73,7 +73,7 @@ Page({
     console.log(e)
     console.log("查看详情")
     wx.navigateTo({
-      url: '/pages/application/pages/goodInfo/goodInfo?name='+e.currentTarget.dataset.name,
+      url: applicationBase + '/pages/goodInfo/goodInfo?name='+e.currentTarget.dataset.name,
     })
   },
   navigateToGoodAnalyse(e){
@@ -89,6 +89,7 @@ Page({
   search(e) {
     var that = this
     console.log("正在搜索")
+    console.log(this.data)
     if (inputVal == "") {
       this.setData({
         goodList: this.data.allgoodList

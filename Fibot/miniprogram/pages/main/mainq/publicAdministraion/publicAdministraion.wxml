@@ -82,3 +82,23 @@
     </view>
   </view>
 </view>
+
+
+<!-- 导航栏 -->
+<view class="cu-bar tabbar bg-white shadow foot">
+  <view class="action" bindtap="NavHome">
+    <view class='cuIcon-cu-image'>
+      <image src="/imgs/app_cur.png" style="margin-left:75rpx"></image>
+    </view>
+    <view class="text-green" style="margin-left:100rpx">首页</view>
+  </view>
+  <view class="action add-action" bindtap="NavToTalk">
+    <button class="cu-btn cuIcon-voice bg-blue shadow"></button>语音
+  </view>
+  <view class="action" bindtap="NavMy">
+    <view class='cuIcon-cu-image'>
+      <image src="/imgs/my.png" style="margin-left:-98rpx" ></image>
+    </view>
+    <view class="text-gray" style="margin-right:100rpx">我的</view>
+  </view>
+</view>

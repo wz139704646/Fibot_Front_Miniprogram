@@ -1,9 +1,10 @@
+<!--pages/main/boss/boss.wxml-->
 <view class="cu-custom" style="height:{{CustomBar}}px;">
   <view class="cu-bar fixed none-bg text-white bg-img" style="height:{{CustomBar}}px;padding-top:{{StatusBar}}px;">
     <view class="cu-content">
       <image class="cu-avatar round lg bg-white" src="https://ossweb-img.qq.com/images/lol/web201310/skin/big25002.jpg" ></image>
       <!-- <image class="cu-avatar round lg bg-white" src="{{app.globalData.userInfo.avatarUrl}}" bindtap="navigateToHome"></image> -->
-      <text class='icon-back' style="margin-left:6px">销售主管</text>
+      <text class='icon-back' style="margin-left:6px">高层管理</text>
     </view>
   </view>
 </view>
@@ -12,9 +13,8 @@
     <view class="cu-list menu">
       <view class="cu-item">
         <view class='content'>
-          <view class="text-xl">本月销售</view>
-          <view class='text-sm'>新增客户数</view>
-          <view class='text-sm'>卖出商品数</view>
+          <view class="text-xl">公司近况</view>
+          <view class='text-sm'>股票指数</view>
         </view>
         <view class='action canui-status-3' bindtap="NavToTalk"></view>
       </view>
@@ -82,3 +82,23 @@
     </view>
   </view>
 </view>
+
+<!-- 导航栏 -->
+<view class="cu-bar tabbar bg-white shadow foot">
+  <view class="action" bindtap="NavHome">
+    <view class='cuIcon-cu-image'>
+      <image src="/imgs/app_cur.png" style="margin-left:75rpx"></image>
+    </view>
+    <view class="text-green" style="margin-left:100rpx">首页</view>
+  </view>
+  <view class="action add-action" bindtap="NavToTalk">
+    <button class="cu-btn cuIcon-voice bg-blue shadow"></button>语音
+  </view>
+  <view class="action" bindtap="NavMy">
+    <view class='cuIcon-cu-image'>
+      <image src="/imgs/my.png" style="margin-left:-98rpx" ></image>
+    </view>
+    <view class="text-gray" style="margin-right:100rpx">我的</view>
+  </view>
+</view>
+

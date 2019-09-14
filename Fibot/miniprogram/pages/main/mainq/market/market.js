@@ -1,3 +1,4 @@
+// pages/main/mainq/marketing/marketing.js
 const app = getApp();
 var wxCharts = require('../../../../utils/wxcharts-min.js');
 const host = app.globalData.requestHost
@@ -8,6 +9,7 @@ var arr = null;
 var startPos = null;
 var windowWidth = wx.getSystemInfoSync().windowWidth - 15
 var firstOpen = true
+const mainBase = app.globalData.mainBase
 
 Page({
   data: {
@@ -16,56 +18,21 @@ Page({
     StatusBar: app.globalData.StatusBar,
     CustomBar: app.globalData.CustomBar,
     showIconList: [{
-      icon: 'shop',
+      icon: 'ticket',
       color: 'red',
       badge: 0,
-      name: '销售记录',
-      url: applicationBase + "/pages/sellList/sellList?fun=null"
+      name: '凭证',
+      url: applicationBase + '/pages/voucher/voucherList/voucher'
     }, {
-      icon: 'friendadd',
-      color: 'orange',
-      badge: 0,
-      name: '新增客户',
-      url: applicationBase + "/pages/newCustomer/newCustomer"
-    }, {
-      icon: 'peoplelist',
+      icon: 'copy',
       color: 'yellow',
       badge: 0,
-      name: '客户列表',
-      url: applicationBase + "/pages/customerList/customerList"
-    }, {
-      icon: 'cart',
-      color: 'olive',
-      badge: 0,
-      name: '销售开单',
-      url: applicationBase + "/pages/sellBill/sellBill"
-    }],
+      name: '报表',
+      url: ''
+    }
+    ],
 
     addIconList: [{
-      icon: 'shop',
-      color: 'red',
-      badge: 0,
-      name: '销售记录',
-      url: applicationBase + "/pages/sellList/sellList?fun=null"
-    }, {
-        icon: 'friendadd',
-        color: 'orange',
-        badge: 0,
-        name: '新增客户',
-        url: applicationBase + "/pages/newCustomer/newCustomer"
-      }, {
-        icon: 'peoplelist',
-        color: 'yellow',
-        badge: 0,
-        name: '客户列表',
-        url: applicationBase + "/pages/customerList/customerList"
-      }, {
-        icon: 'cart',
-        color: 'olive',
-        badge: 0,
-        name: '销售开单',
-        url: applicationBase + "/pages/sellBill/sellBill"
-      }, {
       icon: 'ticket',
       color: 'red',
       badge: 0,
@@ -83,15 +50,13 @@ Page({
       badge: 0,
       name: '科目余额',
       url: applicationBase + '/pages/trialBalance/trialBalance'
-    },
-    {
+    }, {
       icon: 'text',
       color: 'blue',
       badge: 0,
       name: '科目表',
       url: applicationBase + '/pages/subjects/subjects/subjects'
-    },
-    {
+    }, {
       icon: 'rankfill',
       color: 'orange',
       badge: 0,
@@ -103,6 +68,18 @@ Page({
       badge: 0,
       name: '库存现金',
       url: applicationBase + '/pages/cashOnHand/cashShow/cashShow'
+    }, {
+      icon: 'copy',
+      color: 'green',
+      badge: 0,
+      name: '银行对账',
+      url: applicationBase + '/pages/bankReconciliations/reconciliationShow/reconciliationShow'
+    }, {
+      icon: 'text',
+      color: 'yellow',
+      badge: 0,
+      name: '资金日报表',
+      url: applicationBase + '/pages/dailyFund/dailyFund'
     }
     ],
 
@@ -112,11 +89,11 @@ Page({
       showPeriod: true,
       showIdx: 0
     },
-    // {
-    //   title: '资产增长分析',
-    //   showMonth: true,
-    //   showPeriod: false
-    // }
+      // {
+      //   title: '资产增长分析',
+      //   showMonth: true,
+      //   showPeriod: false
+      // }
     ],
 
     chartHidden: true,
@@ -124,7 +101,7 @@ Page({
 
     liftimes: {
       attached: function () {
-        console.log('财务人员')
+        console.log('市场营销')
         this.drawDiagram()
       }
     }
@@ -134,17 +111,17 @@ Page({
     this.setData({
       showIconList: this.data.showIconList
     })
-    console.log('财务人员')
+    console.log('市场营销')
     this.drawDiagram()
   },
 
   onShow: function () {
-    console.log('财务人员')
+    console.log('市场营销')
   },
 
   NavToTalk(e) {
     wx.navigateTo({
-      url: applicationBase+'/pages/start/start',
+      url: applicationBase + '/pages/start/start',
     })
     console.log("navigate")
   },
@@ -155,7 +132,7 @@ Page({
     wx.navigateTo({
       url: e.currentTarget.id,
     })
-    console.log('财务人员')
+    console.log('市场营销')
   },
 
   //长按删除功能
@@ -184,11 +161,11 @@ Page({
       activeNames: event.detail,
       showIconList: this.data.showIconList
     });
-    console.log('财务人员')
+    console.log('市场营销')
     this.drawDiagram()
-    if(firstOpen){
+    if (firstOpen) {
       wx.navigateTo({
-        url: '/pages/main/mainq/accounting/accounting',
+        url: '/pages/main/mainq/marketing/marketing',
         success: function () {
           console.log('nav')
         }
@@ -197,7 +174,7 @@ Page({
     }
   },
 
-  clickbtn: function(e){
+  clickbtn: function (e) {
     console.log('click')
     this.drawDiagram()
     this.setData({
@@ -258,7 +235,7 @@ Page({
     });
   },
 
-  touchEndHandler: function(e) {
+  touchEndHandler: function (e) {
     console.log('touch')
     if (this.data.statis.title == '营收分析') {
       var intro_text = '总营业收入为'
@@ -312,8 +289,14 @@ Page({
         console.error("未成功获取到营业支出数据")
       },
       complete: res => {
-      
+
       }
+    })
+  },
+
+  NavMy(e) {
+    wx.redirectTo({
+      url: mainBase + '/my/home/home?position=market',
     })
   },
 })

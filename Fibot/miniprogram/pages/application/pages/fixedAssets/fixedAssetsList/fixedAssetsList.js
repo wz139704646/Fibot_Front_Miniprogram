@@ -61,7 +61,7 @@ Page({
         fixedAssetList: this.data.allfixedAssetList
       })
     }else{
-      var fixedAssetList = this.data.fixedAssetList
+      var fixedAssetList = this.data.allfixedAssetList
       var slist = []
       for (var i in fixedAssetList) {
         if (fixedAssetList[i].asset_name.indexOf(searchText) != -1) {

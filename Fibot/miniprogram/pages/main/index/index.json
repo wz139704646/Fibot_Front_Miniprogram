@@ -1,14 +1,5 @@
 {
   "usingComponents": {
-    "accounting": "/pages/main/mainq/accounting/accounting",
-    "boss": "/pages/main/mainq/boss/boss",
-    "humanResourse": "/pages/main/mainq/humanResourse/humanResourse",
-    "marketing": "/pages/main/mainq/marketing/marketing",
-    "production": "/pages/main/mainq/production/production",
-    "publicAdministraion": "/pages/main/mainq/publicAdministraion/publicAdministraion",
-    "salesExecutive" :"/pages/main/mainq/salesExecutive/salesExecutive",
-    "storeman": "/pages/main/mainq/storeman/storeman",
-    "my": "/pages/main/my/home/home"
   }
 }
 

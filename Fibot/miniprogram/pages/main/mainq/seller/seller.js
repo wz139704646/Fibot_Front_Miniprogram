@@ -11,6 +11,7 @@ var date = new Date();
 var curr_year = date.getFullYear();
 var curr_month = date.getMonth() + 1
 var windowWidth = wx.getSystemInfoSync().windowWidth - 15
+const mainBase = app.globalData.mainBase
 Page({
   data: {
     StatusBar: app.globalData.StatusBar,
@@ -544,6 +545,12 @@ Page({
     if (this.getNumberOfDays(curr_month) == 28) {
       return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28]
     }
+  },
+
+  NavMy(e) {
+    wx.redirectTo({
+      url: mainBase + '/my/home/home?positon=seller',
+    })
   },
 
 })
