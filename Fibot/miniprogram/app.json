@@ -1,8 +1,8 @@
 {
   "pages": [
+    "pages/main/index/index",
     "pages/main/login/login",
     "pages/main/register/register",
-    "pages/main/index/index",
     "pages/main/mainq/high_level/high_level",
     "pages/main/mainq/finance/finance",
     "pages/main/mainq/seller/seller",
