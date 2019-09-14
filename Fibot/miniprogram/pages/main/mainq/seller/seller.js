@@ -40,7 +40,21 @@ Page({
       badge: 0,
       name: '销售开单',
       url: applicationBase+"/pages/sellBill/sellBill"
-    }],
+      }, {
+        icon: 'sponsor',
+        color: 'red',
+        badge: 0,
+        name: '收款记录',
+        url: applicationBase + '/pages/ar/receipts/receipts'
+      }, {
+        icon: 'sponsor',
+        color: 'orange',
+        badge: 0,
+        name: '付款记录',
+        url: applicationBase + '/pages/ap/payments/payments'
+      }
+
+    ],
 
     addIconList: [{
       icon: 'shop',
@@ -66,7 +80,20 @@ Page({
       badge: 0,
       name: '销售开单',
       url: applicationBase + "/pages/sellBill/sellBill"
-    }],
+      }, {
+        icon: 'sponsor',
+        color: 'red',
+        badge: 0,
+        name: '收款记录',
+        url: applicationBase + '/pages/ar/receipts/receipts'
+      }, {
+        icon: 'sponsor',
+        color: 'orange',
+        badge: 0,
+        name: '付款记录',
+        url: applicationBase + '/pages/ap/payments/payments'
+      },
+    ],
 
     statis: [{
       title: '销售趋势分析',

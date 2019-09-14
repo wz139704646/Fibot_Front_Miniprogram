@@ -21,18 +21,43 @@ Page({
     StatusBar: app.globalData.StatusBar,
     CustomBar: app.globalData.CustomBar,
     showIconList: [{
+      icon: 'rank',
+      color: 'red',
+      badge: 0,
+      name: '主营业务',
+      url: statisticsBase + '/pages/home/home'
+    }, {
+        icon: 'creative',
+        color: 'green',
+        badge: 0,
+        name: '决策指标',
+        url: statisticsBase + '/pages/decisionMaking/decisionMaking'
+      }, {
+        icon: 'text',
+        color: 'orange',
+        badge: 0,
+        name: '股票分析',
+        url: statisticsBase + '/pages/stokeAnalysis/index'
+      },
+      {
       icon: 'ticket',
       color: 'red',
       badge: 0,
       name: '凭证',
       url: applicationBase + '/pages/voucher/voucherList/voucher'
     }, {
-      icon: 'copy',
-      color: 'yellow',
-      badge: 0,
-      name: '报表',
-      url: ''
-    }
+        icon: 'sort',
+        color: 'yellow',
+        badge: 0,
+        name: '科目余额',
+        url: applicationBase + '/pages/trialBalance/trialBalance'
+    }, {
+        icon: 'text',
+        color: 'blue',
+        badge: 0,
+        name: '科目表',
+        url: applicationBase + '/pages/subjects/subjects/subjects'
+      }
     ],
 
     addIconList: [{
@@ -53,6 +78,25 @@ Page({
         badge: 0,
         name: '股票分析',
         url: statisticsBase + '/pages/stokeAnalysis/index'
+      },
+      {
+        icon: 'ticket',
+        color: 'red',
+        badge: 0,
+        name: '凭证',
+        url: applicationBase + '/pages/voucher/voucherList/voucher'
+      }, {
+        icon: 'sort',
+        color: 'yellow',
+        badge: 0,
+        name: '科目余额',
+        url: applicationBase + '/pages/trialBalance/trialBalance'
+      }, {
+        icon: 'text',
+        color: 'blue',
+        badge: 0,
+        name: '科目表',
+        url: applicationBase + '/pages/subjects/subjects/subjects'
       }
     ],
 

@@ -47,12 +47,6 @@ Page({
       badge: 0,
       name: '凭证',
       url: applicationBase + '/pages/voucher/voucherList/voucher'
-    }, {
-      icon: 'copy',
-      color: 'yellow',
-      badge: 0,
-      name: '报表',
-      url: ''
     }
     ],
 
@@ -62,12 +56,6 @@ Page({
       badge: 0,
       name: '凭证',
       url: applicationBase + '/pages/voucher/voucherList/voucher'
-    }, {
-      icon: 'copy',
-      color: 'yellow',
-      badge: 0,
-      name: '报表',
-      url: ''
     }, {
       icon: 'sort',
       color: 'yellow',
@@ -98,12 +86,6 @@ Page({
       badge: 0,
       name: '银行对账',
       url: applicationBase + '/pages/bankReconciliations/reconciliationShow/reconciliationShow'
-    }, {
-      icon: 'text',
-      color: 'yellow',
-      badge: 0,
-      name: '资金日报表',
-      url: applicationBase + '/pages/dailyFund/dailyFund'
     }
     ],
 
