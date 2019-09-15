@@ -20,7 +20,7 @@ function initData(that) {
   msgList = [{
     speaker: 'server',
     contentType: 'text',
-    content: '欢迎使用财务机器人Fibot，根据您的习惯我们预测了您最可能问到的一些问题，请问您还有什么指示'
+    content: '欢迎使用财务机器人Finbot，根据您的习惯我们预测了您最可能问到的一些问题，请问您还有什么指示'
   }]
   wx.request({
     url: host + '/recommend',
