@@ -55,7 +55,7 @@
           </view>
         </view>
       </view>
-      <view>
+      <cover-view>
         <view class="cu-item padding-sm radius shadow-wrap bg-white">
           <view class="container" hidden='{{chartHidden}}'>
             <canvas canvas-id="pieCanvas" class="canvas" style="height:300px" bindtouchstart="touchHandler" bindtouchmove="moveHandler" bindtouchend="touchEndHandler"></canvas>
@@ -64,7 +64,7 @@
           <view class="cu-list menu-avatar bg-blue">
           </view>
         </view>
-      </view>
+      </cover-view>
     </van-panel>
   </view>
 </view>

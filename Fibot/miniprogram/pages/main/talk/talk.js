@@ -9,22 +9,99 @@ var windowWidth = wx.getSystemInfoSync().windowWidth;
 var windowHeight = wx.getSystemInfoSync().windowHeight;
 var keyHeight = 0;
 var host = app.globalData.requestHost
+var token = null
 
 /**
  * 初始化数据
  */
 function initData(that) {
   inputVal = '';
-
+  var another_that = this;
   msgList = [{
     speaker: 'server',
     contentType: 'text',
-    content: '欢迎使用财务机器人Fibot,请问您有什么指示'
+    content: '欢迎使用财务机器人Fibot，根据您的习惯我们预测了您最可能问到的一些问题，请问您还有什么指示'
   }]
+  wx.request({
+    url: host + '/recommend',
+    method: 'POST',
+    header: {
+      "Content-Type": 'application/json',
+      'Authorization': token
+    },
+    success: res => {
+      console.log(res.data)
+      for(var sentence in res.data.result){
+        console.log(sentence)
+        console.log(res.data.result[sentence])
+        wx.request({
+          url: host + '/languageProcess',
+          method: 'POST',
+          header: {
+            "Content-Type": 'application/json',
+            'Authorization': token
+          },
+          data: JSON.stringify({
+            language: res.data.result[sentence],
+            companyId: app.globalData.companyId,
+          }),
+          success: res => {
+            console.log(res.data)
+            if (res.statusCode == 555) {
+              app.relogin()
+            } else if (res.statusCode == 403) {
+              msgList.push({
+                speaker: 'server',
+                contentType: 'text',
+                content: '不好意思，您无权限查询该信息，请联系管理员添加相应权限'
+              })
+            } else if (res.statusCode != 200 || !res.data.success) {
+              msgList.push({
+                speaker: 'server',
+                contentType: 'text',
+                content: res.data.errMsg || '请求失败！'
+              })
+            } else {
+              console.log(res)
+              let result = res.data.result
+              for (let idx in result) {
+                msgList.push({
+                  speaker: 'server',
+                  contentType: result[idx].type,
+                  content: result[idx].summary
+                })
+                let id = msgList.length - 1
+                inquiryResults[`server-${id}`] = result[idx]
+              }
+            }
+            that.setData({
+              msgList,
+              inquiryResults
+            })
+            console.log(that.data.msgList)
+          },
+          fail: err => {
+            console.error('request failed', err)
+            wx.showToast({
+              title: '出现未知错误',
+              image: '/imgs/fail.png'
+            })
+          }
+        })
+      }
+    },
+    fail: res => {
+      console.log('fail at request recommend')
+    },
+    complete: res => {
+      console.log('complete')
+    }
+  })
   that.setData({
     msgList,
     inputVal
   })
+  console.log(that.data.msgList)
 }
 
 function calScrollHeight(that, keyHeight) {
@@ -68,7 +145,7 @@ Page({
 
 
   onLoad: function (options) {
-    let token = app.getToken()
+    token = app.getToken()
     initData(this);
     // this.setData({
     //   cusHeadIcon: app.globalData.userInfo.avatarUrl,
@@ -79,7 +156,7 @@ Page({
   onShow: function () {
     let token = app.getToken()
     const recorder = wx.getRecorderManager()
-    let that = this
+    var that = this
     recorder.onStart(() => {
       console.log("录音开始")
       that.setData({
