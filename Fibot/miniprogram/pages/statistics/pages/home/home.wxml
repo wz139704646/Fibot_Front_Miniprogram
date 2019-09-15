@@ -35,26 +35,28 @@
       <view>
         <view class="cu-item padding-sm radius shadow-wrap bg-white">
           <view class="container" hidden='{{chartHidden}}'>
-            <canvas canvas-id="pieCanvas" class="canvas" style="height:300px" bindtouchstart="touchHandler" bindtouchmove="moveHandler" bindtouchend="touchEndHandler" bindlongpress='longPress'></canvas>
-            <view style="margin-top:30px;text-align:center">点击或拖动图片查看详细数据</view>
-          </view>
-          <view class="cu-list menu-avatar bg-blue">
+            <view class="chart">
+              <canvas canvas-id="pieCanvas" class="canvas" style="height:300px" bindtouchstart="touchHandler" bindtouchmove="moveHandler" bindtouchend="touchEndHandler" bindlongpress='longPress'></canvas>
+              </view>
+              <view style="margin-top:30px;text-align:center">点击或拖动图片查看详细数据</view>
+            </view>
+            <view class="cu-list menu-avatar bg-blue">
+            </view>
           </view>
         </view>
-      </view>
     </van-panel>
+    </view>
+
   </view>
 
-</view>
-
-<view class="cu-modal drawer-modal justify-start {{modalName=='DrawerModalL'?'show':''}}" bindtap="hideModal">
-  <view class="cu-dialog basis-lg" catchtap style="top:{{CustomBar}}px;height:calc(100vh - {{CustomBar}}px)">
-    <view class="cu-list menu text-left">
-      <view class="cu-item arrow" wx:for="{{diagrams.length}}" wx:key bindtap="chooseDiagram" data-diag="{{diagrams[index]}}">
-        <view class="content">
-          <view>{{diagrams[index]}}</view>
+  <view class="cu-modal drawer-modal justify-start {{modalName=='DrawerModalL'?'show':''}}" bindtap="hideModal">
+    <view class="cu-dialog basis-lg" catchtap style="top:{{CustomBar}}px;height:calc(100vh - {{CustomBar}}px)">
+      <view class="cu-list menu text-left">
+        <view class="cu-item arrow" wx:for="{{diagrams.length}}" wx:key bindtap="chooseDiagram" data-diag="{{diagrams[index]}}">
+          <view class="content">
+            <view>{{diagrams[index]}}</view>
+          </view>
         </view>
       </view>
     </view>
   </view>
-</view>

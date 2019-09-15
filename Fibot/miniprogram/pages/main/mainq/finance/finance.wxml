@@ -58,10 +58,10 @@
           <view class="cu-item padding-sm radius shadow-wrap bg-white">
             <view class="image" style="height:300px">
               <view class="cu-item padding-sm radius shadow-wrap bg-white">
-                <cover-view class="container">
-                  <canvas canvas-id="pieCanvas1" class="canvas" bindtouchstart="touchHandler" bindtouchmove="moveHandler" bindtouchend="touchEndHandler" style="width:400px;height:400px;background:#fff;"></canvas>
+                <view style="z-index:10" class="container">
+                  <canvas style="z-index:10"  canvas-id="pieCanvas1" class="canvas" bindtouchstart="touchHandler" bindtouchmove="moveHandler" bindtouchend="touchEndHandler" style="width:400px;height:400px;background:#fff;"> <cover-view></cover-view></canvas>
                   <cover-view style="margin-top:30px;text-align:center">点击或拖动图片查看详细数据</cover-view>
-                </cover-view>
+                </view>
                 <view class="cu-list menu-avatar bg-blue">
                 </view>
               </view>
@@ -92,7 +92,7 @@
 </view>
 
 <!-- 导航栏 -->
-<view class="cu-bar tabbar bg-white shadow foot">
+<view class="cu-bar tabbar bg-white shadow foot" style="z-index:9999">
   <view class="action" bindtap="NavHome">
     <view class='cuIcon-cu-image'>
       <image src="/imgs/app_cur.png" style="margin-left:75rpx"></image>

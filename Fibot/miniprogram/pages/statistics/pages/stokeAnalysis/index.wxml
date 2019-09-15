@@ -21,9 +21,11 @@
       <view>
         <view class="cu-item padding-sm radius shadow-wrap">
           <view class="container" hidden="{{chartHidden}}">
-            <ec-canvas id="mychart-dom-area" canvas-id="mychart-area" ec="{{ ec }}"></ec-canvas>
-          </view>
-          <view class="cu-list menu-avatar bg-green">
+            <view class="chart">
+              <ec-canvas id="mychart-dom-area" canvas-id="mychart-area" ec="{{ ec }}"></ec-canvas>
+            </view>
+            <view class="cu-list menu-avatar bg-green">
+            </view>
           </view>
         </view>
       </view>
