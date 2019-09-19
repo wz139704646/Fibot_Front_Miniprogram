@@ -228,17 +228,17 @@ Page({
 
   //点击图片触发
   touchHandler: function (e) {
-    console.log('touch')
-    wx.showModal({
-      content: arr[pieChart1.getCurrentDataIndex(e)].name + '营业收入' + arr[pieChart1.getCurrentDataIndex(e)].data + '元',
-      showCancel: false,
-      confirmText: "我知道啦",
-      success: function (res) {
-        if (res.confirm) {
-          console.log('用户点击确定')
-        }
-      }
-    });
+    // console.log('touch')
+    // wx.showModal({
+    //   content: arr[pieChart1.getCurrentDataIndex(e)].name + '营业收入' + arr[pieChart1.getCurrentDataIndex(e)].data + '元',
+    //   showCancel: false,
+    //   confirmText: "我知道啦",
+    //   success: function (res) {
+    //     if (res.confirm) {
+    //       console.log('用户点击确定')
+    //     }
+    //   }
+    // });
   },
 
   touchEndHandler: function (e) {
