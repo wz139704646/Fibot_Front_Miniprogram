@@ -2,10 +2,11 @@
 
   <view class="UCenter-bg">
     
-    <view class='cu-avatar xl margin-bottom round' style='background-image:url(http://mmbiz.qpic.cn/mmbiz_png/TavSduTtyTBgseu8ksuE8FmpWLE0PsFCIKDgaET6ZgjMIic6z5R5L5lsc6u1GTFrSzicLT5DK3prfF3NHQ7Ze8ow/0.png);'></view>
-    <view class="text-xl">Finbot</view>
-    <view class="margin-top-sm">
-      <text>By: Alpha Type</text>
+    <view class='cu-avatar xl margin-bottom round' >
+      <image class="cu-avatar round xl bg-white" src="/imgs/Logo.jpg"></image>
+    </view>
+    <view class="margin-top-xs">
+      <text class="text-xl bold">By: Alpha Type</text>
     </view>
     <image src="{{imgBase}}/imgs/wave.gif" mode="scaleToFill" class="gif-wave"></image>
   </view>

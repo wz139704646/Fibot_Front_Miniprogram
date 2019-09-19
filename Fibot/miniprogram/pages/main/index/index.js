@@ -91,12 +91,29 @@ Page({
     var navPath = ""
     if(position == "admin"){
       navPath = applicationBase + "/pages/chooseRoleNew/chooseRoleNew"
+      wx.redirectTo({
+        url: navPath,
+      })
+    }else if(!position){
+      wx.showModal({
+        title: '未授权',
+        content: '请等待管理员审核权限',
+        showCancel:false,
+        success(res){
+          if(res.confirm){
+            wx.redirectTo({
+              url: '../login/login',
+            })
+          }
+        }
+      })
     }else{
       navPath = "../mainq/" + position + "/" + position
+      wx.redirectTo({
+        url: navPath,
+      })
     }
-    wx.redirectTo({
-      url: navPath,
-    })
+    
   },
 
   getCompanyName(){
