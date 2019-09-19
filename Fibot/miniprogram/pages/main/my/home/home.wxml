@@ -32,10 +32,10 @@
   <view class="cu-list menu card-menu margin-top-xl margin-bottom-xl shadow-lg radius">
     
     <view class="cu-item arrow">
-      <navigator class="content" url="/pages/my/log/log" hover-class="none">
+      <view class="content" url="/pages/my/log/log" bindtap="NavToInfo">
         <text class="cuIcon-formfill text-blue"></text>
         <text class="text-grey">个人信息</text>
-      </navigator>
+      </view>
     </view>
 
     <view class="cu-item arrow">
