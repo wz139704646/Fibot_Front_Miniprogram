@@ -22,7 +22,7 @@
     <van-collapse value="{{ activeNames }}" bind:change="onCollapseChange">
       <block wx:for="{{entries}}" wx:key>
         <van-swipe-cell right-width="{{ 55 }}">
-          <van-collapse-item title="{{item.abstract || '请输入摘要'}}" label="{{item.subject.name || '请选择科目'}}" name="{{index}}" border="{{true}}" value="{{item.total || 0}}￥" >
+          <van-collapse-item title="{{item.abstract || '请输入摘要'}}" label="{{item.subject.name || '请选择科目'}}" name="{{index}}" border="{{true}}" value="{{item.total || 0}}￥">
             <button disabled type="" class="cu-btn icon sm {{item.credit_debit == '借' ? 'bg-blue' : 'bg-orange' }}" slot="icon">{{item.credit_debit}}</button>
             <view class="padding-xs bg-grey light">
               <view class="cu-form-group">
@@ -55,8 +55,7 @@
       <view class="action">
         附件
       </view>
-      <van-field value="{{ attachments_number }}" input-align="center" placeholder="输入附件数" border="{{ false }}" bind:change="onNumInput" style="width:35vw;" input-class="bg-grey light" icon="question-o"
-  bind:click-icon="onAttachmentQClicked" />
+      <van-field value="{{ attachments_number }}" input-align="center" placeholder="输入附件数" border="{{ false }}" bind:change="onNumInput" style="width:35vw;" input-class="bg-grey light" icon="question-o" bind:click-icon="onAttachmentQClicked" />
     </view>
     <view class="cu-form-group">
       <view class="grid col-4 grid-square flex-sub">
@@ -84,3 +83,49 @@
     <text class="cuIcon-camera" style="font-size: 50rpx;"></text>
   </button>
 </view>
+
+<!-- scan选项 -->
+<view class="cu-modal bottom-modal {{scanOptionShow==true?'show':''}}" catchtap="onScanOptionClose">
+  <view class="cu-dialog">
+    <view class="cu-bar bg-white" catchtap="nop">
+      <view class="action text-blue"> </view>
+      <view class="action text-blue" bindtap="onScanOptionClose">取消</view>
+    </view>
+    <view class="padding-xl" catchtap="nop">
+      <view class="scan-option-box">
+        <view class="option-box margin cu-item">
+          <button class="cu-btn bg-white lg" bindtap="scanQrCode">
+            <text class="cuIcon-scan text-black" style="font-size: 90rpx;"></text>
+          </button>
+          <view class="text-center">扫码</view>
+        </view>
+        <view class="option-box margin cu-item">
+          <button class="cu-btn bg-white lg" bindtap="scanCamera">
+            <text class="cuIcon-camera text-blue" style="font-size: 90rpx;"></text>
+          </button>
+          <view class="text-center">拍照</view>
+        </view>
+        <view class="option-box margin cu-item">
+          <button class="cu-btn bg-white lg" bindtap="scanAlbum">
+            <text class="cuIcon-picfill text-cyan" style="font-size: 90rpx;"></text>
+          </button>
+          <view class="text-center">相册选择</view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
+
+<!-- 选择扫描图片类型 -->
+<!-- <view class="cu-modal {{showPicType==true?'show':''}}" bindtap="hidePicType">
+  <view class="content">选择扫描图片类型</view>
+  <view class="cu-dialog" catchtap>
+    <view class="cu-list menu text-left">
+      <view class="cu-item" wx:for="{{picTypes}}" wx:key>
+        <label class="flex justify-between align-center flex-sub">
+          <button class="flex-sub">{{item.name}}</button>
+        </label>
+      </view>
+    </view>
+  </view>
+</view> -->

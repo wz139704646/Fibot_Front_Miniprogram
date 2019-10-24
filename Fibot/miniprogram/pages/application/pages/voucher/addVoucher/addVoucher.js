@@ -9,6 +9,10 @@ Page({
    * 页面的初始数据
    */
   data: {
+    // picTypes: [
+    //   { name: '增值税发票', value: 'VatInvoice'},
+    //   { name: '金融票据整单', value: 'FinanBill'}
+    // ],
     voucher_no: ''
   },
 
@@ -404,8 +408,208 @@ Page({
     })
   },
 
+  // 调用 OCR 云函数
+  callOCR: function (url, action, callback) {
+    console.log('call ocr function', action, url)
+    // TODO url只是本地url，需要upload到cloud的tempPhoto中再让cloud function使用
+    wx.cloud.uploadFile({
+      cloudPath: "tempOCRPhoto/tempOCRPhoto" + Date.parse(new Date()) + ".jpg",
+      filePath: url
+    }).then(_res => {
+      wx.cloud.callFunction({
+        name: 'ocr',
+        data: {
+          action: action,
+          imgFileId: _res.fileID
+        }
+      }).then(res => {
+        callback(res)
+        wx.cloud.deleteFile({
+          fileList: [_res.fileID]
+        }).catch(dferr => {
+          console.log('文件删除失败', dferr)
+        })
+      }).catch(err => {
+        console.log('云函数调用失败', err)
+        wx.hideLoading()
+        wx.showToast({
+          title: '异常错误',
+          icon: 'none',
+          duration: 2000
+        })
+        wx.cloud.deleteFile({
+          fileList: [_res.fileID]
+        }).catch(ferr => {
+          console.log('文件删除失败', ferr)
+        })
+      })
+    }).catch(_err => {
+      console.log('文件上传失败', _err)
+      wx.hideLoading()
+      wx.showToast({
+        title: '异常错误',
+        icon: 'none',
+        duration: 2000
+      })
+    })
+  },
+
   // 扫描发票图片添加凭证
   scanPhoto: function(e) {
-    console.log(e)
-  }
+    console.log("scan options")
+    this.setData({
+      scanOptionShow: true
+    })
+  },
+
+  onScanOptionClose: function(e) {
+    console.log("options hide")
+    this.setData({
+      scanOptionShow: false
+    })
+  },
+
+  // 扫描二维码
+  scanQrCode: function(e) {
+    let that = this
+    console.log("scan qr code")
+    wx.showLoading({
+      title: '识别中',
+    })
+    wx.scanCode({
+      success: res => {
+        wx.hideLoading()
+        console.log('scan code', res)
+        let code = res.result
+        let codeArr = code.split(",")
+        if (codeArr.length < 7) {
+          wx.showToast({
+            title: '无法识别发票内容',
+            icon: 'none',
+            duration: 2000
+          })
+        } else {
+          console.log('发票金额', codeArr[4])
+          let totalStr = codeArr[4]
+          let {entries, totalText} = that.data
+          let total;
+          if (Number.isInteger(totalStr)) {
+            total = parseInt(totalStr)
+          } else {
+            total = parseFloat(totalStr)
+          }
+          entries.push({
+            abstract: '',
+            subject: {},
+            total: total,
+            credit_debit: '借'
+          })
+          totalText.push(codeArr[4])
+          that.setData({
+            entries, totalText,
+            scanOptionShow: false
+          })
+        }
+      },
+      fail: err => {
+        console.log('scan code error', err)
+      }
+    })
+  },
+
+  scan: function(source) {
+    let that = this
+    let actionType = 'VatInvoice'
+    wx.chooseImage({
+      count: 1,
+      sizeType: ['original', 'compressed'],
+      sourceType: [source],
+      success: function (res) {
+        const tempFilePaths = res.tempFilePaths
+        let { attachments, attachments_number } = that.data
+        attachments.push(tempFilePaths[0])
+        attachments_number += 1
+        // 提示
+        wx.showLoading({
+          title: '识别中',
+        })
+        that.setData({
+          attachments, attachments_number
+        })
+        that.callOCR(tempFilePaths[0], actionType + 'OCR', _res => {
+          wx.hideLoading()
+          let data = _res.result.Response
+          if (data.Error) {
+            wx.showToast({
+              title: '识别失败',
+              icon: 'none',
+              duration: 2000
+            })
+            console.log('图片识别失败', data.Error)
+          } else {
+            console.log(data[actionType + 'Infos'])
+            let infos = data[actionType + 'Infos']
+            let { entries, totalText } = that.data
+            let itemIdx = infos.findIndex(item => {
+              return item.Name == '货物或应税劳务、服务名称' ||
+                item.Name == '项目名称' ||
+                item.Name == '货物或应税劳务名称'
+            })
+            let totalIdx = infos.findIndex(item => item.Name == '金额')
+            let taxIdx = infos.findIndex(item => item.Name == '税额')
+            let abstract = itemIdx == -1 ? '' : infos[itemIdx].Value
+            let taxAbstract = '增值税'
+            let total = itemIdx == -1 ? 0 : parseFloat(infos[totalIdx].Value)
+            let taxTotal = taxIdx == -1 ? 0 : parseFloat(infos[taxIdx].Value)
+            // 添加发票记录内容项
+            entries.push({
+              abstract: abstract,
+              subject: {},
+              total: total,
+              credit_debit: '借'
+            })
+            totalText.push('' + total)
+            entries.push({
+              abstract: taxAbstract,
+              subject: {},
+              total: taxTotal,
+              credit_debit: '借'
+            })
+            totalText.push('' + taxTotal)
+            that.setData({
+              entries, totalText,
+              scanOptionShow: false
+            })
+          }
+        })
+      },
+    })
+  },
+
+  // 扫描临时拍的照片
+  scanCamera: function(e) {
+    console.log("scan camera")
+    // 相同的代码，只更改了图片源
+    this.scan('camera')
+  },
+
+  // cameraError: function(e) {
+  //   console.log('相机异常', e.detail)
+  // },
+
+  // 扫描相册中的照片
+  scanAlbum: function(e) {
+    console.log("scan album")
+    // 相同的代码，只更改了图片源
+    this.scan('album')
+  },
+
+  // hidePicType: function(e) {
+  //   this.setData({
+  //     showPicType: false
+  //   })
+  // },
+
+  // 无意义函数
+  nop: function() {},
 })

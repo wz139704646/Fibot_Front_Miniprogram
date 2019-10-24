@@ -7,3 +7,16 @@
   flex-direction: column;
   justify-content: center;
 }
+
+.scan-option-box {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 40rpx;
+  align-content: center;
+}
+
+.option-box{
+  display: block;
+}

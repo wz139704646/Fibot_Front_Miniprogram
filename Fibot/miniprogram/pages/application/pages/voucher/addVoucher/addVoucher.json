@@ -6,6 +6,7 @@
     "van-cell": "vant-weapp/cell",
     "van-cell-group": "vant-weapp/cell-group",
     "van-button": "vant-weapp/button",
-    "van-field": "vant-weapp/field"
+    "van-field": "vant-weapp/field",
+    "van-icon": "vant-weapp/icon"
   }
 }
