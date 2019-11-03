@@ -100,13 +100,13 @@
           <view class="text-center">扫码</view>
         </view>
         <view class="option-box margin cu-item">
-          <button class="cu-btn bg-white lg" bindtap="scanCamera">
+          <button class="cu-btn bg-white lg" bindtap="scanCameraOrAlbum" data-source="camera">
             <text class="cuIcon-camera text-blue" style="font-size: 90rpx;"></text>
           </button>
           <view class="text-center">拍照</view>
         </view>
         <view class="option-box margin cu-item">
-          <button class="cu-btn bg-white lg" bindtap="scanAlbum">
+          <button class="cu-btn bg-white lg" bindtap="scanCameraOrAlbum" data-source="album">
             <text class="cuIcon-picfill text-cyan" style="font-size: 90rpx;"></text>
           </button>
           <view class="text-center">相册选择</view>
@@ -115,17 +115,3 @@
     </view>
   </view>
 </view>
-
-<!-- 选择扫描图片类型 -->
-<!-- <view class="cu-modal {{showPicType==true?'show':''}}" bindtap="hidePicType">
-  <view class="content">选择扫描图片类型</view>
-  <view class="cu-dialog" catchtap>
-    <view class="cu-list menu text-left">
-      <view class="cu-item" wx:for="{{picTypes}}" wx:key>
-        <label class="flex justify-between align-center flex-sub">
-          <button class="flex-sub">{{item.name}}</button>
-        </label>
-      </view>
-    </view>
-  </view>
-</view> -->

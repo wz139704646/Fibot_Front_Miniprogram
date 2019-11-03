@@ -16,7 +16,7 @@
 
 <view class="cu-list menu-avatar no-padding card-menu shadow-lg radius">
   <scroll-view style="margin-top: 15vh;">
-    <van-cell-group wx:for="{{filterPayments}}" wx:key wx:for-item="coll" title="{{coll.date}}" wx:for-key="idx">
+    <van-cell-group wx:for="{{filterPayments}}" wx:key wx:for-item="coll" title="{{coll.date}}" wx:for-index="idx">
       <van-cell wx:key is-link wx:for="{{coll.records}}" title="{{item.supplierName}}" label="{{item.id}}" value="￥{{item.amount}}" url="{{'../paymentDetail/paymentDetail?id='+item.id}}" link-type="navigateTo" clickable="{{true}}" />
     </van-cell-group>
     <view wx:if="{{!filterPayments || filterPayments.length == 0}}" class="text-center padding text-bold">无付款记录</view>

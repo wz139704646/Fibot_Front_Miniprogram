@@ -73,7 +73,8 @@
         "pages/goodsStore/goodsStore",
         "pages/fixedAssets/fixedAssetsList/fixedAssetsList",
         "pages/fixedAssets/newFixedAsset/newFixedAsset",
-        "pages/fixedAssets/fixedAssetDetails/fixedAssetDetails"
+        "pages/fixedAssets/fixedAssetDetails/fixedAssetDetails",
+        "pages/voucher/addVoucher/photoOCR/photoOCR"
       ]
     },
     {

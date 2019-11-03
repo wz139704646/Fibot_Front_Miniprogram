@@ -118,6 +118,52 @@ const twoDecimal = function changeTwoDecimal_f(x) {
   return s_x;
 }
 
+// 调用 OCR 云函数
+const callOCR = function (url, action, callback) {
+  console.log('call ocr function', action, url)
+  // url只是本地url，需要upload到cloud的tempPhoto中再让cloud function使用
+  wx.cloud.uploadFile({
+    cloudPath: "tempOCRPhoto/tempOCRPhoto" + Date.parse(new Date()) + ".jpg",
+    filePath: url
+  }).then(_res => {
+    wx.cloud.callFunction({
+      name: 'ocr',
+      data: {
+        action: action,
+        imgFileId: _res.fileID
+      }
+    }).then(res => {
+      callback(res)
+      wx.cloud.deleteFile({
+        fileList: [_res.fileID]
+      }).catch(dferr => {
+        console.log('文件删除失败', dferr)
+      })
+    }).catch(err => {
+      console.log('云函数调用失败', err)
+      wx.hideLoading()
+      wx.showToast({
+        title: '异常错误',
+        icon: 'none',
+        duration: 2000
+      })
+      wx.cloud.deleteFile({
+        fileList: [_res.fileID]
+      }).catch(ferr => {
+        console.log('文件删除失败', ferr)
+      })
+    })
+  }).catch(_err => {
+    console.log('文件上传失败', _err)
+    wx.hideLoading()
+    wx.showToast({
+      title: '异常错误',
+      icon: 'none',
+      duration: 2000
+    })
+  })
+}
+
 
 module.exports = {
   json2form: json2form,
@@ -126,5 +172,6 @@ module.exports = {
   encryptPasswd: encryptPasswd,
   bytes2Str: bytes2Str,
   getcurDateFormatString: getcurDateFormatString,
-  twoDecimal: twoDecimal
+  twoDecimal: twoDecimal,
+  callOCR: callOCR
 }

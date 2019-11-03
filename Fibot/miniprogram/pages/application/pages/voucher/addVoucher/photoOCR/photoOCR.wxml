@@ -1,0 +1,56 @@
+<!--miniprogram/pages/application/pages/voucher/addVoucher/photoOCR/photoOCR.wxml-->
+<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
+  <view slot="backText">返回</view>
+  <view slot="content">票据识别</view>
+</cu-custom>
+<block wx:for="{{photoInfos}}" wx:key>
+  <view class="cu-list menu-avatar no-padding card-menu shadow-lg radius margin-top">
+    <view class="grid grid-square block-image-box">
+      <view class="bg-img block-image" bindtap="preview" data-index="{{index}}">
+        <image src='{{item.url}}' mode='aspectFit' style="width: 100%; height: 100%;"></image>
+        <view class="cu-tag bg-blue" catchtap="reselect" data-index="{{index}}">
+          <text class="cuIcon-refresh"></text>
+        </view>
+      </view>
+    </view>
+    <!-- 识别功能选择 -->
+    <view class="flex flex-direction">
+      <view class="cu-form-group">
+        <view class="title">类型</view>
+        <input disabled placeholder='[选择票据类型]' value='{{item.ocrType ? item.ocrType.text : ""}}' style="text-align:center" bindtap="onOCRTypeSelect" data-idx="{{index}}"></input>
+        <button class="cu-btn bg-{{item.recognized && item.recogSuc ? 'blue' : 'red'}} cuIcon-right light" bindtap="onOCR" data-idx="{{index}}">识别</button>
+      </view>
+    </view>
+    <!-- 票据类型选择 -->
+    <van-popup show="{{ showOCRTypes }}" position="bottom" bind:close="onModalClose">
+      <van-picker show-toolbar columns="{{ OCRTypes }}" bind:cancel="onModalClose" bind:confirm="onOCRTypeConfirm" />
+    </van-popup>
+    <!-- 票据信息 -->
+    <view class="padding-xs bg-blue light" hidden="{{!item.recognized}}">
+      <block wx:for="{{item.entries}}" wx:key wx:for-item="entry" wx:for-index="entryIdx">
+        <view class="cu-form-group">
+          <view class="title">摘要</view>
+          <input placeholder="输入摘要" value="{{entry.abstract}}" bindinput="onAbstractInput" data-photoidx="{{index}}" data-entryidx="{{entryIdx}}"></input>
+          <button class="cu-btn bg-blue shadow cuIcon-right light">摘要库</button>
+        </view>
+        <view class="cu-form-group" bindtap='onSubjectSelect' data-photoidx="{{index}}" data-entryidx="{{entryIdx}}">
+          <view class="title">科目</view>
+          <input disabled placeholder='请选择科目' value='{{entry.subject.subject_code ? entry.subject.subject_code+" "+entry.subject.name : ""}}' style="text-align:right;"></input>
+          <text class="cuIcon-right text-orange"></text>
+        </view>
+        <view class="cu-form-group" style="border-bottom: 1px solid gray;">
+          <view class="title">金额</view>
+          <input placeholder="输入金额" value="{{item.totalText[entryIdx]}}" type="digit" bindinput="onTotalInput" data-photoidx="{{index}}" data-entryidx="{{entryIdx}}"></input>
+          <button data-photoidx="{{index}}" data-entryidx="{{entryIdx}}" data-type="借" bindtap="onTotalAutoChange" class="cu-btn bg-{{entry.credit_debit == '借' ? 'blue' : 'gray'}} light shadow icon margin-right-xs">借</button>
+          <button data-photoidx="{{index}}" data-entryidx="{{entryIdx}}" data-type="贷" bindtap="onTotalAutoChange" class="cu-btn bg-{{entry.credit_debit == '贷' ? 'orange' : 'gray'}} light shadow icon margin-right-xs">贷</button>
+        </view>
+      </block>
+    </view>
+
+  </view>
+</block>
+
+<view class="padding flex flex-direction margin-top-lg">
+  <button class="cu-btn bg-blue margin-tb-sm lg" bindtap='onSave'>保存</button>
+  <button class="cu-btn bg-grey lg" bindtap='onCancel'>返回</button>
+</view>

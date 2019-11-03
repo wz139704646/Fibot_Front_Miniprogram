@@ -2,6 +2,7 @@
 const app = getApp()
 const util = require('../../../../../utils/util.js')
 const host = app.globalData.requestHost
+// const callOCR = util.callOCR
 
 Page({
 
@@ -13,7 +14,8 @@ Page({
     //   { name: '增值税发票', value: 'VatInvoice'},
     //   { name: '金融票据整单', value: 'FinanBill'}
     // ],
-    voucher_no: ''
+    voucher_no: '',
+    entryModified: false
   },
 
   // 获取新增凭证的默认编号
@@ -106,6 +108,13 @@ Page({
 
   },
 
+  addAttachments: function(newAttachments) {
+    let {attachments, attachments_number} = this.data
+    attachments = attachments.concat(newAttachments)
+    attachments_number += newAttachments.length
+    this.setData({attachments, attachments_number})
+  },
+
   DateChange: function(e) {
     this.setData({
       date: e.detail.value
@@ -116,7 +125,8 @@ Page({
 
   onNoInput: function(e) {
     this.setData({
-      voucher_no: e.detail.value
+      voucher_no: e.detail.value,
+      entryModified: true
     })
   },
 
@@ -130,7 +140,8 @@ Page({
     let idx = e.currentTarget.dataset.idx
     let value = e.detail.value
     this.setData({
-      [`entries[${idx}].abstract`]: value
+      [`entries[${idx}].abstract`]: value,
+      entryModified: true
     })
   },
 
@@ -141,7 +152,8 @@ Page({
     value = value || 0
     this.setData({
       [`entries[${idx}].total`]: value,
-      [`totalText[${idx}]`]: e.detail.value
+      [`totalText[${idx}]`]: e.detail.value,
+      entryModified: true
     })
   },
 
@@ -149,8 +161,14 @@ Page({
     // 跳到科目表界面，进行科目选择
     let idx = e.currentTarget.dataset.idx
     let datafor = `entries[${idx}].subject`
+    let that = this
     wx.navigateTo({
       url: `../../subjects/subjects/subjects?datafor=${datafor}`,
+      success: () => {
+        that.setData({
+          entryModified: true
+        })
+      }
     })
   },
 
@@ -163,7 +181,8 @@ Page({
     if(type == '借' || type == '贷') {
       // 简单的 借 贷 的改变时仅改变 cd 属性
       this.setData({
-        [path+'.credit_debit']: type
+        [path+'.credit_debit']: type,
+        entryModified: true
       })
     } else if(type == '平') {
       // 平 代表自动计算，根据其他所有项的金额进行计算
@@ -182,7 +201,8 @@ Page({
       this.setData({
         [path+'.credit_debit'] : cd,
         [path+'.total'] : Math.abs(total),
-        [`totalText[${idx}]`]: Math.abs(total).toString()
+        [`totalText[${idx}]`]: Math.abs(total).toString(),
+        entryModified: true
       })
     }
   },
@@ -203,7 +223,8 @@ Page({
     value = value || 0
     console.log(value)
     this.setData({
-      attachments_number: value
+      attachments_number: value,
+      entryModified: true
     })
   },
 
@@ -252,7 +273,8 @@ Page({
     })
     totalText.push('')
     this.setData({
-      entries, totalText
+      entries, totalText,
+      entryModified: true
     })
   },
 
@@ -408,52 +430,6 @@ Page({
     })
   },
 
-  // 调用 OCR 云函数
-  callOCR: function (url, action, callback) {
-    console.log('call ocr function', action, url)
-    // TODO url只是本地url，需要upload到cloud的tempPhoto中再让cloud function使用
-    wx.cloud.uploadFile({
-      cloudPath: "tempOCRPhoto/tempOCRPhoto" + Date.parse(new Date()) + ".jpg",
-      filePath: url
-    }).then(_res => {
-      wx.cloud.callFunction({
-        name: 'ocr',
-        data: {
-          action: action,
-          imgFileId: _res.fileID
-        }
-      }).then(res => {
-        callback(res)
-        wx.cloud.deleteFile({
-          fileList: [_res.fileID]
-        }).catch(dferr => {
-          console.log('文件删除失败', dferr)
-        })
-      }).catch(err => {
-        console.log('云函数调用失败', err)
-        wx.hideLoading()
-        wx.showToast({
-          title: '异常错误',
-          icon: 'none',
-          duration: 2000
-        })
-        wx.cloud.deleteFile({
-          fileList: [_res.fileID]
-        }).catch(ferr => {
-          console.log('文件删除失败', ferr)
-        })
-      })
-    }).catch(_err => {
-      console.log('文件上传失败', _err)
-      wx.hideLoading()
-      wx.showToast({
-        title: '异常错误',
-        icon: 'none',
-        duration: 2000
-      })
-    })
-  },
-
   // 扫描发票图片添加凭证
   scanPhoto: function(e) {
     console.log("scan options")
@@ -491,124 +467,145 @@ Page({
         } else {
           console.log('发票金额', codeArr[4])
           let totalStr = codeArr[4]
-          let {entries, totalText} = that.data
+          let { entries, totalText, entryModified} = that.data
           let total;
           if (Number.isInteger(totalStr)) {
             total = parseInt(totalStr)
           } else {
             total = parseFloat(totalStr)
           }
+          if (!entryModified) {
+            entries = []
+            totalText = []
+          }
           entries.push({
-            abstract: '',
+            abstract: '货物/应税劳务/服务金额',
             subject: {},
             total: total,
             credit_debit: '借'
           })
+          entries.push({
+            abstract: '货物/应税劳务/服务金额',
+            subject: {},
+            total: total,
+            credit_debit: '贷'
+          })
+          totalText.push(codeArr[4])
           totalText.push(codeArr[4])
           that.setData({
             entries, totalText,
-            scanOptionShow: false
+            scanOptionShow: false,
+            entryModified: true
           })
         }
       },
       fail: err => {
+        wx.hideLoading()
         console.log('scan code error', err)
       }
     })
   },
 
-  scan: function(source) {
+  scan: function(source, limit, callback) {
     let that = this
     let actionType = 'VatInvoice'
     wx.chooseImage({
-      count: 1,
+      count: limit,
       sizeType: ['original', 'compressed'],
       sourceType: [source],
-      success: function (res) {
-        const tempFilePaths = res.tempFilePaths
-        let { attachments, attachments_number } = that.data
-        attachments.push(tempFilePaths[0])
-        attachments_number += 1
-        // 提示
-        wx.showLoading({
-          title: '识别中',
-        })
-        that.setData({
-          attachments, attachments_number
-        })
-        that.callOCR(tempFilePaths[0], actionType + 'OCR', _res => {
-          wx.hideLoading()
-          let data = _res.result.Response
-          if (data.Error) {
-            wx.showToast({
-              title: '识别失败',
-              icon: 'none',
-              duration: 2000
-            })
-            console.log('图片识别失败', data.Error)
-          } else {
-            console.log(data[actionType + 'Infos'])
-            let infos = data[actionType + 'Infos']
-            let { entries, totalText } = that.data
-            let itemIdx = infos.findIndex(item => {
-              return item.Name == '货物或应税劳务、服务名称' ||
-                item.Name == '项目名称' ||
-                item.Name == '货物或应税劳务名称'
-            })
-            let totalIdx = infos.findIndex(item => item.Name == '金额')
-            let taxIdx = infos.findIndex(item => item.Name == '税额')
-            let abstract = itemIdx == -1 ? '' : infos[itemIdx].Value
-            let taxAbstract = '增值税'
-            let total = itemIdx == -1 ? 0 : parseFloat(infos[totalIdx].Value)
-            let taxTotal = taxIdx == -1 ? 0 : parseFloat(infos[taxIdx].Value)
-            // 添加发票记录内容项
-            entries.push({
-              abstract: abstract,
-              subject: {},
-              total: total,
-              credit_debit: '借'
-            })
-            totalText.push('' + total)
-            entries.push({
-              abstract: taxAbstract,
-              subject: {},
-              total: taxTotal,
-              credit_debit: '借'
-            })
-            totalText.push('' + taxTotal)
-            that.setData({
-              entries, totalText,
-              scanOptionShow: false
-            })
-          }
-        })
-      },
+      success: callback
+        // const tempFilePaths = res.tempFilePaths
+        // let { attachments, attachments_number } = that.data
+        // attachments.push(tempFilePaths[0])
+        // attachments_number += 1
+        // // 提示
+        // wx.showLoading({
+        //   title: '识别中',
+        // })
+        // that.setData({
+        //   attachments, attachments_number
+        // })
+        // callOCR(tempFilePaths[0], actionType + 'OCR', _res => {
+        //   wx.hideLoading()
+        //   let data = _res.result.Response
+        //   if (data.Error) {
+        //     wx.showToast({
+        //       title: '识别失败',
+        //       icon: 'none',
+        //       duration: 2000
+        //     })
+        //     console.log('图片识别失败', data.Error)
+        //   } else {
+        //     console.log(data[actionType + 'Infos'])
+        //     let infos = data[actionType + 'Infos']
+        //     let { entries, totalText } = that.data
+        //     let itemIdx = infos.findIndex(item => {
+        //       return item.Name == '货物或应税劳务、服务名称' ||
+        //         item.Name == '项目名称' ||
+        //         item.Name == '货物或应税劳务名称'
+        //     })
+        //     let totalIdx = infos.findIndex(item => item.Name == '金额')
+        //     let taxIdx = infos.findIndex(item => item.Name == '税额')
+        //     let abstract = itemIdx == -1 ? '' : infos[itemIdx].Value
+        //     let taxAbstract = '增值税'
+        //     let total = itemIdx == -1 ? 0 : parseFloat(infos[totalIdx].Value)
+        //     let taxTotal = taxIdx == -1 ? 0 : parseFloat(infos[taxIdx].Value)
+        //     // 添加发票记录内容项
+        //     entries.push({
+        //       abstract: abstract,
+        //       subject: {},
+        //       total: total,
+        //       credit_debit: '借'
+        //     })
+        //     totalText.push('' + total)
+        //     entries.push({
+        //       abstract: taxAbstract,
+        //       subject: {},
+        //       total: taxTotal,
+        //       credit_debit: '借'
+        //     })
+        //     totalText.push('' + taxTotal)
+        //     that.setData({
+        //       entries, totalText,
+        //       scanOptionShow: false
+        //     })
+        //   }
+        // })
     })
   },
 
   // 扫描临时拍的照片
-  scanCamera: function(e) {
-    console.log("scan camera")
+  scanCameraOrAlbum: function(e) {
+    let source = e.currentTarget.dataset.source
     // 相同的代码，只更改了图片源
-    this.scan('camera')
+    let limit = source == 'camera' ? 1 : 9
+    let that = this
+    this.scan(source, limit, (res) => {
+      const tempFilePaths = res.tempFilePaths
+      wx.setStorage({
+        key: 'ocrPhotos',
+        data: tempFilePaths,
+        success: () => {
+          let {entryModified} = that.data
+          that.setData({
+            scanOptionShow: false
+          }, () => {
+            wx.navigateTo({
+              url: 'photoOCR/photoOCR?entryPushTarget=entries&totalPushTarget=totalText&urlsKey=ocrPhotos&method' + source + "&inplace=" + (!entryModified),
+            })
+          })
+        }, 
+        fail: (err) => {
+          console.log('使用缓存失败', err)
+          wx.showToast({
+            title: '缓存异常',
+            icon: 'none',
+            duration: 2000
+          })
+        }
+      })
+    })
   },
-
-  // cameraError: function(e) {
-  //   console.log('相机异常', e.detail)
-  // },
-
-  // 扫描相册中的照片
-  scanAlbum: function(e) {
-    console.log("scan album")
-    // 相同的代码，只更改了图片源
-    this.scan('album')
-  },
-
-  // hidePicType: function(e) {
-  //   this.setData({
-  //     showPicType: false
-  //   })
-  // },
 
   // 无意义函数
   nop: function() {},

@@ -1,0 +1,14 @@
+/* miniprogram/pages/application/pages/voucher/addVoucher/photoOCR/photoOCR.wxss */
+
+.block-image-box {
+  display: flex;
+  justify-content: center;
+  height: 400rpx;
+  background-color: white;
+  border-bottom: 1px solid gray;
+}
+
+.block-image {
+  width: 90%;
+  height: 100%;
+}
