@@ -591,7 +591,7 @@ Page({
             scanOptionShow: false
           }, () => {
             wx.navigateTo({
-              url: 'photoOCR/photoOCR?entryPushTarget=entries&totalPushTarget=totalText&urlsKey=ocrPhotos&method' + source + "&inplace=" + (!entryModified),
+              url: 'photoOCR/photoOCR?entryPushTarget=entries&totalPushTarget=totalText&urlsKey=ocrPhotos&method=' + source + "&inplace=" + (!entryModified),
             })
           })
         }, 

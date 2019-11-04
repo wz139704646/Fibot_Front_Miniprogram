@@ -391,8 +391,10 @@ Page({
   },
 
   preview: function (e) {
+    console.log(e)
     let idx = e.currentTarget.dataset.index
     let urls = this.getPhotoUrls()
+    console.log(idx)
     wx.previewImage({
       urls: urls,
       current: urls[idx]
@@ -401,9 +403,11 @@ Page({
 
   // 重新选择某张图片，以进入页面时的选取图片方式
   reselect: function (e) {
+    console.log('重新选择图片')
     let idx = e.currentTarget.dataset.index
     // 获取进入页面时的照片选取方式
     let { method } = this.options
+    console.log(method)
     let { photoInfos } = this.data
     let that = this
     wx.chooseImage({

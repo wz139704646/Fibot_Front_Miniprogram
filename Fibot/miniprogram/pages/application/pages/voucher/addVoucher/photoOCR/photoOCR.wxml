@@ -6,9 +6,9 @@
 <block wx:for="{{photoInfos}}" wx:key>
   <view class="cu-list menu-avatar no-padding card-menu shadow-lg radius margin-top">
     <view class="grid grid-square block-image-box">
-      <view class="bg-img block-image" bindtap="preview" data-index="{{index}}">
-        <image src='{{item.url}}' mode='aspectFit' style="width: 100%; height: 100%;"></image>
-        <view class="cu-tag bg-blue" catchtap="reselect" data-index="{{index}}">
+      <view class="bg-img block-image">
+        <image src='{{item.url}}' bindtap="preview" data-index="{{index}}" mode='aspectFit' style="width: 100%; height: 100%;"></image>
+        <view class="cu-tag bg-blue" bindtap="reselect" data-index="{{index}}">
           <text class="cuIcon-refresh"></text>
         </view>
       </view>
