@@ -170,7 +170,7 @@ Page({
     let infos = result['VatRollInvoiceInfos']
     let { photoInfos } = this.data
     // 找到金额项
-    let totalIdx = infos.findIndex(item => item.Name == '合计金额(小写)')
+    let totalIdx = infos.findIndex(item => item.Name == '小写金额')
     let total = totalIdx == -1 ? 0 : parseFloat(infos[totalIdx].Value)
     photoInfos[photoidx].entries = []
     photoInfos[photoidx].totalText = []
