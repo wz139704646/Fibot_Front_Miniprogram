@@ -545,8 +545,8 @@ Page({
     let entries = []
     let totalTexts = []
     if (inplace == 'false') {
-      entries = oldPage[entryPushTarget]
-      totalTexts = oldPage[totalPushTarget]
+      entries = oldPage.data[entryPushTarget]
+      totalTexts = oldPage.data[totalPushTarget]
     }
     // 分别加入分录、金额文本、附件图片
     entries = entries.concat(this.getEntries())
