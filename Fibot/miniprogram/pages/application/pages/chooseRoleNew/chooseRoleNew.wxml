@@ -1,16 +1,16 @@
-<!--pages/application/chooseRoleNew/chooseRoleNew.wxml-->
-<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
-  <view slot="backText">返回</view>
-  <view slot="content">角色选择</view>
+<cu-custom bgColor="bg-gradual-blue" isBack="{{false}}">
+  <view slot="content">选择角色</view>
 </cu-custom>
+<swiper class="card-swiper" circular="true"  bindchange="cardSwiper" >
+  <swiper-item wx:for="{{elements}}" wx:key class="{{cardCur==index?'cur':''}}">
+    <view class="swiper-item">
+      <image src="{{item.image}}" mode="aspectFill" style="height:400px;"></image>
+    </view>
+  </swiper-item>
+</swiper>
 
-<view class='cu-tabbar-height'></view>
-  <view class='nav-list'>
-    <navigator open-type="navigate" hover-class='none' url="{{item.url}}" class="nav-li bg-{{item.color}} shadow-blur" wx:for="{{elements}}" wx:key>
-      <view class="nav-title">{{item.title}}</view>
-      <view class="nav-name">{{item.name}}</view>
-      <text class='cuIcon-{{item.icon}}'></text>
-    </navigator>
-  </view>
-  
-
+<view class="box">
+  <view class="cu-bar btn-group">
+    <button class="cu-btn bg-blue shadow-blur round lg" bindtap="enterRole">进入角色</button>
+  </view> 
+</view>

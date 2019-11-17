@@ -1,1 +1,42 @@
-/* pages/application/chooseRoleNew/chooseRoleNew.wxss */
+.nav-li {
+  padding: 30rpx;
+  border-radius: 12rpx;
+  width: 100%;
+  margin: 100rpx 2.5% 40rpx;
+  background-image: url(https://image.weilanwl.com/color2.0/cardBg.png);
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  z-index: 1;
+}
+
+.card-swiper {
+	height: 980rpx !important;
+}
+
+.card-swiper swiper-item {
+	width: 610rpx !important;
+	left: 70rpx;
+	box-sizing: border-box;
+	padding: 40rpx 0rpx 70rpx;
+	overflow: initial;
+}
+
+.card-swiper swiper-item .swiper-item {
+	width: 100%;
+	display: block;
+	height: 100%;
+	border-radius: 10rpx;
+	transform: scale(0.9);
+	transition: all 0.2s ease-in 0s;
+	overflow: hidden;
+}
+
+.card-swiper swiper-item.cur .swiper-item {
+	transform: none;
+	transition: all 0.2s ease-in 0s;
+}
+
+.box {  
+  margin: 20rpx 0; 
+}
