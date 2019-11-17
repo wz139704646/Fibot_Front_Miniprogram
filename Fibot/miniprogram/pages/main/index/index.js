@@ -32,9 +32,8 @@ Page({
         }),
         success: res => {
           console.log(res)
-          var position=res.data.result[0].position
-
           wx.hideLoading()
+
           if(res.statusCode!=200 || !res.data.success || !res.data.result || res.data.result.length==0) {
             wx.showToast({
               title: res.data.errMsg || '请求错误',
@@ -52,11 +51,9 @@ Page({
             app.globalData.companyId = companyId
             app.globalData.position = position
             that.getCompanyName()
+            that.navToPosition(position)
           }
-
-          //that.getPermission()
-          that.navToPosition(position)
-
+          
         },
         fail: err => {
           console.error('请求失败',err)
