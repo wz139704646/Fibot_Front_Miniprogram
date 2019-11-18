@@ -133,7 +133,7 @@ Page({
     let totalIdx = infos.findIndex(item => item.Name == '金额')
     let taxIdx = infos.findIndex(item => item.Name == '税额')
     let abstract = itemIdx == -1 ? '' : infos[itemIdx].Value
-    let taxAbstract = '增值税'
+    let taxAbstract = abstract + '增值税'
     let total = itemIdx == -1 ? 0 : parseFloat(infos[totalIdx].Value)
     let taxTotal = taxIdx == -1 ? 0 : parseFloat(infos[taxIdx].Value)
     // 将相关内容加入相应图片的凭证项中
@@ -155,7 +155,7 @@ Page({
     })
     // 合计
     photoInfos[photoidx].entries.push({
-      abstract: taxAbstract,
+      abstract: abstract,
       subject: {},
       total: taxTotal + total,
       credit_debit: '贷'
