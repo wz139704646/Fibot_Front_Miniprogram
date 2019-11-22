@@ -9,7 +9,9 @@ Page({
    */
   data: {
     sell: {},
-    verified: false
+    verified: false,
+    backgroundColor : ''
+
   },
 
   // 加载销货单信息
@@ -107,6 +109,9 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
+    this.setData({
+      backgroundColor: app.globalData.backgroundColor,
+    })
 
   },
 

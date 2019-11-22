@@ -16,6 +16,7 @@ const statisticsBase = app.globalData.statisticsBase
 
 Page({
   data: {
+    backgroundColor:'',
     distance: 10000,
     activeNames: [],
     StatusBar: app.globalData.StatusBar,
@@ -123,7 +124,15 @@ Page({
       }
     }
   },
+  /**
+       * 生命周期函数--监听页面初次渲染完成
+       */
+  onReady: function () {
+    this.setData({
+      backgroundColor: app.globalData.backgroundColor
+    })
 
+  },
   onLoad: function (options) {
     this.setData({
       showIconList: this.data.showIconList

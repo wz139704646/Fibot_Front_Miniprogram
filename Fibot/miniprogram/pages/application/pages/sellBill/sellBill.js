@@ -26,12 +26,13 @@ const initPage = function(page){
 }
 
 Page({
-
+  
   /**
    * 页面的初始数据
    */
   data: {
-    host: host
+    host: host,
+    backgroundColor :''
   },
 
   getPayBanks: function() {
@@ -67,6 +68,15 @@ Page({
         }
       })
     }
+  },
+  /**
+     * 生命周期函数--监听页面初次渲染完成
+     */
+  onReady: function () {
+    this.setData({
+      backgroundColor: app.globalData.backgroundColor
+    })
+
   },
 
   /**

@@ -3,6 +3,7 @@ var app = getApp()
 const host = app.globalData.requestHost
 Page({
   data: {
+    backgroundColor : '',
     isDisable:true,
     barcode: "",
     count: "",
@@ -16,6 +17,15 @@ Page({
     standard: '',
     brand: '',
     isChangeImg:false
+  },
+  /**
+     * 生命周期函数--监听页面初次渲染完成
+     */
+  onReady: function () {
+    this.setData({
+      backgroundColor: app.globalData.backgroundColor
+    })
+
   },
 
   /**

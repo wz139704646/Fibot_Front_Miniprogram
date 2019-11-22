@@ -14,6 +14,7 @@ var windowWidth = wx.getSystemInfoSync().windowWidth - 15
 const mainBase = app.globalData.mainBase
 Page({
   data: {
+    backgroundColor:'',
     StatusBar: app.globalData.StatusBar,
     CustomBar: app.globalData.CustomBar,
     showIconList: [{
@@ -285,7 +286,15 @@ Page({
       }
     })
   },
+  /**
+       * 生命周期函数--监听页面初次渲染完成
+       */
+  onReady: function () {
+    this.setData({
+      backgroundColor: app.globalData.backgroundColor
+    })
 
+  },
   onLoad: function (options) {
     this.setData({
       showIconList: this.data.showIconList

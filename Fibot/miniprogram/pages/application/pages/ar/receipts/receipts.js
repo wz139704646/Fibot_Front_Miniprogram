@@ -9,6 +9,7 @@ Page({
    */
   data: {
     CustomBar: app.globalData.CustomBar,
+    backgroundColor : '',
     timeOptions: [
       {
         text: '今天',
@@ -188,6 +189,7 @@ Page({
    */
   onReady: function () {
     this.setData({
+      backgroundColor: app.globalData.backgroundColor,
       showPicker: false,
       timeRange: this.data.timeOptions[0]
     }, ()=> {

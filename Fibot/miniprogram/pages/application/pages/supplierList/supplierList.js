@@ -5,6 +5,7 @@ var inputVal = '';
 Page({
   data: {
     //用于区分不同页面传来的值
+    backgroundColor : '',
     type:"0",
     StatusBar: app.globalData.StatusBar,
     CustomBar: app.globalData.CustomBar,
@@ -123,6 +124,9 @@ Page({
     
   },
   onReady() {
+    this.setData({
+      backgroundColor: app.globalData.backgroundColor,
+    })
     let that = this;
     wx.createSelectorQuery().select('.indexBar-box').boundingClientRect(function (res) {
       that.setData({

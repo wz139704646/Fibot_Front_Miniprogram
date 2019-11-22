@@ -9,7 +9,17 @@ var site = ''
 
 Page({
   data: {
+    backgroundColor : '',
     type:["批发"]
+  },
+  /**
+   * 生命周期函数--监听页面初次渲染完成
+   */
+  onReady: function () {
+    this.setData({
+      backgroundColor: app.globalData.backgroundColor
+    })
+
   },
   onSubmit(e) {
     var that = this

@@ -9,7 +9,8 @@ Page({
    */
   data: {
     purchase: {},
-    verified: false
+    verified: false,
+    backgroundColor: ''
   },
 
   // 加载购货单信息
@@ -130,6 +131,9 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
+    this.setData({
+      backgroundColor: app.globalData.backgroundColor
+    })
 
   },
 

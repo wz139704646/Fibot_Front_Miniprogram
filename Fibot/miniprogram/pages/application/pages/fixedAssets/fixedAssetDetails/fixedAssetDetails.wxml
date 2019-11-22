@@ -1,4 +1,4 @@
-<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
+<cu-custom bgColor="{{backgroundColor}}" isBack="{{true}}">
   <view slot="backText">返回</view>
   <view slot="content">固定资产详情</view>
 </cu-custom>

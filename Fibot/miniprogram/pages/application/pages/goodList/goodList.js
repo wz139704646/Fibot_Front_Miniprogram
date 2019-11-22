@@ -4,9 +4,19 @@ var inputVal = '';
 const applicationBase = app.globalData.applicationBase
 Page({
   data: {
+    backgroundColor : '',
     StatusBar: app.globalData.StatusBar,
     CustomBar: app.globalData.CustomBar,
     goodList: [],
+  },
+  /**
+   * 生命周期函数--监听页面初次渲染完成
+   */
+  onReady: function () {
+    this.setData({
+      backgroundColor: app.globalData.backgroundColor
+    })
+
   },
   onLoad: function (options) {
     var that = this

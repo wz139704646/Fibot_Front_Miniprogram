@@ -8,6 +8,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    backgroundColor : '',
     voucherImgBase: host+'/finance/voucherPic/',
     curAtt: 0,
     attachments: []
@@ -84,6 +85,9 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
+    this.setData({
+      backgroundColor: app.globalData.backgroundColor
+    })
     this.getAttachments(this.options.voucher_no) 
   },
 

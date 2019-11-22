@@ -11,9 +11,18 @@ var rindex = null
 Page({
 
   data: {
-
+    backgroundColor : '',
     type: ['普通客户', 2, 3],
     range: [1, 2, 3]
+  },
+  /**
+   * 生命周期函数--监听页面初次渲染完成
+   */
+  onReady: function () {
+    this.setData({
+      backgroundColor: app.globalData.backgroundColor
+    })
+
   },
   typeChange(e) {
     this.setData({

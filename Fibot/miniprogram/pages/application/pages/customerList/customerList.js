@@ -4,6 +4,7 @@ var inputVal = '';
 
 Page({
   data: {
+    backgroundColor : '',
     StatusBar: app.globalData.StatusBar,
     CustomBar: app.globalData.CustomBar,
     hidden: true,
@@ -124,11 +125,13 @@ Page({
       this.getCustomerList()
     }
   },
+
   onReady() {
     let that = this;
     wx.createSelectorQuery().select('.indexBar-box').boundingClientRect(function (res) {
       that.setData({
-        boxTop: res.top
+        boxTop: res.top,
+        backgroundColor: app.globalData.backgroundColor,
       })
     }).exec();
     wx.createSelectorQuery().select('.indexes').boundingClientRect(function (res) {

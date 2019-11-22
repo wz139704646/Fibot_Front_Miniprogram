@@ -7,6 +7,7 @@ var date1 = ''
 var time = ''
 
 const initPage = function (page) {
+
   date1 = util.getcurDateFormatString(new Date())
 
   var timeStamp = Date.parse(new Date())
@@ -43,6 +44,7 @@ Page({
         value: 3
       }
     ],
+    backgroundColor:''
   },
 
   loadData: function (e) {
@@ -131,6 +133,7 @@ Page({
     initPage(this)
 
     this.setData({
+      backgroundColor: app.globalData.backgroundColor,
       showPicker: false,
       timeRange: this.data.timeOptions[0]
     }, () => {

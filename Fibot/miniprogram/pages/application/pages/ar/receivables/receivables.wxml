@@ -1,6 +1,6 @@
 <!--miniprogram/pages/application/ar/receivables/receivables.wxml-->
 <wxs module='arr' src='arrUtils.wxs'></wxs>
-<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
+<cu-custom bgColor="{{backgroundColor}}" isBack="{{true}}">
   <view slot="backText">返回</view>
   <view slot="content">应收单</view>
 </cu-custom>

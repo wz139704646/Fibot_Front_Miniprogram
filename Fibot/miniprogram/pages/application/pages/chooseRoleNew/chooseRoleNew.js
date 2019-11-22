@@ -7,6 +7,7 @@ Page({
     StatusBar: app.globalData.StatusBar,
     CustomBar: app.globalData.CustomBar,
     ColorList: app.globalData.ColorList,
+    backgroundColor: app.globalData.backgroundColor,
 
     cardCur: 0,
     elements: [{
@@ -15,7 +16,8 @@ Page({
       color: 'cyan',
       image: cloudBase + "/imgs/人物角色/高层管理.png",
       url: mainBase + '/mainq/high_level/high_level',
-      icon: 'newsfill'
+      icon: 'newsfill',
+      backgroundColor: 'bg-high_level'
     },
     {
       title: '人资管理',
@@ -23,7 +25,8 @@ Page({
       color: 'blue',
       url: mainBase + '/mainq/HR/HR',
       image: cloudBase + "/imgs/人物角色/人资管理.png",
-      icon: 'colorlens'
+      icon: 'colorlens',
+      backgroundColor: 'bg-HR'
     },
     {
       title: '财会管理',
@@ -31,7 +34,8 @@ Page({
       color: 'olive',
       image: cloudBase + "/imgs/人物角色/财会管理.png",
       url: mainBase + '/mainq/finance/finance',
-      icon: 'font'
+      icon: 'font',
+      backgroundColor: 'bg-finance'
     },
     {
       title: '行政管理',
@@ -39,14 +43,16 @@ Page({
       color: 'green',
       image: cloudBase + "/imgs/人物角色/行政管理.png",
       url: mainBase + "/mainq/administration/administration",
-      icon: 'icon'
+      icon: 'icon',
+      backgroundColor: 'bg-administration'
     },
     {
       title: '生产管理',
       name: '基层生产 扎实公司底层实力',
       color: 'grey',
       image: cloudBase + "/imgs/人物角色/生产管理.png",
-      url: mainBase + '/mainq/purchase/purchase'
+      url: mainBase + '/mainq/purchase/purchase',
+      backgroundColor: 'bg-purchase'
       //icon: 'btn'
     },
     {
@@ -55,7 +61,8 @@ Page({
       color: 'purple',
       image: cloudBase + "/imgs/人物角色/销售管理.png",
       url: mainBase + '/mainq/seller/seller',
-      icon: 'tagfill'
+      icon: 'tagfill',
+      backgroundColor: 'bg-seller'
     },
     {
       title: '市场营销',
@@ -63,7 +70,8 @@ Page({
       color: 'brown',
       image: cloudBase + "/imgs/人物角色/市场营销.png",
       url: mainBase + '/mainq/market/market',
-      icon: 'myfill'
+      icon: 'myfill',
+      backgroundColor: 'bg-market'
     },
     {
       title: '物流管理',
@@ -71,7 +79,8 @@ Page({
       color: 'black',
       image: cloudBase + "/imgs/人物角色/物流管理.png",
       url: mainBase + '/mainq/logistics/logistics',
-      icon: 'icloading'
+      icon: 'icloading',
+      backgroundColor: 'bg-logistics'
     },
     ],
   },
@@ -89,6 +98,11 @@ Page({
   enterRole(e){
     var cardCur = this.data.cardCur
     var roles = this.data.elements
+    var backgroundColor = roles[cardCur].backgroundColor
+    app.globalData.backgroundColor = backgroundColor
+    console.log(backgroundColor)
+    console.log(app.globalData.backgroundColor)
+
     wx.redirectTo({
       url: roles[cardCur].url,
     })

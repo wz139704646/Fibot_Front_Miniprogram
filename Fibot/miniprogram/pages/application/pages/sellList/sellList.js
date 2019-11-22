@@ -7,12 +7,21 @@ Page({
    * 页面的初始数据
    */
   data: {
+    backgroundColor : '',
     StatusBar: app.globalData.StatusBar,
     CustomBar: app.globalData.CustomBar,
     fun: null,
     sellList: []
   },
+  /**
+     * 生命周期函数--监听页面初次渲染完成
+     */
+  onReady: function () {
+    this.setData({
+      backgroundColor: app.globalData.backgroundColor
+    })
 
+  },
   /**
    * 生命周期函数--监听页面加载
    */

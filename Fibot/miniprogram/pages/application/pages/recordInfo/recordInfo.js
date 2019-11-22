@@ -7,6 +7,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    backgroundColor : '',
     host: host,
     index: null,
     pname: "",
@@ -15,7 +16,15 @@ Page({
     curOutList: [],
     curStoreList: [],
   },
+  /**
+     * 生命周期函数--监听页面初次渲染完成
+     */
+  onReady: function () {
+    this.setData({
+      backgroundColor: app.globalData.backgroundColor
+    })
 
+  },
   /**
    * 生命周期函数--监听页面加载
    */

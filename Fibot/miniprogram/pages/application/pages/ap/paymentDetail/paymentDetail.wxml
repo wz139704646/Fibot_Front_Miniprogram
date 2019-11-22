@@ -1,5 +1,5 @@
 <!--miniprogram/pages/application/ap/paymentDetail/paymentDetail.wxml-->
-<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
+<cu-custom bgColor="{{backgroundColor}}" isBack="{{true}}">
   <view slot="backText">返回</view>
   <view slot="content">付款单</view>
 </cu-custom>

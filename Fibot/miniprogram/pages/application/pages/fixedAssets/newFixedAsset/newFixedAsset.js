@@ -10,6 +10,7 @@ const initPage = function (page) {
 Page({
 
   data: {
+    backgroundColor : '',
     name:'',
     pieces:'',
     indexOfDepreciation:'',
@@ -18,7 +19,15 @@ Page({
     estimated_useful_life:'',
     depreciation: ["年限平均法", "工作量法", "年数总和法", "双倍余额递减法", "一次扣除法"]
   },
+  /**
+     * 生命周期函数--监听页面初次渲染完成
+     */
+  onReady: function () {
+    this.setData({
+      backgroundColor: app.globalData.backgroundColor
+    })
 
+  },
   onLoad: function (options) {
     initPage(this)
   },

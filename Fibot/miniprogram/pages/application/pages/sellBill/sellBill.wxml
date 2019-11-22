@@ -1,6 +1,6 @@
 <!--pages/application/sellBill/sellBill.wxml-->
 <wxs module='number' src='number.wxs'></wxs>
-<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
+<cu-custom bgColor="{{backgroundColor}}" isBack="{{true}}">
   <view slot="backText">返回</view>
   <view slot="content">销售开单</view>
 </cu-custom>

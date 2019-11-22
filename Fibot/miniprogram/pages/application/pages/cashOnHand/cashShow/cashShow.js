@@ -29,6 +29,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    backgroundColor : '',
     timeOptions: [
       {
         text: '今天',
@@ -108,6 +109,7 @@ Page({
 
     this.setData({
       showPicker: false,
+      backgroundColor: app.globalData.backgroundColor,
       timeRange: this.data.timeOptions[0]
     }, () => {
       this.loadData()

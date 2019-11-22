@@ -30,7 +30,9 @@ Page({
     supplierId:0,
     id:"",
     amountText: '',
-    note: ''
+    note: '',
+    backgroundColor : ''
+
   },
 
   getPayBanks: function () {
@@ -66,6 +68,16 @@ Page({
         }
       })
     }
+  },
+
+  /**
+   * 生命周期函数--监听页面初次渲染完成
+   */
+  onReady: function () {
+    this.setData({
+      backgroundColor: app.globalData.backgroundColor
+    })
+
   },
 
   onLoad: function(options) {

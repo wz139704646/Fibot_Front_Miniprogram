@@ -1,6 +1,6 @@
 
 .UCenter-bg {
-  background-color: #03A9F4;
+  /* background-color: #03A9F4; */
   /* background-image: url(https://image.weilanwl.com/color2.0/index.jpg); */
   background-size: cover;
   height: 400rpx;

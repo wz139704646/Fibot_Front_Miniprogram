@@ -28,6 +28,8 @@ App({
     statisticsBase: "/pages/statistics",
     mainBase:"/pages/main",
     companyId:"5",
+    backgroundColor:"bg-gradual-blue",
+
     ColorList: [{
       title: '嫣红',
       name: 'red',

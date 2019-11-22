@@ -30,6 +30,17 @@ page {
 	--gray: #aaaaaa;
 	--ghostWhite: #f1f1f1;
 	--white: #ffffff;
+
+  /*角色定制颜色*/
+  --high_level:#e9c582;
+  --HR:#6d5947;
+  --administration:#76a3a4;
+  --purchase:#cce6cd;
+  --seller:#9a887a;
+  --market:#a4a1bd;
+  --finance:#d77b49;
+  --logistics:#adddf2;
+
 	/* 浅色 */
 	--redLight: #fadbd9;
 	--orangeLight: #fde6d2;
@@ -3505,6 +3516,46 @@ scroll-view.cu-steps .cu-item {
 .bg-white {
 	background-color: var(--white);
 	color: var(--darkGray);
+}
+
+.bg-high_level {
+  background-color: var(--high_level);
+  color: var(--white);
+}
+
+.bg-administration {
+  background-color: var(--administration);
+  color: var(--white);
+}
+
+.bg-HR {
+  background-color: var(--HR);
+  color: var(--white);
+}
+
+.bg-finance {
+  background-color: var(--finance);
+  color: var(--white);
+}
+
+.bg-logistics {
+  background-color: var(--logistics);
+  color: var(--white);
+}
+
+.bg-market {
+  background-color: var(--market);
+  color: var(--white);
+}
+
+.bg-purchase {
+  background-color: var(--purchase);
+  color: var(--white);
+}
+
+.bg-seller {
+  background-color: var(--seller);
+  color: var(--white);
 }
 
 .bg-shadeTop {

@@ -8,6 +8,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    backgroundColor : '',
     CustomBar: app.globalData.CustomBar,
     timeIndex: [0, 0],
     timeArray: [[], []],
@@ -208,6 +209,10 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
+    this.setData({
+      backgroundColor: app.globalData.backgroundColor,
+    })
+
 
   },
 

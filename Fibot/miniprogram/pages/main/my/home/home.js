@@ -6,6 +6,7 @@ const mainBase = app.globalData.mainBase
 
 Page({
   data: {
+    backgroundColor: '',
     imgBase: app.globalData.imgBase,
     roleName: "",
     starCount: 0,
@@ -13,6 +14,15 @@ Page({
     visitTotal: 0,
     logoutModal: false,
     companyName: "",
+
+  },
+  /**
+   * 生命周期函数--监听页面初次渲染完成
+   */
+  onReady: function () {
+    this.setData({
+      backgroundColor: app.globalData.backgroundColor
+    })
 
   },
   onLoad(options) {

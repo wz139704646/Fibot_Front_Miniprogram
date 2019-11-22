@@ -9,6 +9,7 @@ Page({
    */
   data: {
     CustomBar: app.globalData.CustomBar,
+    backgroundColor: '',
     timeOptions: [
       {
         text: '今天',
@@ -216,6 +217,7 @@ Page({
   onLoad: function (options) {
     if (options.back) {
       this.setData({
+        backgroundColor: app.globalData.backgroundColor,
         back: options.back,
         selectedPayables: [],
         selectedTotal: 0

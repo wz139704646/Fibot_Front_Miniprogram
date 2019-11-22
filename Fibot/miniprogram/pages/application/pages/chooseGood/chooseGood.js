@@ -4,6 +4,7 @@ const util = require('../../../../utils/util.js')
 var inputVal = ""
 Page({
   data: {
+    backgroundColor : '',
     StatusBar: app.globalData.StatusBar,
     CustomBar: app.globalData.CustomBar,
 
@@ -20,6 +21,15 @@ Page({
     searchList: []
   },
 
+  /**
+     * 生命周期函数--监听页面初次渲染完成
+     */
+  onReady: function () {
+    this.setData({
+      backgroundColor: app.globalData.backgroundColor
+    })
+
+  },
 
   onLoad: function(options) {
     console.log("load")

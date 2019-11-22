@@ -1,5 +1,5 @@
 <view class="cu-custom" style="height:{{CustomBar}}px;">
-  <view class="cu-bar fixed none-bg text-white bg-img" style="height:{{CustomBar}}px;padding-top:{{StatusBar}}px;">
+  <view class="cu-bar fixed none-bg text-white bg-img {{backgroundColor}}" style="height:{{CustomBar}}px;padding-top:{{StatusBar}}px;">
     <view class="cu-content">
       <!-- <image class="cu-avatar round lg bg-white" src="{{app.globalData.userInfo.avatarUrl}}" bindtap="navigateToHome"></image> -->
       <image class="cu-avatar round lg bg-white" src="https://ossweb-img.qq.com/images/lol/web201310/skin/big81005.jpg"></image>
@@ -8,7 +8,7 @@
   </view>
 </view>
 <view class="box" style="top:{{CustomBar}}px;">
-  <view class="canui-order-details-head">
+  <view class="canui-order-details-head {{backgroundColor}}">
     <view class="cu-list menu">
       <view class="cu-item">
         <view class='content'>

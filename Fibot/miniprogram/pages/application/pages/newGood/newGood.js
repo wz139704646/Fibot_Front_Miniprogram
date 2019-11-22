@@ -6,6 +6,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    backgroundColor : '',
     barcode:"",
     count:"",
     imageList: [],
@@ -18,6 +19,16 @@ Page({
     standard: '',
     brand: ''
   },
+  /**
+   * 生命周期函数--监听页面初次渲染完成
+   */
+  onReady: function () {
+    this.setData({
+      backgroundColor: app.globalData.backgroundColor
+    })
+
+  },
+
   nameChange(e) {
     console.log(e);
     this.setData({

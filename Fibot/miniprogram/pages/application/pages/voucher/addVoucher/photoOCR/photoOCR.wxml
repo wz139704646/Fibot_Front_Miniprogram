@@ -1,5 +1,5 @@
 <!--miniprogram/pages/application/pages/voucher/addVoucher/photoOCR/photoOCR.wxml-->
-<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
+<cu-custom bgColor="{{backgroundColor}}" isBack="{{true}}">
   <view slot="backText">返回</view>
   <view slot="content">票据识别</view>
 </cu-custom>

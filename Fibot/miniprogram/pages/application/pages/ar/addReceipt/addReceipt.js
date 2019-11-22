@@ -9,7 +9,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    backgroundColor : ''
   },
 
   getPayBanks: function () {
@@ -119,7 +119,8 @@ Page({
   onReady: function () {
     let date = util.getcurDateFormatString(new Date())
     this.setData({
-      date: date,
+      date: date, 
+      backgroundColor: app.globalData.backgroundColor,
       receive: 0
     })
   },

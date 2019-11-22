@@ -1,5 +1,5 @@
 <!--pages/application/depositJournal/addJournal/addJournal.wxml-->
-<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
+<cu-custom bgColor="{{backgroundColor}}" isBack="{{true}}">
   <view slot="backText">返回</view>
   <view slot="content">新增日记账</view>
 </cu-custom>

@@ -9,6 +9,7 @@ Page({
    */
   data: {
     CustomBar: app.globalData.CustomBar,
+    backgroundColor: '',
     timeOptions: [
       {
         text: '今天',
@@ -200,6 +201,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    
 
   },
 
@@ -208,6 +210,7 @@ Page({
    */
   onReady: function () {
     this.setData({
+      backgroundColor: app.globalData.backgroundColor,
       showPicker: false,
       timeRange: this.data.timeOptions[0]
     }, () => {

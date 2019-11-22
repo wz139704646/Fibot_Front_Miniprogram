@@ -8,6 +8,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    backgroundColor : '',
     StatusBar: app.globalData.StatusBar,
     CustomBar: app.globalData.CustomBar,
     Custom: app.globalData.Custom,
@@ -67,6 +68,9 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
+    this.setData({
+      backgroundColor: app.globalData.backgroundColor,
+    })
     // 发送请求获取所有科目类别
     let token = app.getToken()
     let that = this

@@ -9,7 +9,8 @@ Page({
    * 页面的初始数据
    */
   data: {
-    CustomBar: app.globalData.CustomBar
+    CustomBar: app.globalData.CustomBar,
+    backgroundColor: ''
   },
 
   // 加载凭证: idate: 起始日期，tdate: 截止日期
@@ -71,6 +72,9 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
+    this.setData({
+      backgroundColor:app.globalData.backgroundColor
+    })
     let tdate = util.getcurDateFormatString(new Date())
     let idateArr = tdate.split('-')
     idateArr.splice(2, 1)

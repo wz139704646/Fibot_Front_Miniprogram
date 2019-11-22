@@ -13,6 +13,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    backgroundColor : '',
     toNum:0,
     //account:["支付宝","微信","现金","刷卡","会员卡","抹零","挂账","订金","优惠劵"],
     inAcc:[],
@@ -20,7 +21,15 @@ Page({
     amount:[],
     remarks:[]
   },
+  /**
+     * 生命周期函数--监听页面初次渲染完成
+     */
+  onReady: function () {
+    this.setData({
+      backgroundColor: app.globalData.backgroundColor
+    })
 
+  },
   /**
    * 生命周期函数--监听页面加载
    */

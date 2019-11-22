@@ -1,6 +1,6 @@
 <!--pages/application/voucher/voucher.wxml-->
 <wxs module='number' src='number.wxs'></wxs>
-<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
+<cu-custom bgColor="{{backgroundColor}}" isBack="{{true}}">
   <view slot="backText">返回</view>
   <view slot="content">凭证</view>
 </cu-custom>

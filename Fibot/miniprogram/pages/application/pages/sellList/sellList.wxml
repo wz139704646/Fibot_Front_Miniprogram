@@ -1,6 +1,6 @@
 <!--pages/application/sellList/sellList.wxml-->
 <wxs module='util' src='util.wxs' module='util'></wxs>
-<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
+<cu-custom bgColor="{{backgroundColor}}" isBack="{{true}}">
   <view slot="backText">返回</view>
   <view slot="content">销售记录</view>
 </cu-custom>

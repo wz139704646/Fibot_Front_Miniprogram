@@ -37,6 +37,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    backgroundColor : '',
     TabCur: 0,
     scrollLeft: 0,
     indexOfWay: 0,
@@ -231,6 +232,9 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
+    this.setData({
+      backgroundColor: app.globalData.backgroundColor,
+    })
 
   },
 
