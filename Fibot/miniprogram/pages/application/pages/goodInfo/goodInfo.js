@@ -44,7 +44,7 @@ Page({
         url: host + '/queryGoods',
         data: JSON.stringify({
           companyId: app.globalData.companyId,
-          name: e.name
+          id: e.id
         }),
         method: "POST",
         header: {
@@ -107,14 +107,18 @@ Page({
   },
   unitChange(e) {
     console.log(e);
+    let uindex = e.detail.value
     this.setData({
-      uindex: e.detail.value
+      uindex: uindex,
+      unitInfo: this.data.unitInfoList[uindex]
     })
   },
   goodChange(e) {
-    console.log(e);
+    let gindex = e.detail.value
+    console.log(e)
     this.setData({
-      gindex: e.detail.value
+      gindex: gindex,
+      type: this.data.typeList[gindex]
     })
   },
   barcodeChange(e) {
@@ -251,41 +255,42 @@ Page({
   },
   onSubmit(e){
     var that = this
-    if(this.data.isDisable==false){
+    if (this.data.isDisable == false) {
       wx.showModal({
         title: '修改',
         content: '确认保存修改信息',
-        success:res=>{
-          if(res.confirm){
-            //TODO修改商品信息
-            if(this.data.isChangeImg){
+        success: res => {
+          if (res.confirm) {
+            // 修改商品信息
+            if (this.data.isChangeImg) {
               that.delPic()
             }
             that.upload(this.data.id)
           }
         },
-        fail:res=>{
+        fail: res => {
           console.log("掉起模态框失败")
         }
       })
     }
     this.setData({
-      isDisable:!this.data.isDisable
+      isDisable: !this.data.isDisable
     })
   },
   modify(){
     let token = app.getToken()
+    let that = this
     if (token) {
-      //console.log(this.data.barcode)
+      console.log(this.data)
       wx.request({
         url: host + '/updateGoodsInfo',
         data: JSON.stringify({
-          id: this.data.id,
-          name: this.data.name,
-          sellprice: this.data.sellprice,
-          type: this.data.type,
-          barcode: this.data.barcode,
-          unitInfo: this.data.unitInfo
+          id: that.data.id,
+          name: that.data.name,
+          sellprice: that.data.sellprice,
+          type: that.data.type,
+          barcode: that.data.barcode,
+          unitInfo: that.data.unitInfo
         }),
         method: "POST",
         header: {

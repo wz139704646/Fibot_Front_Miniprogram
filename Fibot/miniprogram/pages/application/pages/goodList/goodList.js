@@ -83,7 +83,7 @@ Page({
     console.log(e)
     console.log("查看详情")
     wx.navigateTo({
-      url: applicationBase + '/pages/goodInfo/goodInfo?name='+e.currentTarget.dataset.name,
+      url: applicationBase + '/pages/goodInfo/goodInfo?id='+e.currentTarget.dataset.id,
     })
   },
   navigateToGoodAnalyse(e){
