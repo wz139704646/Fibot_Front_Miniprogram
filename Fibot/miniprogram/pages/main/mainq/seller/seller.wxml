@@ -1,7 +1,7 @@
 <view class="cu-custom" style="height:{{CustomBar}}px;">
   <view class="cu-bar fixed none-bg text-white bg-img {{backgroundColor}}" style="height:{{CustomBar}}px;padding-top:{{StatusBar}}px;">
     <view class="cu-content">
-      <image class="cu-avatar round lg bg-white" src="https://ossweb-img.qq.com/images/lol/web201310/skin/big25002.jpg" ></image>
+      <image class="cu-avatar round lg bg-white" src="https://ossweb-img.qq.com/images/lol/web201310/skin/big25002.jpg"></image>
       <!-- <image class="cu-avatar round lg bg-white" src="{{app.globalData.userInfo.avatarUrl}}" bindtap="navigateToHome"></image> -->
       <text class='icon-back' style="margin-left:6px">销售主管</text>
     </view>
@@ -20,25 +20,25 @@
       </view>
     </view>
   </view>
-  
+
   <view class="padding canui-card-fiex-radius-box">
     <scroll-view scroll-x>
-    <view class="cu-list grid col-4 no-border">
-      <view class="cu-item" wx:for="{{showIconList}}" wx:key bindtap='show' bindlongpress="delete" data-index="{{index}}" id="{{item.url}}">
-        <view class="cuIcon-{{item.icon}} text-{{item.color}}">
+      <view class="cu-list grid col-4 no-border">
+        <view class="cu-item" wx:for="{{showIconList}}" wx:key bindtap='show' bindlongpress="delete" data-index="{{index}}" id="{{item.url}}">
+          <view class="cuIcon-{{item.icon}} text-{{item.color}}">
+          </view>
+          <text>{{item.name}}</text>
         </view>
-        <text>{{item.name}}</text>
-      </view>
 
-      <view class="cu-item" bindtap='showFunction'>
-        <view class="cuIcon-roundadd text-grey"></view>
-        <text>添加</text>
-      </view>
+        <view class="cu-item" bindtap='showFunction'>
+          <view class="cuIcon-roundadd text-grey"></view>
+          <text>添加</text>
+        </view>
 
-    </view>
+      </view>
     </scroll-view>
   </view>
-  
+
   <view class="cu-card case {{isCard?'no-card':''}} picture-margin">
     <van-panel use-header-slot custom-class="">
       <view slot="header">
@@ -58,7 +58,9 @@
       <view>
         <view class="cu-item padding-sm radius shadow-wrap bg-white">
           <view class="container" hidden='{{chartHidden}}'>
-            <canvas canvas-id="pieCanvas" class="canvas" style="height:300px" bindtouchstart="touchHandler" bindtouchmove="moveHandler" bindtouchend="touchEndHandler"></canvas>
+            <view class="chart">
+              <canvas canvas-id="pieCanvas" style="height:300px;margin-right:15rpx" bindtouchstart="touchHandler" bindtouchmove="moveHandler" bindtouchend="touchEndHandler" bindlongpress='longPress'></canvas>
+            </view>
             <view style="margin-top:30px;text-align:center">点击或拖动图片查看详细数据</view>
           </view>
           <view class="cu-list menu-avatar bg-blue">
@@ -97,7 +99,7 @@
   </view>
   <view class="action" bindtap="NavMy">
     <view class='cuIcon-cu-image'>
-      <image src="/imgs/my.png" style="margin-left:-98rpx" ></image>
+      <image src="/imgs/my.png" style="margin-left:-98rpx"></image>
     </view>
     <view class="text-gray" style="margin-right:100rpx">我的</view>
   </view>

@@ -14,33 +14,35 @@ var windowWidth = wx.getSystemInfoSync().windowWidth - 15
 const mainBase = app.globalData.mainBase
 Page({
   data: {
-    backgroundColor:'',
+    backgroundColor: '',
     StatusBar: app.globalData.StatusBar,
     CustomBar: app.globalData.CustomBar,
+    curr_label: '本年',
+    monthChoosed: '',
     showIconList: [{
-      icon: 'shop',
-      color: 'red',
-      badge: 0,
-      name: '销售记录',
-      url: applicationBase+"/pages/sellList/sellList?fun=null"
-    }, {
-      icon: 'friendadd',
-      color: 'orange',
-      badge: 0,
-      name: '新增客户',
-      url: applicationBase+"/pages/newCustomer/newCustomer"
-    }, {
-      icon: 'peoplelist',
-      color: 'yellow',
-      badge: 0,
-      name: '客户列表',
-      url: applicationBase+"/pages/customerList/customerList"
-    }, {
-      icon: 'cart',
-      color: 'olive',
-      badge: 0,
-      name: '销售开单',
-      url: applicationBase+"/pages/sellBill/sellBill"
+        icon: 'shop',
+        color: 'red',
+        badge: 0,
+        name: '销售记录',
+        url: applicationBase + "/pages/sellList/sellList?fun=null"
+      }, {
+        icon: 'friendadd',
+        color: 'orange',
+        badge: 0,
+        name: '新增客户',
+        url: applicationBase + "/pages/newCustomer/newCustomer"
+      }, {
+        icon: 'peoplelist',
+        color: 'yellow',
+        badge: 0,
+        name: '客户列表',
+        url: applicationBase + "/pages/customerList/customerList"
+      }, {
+        icon: 'cart',
+        color: 'olive',
+        badge: 0,
+        name: '销售开单',
+        url: applicationBase + "/pages/sellBill/sellBill"
       }, {
         icon: 'sponsor',
         color: 'red',
@@ -81,77 +83,75 @@ Page({
       badge: 0,
       name: '销售开单',
       url: applicationBase + "/pages/sellBill/sellBill"
-      }, {
-        icon: 'sponsor',
-        color: 'red',
-        badge: 0,
-        name: '收款记录',
-        url: applicationBase + '/pages/ar/receipts/receipts'
-      }, {
-        icon: 'sponsor',
-        color: 'orange',
-        badge: 0,
-        name: '付款记录',
-        url: applicationBase + '/pages/ap/payments/payments'
-      },
-    ],
+    }, {
+      icon: 'sponsor',
+      color: 'red',
+      badge: 0,
+      name: '收款记录',
+      url: applicationBase + '/pages/ar/receipts/receipts'
+    }, {
+      icon: 'sponsor',
+      color: 'orange',
+      badge: 0,
+      name: '付款记录',
+      url: applicationBase + '/pages/ap/payments/payments'
+    }, ],
 
     statis: [{
       title: '销售趋势分析',
       showMonth: false,
       showPeriod: true,
       period: [{
-        title: '本日'
-      },
-      {
-        title: '本月'
-      },
-      {
-        title: '本年'
-      }
+          title: '本日'
+        },
+        {
+          title: '本月'
+        },
+        {
+          title: '本年'
+        }
       ],
       showIdx: 0
-    },
-    ]
+    }, ]
   },
 
-  touchHandler: function (e) {
+  touchHandler: function(e) {
     console.log(this.data)
     if (chartType == 'pie') {
       wx.showModal({
         content: arr[pieChart.getCurrentDataIndex(e)].name + '销售收入为' + arr[pieChart.getCurrentDataIndex(e)].data + '元',
         showCancel: false,
         confirmText: "我知道啦",
-        success: function (res) {
+        success: function(res) {
           if (res.confirm) {
             console.log('用户点击确定')
           }
         }
       });
-    }
-    else if (chartType == 'line') {
+    } else if (chartType == 'line') {
       console.log("touched")
       pieChart.scrollStart(e);
-    }
-    else {
+    } else {
       console.log('not implemented')
     }
   },
-  moveHandler: function (e) {
+  moveHandler: function(e) {
     console.log('move')
     pieChart.scroll(e);
   },
-  touchEndHandler: function (e) {
+  touchEndHandler: function(e) {
     console.log('touch end')
+    var that = this;
     pieChart.scrollEnd(e);
     pieChart.showToolTip(e, {
-      format: function (item, category) {
+      format: function(item, category) {
+        that.updateInfo(category, item.name, item.data)
         return category + ' ' + item.name + ':' + item.data
       }
     });
   },
 
-  drawDiagram: function (year, month = 0) {
+  drawDiagram: function(year, month = 0) {
     console.log("开始画图！")
     let token = app.getToken()
     var categories = [];
@@ -171,7 +171,9 @@ Page({
     var food_arr = [];
     var daily_goods_arr = [];
     var other_goods_arr = [];
-    var electronic_goods_arr = [];
+    var childclothes_goods_arr = [];
+    var nutrients_goods_arr = [];
+    var play_goods_arr = [];
     wx.request({
       url: host + '/data/getTotalSalesByYearAndMonth',
       method: "POST",
@@ -184,33 +186,30 @@ Page({
       },
       success: res => {
         console.log(res.data.result)
-        categories = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
+        categories = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
         // 我也不知道为啥13它才能显示出12月
         for (var k in res.data.result) {
-          console.log(k.slice(2))
           if (k.slice(2) == '食品类') {
             food_arr.push(res.data.result[k])
-          }
-          else if (k.slice(2) == '日用品类') {
+          } else if (k.slice(2) == '日用品类') {
             daily_goods_arr.push(res.data.result[k])
-          }
-          else if (k.slice(2) == '其他类') {
+          } else if (k.slice(2) == '其他类') {
             other_goods_arr.push(res.data.result[k])
-          }
-          else if (k.slice(2) == '电子类') {
-            electronic_goods_arr.push(res.data.result[k])
-          }
-          else {
+          } else if (k.slice(2) == '童装类') {
+            childclothes_goods_arr.push(res.data.result[k])
+          } else if (k.slice(2) == '营养品类') {
+            nutrients_goods_arr.push(res.data.result[k])
+          } else if (k.slice(2) == '玩具类') {
+            play_goods_arr.push(res.data.result[k])
+          } else {
             console.log("THIS SHOULD NOT Happend! Maybe because there is a new type not added!")
           };
         }
         this.setData({
-          statis:
-          {
+          statis: {
             title: '销售趋势分析',
             showPeriod: true,
-            period: [
-              {
+            period: [{
                 title: '本月'
               },
               {
@@ -230,44 +229,59 @@ Page({
           categories: categories,
           animation: false,
           series: [{
-            name: '食品类',
-            data: food_arr,
-            format: function (val) {
-              return val.toFixed(2) + '万';
+              name: '食品类',
+              data: food_arr,
+              format: function(val) {
+                return val.toFixed(2) + '元';
+              }
+            },
+            {
+              name: '日用品类',
+              data: daily_goods_arr,
+              format: function(val) {
+                return (val).toFixed(2) + '元';
+              }
+            },
+            {
+              name: '其他类',
+              data: other_goods_arr,
+              format: function(val, name) {
+                return (val).toFixed(2) + '元';
+              }
+            },
+            {
+              name: '童装类',
+              data: other_goods_arr,
+              format: function(val) {
+                return (val).toFixed(2) + '元';
+              }
+            },
+            {
+              name: '玩具类',
+              data: play_goods_arr,
+              format: function(val) {
+                return (val).toFixed(2) + '元';
+              }
+            },
+            {
+              name: '营养品类',
+              data: nutrients_goods_arr,
+              format: function(val) {
+                return (val).toFixed(2) + '元';
+              }
             }
-          },
-          {
-            name: '日用品类',
-            data: daily_goods_arr,
-            format: function (val) {
-              return (val).toFixed(2) + '万';
-            }
-          },
-          {
-            name: '电子类',
-            data: electronic_goods_arr,
-            format: function (val, name) {
-              return (val).toFixed(2) + '万';
-            }
-          },
-          {
-            name: '其他类',
-            data: other_goods_arr,
-            format: function (val) {
-              return (val).toFixed(2) + '万';
-            }
-          }],
+          ],
           xAxis: {
             disableGrid: false
           },
           yAxis: {
             title: '当月总销售额',
-            format: function (val) {
+            format: function(val) {
               return val;
             },
             min: 0
           },
-          width: windowWidth,
+          width: windowWidth * 0.8,
           height: 300,
           dataLabel: true,
           dataPointShape: true,
@@ -287,33 +301,37 @@ Page({
     })
   },
   /**
-       * 生命周期函数--监听页面初次渲染完成
-       */
-  onReady: function () {
+   * 生命周期函数--监听页面初次渲染完成
+   */
+  onReady: function() {
     this.setData({
       backgroundColor: app.globalData.backgroundColor
     })
 
   },
-  onLoad: function (options) {
+  onLoad: function(options) {
     this.setData({
       showIconList: this.data.showIconList
     })
     this.drawDiagram(2019)
   },
 
-  onShow: function () {
+  onShow: function() {
     console.log('财务人员')
   },
 
   NavToTalk(e) {
     wx.navigateTo({
-      url: applicationBase+'/pages/start/start',
+      url: applicationBase + '/pages/start/start',
     })
     console.log("navigate")
   },
 
-  chooseDayOrMonth: function (e) {
+  chooseDayOrMonth: function(e) {
+    this.setData({
+      curr_label: this.data.statis.period[e.currentTarget.dataset.per].title
+    })
+    console.log(this.data.statis.period[e.currentTarget.dataset.per].title)
     wx.showLoading({
       title: '画图中',
       mask: true
@@ -339,7 +357,9 @@ Page({
           var food_arr = [];
           var daily_goods_arr = [];
           var other_goods_arr = [];
-          var electronic_goods_arr = [];
+          var childclothes_goods_arr = [];
+          var nutrients_goods_arr = [];
+          var play_goods_arr = [];
           wx.request({
             url: host + '/data/getOperatingIncomeByYearAndMonth',
             method: "POST",
@@ -353,30 +373,27 @@ Page({
             },
             success: res => {
               for (var k in res.data.result) {
-                console.log(k.slice(2))
                 if (k.slice(2) == '食品类') {
                   food_arr.push(res.data.result[k])
-                }
-                else if (k.slice(2) == '日用品类') {
+                } else if (k.slice(2) == '日用品类') {
                   daily_goods_arr.push(res.data.result[k])
-                }
-                else if (k.slice(2) == '其他类') {
+                } else if (k.slice(2) == '其他类') {
                   other_goods_arr.push(res.data.result[k])
-                }
-                else if (k.slice(2) == '电子类') {
-                  electronic_goods_arr.push(res.data.result[k])
-                }
-                else {
+                } else if (k.slice(2) == '童装类') {
+                  childclothes_goods_arr.push(res.data.result[k])
+                } else if (k.slice(2) == '营养品类') {
+                  nutrients_goods_arr.push(res.data.result[k])
+                } else if (k.slice(2) == '玩具类') {
+                  play_goods_arr.push(res.data.result[k])
+                } else {
                   console.log("THIS SHOULD NOT Happend! Maybe because there is a new type not added!")
                 };
               }
               this.setData({
-                statis:
-                {
+                statis: {
                   title: '销售趋势分析',
                   showPeriod: true,
-                  period: [
-                    {
+                  period: [{
                       title: '本月'
                     },
                     {
@@ -398,29 +415,43 @@ Page({
                 series: [{
                   name: '食品类',
                   data: food_arr,
-                  format: function (val, name) {
-                    return val.toFixed(2) + '万';
+                  format: function (val) {
+                    return val.toFixed(2) + '元';
                   }
                 },
                 {
                   name: '日用品类',
                   data: daily_goods_arr,
-                  format: function (val, name) {
-                    return (val).toFixed(2) + '万';
-                  }
-                },
-                {
-                  name: '电子类',
-                  data: electronic_goods_arr,
-                  format: function (val, name) {
-                    return (val).toFixed(2) + '万';
+                  format: function (val) {
+                    return (val).toFixed(2) + '元';
                   }
                 },
                 {
                   name: '其他类',
                   data: other_goods_arr,
                   format: function (val, name) {
-                    return (val).toFixed(2) + '万';
+                    return (val).toFixed(2) + '元';
+                  }
+                },
+                {
+                  name: '童装类',
+                  data: other_goods_arr,
+                  format: function (val) {
+                    return (val).toFixed(2) + '元';
+                  }
+                },
+                {
+                  name: '玩具类',
+                  data: play_goods_arr,
+                  format: function (val) {
+                    return (val).toFixed(2) + '元';
+                  }
+                },
+                {
+                  name: '营养品类',
+                  data: nutrients_goods_arr,
+                  format: function (val) {
+                    return (val).toFixed(2) + '元';
                   }
                 }],
                 xAxis: {
@@ -428,12 +459,12 @@ Page({
                 },
                 yAxis: {
                   title: '当月总销售额',
-                  format: function (val) {
+                  format: function(val) {
                     return val;
                   },
                   min: 0
                 },
-                width: windowWidth,
+                width: windowWidth * 0.8,
                 height: 300,
                 dataLabel: true,
                 dataPointShape: true,
@@ -451,11 +482,9 @@ Page({
               wx.hideLoading()
             }
           })
-        }
-        else if (statis.period[per].title == '本年') {
+        } else if (statis.period[per].title == '本年') {
           this.drawDiagram(curr_year)
-        }
-        else if (statis.period[per].title == '总计') {
+        } else if (statis.period[per].title == '总计') {
           chartType = 'pie'
           wx.request({
             url: host + '/data/getTotalOperatingIncome',
@@ -477,7 +506,7 @@ Page({
                 canvasId: 'pieCanvas',
                 type: 'pie',
                 series: arr,
-                width: windowWidth,
+                width: windowWidth * 0.8,
                 height: 300,
                 dataLabel: true,
               });
@@ -503,14 +532,14 @@ Page({
   },
 
   //长按删除功能
-  delete: function (e) {
+  delete: function(e) {
     var that = this;
     var list = that.data.showIconList;
-    var index = e.currentTarget.dataset.index;//获取当前长按下标
+    var index = e.currentTarget.dataset.index; //获取当前长按下标
     wx.showModal({
       title: '提示',
       content: '确定要删除该功能吗？',
-      success: function (res) {
+      success: function(res) {
         if (res.confirm) {
           list.splice(index, 1);
         } else if (res.cancel) {
@@ -524,15 +553,15 @@ Page({
   },
 
   //添加功能
-  add: function (e) {
+  add: function(e) {
     var that = this;
     var list = that.data.addIconList;
     var showIconList = that.data.showIconList;
-    var index = e.currentTarget.dataset.index;//获取当前长按下标
+    var index = e.currentTarget.dataset.index; //获取当前长按下标
     wx.showModal({
       title: '提示',
       content: '确定要添加该功能吗？',
-      success: function (res) {
+      success: function(res) {
         if (res.confirm) {
           showIconList.push(list[index]);
         } else if (res.cancel) {
@@ -547,28 +576,28 @@ Page({
   },
 
   //点击添加
-  showFunction: function () {
+  showFunction: function() {
     this.setData({
       isShow: true
     })
   },
 
   //取消添加
-  hide: function () {
+  hide: function() {
     this.setData({
       isShow: false
     })
   },
 
   //工具方法
-  getNumberOfDays: function (month) {
+  getNumberOfDays: function(month) {
     var one_date = new Date()
     one_date.setMonth(month)
     one_date.setDate(0)
     return one_date.getDate()
   },
 
-  getCurrMonthDays: function (e) {
+  getCurrMonthDays: function(e) {
     if (this.getNumberOfDays(curr_month) == 31) {
       return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31]
     }
@@ -589,4 +618,104 @@ Page({
     })
   },
 
+  updateInfo: function (category, name = 0, value = 0) {
+    this.setData({
+      monthChoosed: category
+    })
+  },
+
+  longPress: function(e) {
+    var that = this
+    console.log('longPress')
+    console.log(this.data.curr_label)
+    if (this.data.curr_label == '本年') {
+      //处理成2019-09类型字符串
+      if (parseInt(this.data.monthChoosed) < 10) {
+        var searchValue = String(curr_year) + '-0' + String(this.data.monthChoosed)
+      } else {
+        var searchValue = String(curr_year) + '-' + String(this.data.monthChoosed)
+      }
+      wx.navigateTo({
+        url: '/pages/application/pages/sellList/sellList',
+        success: function(res) {
+          console.log(searchValue)
+          that.setData({
+            e: {
+              type: "input",
+              timeStamp: 1567943215368,
+              detail: {
+                value: searchValue,
+                cursor: 10,
+                keyCode: 49
+              },
+              target: {
+                id: "",
+                dataset: {},
+                offsetTop: 9,
+                offsetLeft: 43
+              },
+              currentTarget: {
+                id: "",
+                dataset: {},
+                offsetTop: 9,
+                offsetLeft: 43
+              },
+              touches: [],
+              type: "input",
+              __proto__: Object
+            },
+            searchValue: searchValue
+          })
+        }
+      })
+    } else if (this.data.curr_label == '本月') {
+      //处理成2019-09-01类型字符串
+      if (parseInt(curr_month) < 10 & parseInt(this.data.monthChoosed) < 10) {
+        var searchValue = String(curr_year) + '-0' + curr_month + '-0' + String(this.data.monthChoosed)
+      } else if (parseInt(curr_month) < 10 & parseInt(this.data.monthChoosed) >= 10) {
+        var searchValue = String(curr_year) + '-0' + curr_month + '-' + String(this.data.monthChoosed)
+      } else if (parseInt(curr_month) >= 10 & parseInt(this.data.monthChoosed) >= 10) {
+        var searchValue = String(curr_year) + '-' + curr_month + '-' + String(this.data.monthChoosed)
+      } else if (parseInt(curr_month) >= 10 || parseInt(this.data.monthChoosed) < 10) {
+        var searchValue = String(curr_year) + '-' + curr_month + '-0' + String(this.data.monthChoosed)
+      }
+      wx.navigateTo({
+        url: '/pages/application/pages/sellList/sellList',
+        success: function(res) {
+          console.log(searchValue)
+          that.setData({
+            e: {
+              type: "input",
+              timeStamp: 1567943215368,
+              detail: {
+                value: searchValue,
+                cursor: 10,
+                keyCode: 49
+              },
+              target: {
+                id: "",
+                dataset: {},
+                offsetTop: 9,
+                offsetLeft: 43
+              },
+              currentTarget: {
+                id: "",
+                dataset: {},
+                offsetTop: 9,
+                offsetLeft: 43
+              },
+              touches: [],
+              type: "input",
+              __proto__: Object
+            },
+            searchValue: searchValue
+          })
+        }
+      })
+    }
+    //总计
+    else {
+
+    }
+  }
 })
