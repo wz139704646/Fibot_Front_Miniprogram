@@ -36,6 +36,6 @@
         </view>
       </view>
     </view>
-    <view class="divLine"></view>  
+    <view class="divLine"></view>
   </block>
 </scroll-view>

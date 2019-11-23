@@ -135,6 +135,7 @@ App({
       }
     } catch(err) {
       console.log('获取token出错', err)
+      wx.hideLoading()
       this.relogin()
       return ""
     }

@@ -11,8 +11,138 @@ Page({
     StatusBar: app.globalData.StatusBar,
     CustomBar: app.globalData.CustomBar,
     fun: null,
-    sellList: []
+    sellList: [],
+    allList: [],
+    page: 0
   },
+
+  delayHideLoading: function(delay) {
+    setTimeout(() => {
+      wx.hideLoading()
+    }, delay)
+  },
+
+  loadNewPage: function() {
+    let token = app.getToken()
+    if (token) {
+      let that = this
+      let {page} = that.data
+      page = page + 1
+      console.log('发起请求', {
+        companyId: app.globalData.companyId,
+        page
+      })
+      wx.showLoading({
+        title: '正在加载新数据',
+        mask: true
+      })
+      wx.request({
+        url: host + '/querySell',
+        header: {
+          'Content-Type': 'application/json',
+          'Authorization': token
+        },
+        method: 'POST',
+        data: JSON.stringify({
+          companyId: app.globalData.companyId,
+          page
+        }),
+        success: res => {
+          // 添加拼音属性
+          console.log(res)
+          if (res.statusCode == 555) {
+            app.relogin()
+          } else if (res.statusCode == 403) {
+            wx.showToast({
+              title: '无权限查看',
+              icon: 'none',
+              duration: 1000
+            })
+          } else if (res.statusCode != 200 || !res.data.success) {
+            wx.showToast({
+              title: res.data.errMsg || '请求失败', icon: 'none', duration: 1000
+            })
+          } else {
+            let list = res.data.result
+            if (list.length == 0) {
+              console.log('返回空列表')
+              wx.showToast({
+                title: '没有更多数据了',
+                icon: 'none',
+                duration: 2000
+              })
+              return
+            }
+            wx.cloud.callFunction({
+              name: 'convert2pinyin',
+              data: {
+                jsonStr: JSON.stringify(list),
+                options: {
+                  field: 'customerName',
+                  pinyin: 'pinyin'
+                }
+              }
+            }).then(res => {
+              // 存储索引列表和所有列表
+              console.log(res)
+              var newlist = res.result
+              var datelist = that.data.allList || []
+              var index1
+              for (let i in newlist) {
+                //newlist[i]['index'] = i
+                newlist[i]['date'] = newlist[i]['date'].toString().substring(0, 10)
+                newlist[i]['sum'] = that.calcTotal(newlist[i].goodsList)
+                index1 = that.ifDateInList(newlist[i].date, datelist)
+                //console.log(index1)
+                if (index1) {
+                  //console.log("add")
+                  datelist[index1 - 1].list.push(newlist[i])
+                } else {
+                  var list = []
+                  list.push(newlist[i])
+                  datelist.push({
+                    date: newlist[i].date,
+                    list: list
+                  })
+                }
+              }
+              // 后端已经做了排序
+              //datelist.sort(that.sortNumber)
+              console.log(datelist)
+              that.setData({
+                allList: datelist,
+                page
+              }, () => {
+                // 加载完数据后自动做搜索
+                that.search({
+                  detail: {
+                    value: that.data.inputValue
+                  }
+                })
+                that.delayHideLoading(500)
+              })
+            }).catch(err => {
+              wx.hideLoading()
+              console.error(err)
+              wx.showToast({
+                title: '商品信息出错',
+                icon: 'none'
+              })
+            })
+          }
+        },
+        fail: err1 => {
+          wx.hideLoading()
+          console.error(err1)
+          wx.showToast({
+            title: '加载失败',
+            image: '../../../imgs/fail.png'
+          })
+        }
+      })
+    }
+  },
+
   /**
      * 生命周期函数--监听页面初次渲染完成
      */
@@ -26,99 +156,38 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    //就改了这些
     this.setData({
       fun: options.fun
     })
-    let token = app.getToken()
-    let that = this
-    if (token) {
-      wx.request({
-        url: host + '/querySell',
-        header: {
-          'Content-Type': 'application/json',
-          'Authorization': token
-        },
-        method: 'POST',
-        data: JSON.stringify({
-          companyId: app.globalData.companyId,
-        }),
-        success: res => {
-          // 添加拼音属性
-          console.log(res)
-          let list = res.data.result
-          wx.cloud.callFunction({
-            name: 'convert2pinyin',
-            data: {
-              jsonStr: JSON.stringify(list),
-              options: {
-                field: 'customerName',
-                pinyin: 'pinyin'
-              }
-            }
-          }).then(res => {
-            // 存储索引列表和所有列表
-            console.log(res)
-            var newlist = res.result
-            var datelist = []
-            var index1
-            for (let i in newlist) {
-              //newlist[i]['index'] = i
-              newlist[i]['date'] = newlist[i]['date'].toString().substring(0, 10)
-              newlist[i]['sum'] = that.calcTotal(newlist[i].goodsList)
-              index1 = that.ifDateInList(newlist[i].date, datelist)
-              //console.log(index1)
-              if (index1) {
-                //console.log("add")
-                datelist[index1 - 1].list.push(newlist[i])
-              } else {
-                var list = []
-                list.push(newlist[i])
-                datelist.push({
-                  date: newlist[i].date,
-                  list: list
-                })
-              }
-            }
-            datelist.sort(that.sortNumber)
-            console.log(datelist)
-            that.setData({
-              sellList: datelist,
-              allList: datelist
-            }, () => {
-              //改了一下，加一个获取传入数据的代码
-              var pages = getCurrentPages()
-              let prev = pages[pages.length - 2]
-              if (prev.data.searchValue != null) {
-                this.setData({
-                  inputValue: prev.data.searchValue
-                }, () => {
-                  this.search(prev.data.e)
-                })
-                prev.setData({
-                  searchValue: null
-                })
-
-              }
-            })
-          }).catch(err => {
-            console.error(err)
-            wx.showToast({
-              title: '商品信息出错',
-              icon: 'none'
-            })
-          })
-        },
-        fail: err1 => {
-          console.error(err1)
-          wx.showToast({
-            title: '加载失败',
-            image: '../../../imgs/fail.png'
-          })
-        }
+    // 检查之前的页面是否有排序的需要
+    var pages = getCurrentPages()
+    let prev = pages[pages.length - 2]
+    let searchValue = prev ? prev.data.searchValue : this.data.inputValue
+    if (searchValue) {
+      // 将之前页面需要排序的值设置为搜索文本
+      this.setData({
+        inputValue: searchValue
+      }, () => {
+        // 等待搜索文本设置完毕后再加载新页面
+        this.loadNewPage()
       })
+    } else {
+      // 加载新页面
+      this.loadNewPage()
     }
   },
+
+  /**
+   * 监听触底刷新
+   */
+  onReachBottom: function() {
+    console.log('触底加载')
+    this.loadNewPage()
+    wx.pageScrollTo({
+      scrollTop: 0,
+    })
+  },
+
   //按日期排序
   sortNumber(a, b) {
     return a.date - b.date
@@ -168,6 +237,7 @@ Page({
       this.setData({
         sellList: this.data.allList
       })
+      return
     }
     searchText = searchText.toLowerCase()
     let slist = this.data.allList
