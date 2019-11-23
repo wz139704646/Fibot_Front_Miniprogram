@@ -11,6 +11,7 @@
   </view>
 </view>
 <scroll-view scroll-y class="indexes" style="height:calc(100vh - {{CustomBar}}px - 50px)" scroll-with-animation="true" enable-back-to-top="true">
+  <view class="text-center padding text-bold" hidden="{{sellList.length != 0}}"> {{allLoaded ? "没有相关数据" : "暂无相关数据，上拉加载更多试试吧"}} </view>
   <block wx:for="{{sellList}}" wx:key wx:for-index='index'>
     <view class="padding indexItem-{{sellList[index].date}}" id="indexes-{{sellList[index].date}}" data-index="{{sellList[index].date}}">{{sellList[index].date}}</view>
     <view class="cu-list menu-avatar no-padding card-menu shadow-lg radius">
