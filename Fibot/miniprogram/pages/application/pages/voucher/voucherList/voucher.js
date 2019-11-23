@@ -233,6 +233,11 @@ Page({
   },
 
   onVoucherModify: function(e) {
-    console.log(e)
+    console.log('修改点击', e)
+    wx.showToast({
+      title: '正在开发中，敬请期待',
+      icon: 'none',
+      duration: 2000
+    })
   }
 })

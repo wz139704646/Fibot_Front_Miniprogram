@@ -31,7 +31,7 @@
         <view class="cu-form-group">
           <view class="title">摘要</view>
           <input placeholder="输入摘要" value="{{entry.abstract}}" bindinput="onAbstractInput" data-photoidx="{{index}}" data-entryidx="{{entryIdx}}"></input>
-          <button class="cu-btn bg-blue shadow cuIcon-right light">摘要库</button>
+          <button class="cu-btn bg-blue shadow cuIcon-right light" bindtap="onAbstractLibTapped">摘要库</button>
         </view>
         <view class="cu-form-group" bindtap='onSubjectSelect' data-photoidx="{{index}}" data-entryidx="{{entryIdx}}">
           <view class="title">科目</view>

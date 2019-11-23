@@ -580,6 +580,15 @@ Page({
         }
       }
     })
-  }
+  },
+
+  // 摘要库
+  onAbstractLibTapped: function (e) {
+    wx.showToast({
+      title: '正在开发中，敬请期待',
+      icon: 'none',
+      duration: 2000
+    })
+  },
 
 })

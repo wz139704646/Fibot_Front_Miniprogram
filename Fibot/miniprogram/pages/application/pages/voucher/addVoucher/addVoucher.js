@@ -311,6 +311,12 @@ Page({
         for (let entry of entries) {
           entry['subject_code'] = entry.subject.subject_code
         }
+        console.log('添加凭证参数', {
+          date,
+          voucher_no: voucher_no_prefix + voucher_no,
+          attachments_number,
+          entries
+        })
         // 发送添加凭证的请求
         wx.request({
           url: host +'/finance/voucher/addVoucher',
@@ -518,63 +524,6 @@ Page({
       sizeType: ['original', 'compressed'],
       sourceType: [source],
       success: callback
-        // const tempFilePaths = res.tempFilePaths
-        // let { attachments, attachments_number } = that.data
-        // attachments.push(tempFilePaths[0])
-        // attachments_number += 1
-        // // 提示
-        // wx.showLoading({
-        //   title: '识别中',
-        // })
-        // that.setData({
-        //   attachments, attachments_number
-        // })
-        // callOCR(tempFilePaths[0], actionType + 'OCR', _res => {
-        //   wx.hideLoading()
-        //   let data = _res.result.Response
-        //   if (data.Error) {
-        //     wx.showToast({
-        //       title: '识别失败',
-        //       icon: 'none',
-        //       duration: 2000
-        //     })
-        //     console.log('图片识别失败', data.Error)
-        //   } else {
-        //     console.log(data[actionType + 'Infos'])
-        //     let infos = data[actionType + 'Infos']
-        //     let { entries, totalText } = that.data
-        //     let itemIdx = infos.findIndex(item => {
-        //       return item.Name == '货物或应税劳务、服务名称' ||
-        //         item.Name == '项目名称' ||
-        //         item.Name == '货物或应税劳务名称'
-        //     })
-        //     let totalIdx = infos.findIndex(item => item.Name == '金额')
-        //     let taxIdx = infos.findIndex(item => item.Name == '税额')
-        //     let abstract = itemIdx == -1 ? '' : infos[itemIdx].Value
-        //     let taxAbstract = '增值税'
-        //     let total = itemIdx == -1 ? 0 : parseFloat(infos[totalIdx].Value)
-        //     let taxTotal = taxIdx == -1 ? 0 : parseFloat(infos[taxIdx].Value)
-        //     // 添加发票记录内容项
-        //     entries.push({
-        //       abstract: abstract,
-        //       subject: {},
-        //       total: total,
-        //       credit_debit: '借'
-        //     })
-        //     totalText.push('' + total)
-        //     entries.push({
-        //       abstract: taxAbstract,
-        //       subject: {},
-        //       total: taxTotal,
-        //       credit_debit: '借'
-        //     })
-        //     totalText.push('' + taxTotal)
-        //     that.setData({
-        //       entries, totalText,
-        //       scanOptionShow: false
-        //     })
-        //   }
-        // })
     })
   },
 
@@ -608,6 +557,15 @@ Page({
           })
         }
       })
+    })
+  },
+
+  // 摘要库
+  onAbstractLibTapped: function(e) {
+    wx.showToast({
+      title: '正在开发中，敬请期待',
+      icon: 'none',
+      duration: 2000
     })
   },
 
