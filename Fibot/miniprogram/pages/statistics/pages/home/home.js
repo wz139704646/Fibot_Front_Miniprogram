@@ -17,6 +17,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    backgroundColor: '',
     statis:
     {
       title: '营业收入分析',
@@ -48,7 +49,6 @@ Page({
     curr_diagram: '营业收入',
     CustomBar: app.globalData.CustomBar,
   },
-
   touchHandler: function (e) {
     console.log(this.data)
     var that = this
@@ -824,6 +824,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    console.log(app.globalData.backgroundColor)
     wx.showLoading({
       title: '画图中',
       mask: true
@@ -837,8 +838,11 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-
+    this.setData({
+      backgroundColor: app.globalData.backgroundColor
+    })
   },
+
 
   /**
    * 生命周期函数--监听页面显示
