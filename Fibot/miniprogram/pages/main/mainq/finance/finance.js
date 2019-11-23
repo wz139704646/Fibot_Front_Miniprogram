@@ -124,7 +124,7 @@ Page({
         console.log('财务人员')
         this.drawDiagram()
       }
-    }
+    },
   },
   /**
        * 生命周期函数--监听页面初次渲染完成
@@ -294,6 +294,10 @@ Page({
           width: windowWidth,
           height: 300,
           dataLabel: true,
+          //没用
+          dataItem : {
+            color: ["#1fceff", "#ff800a", "#41393a", "#ff0a1d", "#8753d5", "#5ffe3e", "#fe3e8b"],
+          },
         });
       },
       fail: res => {

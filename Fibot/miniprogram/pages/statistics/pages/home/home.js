@@ -9,7 +9,7 @@ var startPos = null;
 var date = new Date();
 var curr_year = date.getFullYear();
 var curr_month = date.getMonth() + 1
-var windowWidth = wx.getSystemInfoSync().windowWidth - 15
+var windowWidth = wx.getSystemInfoSync().windowWidth - 5
 var fix_first_touch_bug = 0;
 Page({
 
@@ -336,7 +336,6 @@ Page({
               categories.push(k)
               data.push(res.data.result[k])
             }
-            categories.push(13)
             this.setData({
               statis:
               {
@@ -365,10 +364,10 @@ Page({
                 name: '营业支出',
                 data: data,
                 format: function (val) {
-                  return parseFloat(val).toFixed(2) + '万';
+                  return parseFloat(val).toFixed(2) + '元';
                 }
               }],
-              width: windowWidth,
+              width: windowWidth * 0.8,
               height: 300,
               dataLabel: true,
               dataPointShape: true,
@@ -392,7 +391,9 @@ Page({
         var food_arr = [];
         var daily_goods_arr = [];
         var other_goods_arr = [];
-        var electronic_goods_arr = [];
+        var childclothes_goods_arr = [];
+        var nutrients_goods_arr = [];
+        var play_goods_arr = [];
         wx.request({
           url: host + '/data/getTotalSalesByYearAndMonth',
           method: "POST",
@@ -405,7 +406,7 @@ Page({
           },
           success: res => {
             console.log(res.data.result)
-            categories = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
+            categories = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
             // 我也不知道为啥13它才能显示出12月
             for (var k in res.data.result) {
               console.log(k.slice(2))
@@ -418,8 +419,14 @@ Page({
               else if (k.slice(2) == '其他类') {
                 other_goods_arr.push(res.data.result[k])
               }
-              else if (k.slice(2) == '电子类') {
-                electronic_goods_arr.push(res.data.result[k])
+              else if (k.slice(2) == '童装类') {
+                childclothes_goods_arr.push(res.data.result[k])
+              }
+              else if (k.slice(2) == '营养品类') {
+                nutrients_goods_arr.push(res.data.result[k])
+              }
+              else if (k.slice(2) == '玩具类') {
+                play_goods_arr.push(res.data.result[k])
               }
               else {
                 console.log("THIS SHOULD NOT Happend! Maybe because there is a new type not added!")
@@ -454,28 +461,42 @@ Page({
                 name: '食品类',
                 data: food_arr,
                 format: function (val) {
-                  return val.toFixed(2) + '万';
+                  return val.toFixed(2) + '元';
                 }
               },
               {
                 name: '日用品类',
                 data: daily_goods_arr,
                 format: function (val) {
-                  return (val).toFixed(2) + '万';
-                }
-              },
-              {
-                name: '电子类',
-                data: electronic_goods_arr,
-                format: function (val, name) {
-                  return (val).toFixed(2) + '万';
+                  return (val).toFixed(2) + '元';
                 }
               },
               {
                 name: '其他类',
                 data: other_goods_arr,
+                format: function (val, name) {
+                  return (val).toFixed(2) + '元';
+                }
+              },
+              {
+                name: '童装类',
+                data: other_goods_arr,
                 format: function (val) {
-                  return (val).toFixed(2) + '万';
+                  return (val).toFixed(2) + '元';
+                }
+              },
+              {
+                name: '玩具类',
+                data: play_goods_arr,
+                format: function (val) {
+                  return (val).toFixed(2) + '元';
+                }
+              },
+              {
+                name: '营养品类',
+                data: nutrients_goods_arr,
+                format: function (val) {
+                  return (val).toFixed(2) + '元';
                 }
               }],
               xAxis: {
@@ -488,7 +509,7 @@ Page({
                 },
                 min: 0
               },
-              width: windowWidth,
+              width: windowWidth * 0.8,
               height: 300,
               dataLabel: true,
               dataPointShape: true,
@@ -542,10 +563,10 @@ Page({
                 name: '营业利润',
                 data: data,
                 format: function (val, name) {
-                  return parseFloat(val).toFixed(2) + '万';
+                  return parseFloat(val).toFixed(2) + '元';
                 }
               }],
-              width: windowWidth,
+              width: windowWidth * 0.8,
               height: 300,
               dataLabel: true,
               dataPointShape: true,
@@ -596,10 +617,10 @@ Page({
                 name: '利润总额',
                 data: data,
                 format: function (val, name) {
-                  return parseFloat(val).toFixed(2) + '万';
+                  return parseFloat(val).toFixed(2) + '元';
                 }
               }],
-              width: windowWidth,
+              width: windowWidth * 0.8,
               height: 300,
               dataLabel: true,
               dataPointShape: true,
@@ -652,10 +673,10 @@ Page({
                 name: '净利润',
                 data: data,
                 format: function (val, name) {
-                  return parseFloat(val).toFixed(2) + '万';
+                  return parseFloat(val).toFixed(2) + '元';
                 }
               }],
-              width: windowWidth,
+              width: windowWidth * 0.8,
               height: 300,
               dataLabel: true,
               dataPointShape: true,
@@ -711,7 +732,7 @@ Page({
                   return parseFloat(val).toFixed(2) + '%';
                 }
               }],
-              width: windowWidth,
+              width: windowWidth * 0.8,
               height: 300,
               dataLabel: true,
               dataPointShape: true,
@@ -767,7 +788,7 @@ Page({
                   return parseFloat(val).toFixed(2) + '%';
                 }
               }],
-              width: windowWidth,
+              width: windowWidth * 0.8          ,
               height: 300,
               dataLabel: true,
               dataPointShape: true,
@@ -910,7 +931,9 @@ Page({
           var food_arr = [];
           var daily_goods_arr = [];
           var other_goods_arr = [];
-          var electronic_goods_arr = [];
+          var childclothes_goods_arr = [];
+          var nutrients_goods_arr = [];
+          var play_goods_arr = [];
           wx.request({
             url: host + '/data/getOperatingIncomeByYearAndMonth',
             method: "POST",
@@ -934,8 +957,14 @@ Page({
                 else if (k.slice(2) == '其他类') {
                   other_goods_arr.push(res.data.result[k])
                 }
-                else if (k.slice(2) == '电子类') {
-                  electronic_goods_arr.push(res.data.result[k])
+                else if (k.slice(2) == '童装类') {
+                  childclothes_goods_arr.push(res.data.result[k])
+                }
+                else if (k.slice(2) == '营养品类') {
+                  nutrients_goods_arr.push(res.data.result[k])
+                }
+                else if (k.slice(2) == '玩具类') {
+                  play_goods_arr.push(res.data.result[k])
                 }
                 else {
                   console.log("THIS SHOULD NOT Happend! Maybe because there is a new type not added!")
@@ -969,29 +998,43 @@ Page({
                 series: [{
                   name: '食品类',
                   data: food_arr,
-                  format: function (val, name) {
-                    return val.toFixed(2) + '万';
+                  format: function (val) {
+                    return val.toFixed(2) + '元';
                   }
                 },
                 {
                   name: '日用品类',
                   data: daily_goods_arr,
-                  format: function (val, name) {
-                    return (val).toFixed(2) + '万';
-                  }
-                },
-                {
-                  name: '电子类',
-                  data: electronic_goods_arr,
-                  format: function (val, name) {
-                    return (val).toFixed(2) + '万';
+                  format: function (val) {
+                    return (val).toFixed(2) + '元';
                   }
                 },
                 {
                   name: '其他类',
                   data: other_goods_arr,
                   format: function (val, name) {
-                    return (val).toFixed(2) + '万';
+                    return (val).toFixed(2) + '元';
+                  }
+                },
+                {
+                  name: '童装类',
+                  data: other_goods_arr,
+                  format: function (val) {
+                    return (val).toFixed(2) + '元';
+                  }
+                },
+                {
+                  name: '玩具类',
+                  data: play_goods_arr,
+                  format: function (val) {
+                    return (val).toFixed(2) + '元';
+                  }
+                },
+                {
+                  name: '营养品类',
+                  data: nutrients_goods_arr,
+                  format: function (val) {
+                    return (val).toFixed(2) + '元';
                   }
                 }],
                 xAxis: {
@@ -1004,8 +1047,8 @@ Page({
                   },
                   min: 0
                 },
-                width: windowWidth,
-                height: 300,
+                width: windowWidth * 0.8,
+                height: 300, 
                 dataLabel: true,
                 dataPointShape: true,
                 enableScroll: true,
@@ -1048,7 +1091,7 @@ Page({
                 canvasId: 'pieCanvas',
                 type: 'pie',
                 series: arr,
-                width: windowWidth,
+                width: windowWidth * 0.8,
                 height: 300,
                 dataLabel: true,
               });
@@ -1071,7 +1114,9 @@ Page({
           var food_arr = [];
           var daily_goods_arr = [];
           var other_goods_arr = [];
-          var electronic_goods_arr = [];
+          var childclothes_goods_arr = [];
+          var nutrients_goods_arr = [];
+          var play_goods_arr = [];
           wx.request({
             url: host + '/data/getOperatingExpenditureByYearAndMonth',
             method: "POST",
@@ -1095,8 +1140,14 @@ Page({
                 else if (k.slice(2) == '其他类') {
                   other_goods_arr.push(res.data.result[k])
                 }
-                else if (k.slice(2) == '电子类') {
-                  electronic_goods_arr.push(res.data.result[k])
+                else if (k.slice(2) == '童装类') {
+                  childclothes_goods_arr.push(res.data.result[k])
+                }
+                else if (k.slice(2) == '营养品类') {
+                  nutrients_goods_arr.push(res.data.result[k])
+                }
+                else if (k.slice(2) == '玩具类') {
+                  play_goods_arr.push(res.data.result[k])
                 }
                 else {
                   console.log("THIS SHOULD NOT Happend! Maybe because there is a new type not added!")
@@ -1130,29 +1181,43 @@ Page({
                 series: [{
                   name: '食品类',
                   data: food_arr,
-                  format: function (val, name) {
-                    return val.toFixed(2) + '万';
+                  format: function (val) {
+                    return val.toFixed(2) + '元';
                   }
                 },
                 {
                   name: '日用品类',
                   data: daily_goods_arr,
-                  format: function (val, name) {
-                    return (val).toFixed(2) + '万';
-                  }
-                },
-                {
-                  name: '电子类',
-                  data: electronic_goods_arr,
-                  format: function (val, name) {
-                    return (val).toFixed(2) + '万';
+                  format: function (val) {
+                    return (val).toFixed(2) + '元';
                   }
                 },
                 {
                   name: '其他类',
                   data: other_goods_arr,
                   format: function (val, name) {
-                    return (val).toFixed(2) + '万';
+                    return (val).toFixed(2) + '元';
+                  }
+                },
+                {
+                  name: '童装类',
+                  data: other_goods_arr,
+                  format: function (val) {
+                    return (val).toFixed(2) + '元';
+                  }
+                },
+                {
+                  name: '玩具类',
+                  data: play_goods_arr,
+                  format: function (val) {
+                    return (val).toFixed(2) + '元';
+                  }
+                },
+                {
+                  name: '营养品类',
+                  data: nutrients_goods_arr,
+                  format: function (val) {
+                    return (val).toFixed(2) + '元';
                   }
                 }],
                 xAxis: {
@@ -1165,7 +1230,7 @@ Page({
                   },
                   min: 0
                 },
-                width: windowWidth,
+                width: windowWidth * 0.8,
                 height: 300,
                 dataLabel: true,
                 dataPointShape: true,
@@ -1185,7 +1250,147 @@ Page({
           })
         }
         else if (statis.period[per].title == '本年') {
-          this.drawDiagram('营业支出', curr_year)
+          // this.drawDiagram('营业支出', curr_year)
+          var categories = [1,2,3,4,5,6,7,8,9,10,11,12]
+          console.log(categories)
+          chartType = 'line'
+          console.log('开始画本年营业支出的图')
+          var food_arr = [];
+          var daily_goods_arr = [];
+          var other_goods_arr = [];
+          var childclothes_goods_arr = [];
+          var nutrients_goods_arr = [];
+          var play_goods_arr = [];
+          wx.request({
+            url: host + '/data/getOperatingExpenditureByYear',
+            method: "POST",
+            data: JSON.stringify({
+              year: curr_year,
+            }),
+            header: {
+              'Content-Type': 'application/json',
+              'Authorization': token
+            },
+            success: res => {
+              for (var k in res.data.result) {
+                console.log(k.slice(2))
+                if (k.slice(2) == '食品类') {
+                  food_arr.push(res.data.result[k])
+                }
+                else if (k.slice(2) == '日用品类') {
+                  daily_goods_arr.push(res.data.result[k])
+                }
+                else if (k.slice(2) == '其他类') {
+                  other_goods_arr.push(res.data.result[k])
+                }
+                else if (k.slice(2) == '童装类') {
+                  childclothes_goods_arr.push(res.data.result[k])
+                }
+                else if (k.slice(2) == '营养品类') {
+                  nutrients_goods_arr.push(res.data.result[k])
+                }
+                else if (k.slice(2) == '玩具类') {
+                  play_goods_arr.push(res.data.result[k])
+                }
+                else {
+                  console.log("THIS SHOULD NOT Happend! Maybe because there is a new type not added!")
+                };
+              }
+              this.setData({
+                statis:
+                {
+                  title: '营业支出分析',
+                  showPeriod: true,
+                  period: [
+                    {
+                      title: '本月'
+                    },
+                    {
+                      title: '本年'
+                    },
+                    {
+                      title: '总计'
+                    },
+                  ],
+                  showIdx: 0
+                }
+              })
+              console.log(categories)
+              pieChart = new wxCharts({
+                canvasId: 'pieCanvas',
+                type: 'line',
+                categories: categories,
+                animation: false,
+                series: [{
+                  name: '食品类',
+                  data: food_arr,
+                  format: function (val) {
+                    return val.toFixed(2) + '元';
+                  }
+                },
+                {
+                  name: '日用品类',
+                  data: daily_goods_arr,
+                  format: function (val) {
+                    return (val).toFixed(2) + '元';
+                  }
+                },
+                {
+                  name: '其他类',
+                  data: other_goods_arr,
+                  format: function (val, name) {
+                    return (val).toFixed(2) + '元';
+                  }
+                },
+                {
+                  name: '童装类',
+                  data: other_goods_arr,
+                  format: function (val) {
+                    return (val).toFixed(2) + '元';
+                  }
+                },
+                {
+                  name: '玩具类',
+                  data: play_goods_arr,
+                  format: function (val) {
+                    return (val).toFixed(2) + '元';
+                  }
+                },
+                {
+                  name: '营养品类',
+                  data: nutrients_goods_arr,
+                  format: function (val) {
+                    return (val).toFixed(2) + '元';
+                  }
+                }],
+                xAxis: {
+                  disableGrid: false
+                },
+                yAxis: {
+                  title: '当月总销售额',
+                  format: function (val) {
+                    return val;
+                  },
+                  min: 0
+                },
+                width: windowWidth * 0.8,
+                height: 300,
+                dataLabel: true,
+                dataPointShape: true,
+                enableScroll: true,
+                extra: {
+                  lineStyle: 'curve'
+                }
+              });
+              console.log('complete')
+            },
+            fail: res => {
+              console.error("未成功获取到销售数据")
+            },
+            complete: res => {
+              wx.hideLoading()
+            }
+          })
         }
         else if (statis.period[per].title == '总计') {
           chartType = 'pie'
@@ -1209,7 +1414,7 @@ Page({
                 canvasId: 'pieCanvas',
                 type: 'pie',
                 series: arr,
-                width: windowWidth,
+                width: windowWidth * 0.8,
                 height: 300,
                 dataLabel: true,
               });
