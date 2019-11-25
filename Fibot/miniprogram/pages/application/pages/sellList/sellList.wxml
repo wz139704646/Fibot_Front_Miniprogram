@@ -15,7 +15,7 @@
   </view>
   <view class="search-form round">
     <text class="cuIcon-search"></text>
-    <input type="text" placeholder="请输入（部分）{{searchContents[searchContentIdx]}}" confirm-type="search" bindconfirm='onSearchButtonTapped' value='{{inputValue}}' bindinput='onSearchTextInput'></input>
+    <input type="text" placeholder="请输入{{searchContents[searchContentIdx]}}" confirm-type="search" bindconfirm='onSearchButtonTapped' value='{{inputValue}}' bindinput='onSearchTextInput'></input>
   </view>
   <view class="action">
     <button class="cu-btn bg-blue shadow-blur round" bindtap="onSearchButtonTapped">搜索</button>

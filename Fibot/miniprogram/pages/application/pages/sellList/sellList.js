@@ -177,7 +177,7 @@ Page({
           break
         case 1:
           // 进行客户姓名搜索
-          param['customerName'] = inputValue
+          param['name'] = inputValue
           break
         case 2:
           param['id'] = inputValue
