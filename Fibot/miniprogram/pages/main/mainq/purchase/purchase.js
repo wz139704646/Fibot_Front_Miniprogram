@@ -3,6 +3,7 @@ const app = getApp();
 var wxCharts = require('../../../../utils/wxcharts-min.js');
 const host = app.globalData.requestHost
 const applicationBase = app.globalData.applicationBase
+const statisticsBase = app.globalData.statisticsBase
 var pieChart1 = null;
 var pieChart2 = null;
 var arr = null;
@@ -13,7 +14,7 @@ const mainBase = app.globalData.mainBase
 
 Page({
   data: {
-    backgroundColor:'',
+    backgroundColor: '',
     distance: 10000,
     activeNames: [],
     StatusBar: app.globalData.StatusBar,
@@ -25,31 +26,36 @@ Page({
       name: '采购记录',
       url: applicationBase + '/pages/buyList/buyList?fun=null'
     }, {
-        icon: 'friendaddfill',
-        color: 'orange',
-        badge: 0,
-        name: '新增供应商',
-        url: applicationBase + '/pages/newSupplier/newSupplier'
-      }, {
-        icon: 'expressman',
-        color: 'yellow',
-        badge: 0,
-        name: '供应商列表',
-        url: applicationBase + '/pages/supplierList/supplierList'
-      }, {
-        icon: 'file',
-        color: 'olive',
-        badge: 0,
-        name: '采购开单',
-        url: applicationBase + "/pages/buyBill/buyBill"
-      }, {
+      icon: 'friendaddfill',
+      color: 'orange',
+      badge: 0,
+      name: '新增供应商',
+      url: applicationBase + '/pages/newSupplier/newSupplier'
+    }, {
+      icon: 'expressman',
+      color: 'yellow',
+      badge: 0,
+      name: '供应商列表',
+      url: applicationBase + '/pages/supplierList/supplierList'
+    }, {
+      icon: 'file',
+      color: 'olive',
+      badge: 0,
+      name: '采购开单',
+      url: applicationBase + "/pages/buyBill/buyBill"
+    }, {
       icon: 'ticket',
       color: 'red',
       badge: 0,
       name: '凭证',
       url: applicationBase + '/pages/voucher/voucherList/voucher'
-    }
-    ],
+    }, {
+      icon: 'text',
+      color: 'blue',
+      badge: 0,
+      name: '采购建议',
+      url: statisticsBase + '/pages/purchaseAdvice/purchaseAdvice'
+    }],
 
     addIconList: [{
       icon: 'ticket',
@@ -87,15 +93,14 @@ Page({
       badge: 0,
       name: '银行对账',
       url: applicationBase + '/pages/bankReconciliations/reconciliationShow/reconciliationShow'
-    }
-    ],
+    }],
 
     statis: [{
-      title: '营收分析',
-      showMonth: false,
-      showPeriod: true,
-      showIdx: 0
-    },
+        title: '营收分析',
+        showMonth: false,
+        showPeriod: true,
+        showIdx: 0
+      },
       // {
       //   title: '资产增长分析',
       //   showMonth: true,
@@ -107,22 +112,22 @@ Page({
     CustomBar: app.globalData.CustomBar,
 
     liftimes: {
-      attached: function () {
+      attached: function() {
         console.log('生产管理')
         this.drawDiagram()
       }
     }
   },
   /**
-       * 生命周期函数--监听页面初次渲染完成
-       */
-  onReady: function () {
+   * 生命周期函数--监听页面初次渲染完成
+   */
+  onReady: function() {
     this.setData({
       backgroundColor: app.globalData.backgroundColor
     })
 
   },
-  onLoad: function (options) {
+  onLoad: function(options) {
     this.setData({
       showIconList: this.data.showIconList
     })
@@ -130,7 +135,7 @@ Page({
     this.drawDiagram()
   },
 
-  onShow: function () {
+  onShow: function() {
     console.log('生产管理')
   },
 
@@ -151,14 +156,14 @@ Page({
   },
 
   //长按删除功能
-  delete: function (e) {
+  delete: function(e) {
     var that = this;
     var list = that.data.showIconList;
-    var index = e.currentTarget.dataset.index;//获取当前长按下标
+    var index = e.currentTarget.dataset.index; //获取当前长按下标
     wx.showModal({
       title: '提示',
       content: '确定要删除该功能吗？',
-      success: function (res) {
+      success: function(res) {
         if (res.confirm) {
           list.splice(index, 1);
         } else if (res.cancel) {
@@ -181,7 +186,7 @@ Page({
     if (firstOpen) {
       wx.navigateTo({
         url: '/pages/main/mainq/production/production',
-        success: function () {
+        success: function() {
           console.log('nav')
         }
       })
@@ -189,7 +194,7 @@ Page({
     }
   },
 
-  clickbtn: function (e) {
+  clickbtn: function(e) {
     console.log('click')
     this.drawDiagram()
     this.setData({
@@ -199,15 +204,15 @@ Page({
   },
 
   //添加功能
-  add: function (e) {
+  add: function(e) {
     var that = this;
     var list = that.data.addIconList;
     var showIconList = that.data.showIconList;
-    var index = e.currentTarget.dataset.index;//获取当前长按下标
+    var index = e.currentTarget.dataset.index; //获取当前长按下标
     wx.showModal({
       title: '提示',
       content: '确定要添加该功能吗？',
-      success: function (res) {
+      success: function(res) {
         if (res.confirm) {
           showIconList.push(list[index]);
         } else if (res.cancel) {
@@ -222,21 +227,21 @@ Page({
   },
 
   //点击添加
-  showFunction: function () {
+  showFunction: function() {
     this.setData({
       isShow: true
     })
   },
 
   //取消添加
-  hide: function () {
+  hide: function() {
     this.setData({
       isShow: false
     })
   },
 
   //点击图片触发
-  touchHandler: function (e) {
+  touchHandler: function(e) {
     // console.log('touch')
     // wx.showModal({
     //   content: arr[pieChart1.getCurrentDataIndex(e)].name + '营业收入' + arr[pieChart1.getCurrentDataIndex(e)].data + '元',
@@ -250,19 +255,18 @@ Page({
     // });
   },
 
-  touchEndHandler: function (e) {
+  touchEndHandler: function(e) {
     console.log('touch')
     if (this.data.statis.title == '营收分析') {
       var intro_text = '总营业收入为'
-    }
-    else if (this.data.statis.title == '营业支出分析') {
+    } else if (this.data.statis.title == '营业支出分析') {
       var intro_text = '总营业支出为'
     }
     wx.showModal({
       content: arr[pieChart1.getCurrentDataIndex(e)].name + '营业收入' + arr[pieChart1.getCurrentDataIndex(e)].data + '元',
       showCancel: false,
       confirmText: "我知道啦",
-      success: function (res) {
+      success: function(res) {
         if (res.confirm) {
           console.log('用户点击确定')
         }
@@ -271,7 +275,7 @@ Page({
   },
 
   //画图函数
-  drawDiagram: function (year = 0, month = 0) {
+  drawDiagram: function(year = 0, month = 0) {
     console.log("draw")
     var token = app.getToken()
     wx.request({

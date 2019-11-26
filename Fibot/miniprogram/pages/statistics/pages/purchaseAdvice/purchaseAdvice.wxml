@@ -1,0 +1,56 @@
+<scroll-view scroll-y="{{modalName==null}}" class="page {{backgroundColor}} {{modalName!=null?'show':''}}">
+  <cu-custom bgColor="{{backgroundColor}}" isBack="{{true}}">
+    <view slot="backText">返回</view>
+    <view slot="content">采购建议</view>
+  </cu-custom>
+
+  <view class="cu-bar bg-white solid-bottom margin-top">
+    <view class="action">
+      <text class="cuIcon-title text-orange "></text> 低库存商品
+    </view>
+  </view>
+  <view class="cu-list menu-avatar">
+    <view class="cu-item {{modalName=='move-box-'+ index?'move-cur':''}}" wx:for="{{4}}" wx:key bindtouchstart="ListTouchStart" bindtouchmove="ListTouchMove" bindtouchend="ListTouchEnd" data-target="move-box-{{index}}">
+      <view class="cu-avatar round lg" style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big2100{{index+1}}.jpg);"></view>
+      <view class="content">
+        <view class="text-grey">文晓港</view>
+        <view class="text-gray text-sm">
+          <text class="cuIcon-infofill text-red"></text> 消息未送达</view>
+      </view>
+      <view class="action">
+        <view class="text-grey text-xs">22:20</view>
+        <view class="cu-tag round bg-grey sm">5</view>
+      </view>
+      <view class="move">
+        <view class="bg-grey">置顶</view>
+        <view class="bg-red">删除</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="cu-bar bg-white solid-bottom margin-top">
+    <view class="action">
+      <text class="cuIcon-title text-red "></text> 近期高销量商品
+    </view>
+  </view>
+  <view class="cu-list menu-avatar">
+    <block wx:for="{{goods_few_left}}" wx:key wx:for-index='index'>
+      <view class="cu-item {{modalName=='move-box-'+ index?'move-cur':''}}" wx:for="{{4}}" wx:key bindtouchstart="ListTouchStart" bindtouchmove="ListTouchMove" bindtouchend="ListTouchEnd" data-target="move-box-{{index}}">
+        <view class="cu-avatar round lg" style="background-image:{{host+'/goodsPic/'+item.photo}};"></view>
+        <view class="content">
+          <view class="text-grey">{{brList[index].name}}</view>
+          <view class="text-gray text-sm">
+            <text class="cuIcon-infofill text-red"></text> 消息未送达</view>
+        </view>
+        <view class="action">
+          <view class="text-grey text-xs">22:20</view>
+          <view class="cu-tag round bg-grey sm">5</view>
+        </view>
+        <view class="move">
+          <view class="bg-grey">置顶</view>
+          <view class="bg-red">删除</view>
+        </view>
+      </view>
+    </block>
+  </view>
+</scroll-view>
