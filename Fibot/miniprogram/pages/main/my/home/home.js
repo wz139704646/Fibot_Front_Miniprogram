@@ -186,7 +186,7 @@ Page({
   },
 
   chooseRole: function(e) {
-    wx.navigateTo({
+    wx.redirectTo({
       url: applicationBase + '/pages/chooseRoleNew/chooseRoleNew',
     })
   },

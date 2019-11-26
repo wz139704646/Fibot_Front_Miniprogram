@@ -19,31 +19,31 @@ Page({
       color: 'red',
       badge: 0,
       name: '新增商品',
-      url: applicationBase+'/pages/newGood/newGood'
+      url: applicationBase + '/pages/newGood/newGood'
     }, {
       icon: 'list',
       color: 'orange',
       badge: 0,
       name: '商品列表',
-      url: applicationBase+'/pages/goodList/goodList'
+      url: applicationBase + '/pages/goodList/goodList'
     }, {
       icon: 'deliver',
       color: 'yellow',
       badge: 0,
       name: '调拨记录',
-      url: applicationBase+'/pages/transferGood/transferRecord/transferRecord'
+      url: applicationBase + '/pages/transferGood/transferRecord/transferRecord'
     }, {
       icon: 'pick',
       color: 'olive',
       badge: 0,
       name: '新增仓库',
-      url: applicationBase+'/pages/newStorage/newStorage'
+      url: applicationBase + '/pages/newStorage/newStorage'
     }, {
       icon: 'edit',
       color: 'red',
       badge: 0,
       name: '入库',
-      url: applicationBase+'/pages/buyList/buyList?fun=入库'
+      url: applicationBase + '/pages/buyList/buyList?fun=入库'
     }, {
       icon: 'edit',
       color: 'orange',
@@ -51,6 +51,12 @@ Page({
       name: '出库',
       url: applicationBase+'/pages/sellList/sellList?fun=出库'
       }, {
+      icon: 'cascades',
+      color: 'olive',
+      badge: 0,
+      name: '库存',
+      url: applicationBase + '/pages/goodsStore/goodsStore'
+    },{
         icon: 'explore',
         color: 'yellow',
         badge: 0,
@@ -94,7 +100,14 @@ Page({
       badge: 0,
       name: '出库',
       url: applicationBase + '/pages/sellList/sellList?fun=出库'
-      }],
+    }, {
+      icon: 'cascades',
+      color: 'olive',
+      badge: 0,
+      name: '库存',
+      url: applicationBase + '/pages/goodsStore/goodsStore'
+    }
+    ],
 
     statis: [{
       title: '库存分析',
@@ -126,7 +139,7 @@ Page({
 
   NavToTalk(e) {
     wx.navigateTo({
-      url: applicationBase+'/pages/start/start',
+      url: applicationBase + '/pages/start/start',
     })
     console.log("navigate")
   },
@@ -228,7 +241,7 @@ Page({
   drawDiagram: function (year = 0, month = 0) {
     var token = app.getToken()
     console.log(token)
-    if(token){
+    if (token) {
       wx.request({
         url: host + '/data/getRatioOfGoodsInWarehouse',
         method: "POST",

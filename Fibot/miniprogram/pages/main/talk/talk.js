@@ -372,7 +372,7 @@ Page({
         data: JSON.stringify(inquiryData),
         success: () => {
           console.log('查询结果缓存成功')
-          wx.navigateTo({
+          wx.redirectTo({
             url: '../inquiryResult/inquiryResult',
           })
         }

@@ -147,7 +147,7 @@ Page({
   },
 
   register: function(e) {
-    wx.navigateTo({
+    wx.redirectTo({
       url: '../register/register'
     })
   },

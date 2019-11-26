@@ -7,7 +7,7 @@ Page({
     angle: 0
   },
   goToIndex: function () {
-    wx.navigateTo({
+    wx.redirectTo({
       url: '/pages/main/talk/talk',
     });
   },
