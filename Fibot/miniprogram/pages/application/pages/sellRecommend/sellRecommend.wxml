@@ -58,7 +58,7 @@
 
   <block wx:for="{{resultList}}" wx:key wx:for-index='index'>
     <view class="cu-list menu-avatar no-padding card-menu shadow-lg radius marigin-top">
-      <view class="cu-item" data-id="{{item.id}}" bindtap="showStoreDetails">
+      <view class="cu-item" data-id="{{item.goodsId}}" bindtap="navigateToGoodInfo">
         <image class="cu-avatar lg bg-white" src="{{host+'/goodsPic/'+item.photo}}"></image>
         <view class="content">
           <view class="text-black text-xl text-bold">

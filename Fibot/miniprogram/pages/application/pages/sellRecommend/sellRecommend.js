@@ -1,5 +1,6 @@
 const app = getApp()
 const host = app.globalData.requestHost
+const applicationBase = app.globalData.applicationBase
 Page({
   data: {
     StatusBar: app.globalData.StatusBar,
@@ -182,5 +183,12 @@ Page({
     })
   },
 
+  navigateToGoodInfo(e) {
+    console.log(e)
+    console.log("查看详情")
+    wx.navigateTo({
+      url: applicationBase + '/pages/goodInfo/goodInfo?id=' + e.currentTarget.dataset.id,
+    })
+  },
   
 })
