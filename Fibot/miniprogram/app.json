@@ -83,7 +83,7 @@
         "pages/home/home",
         "pages/decisionMaking/decisionMaking",
         "pages/stokeAnalysis/index",
-        "pages/companyGrading/companyGrading",
+        "pages/purchaseAdvice/purchaseAdvice",
         "pages/detail/detail",
         "pages/sumDetail/sumDetail",
         "pages/purchaseDetails/purchaseDetails"
