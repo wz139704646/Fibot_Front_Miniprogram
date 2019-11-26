@@ -1,16 +1,28 @@
 <!--pages/application/sellList/sellList.wxml-->
+<!-- 选择搜索内容 -->
+<van-popup show="{{ showSearchContents }}" position="bottom" bind:close="onModalClose">
+  <van-picker show-toolbar columns="{{ searchContents }}" bind:cancel="onModalClose" bind:confirm="onSearchContentConfirm" />
+</van-popup>
 <wxs module='util' src='util.wxs' module='util'></wxs>
 <cu-custom bgColor="{{backgroundColor}}" isBack="{{true}}">
   <view slot="backText">返回</view>
   <view slot="content">销售记录</view>
 </cu-custom>
 <view class="cu-bar bg-white search fixed" style="top:{{CustomBar}}px;">
+  <view class="action" bindtap="onSearchContentSelect">
+    <text>{{searchContents[searchContentIdx]}}</text>
+    <text class="cuIcon-triangledownfill"></text>
+  </view>
   <view class="search-form round">
     <text class="cuIcon-search"></text>
-    <input type="text" placeholder="请输入客户名、商品或日期(xxxx-xx-xx)" confirm-type="search" bindconfirm='search' value='{{inputValue}}' bindinput='search'></input>
+    <input type="text" placeholder="请输入（部分）{{searchContents[searchContentIdx]}}" confirm-type="search" bindconfirm='onSearchButtonTapped' value='{{inputValue}}' bindinput='onSearchTextInput'></input>
+  </view>
+  <view class="action">
+    <button class="cu-btn bg-blue shadow-blur round" bindtap="onSearchButtonTapped">搜索</button>
   </view>
 </view>
 <scroll-view scroll-y class="indexes" style="height:calc(100vh - {{CustomBar}}px - 50px)" scroll-with-animation="true" enable-back-to-top="true">
+  <!-- <view class="text-center padding text-bold" hidden="{{sellList.length != 0}}"> {{allLoaded ? "没有相关数据" : "暂无相关数据，上拉加载更多试试吧"}} </view> -->
   <block wx:for="{{sellList}}" wx:key wx:for-index='index'>
     <view class="padding indexItem-{{sellList[index].date}}" id="indexes-{{sellList[index].date}}" data-index="{{sellList[index].date}}">{{sellList[index].date}}</view>
     <view class="cu-list menu-avatar no-padding card-menu shadow-lg radius">

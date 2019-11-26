@@ -230,8 +230,8 @@ Page({
 
   //分页面跳转
   show(e) {
-    console.log("navigate")
-    wx.navigateTo({
+    console.log("redirect")
+    wx.redirectTo({
       url: e.currentTarget.id,
     })
   }

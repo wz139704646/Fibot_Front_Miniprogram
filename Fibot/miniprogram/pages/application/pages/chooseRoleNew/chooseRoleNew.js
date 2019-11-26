@@ -100,12 +100,11 @@ Page({
     var roles = this.data.elements
     var backgroundColor = roles[cardCur].backgroundColor
     app.globalData.backgroundColor = backgroundColor
-    console.log(backgroundColor)
-    console.log(app.globalData.backgroundColor)
 
     wx.redirectTo({
       url: roles[cardCur].url,
     })
+    console.log("redirectTo")
   }
 
 });

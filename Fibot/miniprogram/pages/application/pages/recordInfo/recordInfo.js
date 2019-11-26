@@ -96,9 +96,12 @@ Page({
     var id = e.id
     var back = e.back
     // 根据返回页面获取请求不同的api
-    console.log(token)
     let api = back == 'sell' ? '/querySell' : '/queryPurchase'
     if (token) {
+      console.log('发起订单查询请求', {
+        companyId: app.globalData.companyId,
+        id: id
+      })
       wx.request({
         url: host + api,
         data: JSON.stringify({
