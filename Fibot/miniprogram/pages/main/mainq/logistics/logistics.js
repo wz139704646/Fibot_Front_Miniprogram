@@ -50,7 +50,13 @@ Page({
       badge: 0,
       name: '出库',
       url: applicationBase+'/pages/sellList/sellList?fun=出库'
-    }],
+      }, {
+        icon: 'explore',
+        color: 'yellow',
+        badge: 0,
+        name: '销售预测',
+        url: applicationBase + '/pages/sellRecommend/sellRecommend'
+      }],
 
     addIconList: [{
       icon: 'goods',
@@ -88,7 +94,7 @@ Page({
       badge: 0,
       name: '出库',
       url: applicationBase + '/pages/sellList/sellList?fun=出库'
-    }],
+      }],
 
     statis: [{
       title: '库存分析',

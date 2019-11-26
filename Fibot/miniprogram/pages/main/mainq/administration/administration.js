@@ -56,6 +56,12 @@ Page({
         badge: 0,
         name: '科目表',
         url: applicationBase + '/pages/subjects/subjects/subjects'
+      }, {
+        icon: 'explore',
+        color: 'red',
+        badge: 0,
+        name: '销售预测',
+        url: applicationBase + '/pages/sellRecommend/sellRecommend'
       }
     ],
 

@@ -55,6 +55,12 @@ Page({
         badge: 0,
         name: '付款记录',
         url: applicationBase + '/pages/ap/payments/payments'
+      }, {
+        icon: 'explore',
+        color: 'yellow',
+        badge: 0,
+        name: '销售预测',
+        url: applicationBase + '/pages/sellRecommend/sellRecommend'
       }
 
     ],
