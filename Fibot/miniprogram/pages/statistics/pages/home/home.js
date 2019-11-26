@@ -318,6 +318,12 @@ Page({
     }
     if (token) {
       if (diagram == '营业支出') {
+        var food_arr = [];
+        var daily_goods_arr = [];
+        var other_goods_arr = [];
+        var childclothes_goods_arr = [];
+        var nutrients_goods_arr = [];
+        var play_goods_arr = [];
         chartType = 'line'
         wx.request({
           url: host + '/data/getOperatingExpenditureByYear',
@@ -330,11 +336,29 @@ Page({
             'Authorization': token
           },
           success: res => {
-            categories = []
-            data = []
+            console.log(res.data.result)
             for (var k in res.data.result) {
-              categories.push(k)
-              data.push(res.data.result[k])
+              if (k.slice(2) == '食' || k.slice(2) == '食品类') {
+                food_arr.push(res.data.result[k])
+              }
+              else if (k.slice(2) == '日' || k.slice(2) == '日用品类') {
+                daily_goods_arr.push(res.data.result[k])
+              }
+              else if (k.slice(2) == '其' || k.slice(2) == '其他类') {
+                other_goods_arr.push(res.data.result[k])
+              }
+              else if (k.slice(2) == '童' || k.slice(2) == '童装类') {
+                childclothes_goods_arr.push(res.data.result[k])
+              }
+              else if (k.slice(2) == '营' || k.slice(2) == '营养品类') {
+                nutrients_goods_arr.push(res.data.result[k])
+              }
+              else if (k.slice(2) == '玩' || k.slice(2) == '玩具类') {
+                play_goods_arr.push(res.data.result[k])
+              }
+              else {
+                console.log("THIS SHOULD NOT Happend! Maybe because there is a new type not added!")
+              }
             }
             this.setData({
               statis:
@@ -358,13 +382,48 @@ Page({
             pieChart = new wxCharts({
               canvasId: 'pieCanvas',
               type: 'line',
-              categories: categories,
+              categories: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
               animation: false,
               series: [{
-                name: '营业支出',
-                data: data,
+                name: '食品类',
+                data: food_arr,
                 format: function (val) {
-                  return parseFloat(val).toFixed(2) + '元';
+                  return val.toFixed(2) + '元';
+                }
+              },
+              {
+                name: '日用品类',
+                data: daily_goods_arr,
+                format: function (val) {
+                  return (val).toFixed(2) + '元';
+                }
+              },
+              {
+                name: '其他类',
+                data: other_goods_arr,
+                format: function (val, name) {
+                  return (val).toFixed(2) + '元';
+                }
+              },
+              {
+                name: '童装类',
+                data: other_goods_arr,
+                format: function (val) {
+                  return (val).toFixed(2) + '元';
+                }
+              },
+              {
+                name: '玩具类',
+                data: play_goods_arr,
+                format: function (val) {
+                  return (val).toFixed(2) + '元';
+                }
+              },
+              {
+                name: '营养品类',
+                data: nutrients_goods_arr,
+                format: function (val) {
+                  return (val).toFixed(2) + '元';
                 }
               }],
               width: windowWidth * 0.8,
@@ -1278,22 +1337,22 @@ Page({
             success: res => {
               for (var k in res.data.result) {
                 console.log(k.slice(2))
-                if (k.slice(2) == '食品类') {
+                if (k.slice(2) == '食' || k.slice(2) == '食品类') {
                   food_arr.push(res.data.result[k])
                 }
-                else if (k.slice(2) == '日用品类') {
+                else if (k.slice(2) == '日' || k.slice(2) == '日用品类') {
                   daily_goods_arr.push(res.data.result[k])
                 }
-                else if (k.slice(2) == '其他类') {
+                else if (k.slice(2) == '其' || k.slice(2) == '其他类') {
                   other_goods_arr.push(res.data.result[k])
                 }
-                else if (k.slice(2) == '童装类') {
+                else if (k.slice(2) == '童' || k.slice(2) == '童装类') {
                   childclothes_goods_arr.push(res.data.result[k])
                 }
-                else if (k.slice(2) == '营养品类') {
+                else if (k.slice(2) == '营' || k.slice(2) == '营养品类') {
                   nutrients_goods_arr.push(res.data.result[k])
                 }
-                else if (k.slice(2) == '玩具类') {
+                else if (k.slice(2) == '玩' || k.slice(2) == '玩具类') {
                   play_goods_arr.push(res.data.result[k])
                 }
                 else {
@@ -1316,7 +1375,7 @@ Page({
                       title: '总计'
                     },
                   ],
-                  showIdx: 0
+                  showIdx: 1
                 }
               })
               console.log(categories)
