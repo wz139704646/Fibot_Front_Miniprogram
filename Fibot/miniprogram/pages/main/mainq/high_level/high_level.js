@@ -50,6 +50,12 @@ Page({
         badge: 0,
         name: '银行对账',
         url: applicationBase + '/pages/bankReconciliations/reconciliationShow/reconciliationShow'
+      }, {
+        icon: 'explore',
+        color: 'orange',
+        badge: 0,
+        name: '销售预测',
+        url: applicationBase + '/pages/sellRecommend/sellRecommend'
       }
     ],
     //可添加图标
@@ -310,4 +316,6 @@ Page({
       url: mainBase + '/my/home/home?position=high_level',
     })
   },
+
+  
 })

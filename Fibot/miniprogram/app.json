@@ -74,7 +74,8 @@
         "pages/fixedAssets/fixedAssetsList/fixedAssetsList",
         "pages/fixedAssets/newFixedAsset/newFixedAsset",
         "pages/fixedAssets/fixedAssetDetails/fixedAssetDetails",
-        "pages/voucher/addVoucher/photoOCR/photoOCR"
+        "pages/voucher/addVoucher/photoOCR/photoOCR",
+        "pages/sellRecommend/sellRecommend"
       ]
     },
     {
@@ -87,6 +88,7 @@
         "pages/detail/detail",
         "pages/sumDetail/sumDetail",
         "pages/purchaseDetails/purchaseDetails"
+        
       ]
     }
   ],

@@ -1,0 +1,78 @@
+<cu-custom bgColor="{{backgroundColor}}" isBack="{{true}}">
+  <view slot="backText">返回</view>
+  <view slot="content">销售预测</view>
+</cu-custom>
+
+<!-- 年月 -->
+<view class="cu-bar bg-white">
+  <view class="action" bindtap="lastMonth">
+    <text class="cuIcon-pullleft xl text-gray"></text>
+  </view>
+  <view class="content text-bold">
+    <view>
+      <text> {{year}}年{{month}}月</text>
+    </view>
+  </view>
+  <view class="action" bindtap="nextMonth">
+    <text class="cuIcon-pullright xl text-gray"></text>
+  </view>
+</view>
+
+<!-- 主体 -->
+<view class='calendar'>
+  <view class='header'>
+    <view wx:for='{{date}}' wx:key='' class='{{(index == todayIndex) && isTodayWeek ? "weekMark" : ""}}'>{{item}}
+      <view></view>
+    </view>
+  </view>
+
+  <view class='date-box'>
+    <block wx:for='{{dateArr}}' wx:key=''>
+      <view class='{{isToday == item.isToday ? "nowDay" : ""}}'>
+        <view class='date-head' bindtap='lookHuoDong' data-year='{{year}}' data-month='{{month}}' data-datenum='{{item.dateNum}}' data-isToday='{{item.isToday}}' bindtap="selectDay">
+          <view>{{item.dateNum}}</view>
+        </view>
+      </view>
+    </block>
+  </view>
+
+  <view wx:if="{{!isClick}}" class="cu-bar bg-white margin-top-lg">
+    <view class="content text-bold">
+      <text>点击日期获取数据</text>
+    </view>
+  </view>
+
+  <view wx:if="{{isClick&&hasData==0}}" class="cu-bar bg-white margin-top-lg">
+    <view class="content text-bold">
+      <text>该日无销售预测产生</text>
+    </view>
+  </view>
+
+  <view wx:if="{{isClick&&hasData>0}}" class="cu-bar bg-white margin-top-lg">
+    <view class="content text-bold">
+      <text>预测列表</text>
+    </view>
+  </view>
+
+  <view wx:if="{{hasData>0}}" class="divLine"></view>
+
+  <block wx:for="{{resultList}}" wx:key wx:for-index='index'>
+    <view class="cu-list menu-avatar no-padding card-menu shadow-lg radius marigin-top">
+      <view class="cu-item" data-id="{{item.id}}" bindtap="showStoreDetails">
+        <image class="cu-avatar lg bg-white" src="{{host+'/goodsPic/'+item.photo}}"></image>
+        <view class="content">
+          <view class="text-black text-xl text-bold">
+            {{item.goodsName}}
+          </view>
+        </view>
+        <view class="content1">
+          <view class="text-gray text-sm">
+            买家:{{item.customerName}}
+          </view>
+        </view>
+      </view>
+    </view>
+  </block>
+
+
+</view>
