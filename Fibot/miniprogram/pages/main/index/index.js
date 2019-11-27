@@ -15,6 +15,13 @@ Page({
       title: '加载中',
       mask: true
     })
+    wx.getSystemInfo({
+      success: function(res) {
+        console.log("系统信息")
+        console.log(res)
+        app.globalData.platform = res.platform
+      },
+    })
     let token = app.getToken()
     console.log(token)
     if(!token) {
