@@ -1,1 +1,6 @@
-{}
+{
+  "usingComponents": {
+    "van-popup": "vant-weapp/popup",
+    "van-picker": "vant-weapp/picker"
+  }
+}

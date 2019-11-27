@@ -14,7 +14,8 @@ Page({
     hasData: 0,
     isToday: 0,
     isTodayWeek: false,
-    todayIndex: 0
+    todayIndex: 0,
+    host: host
   },
   onLoad: function () {
     let now = new Date();
@@ -24,8 +25,7 @@ Page({
     this.setData({
       year: year,
       month: month,
-      isToday: '' + year + month + now.getDate(),
-      host:host
+      isToday: '' + year + month + now.getDate()
     })
     //this.getSellRecommendDate()
   },
