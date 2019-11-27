@@ -67,7 +67,7 @@ Page({
     wx.request({
       url: host + '/data/getBackorderGoods',
       data: JSON.stringify({
-        number: 1
+        number: 5
       }),
       method: "POST",
       header: {
@@ -78,10 +78,10 @@ Page({
         console.log(token)
         console.log(res)
       },
-      fail: res => {
-        console.error("未成功获取到低库存商品数据")
+      fail: err => {
+        console.error("未成功获取到低库存商品数据", err)
       },
-      complete: res => {
+      complete: () => {
         console.log("finished")
       }
     })
