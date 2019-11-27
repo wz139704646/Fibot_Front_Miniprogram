@@ -24,7 +24,8 @@ Page({
     this.setData({
       year: year,
       month: month,
-      isToday: '' + year + month + now.getDate()
+      isToday: '' + year + month + now.getDate(),
+      host:host
     })
     //this.getSellRecommendDate()
   },
