@@ -21,8 +21,8 @@ App({
   globalData: {
     // requestHost: 'http://localhost:5000',
     //requestHost: 'http://47.100.244.29',
-    requestHost: 'https://47.100.244.29',
-    //requestHost: 'https://www.fibot.cn', //47.100.244.29:9550
+    //requestHost: 'https://47.100.244.29',
+    requestHost: 'https://www.fibot.cn', //47.100.244.29:9550
     imgBase: 'cloud://zqr-testdemo-974f2b.7a71-zqr-testdemo-974f2b',
     applicationBase: "/pages/application",
     statisticsBase: "/pages/statistics",

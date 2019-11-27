@@ -14,7 +14,8 @@ Page({
     hasData: 0,
     isToday: 0,
     isTodayWeek: false,
-    todayIndex: 0
+    todayIndex: 0,
+    host: app.globalData.requestHost
   },
   onLoad: function () {
     let now = new Date();
